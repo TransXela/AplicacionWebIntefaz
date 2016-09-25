@@ -1,0 +1,29 @@
+<div class="main-head">
+	<img src="images/yeoman.png">
+	{{usuario.nombre + " " +usuario.apellidos}}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+		<li class="breadcrumb-item active">Perfil</li>
+	</ol>
+</div>
+<div class="main-container">
+	<img ng-src="images/yeoman.png">
+	<h3>Nombre</h3>
+	<p>{{duenio.nombre}}</p>
+	<h3>Apellidos</h3>
+	<p>{{duenio.apellidos}}</p>
+	<h3>Dirección</h3>
+	<p>{{duenio.direccion}}</p>
+	<h3>DPI</h3>
+	<p>{{duenio.dpi}}</p>
+	<h3>No. teléfono</h3>
+	<p>{{duenio.telefono}}</p>
+	<h3>Correo electrónico</h3>
+	<p>{{duenio.correo}}</p>
+	<form>
+		Contraseña actual: <input type="text" name="cAnterior" value="Ingrese la contraseña actual"><br>
+		Nueva contraseña: <input type="text" name="cNueva" value="Ingrese la nueva contraseña"><br>
+		Repetir contraseña: <input type="text" name="cRepetir" value="Repita la nueva contraseña"><br>
+		<input type="submit" value="Cambiar contraseña">
+	</form>
+</div>

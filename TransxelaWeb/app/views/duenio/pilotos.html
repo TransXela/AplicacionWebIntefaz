@@ -1,0 +1,22 @@
+<div class="main-head">
+	<img src="images/yeoman.png">
+	{{usuario.nombre + " " +usuario.apellidos}}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+		<li class="breadcrumb-item active">Pilotos</li>
+	</ol>
+</div>
+<div class="main-container">
+	<div>
+		<h3>Pilotos</h3>
+		<a href="/#/duenio/pilotos/nuevo">Crear piloto</a>
+		<div class="thumbnails">
+			<div ng-repeat="piloto in pilotos">
+				<a href="#/pilotos/{{piloto.id}}">
+					<img ng-src="{{piloto.foto}}">
+					<h4>{{piloto.nombre + " " + piloto.apellidos}}</h3>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

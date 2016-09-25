@@ -1,0 +1,22 @@
+<div class="main-head">
+	<img src="images/yeoman.png">
+	{{usuario.nombre + " " +usuario.apellidos}}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+		<li class="breadcrumb-item active">Buses</li>
+	</ol>
+</div>
+<div class="main-container">
+	<div>
+		<h3>Buses</h3>
+		<a href="/#/duenio/buses/nuevo">Crear bus</a>
+		<div class="thumbnails">
+			<div ng-repeat="bus in buses">
+				<a href="#/buses/{{bus.id}}">
+					<img ng-src="{{bus.foto}}">
+					<h4>{{bus.placa}}</h3>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
