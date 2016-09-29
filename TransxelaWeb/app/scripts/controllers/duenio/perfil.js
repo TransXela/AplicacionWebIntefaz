@@ -8,10 +8,5 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('DuenioPerfilCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('DuenioPerfilCtrl', function ($scope) {
   });

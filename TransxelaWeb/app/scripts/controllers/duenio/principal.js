@@ -9,8 +9,4 @@
  */
 angular.module('transxelaWebApp')
   .controller('DuenioPrincipalCtrl', function ($scope) {
-  	$scope.usuario = {
-  		"nombre": "",
-  		"apellidos": ""
-  	};
   });
