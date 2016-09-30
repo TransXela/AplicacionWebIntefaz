@@ -1,0 +1,30 @@
+<div class="main-head">
+	<img src="images/yeoman.png">
+	{{usuario.nombre + " " +usuario.apellidos}}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+		<li class="breadcrumb-item active">Perfil</li>
+	</ol>
+</div>
+<div class="main-container">
+	<img ng-src="images/yeoman.png">
+	<br>
+	<label>Nombre</label>
+	<p>{{duenio.nombre}}</p>
+	<label>Apellidos</label>
+	<p>{{duenio.apellidos}}</p>
+	<label>Dirección</label>
+	<p>{{duenio.direccion}}</p>
+	<label>DPI</label>
+	<p>{{duenio.dpi}}</p>
+	<label>No. teléfono</label>
+	<p>{{duenio.telefono}}</p>
+	<label>Correo electrónico</label>
+	<p>{{duenio.correo}}</p>
+	<form>
+		Contraseña actual: <input class="form-control" type="password" ng-model="cAnterior" placeholder="Ingrese la contraseña actual"><br>
+		Nueva contraseña: <input class="form-control" type="password" ng-model="cNueva" placeholder="Ingrese la nueva contraseña"><br>
+		Repetir contraseña: <input class="form-control" type="password" ng-model="cRepetir" placeholder="Repita la nueva contraseña"><br>
+		<button class="btn btn-primary" type="button" ng-click="$cambiarContrasenia()">Cambiar contraseña</button>
+	</form>
+</div>

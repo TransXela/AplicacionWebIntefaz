@@ -1,0 +1,62 @@
+<div class="main-head">
+	<img src="images/yeoman.png">
+	{{usuario.nombre + " " +usuario.apellidos}}
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+		<li class="breadcrumb-item active">Buses</li>
+	</ol>
+</div>
+<div class="main-container" ng-controller="DuenioBusesCtrl as $ctrl">
+	<div>
+		<h3>Buses</h3>
+		<button class="btn btn-success" ng-click="$ctrl.openCrear()">Crear bus</button>
+		<button class="btn btn-success" ng-click="$ctrl.openVerModificar()">Modificar bus</button>
+		<div class="thumbnails">
+			<div ng-repeat="bus in buses">
+				<a href="#/buses/{{bus.id}}">
+					<img ng-src="{{bus.foto}}">
+					<h4>{{bus.placa}}</h3>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div ng-controller="DuenioBusesCtrl as $ctrl" class="modal-demo">
+    <script type="text/ng-template" id="ModalCrear.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Crear bus</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+			<label>Marca</label><input type="text" ng-model="$ctrl.marca" autofocus></br>
+			<label>Modelo</label><input type="text" ng-model="$ctrl.modelo" ></br>
+			<label>Placa</label><input type="text" ng-model="$ctrl.placa"></br>
+			<label>No. bus</label><input type="text" ng-model="$ctrl.numero"></br>
+			<label>Color</label><input type="text" ng-model="$ctrl.color"></br>
+			<label>Observaciones</label><textarea class="form-control" rows="5" ng-model="$ctrl.Observaciones"></textarea></br>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.crear()">Crear</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancelar()">Cancelar</button>
+        </div>
+    </script>
+</div>
+<div ng-controller="DuenioBusesCtrl as $ctrl" class="modal-demo">
+    <script type="text/ng-template" id="ModalVerModificar.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Modificar bus</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+			<label>Marca</label><input type="text" ng-model="$ctrl.marca" autofocus></br>
+			<label>Modelo</label><input type="text" ng-model="$ctrl.modelo" ></br>
+			<label>Placa</label><input type="text" ng-model="$ctrl.placa"></br>
+			<label>No. bus</label><input type="text" ng-model="$ctrl.numero"></br>
+			<label>Color</label><input type="text" ng-model="$ctrl.color"></br>
+			<label>Observaciones</label><textarea class="form-control" rows="5" ng-model="$ctrl.Observaciones"></textarea></br>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.modificar()">Modificar</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancelar()">Cancelar</button>
+        </div>
+    </script>
+</div>
