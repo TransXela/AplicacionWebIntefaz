@@ -22,9 +22,9 @@
 	<label>Correo electrónico</label>
 	<p>{{duenio.correo}}</p>
 	<form>
-		Contraseña actual: <input type="text" name="cAnterior" value="Ingrese la contraseña actual"><br>
-		Nueva contraseña: <input type="text" name="cNueva" value="Ingrese la nueva contraseña"><br>
-		Repetir contraseña: <input type="text" name="cRepetir" value="Repita la nueva contraseña"><br>
-		<input type="submit" value="Cambiar contraseña">
+		Contraseña actual: <input class="form-control" type="password" ng-model="cAnterior" placeholder="Ingrese la contraseña actual"><br>
+		Nueva contraseña: <input class="form-control" type="password" ng-model="cNueva" placeholder="Ingrese la nueva contraseña"><br>
+		Repetir contraseña: <input class="form-control" type="password" ng-model="cRepetir" placeholder="Repita la nueva contraseña"><br>
+		<button class="btn btn-primary" type="button" ng-click="$cambiarContrasenia()">Cambiar contraseña</button>
 	</form>
 </div>
