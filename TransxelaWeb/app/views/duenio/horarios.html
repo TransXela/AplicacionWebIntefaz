@@ -6,10 +6,42 @@
 		<li class="breadcrumb-item active">Horarios</li>
 	</ol>
 </div>
-<div class="main-container">
+<div class="main-container" ng-controller="DuenioHorariosCtrl as $ctrl">
 	<div>
 		<h3>Horarios</h3>
-		<a href="/#/duenio/horarios/nuevo">Crear horario</a>
+		<button class="btn btn-success" ng-click="$ctrl.openCrear('sm')">Crear horario</button>
+		<button class="btn btn-success" ng-click="$ctrl.openVerModificar('sm')">Modificar horario</button>
 		
 	</div>
+</div>
+
+<div ng-controller="DuenioHorariosCtrl as $ctrl" class="modal-demo">
+    <script type="text/ng-template" id="ModalCrear.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Crear horario</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+			<label>Hora inicio</label><div uib-timepicker ng-model="$ctrl.hInicio" ng-change="changed()" hour-step="$ctrl.histep" minute-step="$ctrl.mistep" show-meridian="true"></div>
+			<label>Hora fin</label><div uib-timepicker ng-model="$ctrl.hFin" ng-change="changed()" hour-step="hfstep" minute-step="mfstep" show-meridian="true"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.crear()">Crear</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancelar()">Cancelar</button>
+        </div>
+    </script>
+</div>
+<div ng-controller="DuenioHorariosCtrl as $ctrl" class="modal-demo">
+    <script type="text/ng-template" id="ModalVerModificar.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Modificar horario</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+			<label>Hora inicio</label><div uib-timepicker ng-model="$ctrl.hInicio" ng-change="changed()" hour-step="$ctrl.histep" minute-step="$ctrl.mistep" show-meridian="true"></div>
+			<label>Hora fin</label><div uib-timepicker ng-model="$ctrl.hFin" ng-change="changed()" hour-step="hfstep" minute-step="mfstep" show-meridian="true"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.modificar()">Modificar</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancelar()">Cancelar</button>
+        </div>
+    </script>
 </div>
