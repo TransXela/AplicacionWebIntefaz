@@ -62,6 +62,11 @@ angular
         controller: 'DuenioCalendarioCtrl',
         controllerAs: 'duenio/calendario'
       })
+      .when('/duenio/estadisticas', {
+        templateUrl: 'views/duenio/estadisticas.html',
+        controller: 'DuenioEstadisticasCtrl',
+        controllerAs: 'duenio/estadisticas'
+      })
       .otherwise({
         redirectTo: '/'
       });

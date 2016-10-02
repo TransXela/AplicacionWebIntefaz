@@ -1,66 +1,77 @@
-<nav class="main-menu">
-      <ul>
-          <li class="has-subnav">
-              <a href="#/duenio/perfil">
-                  <i class="fa fa-user fa-2x"></i>
-                  <span class="nav-text">
-                      Perfil
-                  </span>
-              </a>
-          </li>
-          <li class="has-subnav">
-              <a href="#/duenio/pilotos">
-                 <i class="fa fa-users fa-2x"></i>
-                  <span class="nav-text">
-                      Pilotos
-                  </span>
-              </a>
-          </li>
-          <li class="has-subnav">
-              <a href="#/duenio/buses">
-                 <i class="fa fa-truck fa-2x" aria-hidden="true"></i>
-                  <span class="nav-text">
-                      Buses
-                  </span>
-              </a>
-          </li>
-          <li>
-              <a href="#/duenio/horarios">
-                  <i class="fa fa-clock-o fa-2x"></i>
-                  <span class="nav-text">
-                      Horarios
-                  </span>
-              </a>
-          </li>
-          <li>
-              <a href="#/duenio/calendario">
-                  <i class="fa fa-calendar fa-2x"></i>
-                  <span class="nav-text">
-                      Calendario
-                  </span>
-              </a>
-          </li>
-      </ul>
-      <ul class="logout">
-          <li>
-             <a href="/#/">
-                   <i class="fa fa-power-off fa-2x"></i>
-                  <span class="nav-text">
-                      Salir
-                  </span>
-              </a>
-          </li>  
-      </ul>
+<nav class="main-menu" >
+  <ul>
+    <li>
+        <a href="#/duenio/perfil">
+            <i class="fa fa-user fa-2x"></i>
+            <span class="nav-text">
+              Perfil
+            </span>
+        </a>
+
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/pilotos">
+            <i class="fa fa-users fa-2x"></i>
+            <span class="nav-text">
+              Pilotos
+            </span>
+        </a>
+
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/buses">
+           <i class="fa fa-truck fa-2x"></i>
+            <span class="nav-text">
+              Buses
+            </span>
+        </a>
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/horarios">
+           <i class="fa fa-clock-o fa-2x"></i>
+            <span class="nav-text">
+              Horarios
+            </span>
+        </a>
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/calendario">
+           <i class="fa fa-calendar fa-2x"></i>
+            <span class="nav-text">
+              Calendario
+            </span>
+        </a>
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/estadisticas">
+          <i class="fa fa-info fa-2x"></i>
+          <span class="nav-text">
+            Estadísticas
+          </span>
+        </a>
+    </li>
+  </ul>
+  <ul class="logout">
+    <li>
+       <a href="/#/">
+         <i class="fa fa-power-off fa-2x"></i>
+        <span class="nav-text">
+            Cerrar sesión
+        </span>
+        </a>
+    </li>
+  </ul>
 </nav>
-<div class="main-head">
-	<img src="images/yeoman.png">
-	{{usuario.nombre + " " +usuario.apellidos}}
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
-		<li class="breadcrumb-item active">...</li>
-	</ol>
+<div class="main-head" id="centerhead">
+    <img src="images/yeoman.png">
+    {{usuario.nombre + " " +usuario.apellidos}}
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+      <li class="breadcrumb-item active">...</li>
+    </ol>
 </div>
-<div class="main-container">
+<br>
+<div  id="centerbody">
 	<div>
 		<h3>Pilotos</h3>
 		<div class="thumbnails">

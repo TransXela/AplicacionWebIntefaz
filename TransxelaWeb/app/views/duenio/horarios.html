@@ -1,12 +1,13 @@
-<div class="main-head">
-	<img src="images/yeoman.png">
-	{{usuario.nombre + " " +usuario.apellidos}}
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
-		<li class="breadcrumb-item active">Horarios</li>
-	</ol>
+<div class="main-head" id="centerhead">
+    <img src="images/yeoman.png">
+    {{usuario.nombre + " " +usuario.apellidos}}
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+      <li class="breadcrumb-item active">...</li>
+    </ol>
 </div>
-<div class="main-container" ng-controller="DuenioHorariosCtrl as $ctrl">
+<br>
+<div id="centerbody" ng-controller="DuenioHorariosCtrl as $ctrl">
 	<div>
 		<h3>Horarios</h3>
 		<button class="btn btn-success" ng-click="$ctrl.openCrear('sm')">Crear horario</button>

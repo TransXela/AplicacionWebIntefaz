@@ -1,12 +1,13 @@
-<div class="main-head">
-	<img src="images/yeoman.png">
-	{{usuario.nombre + " " +usuario.apellidos}}
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
-		<li class="breadcrumb-item active">Pilotos</li>
-	</ol>
+<div class="main-head" id="centerhead">
+    <img src="images/yeoman.png">
+    {{usuario.nombre + " " +usuario.apellidos}}
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+      <li class="breadcrumb-item active">...</li>
+    </ol>
 </div>
-<div class="main-container" ng-controller="DuenioPilotosCtrl as $ctrl">
+<br>
+<div id="centerbody" ng-controller="DuenioPilotosCtrl as $ctrl">
 	<div>
 		<h3>Pilotos</h3>
 		<button class="btn btn-success" ng-click="$ctrl.openCrear()">Crear piloto</button>
@@ -22,18 +23,17 @@
 	</div>
 </div>
 
-
 <div ng-controller="DuenioPilotosCtrl as $ctrl" class="modal-demo">
     <script type="text/ng-template" id="ModalCrear.html">
         <div class="modal-header">
             <h3 class="modal-title" id="modal-title">Crear piloto</h3>
         </div>
         <div class="modal-body" id="modal-body">
-			<label>Nombre</label><input type="text" ng-model="$ctrl.nombre" autofocus></br>
-			<label>Apellidos</label><input type="text" ng-model="$ctrl.apellidos" ></br>
-			<label>Dirección</label><input type="text" ng-model="$ctrl.direccion"></br>
-			<label>DPI</label><input type="number" ng-model="$ctrl.dpi"></br>
-			<label>No. Licencia</label><input type="number" ng-model="$ctrl.nLicencia"></br>
+			<label>Nombre</label>
+			<input class="form-control" type="text" ng-model="$ctrl.nombre" placeholder="Nombre del piloto" autofocus></br>
+			<label>Apellidos</label><input class="form-control" type="text" ng-model="$ctrl.apellidos" placeholder="Apellidos del piloto"></br>
+			<label>Dirección</label><input class="form-control" type="text" ng-model="$ctrl.direccion" placeholder="Dirección del piloto"></br>
+			<label>No. Licencia</label><input class="form-control" type="number" ng-model="$ctrl.nLicencia" placeholder="No. de Licencia del piloto"></br>
 			<label for="licenciaList">Tipo de Licencia</label>
 			<select class="form-control" id="licenciaList" ng-model="$ctrl.tLicencia">
 				<option>A</option>
@@ -42,8 +42,8 @@
 			    <option>D</option>
 			    <option>E</option>
 			</select></br>
-			<label>No. Teléfono</label><input type="number" ng-model="$ctrl.telefono"></br>
-			<label>Correo Electrónico</label><input type="text" ng-model="$ctrl.correo"></br>
+			<label>Teléfono</label><input class="form-control" type="number" ng-model="$ctrl.telefono" placeholder="Teléfono del piloto"></br>
+			<label>Correo Electrónico</label><input class="form-control" type="text" ng-model="$ctrl.correo" placeholder="Correo electrónico del piloto">
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="$ctrl.crear()">Crear</button>
@@ -51,17 +51,18 @@
         </div>
     </script>
 </div>
+
 <div ng-controller="DuenioPilotosCtrl as $ctrl" class="modal-demo">
     <script type="text/ng-template" id="ModalVerModificar.html">
         <div class="modal-header">
             <h3 class="modal-title" id="modal-title">Modificar piloto</h3>
         </div>
         <div class="modal-body" id="modal-body">
-			<label>Nombre</label><input type="text" ng-model="$ctrl.nombre" autofocus></br>
-			<label>Apellidos</label><input type="text" ng-model="$ctrl.apellidos" ></br>
-			<label>Dirección</label><input type="text" ng-model="$ctrl.direccion"></br>
-			<label>DPI</label><input type="number" ng-model="$ctrl.dpi"></br>
-			<label>No. Licencia</label><input type="number" ng-model="$ctrl.nLicencia"></br>
+			<label>Nombre</label>
+			<input class="form-control" type="text" ng-model="$ctrl.nombre" placeholder="Nombre del piloto" autofocus></br>
+			<label>Apellidos</label><input class="form-control" type="text" ng-model="$ctrl.apellidos" placeholder="Apellidos del piloto"></br>
+			<label>Dirección</label><input class="form-control" type="text" ng-model="$ctrl.direccion" placeholder="Dirección del piloto"></br>
+			<label>No. Licencia</label><input class="form-control" type="number" ng-model="$ctrl.nLicencia" placeholder="No. de Licencia del piloto"></br>
 			<label for="licenciaList">Tipo de Licencia</label>
 			<select class="form-control" id="licenciaList" ng-model="$ctrl.tLicencia">
 				<option>A</option>
@@ -70,8 +71,8 @@
 			    <option>D</option>
 			    <option>E</option>
 			</select></br>
-			<label>No. Teléfono</label><input type="number" ng-model="$ctrl.telefono"></br>
-			<label>Correo Electrónico</label><input type="text" ng-model="$ctrl.correo"></br>
+			<label>Teléfono</label><input class="form-control" type="number" ng-model="$ctrl.telefono" placeholder="Teléfono del piloto"></br>
+			<label>Correo Electrónico</label><input class="form-control" type="text" ng-model="$ctrl.correo" placeholder="Correo electrónico del piloto">
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="$ctrl.modificar()">Modificar</button>
