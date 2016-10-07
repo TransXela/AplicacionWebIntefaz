@@ -7,87 +7,62 @@
  * # DuenioPilotosCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function ($scope, $uibModal, $log, $document) {
-  var $ctrl = this;
-  $ctrl.nuevoPiloto = {};
+ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', ['$scope','$uibModal',function ($scope, $uibModal) {
+  $scope.usuario = {};
+  $scope.nuevoPiloto = {};
+  $scope.piloto = {"nombre": "Pablo",
+  "apellidos": "Lopez",
+  "direccion": "Ciudad",
+  "dpi": 234817770,
+  "telefono": 42606299,
+  "correo": "panlopezv@gmail.com",
+  "foto": "/duenios/pablo-lopez.jpg",
+  "estado": 1};
   $scope.pilotos = [];
-  $scope.agregarPiloto = function(){
-  	$scope.pilotos.push({"id":1,"nombre":"Pablo","apellidos":"Lopez"});
-  };
-  $ctrl.openCrear = function (size, parentSelector) {
-  	var parentElem = parentSelector ? 
-      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
-    var modalInstance = $uibModal.open({
+
+  $scope.openCrear = function (size) {
+    var uibModalInstance = $uibModal.open({
       ariaLabelledBy: 'modal-title',
       ariaDescribedBy: 'modal-body',
-      templateUrl: 'ModalCrear.html',
-      controller: 'ModalCrearCtrl',
-      controllerAs: '$ctrl',
+      templateUrl: 'views/duenio/crearPiloto.html',
+      controller:'CrearCtrl',
+      size: size
+    });
+  };
+
+  $scope.openVerModificar = function (size) {
+    var uibModalInstance = $uibModal.open({
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'views/duenio/verModificarPiloto.html',
+      controller:'VerModificarCtrl',
       size: size,
-      appendTo: parentElem,
       resolve: {
-        nuevoPiloto: function () {
-        	return $ctrl.nuevoPiloto;
+        piloto: function () {
+          return $scope.piloto;
         }
       }
     });
-
-    modalInstance.result.then(function () {
-      $scope.agregarPiloto();
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-
   };
+}]);
 
-  $ctrl.openVerModificar = function (size, parentSelector) {
-  	var parentElem = parentSelector ? 
-      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
-    var modalInstance = $uibModal.open({
-      ariaLabelledBy: 'modal-title',
-      ariaDescribedBy: 'modal-body',
-      templateUrl: 'ModalVerModificar.html',
-      controller: 'ModalVerModificarCtrl',
-      controllerAs: '$ctrl',
-      size: size,
-      appendTo: parentElem,
-      resolve: {
-        nuevoPiloto: function () {
-        	return $ctrl.nuevoPiloto;
-        }
-      }
-    });
-
-    modalInstance.result.then(function () {
-      $scope.agregarPiloto();
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-
-  };
-
-});
-
-angular.module('transxelaWebApp').controller('ModalCrearCtrl', function ($uibModalInstance) {
-  var $ctrl = this;
-
-  $ctrl.crear = function () {
+angular.module('transxelaWebApp').controller('CrearCtrl', function ($scope, $uibModalInstance) {
+  $scope.crear = function () {
     $uibModalInstance.close();
   };
 
-  $ctrl.cancelar = function () {
+  $scope.cancelar = function () {
     $uibModalInstance.dismiss('cancel');
   };
 });
 
-angular.module('transxelaWebApp').controller('ModalVerModificarCtrl', function ($uibModalInstance) {
-  var $ctrl = this;
-
-  $ctrl.modificar = function () {
+angular.module('transxelaWebApp').controller('VerModificarCtrl', ['$scope','$uibModalInstance','piloto', function ($scope, $uibModalInstance, piloto) {
+  $scope.piloto = piloto;
+  $scope.modificar = function () {
     $uibModalInstance.close();
   };
 
-  $ctrl.cancelar = function () {
+  $scope.cancelar = function () {
     $uibModalInstance.dismiss('cancel');
   };
-});
+}]);
