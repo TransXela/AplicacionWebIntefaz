@@ -62,6 +62,46 @@ angular
         controller: 'DuenioCalendarioCtrl',
         controllerAs: 'duenio/calendario'
       })
+      .when('/duenio/estadisticas', {
+        templateUrl: 'views/duenio/estadisticas.html',
+        controller: 'DuenioEstadisticasCtrl',
+        controllerAs: 'duenio/estadisticas'
+      })
+      .when('/operador/principal', {
+        templateUrl: 'views/operador/principal.html',
+        controller: 'OperadorPrincipalCtrl',
+        controllerAs: 'operador/principal'
+      })
+      .when('/operador/denunciasRuta', {
+        templateUrl: 'views/operador/denunciasruta.html',
+        controller: 'OperadorDenunciasrutaCtrl',
+        controllerAs: 'operador/denunciasRuta'
+      })
+      .when('/operador/denunciasBus', {
+        templateUrl: 'views/operador/denunciasbus.html',
+        controller: 'OperadorDenunciasbusCtrl',
+        controllerAs: 'operador/denunciasBus'
+      })
+      .when('/operador/denunciasTipo', {
+        templateUrl: 'views/operador/denunciastipo.html',
+        controller: 'OperadorDenunciastipoCtrl',
+        controllerAs: 'operador/denunciasTipo'
+      })
+      .when('/operador/duenios', {
+        templateUrl: 'views/operador/duenios.html',
+        controller: 'OperadorDueniosCtrl',
+        controllerAs: 'operador/duenios'
+      })
+      .when('/operador/estadisticas', {
+        templateUrl: 'views/operador/estadisticas.html',
+        controller: 'OperadorEstadisticasCtrl',
+        controllerAs: 'operador/estadisticas'
+      })
+      .when('/operador/perfil', {
+        templateUrl: 'views/operador/perfil.html',
+        controller: 'OperadorPerfilCtrl',
+        controllerAs: 'operador/perfil'
+      })
       .otherwise({
         redirectTo: '/'
       });

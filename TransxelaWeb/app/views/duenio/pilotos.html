@@ -1,16 +1,17 @@
-<div class="main-head">
-	<img src="images/yeoman.png">
-	{{usuario.nombre + " " +usuario.apellidos}}
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
-		<li class="breadcrumb-item active">Pilotos</li>
-	</ol>
+<div class="main-head" id="centerhead">
+    <img src="images/yeoman.png">
+    {{usuario.nombre + " " +usuario.apellidos}}
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+      <li class="breadcrumb-item active">...</li>
+    </ol>
 </div>
-<div class="main-container" ng-controller="DuenioPilotosCtrl as $ctrl">
+<br>
+<div id="centerbody">
 	<div>
 		<h3>Pilotos</h3>
-		<button class="btn btn-success" ng-click="$ctrl.openCrear()">Crear piloto</button>
-		<button class="btn btn-success" ng-click="$ctrl.openVerModificar()">Modificar piloto</button>
+		<button class="btn btn-success" ng-click="openCrear()">Crear piloto</button>
+		<button class="btn btn-success" ng-click="openVerModificar()">Modificar piloto</button>
 		<div class="thumbnails">
 			<div ng-repeat="piloto in pilotos">
 				<a href="#/pilotos/{{piloto.id}}">
@@ -20,62 +21,4 @@
 			</div>
 		</div>
 	</div>
-</div>
-
-
-<div ng-controller="DuenioPilotosCtrl as $ctrl" class="modal-demo">
-    <script type="text/ng-template" id="ModalCrear.html">
-        <div class="modal-header">
-            <h3 class="modal-title" id="modal-title">Crear piloto</h3>
-        </div>
-        <div class="modal-body" id="modal-body">
-			<label>Nombre</label><input type="text" ng-model="$ctrl.nombre" autofocus></br>
-			<label>Apellidos</label><input type="text" ng-model="$ctrl.apellidos" ></br>
-			<label>Dirección</label><input type="text" ng-model="$ctrl.direccion"></br>
-			<label>DPI</label><input type="number" ng-model="$ctrl.dpi"></br>
-			<label>No. Licencia</label><input type="number" ng-model="$ctrl.nLicencia"></br>
-			<label for="licenciaList">Tipo de Licencia</label>
-			<select class="form-control" id="licenciaList" ng-model="$ctrl.tLicencia">
-				<option>A</option>
-			    <option>B</option>
-			    <option>C</option>
-			    <option>D</option>
-			    <option>E</option>
-			</select></br>
-			<label>No. Teléfono</label><input type="number" ng-model="$ctrl.telefono"></br>
-			<label>Correo Electrónico</label><input type="text" ng-model="$ctrl.correo"></br>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="$ctrl.crear()">Crear</button>
-            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancelar()">Cancelar</button>
-        </div>
-    </script>
-</div>
-<div ng-controller="DuenioPilotosCtrl as $ctrl" class="modal-demo">
-    <script type="text/ng-template" id="ModalVerModificar.html">
-        <div class="modal-header">
-            <h3 class="modal-title" id="modal-title">Modificar piloto</h3>
-        </div>
-        <div class="modal-body" id="modal-body">
-			<label>Nombre</label><input type="text" ng-model="$ctrl.nombre" autofocus></br>
-			<label>Apellidos</label><input type="text" ng-model="$ctrl.apellidos" ></br>
-			<label>Dirección</label><input type="text" ng-model="$ctrl.direccion"></br>
-			<label>DPI</label><input type="number" ng-model="$ctrl.dpi"></br>
-			<label>No. Licencia</label><input type="number" ng-model="$ctrl.nLicencia"></br>
-			<label for="licenciaList">Tipo de Licencia</label>
-			<select class="form-control" id="licenciaList" ng-model="$ctrl.tLicencia">
-				<option>A</option>
-			    <option>B</option>
-			    <option>C</option>
-			    <option>D</option>
-			    <option>E</option>
-			</select></br>
-			<label>No. Teléfono</label><input type="number" ng-model="$ctrl.telefono"></br>
-			<label>Correo Electrónico</label><input type="text" ng-model="$ctrl.correo"></br>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="$ctrl.modificar()">Modificar</button>
-            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancelar()">Cancelar</button>
-        </div>
-    </script>
 </div>
