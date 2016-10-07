@@ -7,11 +7,11 @@
     </ol>
 </div>
 <br>
-<div id="centerbody" ng-controller="DuenioBusesCtrl as $ctrl">
+<div id="centerbody">
 	<div>
 		<h3>Buses</h3>
-		<button class="btn btn-success" ng-click="$ctrl.openCrear()">Crear bus</button>
-		<button class="btn btn-success" ng-click="$ctrl.openVerModificar()">Modificar bus</button>
+		<button class="btn btn-success" ng-click="openCrear()">Crear bus</button>
+		<button class="btn btn-success" ng-click="openVerModificar()">Modificar bus</button>
 		<div class="thumbnails">
 			<div ng-repeat="bus in buses">
 				<a href="#/buses/{{bus.id}}">
@@ -23,41 +23,41 @@
 	</div>
 </div>
 
-<div ng-controller="DuenioBusesCtrl as $ctrl" class="modal-demo">
+<div class="modal-demo">
     <script type="text/ng-template" id="ModalCrear.html">
         <div class="modal-header">
             <h3 class="modal-title" id="modal-title">Crear bus</h3>
         </div>
         <div class="modal-body" id="modal-body">
-			<label>Marca</label><input class="form-control" type="text" ng-model="$ctrl.marca" placeholder="Marca del bus" autofocus></br>
-			<label>Modelo</label><input class="form-control" type="text" ng-model="$ctrl.modelo" placeholder="Modelo del bus"></br>
-			<label>Placa</label><input class="form-control" type="text" ng-model="$ctrl.placa" placeholder="Placa del bus"></br>
-			<label>No. bus</label><input class="form-control" type="text" ng-model="$ctrl.numero" placeholder="No. del bus"></br>
-			<label>Color</label><input class="form-control" type="text" ng-model="$ctrl.color" placeholder="Color del bus"></br>
-			<label>Observaciones</label><textarea class="form-control" rows="5" ng-model="$ctrl.Observaciones" placeholder="Observaciones..."></textarea>
+			<label>Marca</label><input class="form-control" type="text" ng-model="nuevoBus.marca" placeholder="Marca del bus" autofocus></br>
+			<label>Modelo</label><input class="form-control" type="text" ng-model="nuevoBus.modelo" placeholder="Modelo del bus"></br>
+			<label>Placa</label><input class="form-control" type="text" ng-model="nuevoBus.placa" placeholder="Placa del bus"></br>
+			<label>No. bus</label><input class="form-control" type="text" ng-model="nuevoBus.numero" placeholder="No. del bus"></br>
+			<label>Color</label><input class="form-control" type="text" ng-model="nuevoBus.color" placeholder="Color del bus"></br>
+			<label>Observaciones</label><textarea class="form-control" rows="5" ng-model="nuevoBus.observaciones" placeholder="Observaciones..."></textarea>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="$ctrl.crear()">Crear</button>
-            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancelar()">Cancelar</button>
+            <button class="btn btn-primary" type="button" ng-click="crear()">Crear</button>
+            <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancelar</button>
         </div>
     </script>
 </div>
-<div ng-controller="DuenioBusesCtrl as $ctrl" class="modal-demo">
+<div class="modal-demo">
     <script type="text/ng-template" id="ModalVerModificar.html">
         <div class="modal-header">
             <h3 class="modal-title" id="modal-title">Modificar bus</h3>
         </div>
         <div class="modal-body" id="modal-body">
-			<label>Marca</label><input class="form-control" type="text" ng-model="$ctrl.marca" placeholder="Marca del bus" autofocus>
-			<label>Modelo</label><input class="form-control" type="text" ng-model="$ctrl.modelo" placeholder="Modelo del bus">
-			<label>Placa</label><input class="form-control" type="text" ng-model="$ctrl.placa" placeholder="Placa del bus">
-			<label>No. bus</label><input class="form-control" type="text" ng-model="$ctrl.numero" placeholder="No. del bus">
-			<label>Color</label><input class="form-control" type="text" ng-model="$ctrl.color" placeholder="Color del bus">
-			<label>Observaciones</label><textarea class="form-control" rows="5" ng-model="$ctrl.Observaciones" placeholder="Observaciones..."></textarea>
+			<label>Marca</label><input class="form-control" type="text" ng-model="bus.marca" placeholder="Marca del bus" autofocus>
+			<label>Modelo</label><input class="form-control" type="text" ng-model="bus.modelo" placeholder="Modelo del bus">
+			<label>Placa</label><input class="form-control" type="text" ng-model="bus.placa" placeholder="Placa del bus">
+			<label>No. bus</label><input class="form-control" type="text" ng-model="bus.numero" placeholder="No. del bus">
+			<label>Color</label><input class="form-control" type="text" ng-model="bus.color" placeholder="Color del bus">
+			<label>Observaciones</label><textarea class="form-control" rows="5" ng-model="bus.observaciones" placeholder="Observaciones..."></textarea>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="$ctrl.modificar()">Modificar</button>
-            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancelar()">Cancelar</button>
+            <button class="btn btn-primary" type="button" ng-click="modificar()">Modificar</button>
+            <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancelar</button>
         </div>
     </script>
 </div>
