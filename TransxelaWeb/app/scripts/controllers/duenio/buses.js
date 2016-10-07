@@ -8,6 +8,10 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp').controller('DuenioBusesCtrl', ['$scope','$uibModal',function ($scope, $uibModal) {
+  $scope.usuario = {};
+  $scope.nuevoBus = {};
+  $scope.bus = {};
+  $scope.buses = [];
   $scope.openCrear = function (size) {
     var uibModalInstance = $uibModal.open({
       ariaLabelledBy: 'modal-title',

@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Crear bus</h3>
+</div>
+<div class="modal-body" id="modal-body">
+	<label>Marca</label><input class="form-control" type="text" ng-model="nuevoBus.marca" placeholder="Marca del bus" autofocus></br>
+	<label>Modelo</label><input class="form-control" type="text" ng-model="nuevoBus.modelo" placeholder="Modelo del bus"></br>
+	<label>Placa</label><input class="form-control" type="text" ng-model="nuevoBus.placa" placeholder="Placa del bus"></br>
+	<label>No. bus</label><input class="form-control" type="text" ng-model="nuevoBus.numero" placeholder="No. del bus"></br>
+	<label>Color</label><input class="form-control" type="text" ng-model="nuevoBus.color" placeholder="Color del bus"></br>
+	<label>Observaciones</label><textarea class="form-control" rows="5" ng-model="nuevoBus.observaciones" placeholder="Observaciones..."></textarea>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="crear()">Crear</button>
+    <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancelar</button>
+</div>
