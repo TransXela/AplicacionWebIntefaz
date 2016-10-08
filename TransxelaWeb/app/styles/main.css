@@ -1,4 +1,3 @@
-
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(http://fonts.googleapis.com/css?family=Titillium+Web:300);
 
@@ -24,9 +23,6 @@
    background-color: #333333;
    color: #ffffff;
 }
-
-
-
 
 #centerhead{
    position: relative;
@@ -180,19 +176,8 @@ height: 100%;
   font-weight: 300;
   src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
 
 /*-------PRINCIPAL---------------------------------------------------------------------------------------------------------*/
-
 .main_h {
   position: fixed;
   top: 0px;
@@ -440,10 +425,4 @@ p {
     transform: translateY(20px);
   }
 }
-
-
 /*-------END PRINCIPAL---------------------------------------------------------------------------------------------------------*/
-=======
->>>>>>> refs/heads/Pablo
-=======
->>>>>>> cultura
