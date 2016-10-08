@@ -1,0 +1,99 @@
+<nav class="main-menu" >
+  <ul>
+    <li>
+        <a href="#/duenio/perfil">
+            <i class="fa fa-user fa-2x"></i>
+            <span class="nav-text">
+              Perfil
+            </span>
+        </a>
+
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/pilotos">
+            <i class="fa fa-users fa-2x"></i>
+            <span class="nav-text">
+              Pilotos
+            </span>
+        </a>
+
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/buses">
+           <i class="fa fa-truck fa-2x"></i>
+            <span class="nav-text">
+              Buses
+            </span>
+        </a>
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/horarios">
+           <i class="fa fa-clock-o fa-2x"></i>
+            <span class="nav-text">
+              Horarios
+            </span>
+        </a>
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/calendario">
+           <i class="fa fa-calendar fa-2x"></i>
+            <span class="nav-text">
+              Calendario
+            </span>
+        </a>
+    </li>
+    <li class="has-subnav">
+        <a href="#/duenio/estadisticas">
+          <i class="fa fa-info fa-2x"></i>
+          <span class="nav-text">
+            Estadísticas
+          </span>
+        </a>
+    </li>
+  </ul>
+  <ul class="logout">
+    <li>
+       <a href="/#/">
+         <i class="fa fa-power-off fa-2x"></i>
+        <span class="nav-text">
+            Cerrar sesión
+        </span>
+        </a>
+    </li>
+  </ul>
+</nav>
+<div class="main-head" id="centerhead">
+    <img src="images/yeoman.png">
+    {{usuario.nombre + " " +usuario.apellidos}}
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+      <li class="breadcrumb-item active">...</li>
+    </ol>
+</div>
+<br>
+<div  id="centerbody">
+	<div>
+		<h3>Pilotos</h3>
+		<div class="thumbnails">
+			<div ng-repeat="piloto in pilotos">
+				<a href="#/pilotos/{{piloto.id}}">
+					<img ng-src="{{piloto.foto}}">
+					<h4>{{piloto.nombre + " " + piloto.apellidos}}</h3>
+				</a>
+			</div>
+		</div>
+		<a href="/#/duenio/pilotos">Ver todos</a>
+	</div>
+	<div>
+		<h3>Buses</h3>	
+		<div class="thumbnails">
+			<div ng-repeat="bus in buses">
+				<a href="#/buses/{{bus.id}}">
+					<img ng-src="{{bus.foto}}">
+					<h4>{{bus.placa}}</h3>
+				</a>
+			</div>
+		</div>
+		<a href="/#/duenio/buses">Ver todos</a>
+	</div>
+</div>
