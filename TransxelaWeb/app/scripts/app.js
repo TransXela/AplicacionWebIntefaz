@@ -23,7 +23,7 @@ angular
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/principal.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
@@ -32,6 +32,7 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+<<<<<<< HEAD
       .when('/duenio/principal', {
         templateUrl: 'views/duenio/principal.html',
         controller: 'DuenioPrincipalCtrl',
@@ -101,6 +102,18 @@ angular
         templateUrl: 'views/operador/perfil.html',
         controller: 'OperadorPerfilCtrl',
         controllerAs: 'operador/perfil'
+=======
+      .when('/cultura/principal', {
+        templateUrl: 'views/cultura/principal.html',
+        controller: 'PopupDemoCont',
+        controllerAs: 'cultura/principal'
+      })
+
+      .when('/cultura/nuevaactividadcultural', {
+        templateUrl: 'views/cultura/nuevaactividadcultural.html',
+        controller: 'CulturaNuevaactividadculturalCtrl',
+        controllerAs: 'cultura/nuevaactividadcultural'
+>>>>>>> cultura
       })
       .otherwise({
         redirectTo: '/'
