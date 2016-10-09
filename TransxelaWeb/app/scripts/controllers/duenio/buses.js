@@ -13,7 +13,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
   $scope.showCrear = function() {
     ModalService.showModal({
       templateUrl: "views/duenio/bus.html",
-      controller: "CrearController",
+      controller: "CrearBController",
       inputs: {
         options: {"title": "Crear Bus", "buttom": "Crear"}
       }
@@ -28,7 +28,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
   $scope.showVerModificar = function() {
     ModalService.showModal({
       templateUrl: "views/duenio/bus.html",
-      controller: "VerModificarController",
+      controller: "VerModificarBController",
       inputs: {
         options: {"title": "Ver Bus", "buttom": "Modificar"},
         bus: $scope.bus
@@ -43,7 +43,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
 
 });
 
-angular.module('transxelaWebApp').controller('CrearController', ['$scope', '$element', 'options', 'close', function($scope, $element, options, close) {
+angular.module('transxelaWebApp').controller('CrearBController', ['$scope', '$element', 'options', 'close', function($scope, $element, options, close) {
   $scope.marca = null;
   $scope.modelo = null;
   $scope.placa = null;
@@ -80,7 +80,7 @@ angular.module('transxelaWebApp').controller('CrearController', ['$scope', '$ele
   };
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarController', ['$scope', '$element', 'options', 'bus', 'close', function($scope, $element, options, bus, close) {
+angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope', '$element', 'options', 'bus', 'close', function($scope, $element, options, bus, close) {
   $scope.marca = bus.marca;
   $scope.modelo = bus.modelo; 
   $scope.placa = bus.placa; 

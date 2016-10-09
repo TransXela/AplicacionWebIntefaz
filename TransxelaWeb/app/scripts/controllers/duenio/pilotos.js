@@ -15,7 +15,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
   $scope.showCrear = function() {
     ModalService.showModal({
       templateUrl: "views/duenio/piloto.html",
-      controller: "CrearController",
+      controller: "CrearPController",
       inputs: {
         options: {"title": "Crear Piloto", "buttom": "Crear"}
       }
@@ -30,7 +30,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
   $scope.showVerModificar = function() {
     ModalService.showModal({
       templateUrl: "views/duenio/piloto.html",
-      controller: "VerModificarController",
+      controller: "VerModificarPController",
       inputs: {
         options: {"title": "Ver Piloto", "buttom": "Modificar"},
         piloto: $scope.piloto
@@ -45,7 +45,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
 
 });
 
-angular.module('transxelaWebApp').controller('CrearController', ['$scope', '$element', 'options', 'close', function($scope, $element, options, close) {
+angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$element', 'options', 'close', function($scope, $element, options, close) {
   $scope.nombre = null;
   $scope.apellidos = null; 
   $scope.direccion = null; 
@@ -80,7 +80,7 @@ angular.module('transxelaWebApp').controller('CrearController', ['$scope', '$ele
   };
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarController', ['$scope', '$element', 'options', 'piloto', 'close', function($scope, $element, options, piloto, close) {
+angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', '$element', 'options', 'piloto', 'close', function($scope, $element, options, piloto, close) {
   $scope.nombre = piloto.nombre;
   $scope.apellidos = piloto.apellidos; 
   $scope.direccion = piloto.direccion; 
