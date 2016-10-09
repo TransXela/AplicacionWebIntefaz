@@ -1,39 +1,64 @@
-<div class="main-head" id="centerhead">
-    <img src="images/yeoman.png">
-    {{usuario.nombre + " " +usuario.apellidos}}
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
-      <li class="breadcrumb-item active">...</li>
-    </ol>
-</div>
-<br>
-<div id="centerbody">
-    
-</div>
 
-<div ng-controller="DuenioCalendarioCtrl as $ctrl" class="modal-demo">
-    <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    <h3>Angular Modal Service</h3>
+     <a class="btn btn-default" href ng-click="show()">Show a Modal</a>
+     <p>{{message}}</p>
+     <a class="btn btn-default" href ng-click="showComplex()">Show a Complex Modal</a>
+     <p>{{complexResult}}</p>
+     
+     <!-- The actual modal template, just a bit o bootstrap -->
+     <script type="text/ng-template" id="modal.html">
+         <div class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Yes or No?</h4>
+              </div>
+              <div class="modal-body">
+                <p>It's your call...</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Yes</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="modal-body" id="modal-body">
-            <ul>
-                <li ng-repeat="item in $ctrl.items">
-                    <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
-                </li>
-            </ul>
-            Selected: <b>{{ $ctrl.selected.item }}</b>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
-        </div>
-    </script>
 
-    <button type="button" class="btn btn-default" ng-click="$ctrl.open()">Open me!</button>
-    <button type="button" class="btn btn-default" ng-click="$ctrl.open('lg')">Large modal</button>
-    <button type="button" class="btn btn-default" ng-click="$ctrl.open('sm')">Small modal</button>
-    <button type="button" class="btn btn-default" ng-click="$ctrl.open('sm', '.modal-parent')">Modal appended to a custom parent</button>
-    <div class="modal-parent">
-    </div>
-</div>
+     </script>
+     <script type="text/ng-template" id="complex.html">
+      <div class="modal fade">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">{{title}}</h4>
+            </div>
+            <div class="modal-body">
+              <p>Here's a more complex modal, it contains a form, data is passed to the controller 
+               and data is returned from the modal.</p>
+
+          <form class="form-horizontal" role="form">
+            <div class="form-group">
+              <label for="name" class="col-sm-2 control-label">Name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="name" placeholder="Your Name" ng-model="name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="age" class="col-sm-2 control-label">Age</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="inputPassword3" placeholder="Age" ng-model="age">
+              </div>
+            </div>
+          </form>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal">{{option}}</button>
+              <button type="button" ng-click="cancel()" class="btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+     </script>

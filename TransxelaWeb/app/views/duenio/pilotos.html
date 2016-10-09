@@ -10,8 +10,8 @@
 <div id="centerbody">
 	<div>
 		<h3>Pilotos</h3>
-		<button class="btn btn-success" ng-click="openCrear()">Crear piloto</button>
-		<button class="btn btn-success" ng-click="openVerModificar()">Modificar piloto</button>
+		<button class="btn btn-success" href ng-click="showCrear()">Crear piloto</button>
+		<button class="btn btn-success" href ng-click="showVerModificar()">Modificar piloto</button>
 		<div class="thumbnails">
 			<div ng-repeat="piloto in pilotos">
 				<a href="#/pilotos/{{piloto.id}}">
