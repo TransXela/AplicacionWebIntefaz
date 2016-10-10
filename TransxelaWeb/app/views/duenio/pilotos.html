@@ -11,14 +11,7 @@
 	<div>
 		<h3>Pilotos</h3>
 		<button class="btn btn-success" href ng-click="showCrear()">Crear piloto</button>
-		<button class="btn btn-success" href ng-click="showVerModificar()">Modificar piloto</button>
 		<div class="thumbnails">
-			<div ng-repeat="piloto in pilotos">
-				<a href="#/pilotos/{{piloto.id}}">
-					<img ng-src="{{piloto.foto}}">
-					<label>{{piloto.nombre + " " + piloto.apellidos}}</label>
-				</a>
-			</div>
-		</div>
+      		<div id="grid1" ui-grid="gridOptions" class="grid"></div>
 	</div>
 </div>
