@@ -8,8 +8,7 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, ModalService) {
-  $scope.buses = [];
-  $scope.bus = {"marca": "Toyota", "modelo": "Hiace", "placa": "C 123ABC", "numero": 1, "color": "rojo", "observaciones": "No tiene puerta lateral."};
+  $scope.buses = [{"marca": "Toyota", "modelo": "Hiace", "placa": "C 123ABC", "numero": 1, "color": "rojo", "observaciones": "No tiene puerta lateral."}];
   $scope.showCrear = function() {
     ModalService.showModal({
       templateUrl: "views/duenio/bus.html",
@@ -25,22 +24,31 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     });
   };
 
-  $scope.showVerModificar = function() {
+  $scope.showVerModificar = function(index) {
     ModalService.showModal({
       templateUrl: "views/duenio/bus.html",
       controller: "VerModificarBController",
       inputs: {
         options: {"title": "Ver Bus", "buttom": "Modificar"},
-        bus: $scope.bus
+        bus: $scope.buses[index]
       }
     }).then(function(modal) {
       modal.element.modal();
       modal.close.then(function(result) {
-
+        $scope.buses[index] = result;
       });
     });
   };
 
+  $scope.gridOptions = {
+    data: $scope.buses,
+    columnDefs:[
+      {name:'Placa',field:'placa'},
+      {name:'Marca',field:'marca'},
+      {name:'Modelo',field:'modelo'},
+      {name:' ',cellTemplate:'<div><button ng-click="grid.appScope.showVerModificar(rowRenderIndex)">Ver detalles</button></div>'}
+      ]
+  };
 });
 
 angular.module('transxelaWebApp').controller('CrearBController', ['$scope', '$element', 'options', 'close', function($scope, $element, options, close) {
@@ -68,15 +76,7 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', '$el
   $scope.cancel = function() {
     //  Manually hide the modal.
     $element.modal('hide');
-    //  Now call close, returning control to the caller.
-    close({
-      marca: $scope.marca,
-      modelo: $scope.modelo,
-      placa: $scope.placa,
-      numero: $scope.numero,
-      color: $scope.color,
-      observaciones: $scope.observaciones
-    }, 500); // close, but give 500ms for bootstrap to animate
+    //  Now call close, returning control to the caller
   };
 }]);
 
@@ -105,14 +105,6 @@ angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope
   $scope.cancel = function() {
     //  Manually hide the modal.
     $element.modal('hide');
-    //  Now call close, returning control to the caller.
-    close({
-      marca: $scope.marca,
-      modelo: $scope.modelo,
-      placa: $scope.placa,
-      numero: $scope.numero,
-      color: $scope.color,
-      observaciones: $scope.observaciones
-    }, 500); // close, but give 500ms for bootstrap to animate
+    //  Now call close, returning control to the caller
   };
 }]);

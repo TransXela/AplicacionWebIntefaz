@@ -12,14 +12,7 @@
 	<div>
 		<h3>Buses</h3>
 		<button class="btn btn-success" ng-click="showCrear()">Crear bus</button>
-		<button class="btn btn-success" ng-click="showVerModificar()">Modificar bus</button>
-		<div class="thumbnails">
-			<div ng-repeat="bus in buses">
-				<a href="#/buses/{{bus.id}}">
-					<img ng-src="{{bus.foto}}">
-					<h4>{{bus.placa}}</h3>
-				</a>
-			</div>
+        <div id="grid1" ui-grid="gridOptions" class="grid"></div>
 		</div>
 	</div>
 </div>

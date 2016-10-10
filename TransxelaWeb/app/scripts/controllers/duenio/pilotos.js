@@ -9,9 +9,28 @@
  */
 
 angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, ModalService) {
-  $scope.pilotos = [];
-  $scope.piloto = {"nombre":"Pablo", "apellidos":"Lopez", "direccion": "0 Calle 0-97 Zona 10", 
-  "nLicencia": 1234, "tLicencia": "B", "telefono": 12345678, "correo": "panlopezv@gmail.com"};
+  $scope.pilotos = [{
+    "id": 1,
+    "nombre": "Pablo",
+    "apellidos": "Lopez",
+    "direccion": "Ciudad",
+    "dpi": 234817770,
+    "telefono": 42606299,
+    "correo": "panlopezv@gmail.com",
+    "foto": "/pilotos/pablo-lopez.jpg",
+    "estado": 1
+  },
+  {
+    "id": 1,
+    "nombre": "Andres",
+    "apellidos": "Velasquez",
+    "direccion": "Ciudad",
+    "dpi": 234817770,
+    "telefono": 42606299,
+    "correo": "panlopezv@outlook.com",
+    "foto": "/pilotos/andres-velasquez.jpg",
+    "estado": 1
+  }];
   $scope.showCrear = function() {
     ModalService.showModal({
       templateUrl: "views/duenio/piloto.html",
@@ -27,20 +46,29 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     });
   };
 
-  $scope.showVerModificar = function() {
+  $scope.showVerModificar = function(index) {
     ModalService.showModal({
       templateUrl: "views/duenio/piloto.html",
       controller: "VerModificarPController",
       inputs: {
         options: {"title": "Ver Piloto", "buttom": "Modificar"},
-        piloto: $scope.piloto
+        piloto: $scope.pilotos[index]
       }
     }).then(function(modal) {
       modal.element.modal();
       modal.close.then(function(result) {
-        $scope.pilotos.push(result);
+        $scope.pilotos[index] = result;
       });
     });
+  };
+
+  $scope.gridOptions = {
+    data: $scope.pilotos,
+    columnDefs:[
+      {name:'Nombre',field:'nombre'},
+      {name:'Apellidos',field:'apellidos'},
+      {name:' ',cellTemplate:'<div><button ng-click="grid.appScope.showVerModificar(rowRenderIndex)">Ver detalles</button></div>'}
+      ]
   };
 
 });
@@ -73,10 +101,6 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$el
     //  Manually hide the modal.
     $element.modal('hide');
     //  Now call close, returning control to the caller.
-    close({
-      name: $scope.name,
-      age: $scope.age
-    }, 500); // close, but give 500ms for bootstrap to animate
   };
 }]);
 
@@ -107,10 +131,5 @@ angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope
   $scope.cancel = function() {
     //  Manually hide the modal.
     $element.modal('hide');
-    //  Now call close, returning control to the caller.
-    close({
-      name: $scope.name,
-      age: $scope.age
-    }, 500); // close, but give 500ms for bootstrap to animate
   };
 }]);

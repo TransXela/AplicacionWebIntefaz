@@ -11,14 +11,6 @@
     <div>
         <h3>Horarios</h3>
         <button class="btn btn-success" ng-click="showCrear()">Crear horario</button>
-        <button class="btn btn-success" ng-click="showVerModificar()">Modificar horario</button>
-        <div class="thumbnails">
-            <div ng-repeat="horario in horarios">
-                <a href="#/horarios/{{horario.id}}">
-                    <h3>{{horario.horainicio.getHours() + ":" + horario.horainicio.getMinutes()}}</h3>
-                    <h3>{{horario.horafin.getHours() + ":" + horario.horafin.getMinutes()}}</h3>
-                </a>
-            </div>
-        </div>
+        <div id="grid1" ui-grid="gridOptions" class="grid"></div>
     </div>
 </div>
