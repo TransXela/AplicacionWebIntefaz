@@ -20,7 +20,8 @@ angular
     'ngTouch',
     'ui.bootstrap',
     'angularModalService',
-    'ui.grid'
+    'ui.grid',
+    'mwl.calendar'
   ])
   .config(function ($routeProvider) {
     $routeProvider
