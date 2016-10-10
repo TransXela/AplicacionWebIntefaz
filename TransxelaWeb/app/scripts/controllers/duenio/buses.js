@@ -42,11 +42,12 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
 
   $scope.gridOptions = {
     data: $scope.buses,
+    enableFiltering: true,
     columnDefs:[
       {name:'Placa',field:'placa'},
       {name:'Marca',field:'marca'},
       {name:'Modelo',field:'modelo'},
-      {name:' ',cellTemplate:'<div><button ng-click="grid.appScope.showVerModificar(rowRenderIndex)">Ver detalles</button></div>'}
+      {name:' ',cellTemplate:'<div><button ng-click="grid.appScope.showVerModificar(rowRenderIndex)">Ver detalles</button></div>', enableFiltering: false}
       ]
   };
 });

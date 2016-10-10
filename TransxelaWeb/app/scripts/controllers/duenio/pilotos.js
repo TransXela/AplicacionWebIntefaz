@@ -64,10 +64,11 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
 
   $scope.gridOptions = {
     data: $scope.pilotos,
+    enableFiltering: true,
     columnDefs:[
       {name:'Nombre',field:'nombre'},
       {name:'Apellidos',field:'apellidos'},
-      {name:' ',cellTemplate:'<div><button ng-click="grid.appScope.showVerModificar(rowRenderIndex)">Ver detalles</button></div>'}
+      {name:' ',cellTemplate:'<div><button ng-click="grid.appScope.showVerModificar(rowRenderIndex)">Ver detalles</button></div>', enableFiltering: false}
       ]
   };
 
