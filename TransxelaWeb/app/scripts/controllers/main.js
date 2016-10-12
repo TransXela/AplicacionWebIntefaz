@@ -8,16 +8,39 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('MainCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MainCtrl', function ($scope, ModalService) {
+    $scope.iniciarSesion = function() {
+    ModalService.showModal({
+      templateUrl: "views/duenio/login.html",
+      controller: "IniciarSesionController"
+    }).then(function(modal) {
+      modal.element.modal();
+      modal.close.then(function(result) {
+        console.log(result);
+      });
+    });
+  };
   });
 
-
-
+angular.module('transxelaWebApp').controller('IniciarSesionController', ['$scope', '$element', 'close', function($scope, $element, close) {
+  $scope.usuario = null;
+  $scope.contrasenia = null;
+  //  This close function doesn't need to use jQuery or bootstrap, because
+  //  the button has the 'data-dismiss' attribute.
+  $scope.close = function() {
+    close({
+      usuario: $scope.usuario,
+      contrasenia: $scope.contrasenia
+    }, 500); // close, but give 500ms for bootstrap to animate
+  };
+  //  This cancel function must use the bootstrap, 'modal' function because
+  //  the doesn't have the 'data-dismiss' attribute.
+  $scope.cancel = function() {
+    //  Manually hide the modal.
+    $element.modal('hide');
+    //  Now call close, returning control to the caller.
+  };
+}]);
 
 
 
