@@ -8,43 +8,36 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('MainCtrl', function ($scope, ModalService) {
-    $scope.iniciarSesion = function() {
-    ModalService.showModal({
-      templateUrl: "views/duenio/login.html",
-      controller: "IniciarSesionController"
-    }).then(function(modal) {
-      modal.element.modal();
-      modal.close.then(function(result) {
-        console.log(result);
-      });
+  .controller('MainCtrl', function ($scope, $uibModal) {
+  $scope.iniciarSesion = function (size) {
+    var uibModalInstance = $uibModal.open({
+      templateUrl: 'views/login.html',
+      controller: 'IniciarSesionController',
+      size: size
+    });
+
+    uibModalInstance.result.then(function (result) {
+      console.log(result);
+    }, function () {
+     console.log('Modal dismissed at: ' + new Date());
     });
   };
-  });
+});
 
-angular.module('transxelaWebApp').controller('IniciarSesionController', ['$scope', '$element', 'close', function($scope, $element, close) {
+angular.module('transxelaWebApp').controller('IniciarSesionController', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
   $scope.usuario = null;
   $scope.contrasenia = null;
-  //  This close function doesn't need to use jQuery or bootstrap, because
-  //  the button has the 'data-dismiss' attribute.
-  $scope.close = function() {
-    close({
+  $scope.close = function () {
+    $uibModalInstance.close({
       usuario: $scope.usuario,
       contrasenia: $scope.contrasenia
-    }, 500); // close, but give 500ms for bootstrap to animate
+    }, 500);
   };
-  //  This cancel function must use the bootstrap, 'modal' function because
-  //  the doesn't have the 'data-dismiss' attribute.
-  $scope.cancel = function() {
-    //  Manually hide the modal.
-    $element.modal('hide');
-    //  Now call close, returning control to the caller.
+
+  $scope.cancel = function () {
+      $uibModalInstance.dismiss('cancel');
   };
 }]);
-
-
-
-
 // -------------PRINCIPAL-----------------------------------------------------------------------------------------------------------
 
 

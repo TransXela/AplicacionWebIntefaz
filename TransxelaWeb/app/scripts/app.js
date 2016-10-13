@@ -19,7 +19,6 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'angularModalService',
     'ui.grid',
     'mwl.calendar'
   ])

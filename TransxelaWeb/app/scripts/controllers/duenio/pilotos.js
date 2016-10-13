@@ -8,7 +8,7 @@
  * Controller of the transxelaWebApp
  */
 
-angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, ModalService) {
+angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, $uibModal) {
   $scope.pilotos = [{
     "id": 1,
     "nombre": "Pablo",
@@ -31,34 +31,42 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     "foto": "/pilotos/andres-velasquez.jpg",
     "estado": 1
   }];
-  $scope.showCrear = function() {
-    ModalService.showModal({
-      templateUrl: "views/duenio/piloto.html",
-      controller: "CrearPController",
-      inputs: {
-        options: {"title": "Crear Piloto", "buttom": "Crear"}
+  $scope.showCrear = function () {
+    var uibModalInstance = $uibModal.open({
+      templateUrl: 'views/duenio/piloto.html',
+      controller:'CrearPController',
+      resolve: {
+        options: function () {
+          return {"title": "Crear Piloto", "buttom": "Crear"};
+        }
       }
-    }).then(function(modal) {
-      modal.element.modal();
-      modal.close.then(function(result) {
-        $scope.pilotos.push(result);
-      });
+    });
+
+    uibModalInstance.result.then(function (result) {
+      $scope.pilotos.push(result);
+    }, function () {
+     console.log('Modal dismissed at: ' + new Date());
     });
   };
 
-  $scope.showVerModificar = function(index) {
-    ModalService.showModal({
+  $scope.showVerModificar = function (index) {
+    var uibModalInstance = $uibModal.open({
       templateUrl: "views/duenio/piloto.html",
       controller: "VerModificarPController",
-      inputs: {
-        options: {"title": "Ver Piloto", "buttom": "Modificar"},
-        piloto: $scope.pilotos[index]
+      resolve: {
+        options: function () {
+          return {"title": "Ver Piloto", "buttom": "Modificar"};
+        },
+        piloto: function(){
+          return $scope.pilotos[index];
+        }
       }
-    }).then(function(modal) {
-      modal.element.modal();
-      modal.close.then(function(result) {
-        $scope.pilotos[index] = result;
-      });
+    });
+
+    uibModalInstance.result.then(function (result) {
+      $scope.pilotos[index] = result;
+    }, function () {
+     console.log('Modal dismissed at: ' + new Date());
     });
   };
 
@@ -74,7 +82,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
 
 });
 
-angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$element', 'options', 'close', function($scope, $element, options, close) {
+angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$uibModalInstance', 'options', function ($scope, $uibModalInstance, options) {
   $scope.nombre = null;
   $scope.apellidos = null; 
   $scope.direccion = null; 
@@ -83,10 +91,8 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$el
   $scope.telefono = null;
   $scope.correo = null;
   $scope.options = options;
-  //  This close function doesn't need to use jQuery or bootstrap, because
-  //  the button has the 'data-dismiss' attribute.
-  $scope.close = function() {
-    close({
+  $scope.close = function () {
+    $uibModalInstance.close({
       nombre: $scope.nombre,
       apellidos: $scope.apellidos,
       direccion: $scope.direccion,
@@ -94,18 +100,15 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$el
       tLicencia: $scope.tLicencia,
       telefono: $scope.telefono,
       correo: $scope.correo
-    }, 500); // close, but give 500ms for bootstrap to animate
+    }, 500);
   };
-  //  This cancel function must use the bootstrap, 'modal' function because
-  //  the doesn't have the 'data-dismiss' attribute.
-  $scope.cancel = function() {
-    //  Manually hide the modal.
-    $element.modal('hide');
-    //  Now call close, returning control to the caller.
+
+  $scope.cancel = function () {
+      $uibModalInstance.dismiss('cancel');
   };
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', '$element', 'options', 'piloto', 'close', function($scope, $element, options, piloto, close) {
+angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', '$uibModalInstance', 'options', 'piloto', function ($scope, $uibModalInstance, options, piloto) {
   $scope.nombre = piloto.nombre;
   $scope.apellidos = piloto.apellidos; 
   $scope.direccion = piloto.direccion; 
@@ -114,10 +117,8 @@ angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope
   $scope.telefono = piloto.telefono;
   $scope.correo = piloto.correo;
   $scope.options = options;
-  //  This close function doesn't need to use jQuery or bootstrap, because
-  //  the button has the 'data-dismiss' attribute.
-  $scope.close = function() {
-    close({
+  $scope.close = function () {
+    $uibModalInstance.close({
       nombre: $scope.nombre,
       apellidos: $scope.apellidos,
       direccion: $scope.direccion,
@@ -125,12 +126,10 @@ angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope
       tLicencia: $scope.tLicencia,
       telefono: $scope.telefono,
       correo: $scope.correo
-    }, 500); // close, but give 500ms for bootstrap to animate
+    }, 500);
   };
-  //  This cancel function must use the bootstrap, 'modal' function because
-  //  the doesn't have the 'data-dismiss' attribute.
-  $scope.cancel = function() {
-    //  Manually hide the modal.
-    $element.modal('hide');
+
+  $scope.cancel = function () {
+      $uibModalInstance.dismiss('cancel');
   };
 }]);
