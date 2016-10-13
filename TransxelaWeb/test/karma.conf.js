@@ -30,7 +30,6 @@ module.exports = function(config) {
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
-      'bower_components/angular-modal-service/dst/angular-modal-service.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'bower_components/angular-ui-grid/ui-grid.js',
       'bower_components/angular-ui-grid/ui-grid.min.js',
