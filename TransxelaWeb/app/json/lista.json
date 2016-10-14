@@ -1,0 +1,7 @@
+[
+  {"id":"1", "nombre":"Jose", "tipo":"administrador", "estado":"activo", "telefono":"12345678"},
+  {"id":"2", "nombre":"Carlos", "tipo":"administrador", "estado":"activo", "telefono":"12345678"},
+  {"id":"3", "nombre":"Hugo", "tipo":"administrador", "estado":"inactivo", "telefono":"12345678"},
+  {"id":"4", "nombre":"Alex", "tipo":"administrador", "estado":"activo", "telefono":"12345678"},
+  {"id":"5", "nombre":"Luis", "tipo":"administrador", "estado":"inactivo", "telefono":"12345678"}
+]

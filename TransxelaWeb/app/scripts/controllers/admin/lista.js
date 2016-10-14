@@ -8,10 +8,11 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminListaCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('AdminListaCtrl', function ($scope,$http) {
+    $http.get('http://localhost:9000/json/lista.json').success(function(data){
+      $scope.admins = data
+    })
+    $scope.gridOptions = {
+      data: 'admins'
+    };
   });
