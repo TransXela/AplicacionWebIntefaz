@@ -117,6 +117,11 @@ angular
         controllerAs: 'cultura/nuevaactividadcultural'
       })
       
+      .when('/admin/lista', {
+        templateUrl: 'views/admin/lista.html',
+        controller: 'AdminListaCtrl',
+        controllerAs: 'admin/lista'
+      })
       .otherwise({
         redirectTo: '/'
       });
