@@ -116,7 +116,16 @@ angular
         controller: 'CulturaNuevaactividadculturalCtrl',
         controllerAs: 'cultura/nuevaactividadcultural'
       })
+<<<<<<< HEAD
 
+=======
+      
+      .when('/admin/lista', {
+        templateUrl: 'views/admin/lista.html',
+        controller: 'AdminListaCtrl',
+        controllerAs: 'admin/lista'
+      })
+>>>>>>> refs/heads/Saul
       .otherwise({
         redirectTo: '/'
       });
