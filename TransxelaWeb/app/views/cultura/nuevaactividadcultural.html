@@ -1,10 +1,63 @@
-<div class="modal-header" >
-<h3 class="modal-title">Header</h3>
+<div class="modal-header">
+	<button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">Crear Actividad Cultural</h4>
 </div>
 <div class="modal-body">
-This is Popup example with close button.
+	<label>Nombre de la actividad:</label>
+	<input type="text" class="form-control" id="NombreAct" placeholder="Nombre de Actividad" ng-model="NombreActividad" autofocus><br>
+	<label>Descripcion:</label>
+	<input type="text" class="form-control" id="DescripcionAct" placeholder="Descripcion de Actividad" ng-model="DescripcionActividad"><br>
+	<label>Lugar:</label>
+	<input type="text" class="form-control" id="LugarAct" placeholder="Lugar de Actividad" ng-model="LugarActividad"><br>
+	<label>Fecha:</label>
+  <div class="container">
+     <div class="row">
+         <div class='col-sm-6'>
+             <div class="form-group">
+                 <div class='input-group date' id='datetimepicker1'>
+                     <input type='text' class="form-control" />
+                     <span class="input-group-addon">
+                         <span class="glyphicon glyphicon-calendar"></span>
+                     </span>
+                 </div>
+             </div>
+         </div>
+         <script type="text/javascript">
+             $(function () {
+                 $('#datetimepicker1').datetimepicker();
+             });
+         </script>
+     </div>
+ </div>
+	<label>Seleccionar Ubicacion</label>
+<button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+Ubicacion
+</button>
+<div class="collapse" id="collapseExample">
+  <div class="well">
+
+  <div id="map"></div>
+  <script>
+    function initMap() {
+      var uluru = {lat: 14.83333, lng: -91.51667};
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: uluru
+      });
+      var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+      });
+    }
+  </script>
+  <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaI3FjB7ZHH-ERwwcERZyI5fsvwL111KI&callback=initMap">
+  </script>
+  </div>
+</div>
+
 </div>
 <div class="modal-footer">
-
-<button class="btn btn-warning" type="button" ng-click="close()">Cancel</button>
+    <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal">{{options.buttom}}</button>
+    <button type="button" ng-click="cancel()" class="btn btn-warning">Cancelar</button>
 </div>

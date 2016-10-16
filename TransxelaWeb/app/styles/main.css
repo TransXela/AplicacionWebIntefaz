@@ -1,6 +1,11 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(http://fonts.googleapis.com/css?family=Titillium+Web:300);
 
+#map {
+  height: 400px;
+  width: 100%;
+ }
+
 #navegador ul{
    list-style-type: none;
    text-align: center;
@@ -427,3 +432,14 @@ p {
 }
 /*-------END PRINCIPAL---------------------------------------------------------------------------------------------------------*/
 .grid{height: auto;}
+
+
+
+
+/*----------LISTA ADMINISTRADORES------------------------------------------------------------------------------------------------------*/
+.gridStyles{
+  width: 1100px;
+  height: 500px;
+}
+
+/*---------- END LISTA ADMINISTRADORES------------------------------------------------------------------------------------------------------*/
