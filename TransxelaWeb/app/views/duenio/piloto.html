@@ -9,20 +9,28 @@
 	<input type="text" class="form-control" id="apellidos" placeholder="Apellidos del piloto" ng-model="apellidos"><br>
 	<label>Dirección</label>
 	<input type="text" class="form-control" id="direccion" placeholder="Dirección del piloto" ng-model="direccion"><br>
+	<label>DPI</label>
+	<input type="number" class="form-control" id="dpi" placeholder="DPI del piloto" ng-model="dpi"><br>
 	<label>No. Licencia</label>
-	<input type="number" class="form-control" id="nLicencia" placeholder="No. de Licencia del piloto" ng-model="nLicencia"><br>
-	<label for="tLicencia">Tipo de Licencia</label>
-	<select class="form-control" id="tLicencia" ng-model="tLicencia">
-		<option>A</option>
-	    <option>B</option>
-	    <option>C</option>
-	    <option>D</option>
-	    <option>E</option>
+	<input type="number" class="form-control" id="licencia" placeholder="No. de Licencia del piloto" ng-model="licencia"><br>
+	<label for="tipolicencia">Tipo de Licencia</label>
+  	<select class="form-control" id="tipolicencia" ng-model="tipolicencia">
+	    <option value="" disabled>Tipo de Licencia del piloto</option>
+	    <option value="A">A</option>
+	    <option value="B">B</option>
+	    <option value="C">C</option>
+	    <option value="D">D</option>
+	    <option value="E">E</option>
 	</select><br>
 	<label>No. de Teléfono</label>
 	<input type="number" class="form-control" id="telefono" placeholder="No. de Teléfono del piloto" ng-model="telefono"><br>
 	<label>Correo Electrónico</label>
 	<input type="text" class="form-control" id="correo" placeholder="Correo electrónico del piloto" ng-model="correo"><br>
+	<label>Estado</label>
+	<div class="btn-group">
+        <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'">Habilitado</label>
+        <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'0'">Deshabilitado</label>
+    </div>
 </div>
 <div class="modal-footer">
     <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal">{{options.buttom}}</button>
