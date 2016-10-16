@@ -27,7 +27,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
     });
     uibModalInstance.result.then(function (result) {
       $scope.horarios.push(result);
-      $scope.alertas.push({"tipo":"success", "mensaje": "Horario creado exitosamente", "estado": 1});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Horario creado exitosamente"});
     }, function () {
     });
   };
@@ -51,14 +51,14 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
     uibModalInstance.result.then(function (result) {
       $scope.horarios[$scope.index].horainicio = result.horainicio;
       $scope.horarios[$scope.index].horafin = result.horafin;
-      $scope.alertas.push({"tipo":"success", "mensaje": "Horario modificado exitosamente", "estado": 1});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Horario modificado exitosamente"});
     }, function (status) {
       if(status ==='success'){
         $scope.horarios.splice($scope.index,1);
-        $scope.alertas.push({"tipo":"success", "mensaje": "Horario eliminado exitosamente", "estado": 1});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Horario eliminado exitosamente"});
       }
       else if(status ==='error'){
-       $scope.alertas.push({"tipo":"danger", "mensaje": "Imposible eliminar el horario", "estado": 1});
+       $scope.alertas.push({"tipo":"danger", "mensaje": "Imposible eliminar el horario"});
       }
     });
   };
@@ -106,7 +106,7 @@ angular.module('transxelaWebApp').controller('CrearHController', ['$scope', '$ht
         duenio: idduenio, idhorario: data.idhorario}, 500);
     });
     res.error(function(data, status, headers, config) {
-      $scope.alertas.push({"tipo":"warning", "mensaje": data.crear.estado, "estado": 1});
+      $scope.alertas.push({"tipo":"warning", "mensaje": data.crear.estado});
     });
   };
 
@@ -135,7 +135,7 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
       }, 500);
     }, function(error) {
       console.log(error);
-      $scope.alertas.push({"tipo":"warning", "mensaje": error.data.modificar.estado, "estado": 1});
+      $scope.alertas.push({"tipo":"warning", "mensaje": error.data.modificar.estado});
     });
   };
 
