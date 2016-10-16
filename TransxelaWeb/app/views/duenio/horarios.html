@@ -10,8 +10,9 @@
 <div id="centerbody">
     <div>
         <h3>Horarios</h3>
-        <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert" ng-show="alerta.estado == 1">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="alerta.estado = 2"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+        <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" 
+          ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
         </div>
         <button class="btn btn-success" ng-click="showCrear('sm')">Crear horario</button>
         <div id="grid1" ui-grid="gridOptions" class="grid"></div>
