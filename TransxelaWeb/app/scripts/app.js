@@ -113,8 +113,8 @@ angular
       })
       .when('/cultura/nuevaactividadcultural', {
         templateUrl: 'views/cultura/nuevaactividadcultural.html',
-        controller: 'CulturaNuevaactividadculturalCtrl',
-        controllerAs: 'cultura/nuevaactividadcultural'
+        controller: 'PopupDemoCont',
+        controllerAs: 'cultura/principalcultura'
       })
 
       .otherwise({

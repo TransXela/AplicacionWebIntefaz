@@ -43,6 +43,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     });
 
     uibModalInstance.result.then(function (result) {
+      console.log("entro");
       $scope.pilotos.push(result);
     }, function () {
      console.log('Modal dismissed at: ' + new Date());
@@ -84,10 +85,10 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
 
 angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$uibModalInstance', 'options', function ($scope, $uibModalInstance, options) {
   $scope.nombre = null;
-  $scope.apellidos = null; 
-  $scope.direccion = null; 
-  $scope.nLicencia = null; 
-  $scope.tLicencia = null; 
+  $scope.apellidos = null;
+  $scope.direccion = null;
+  $scope.nLicencia = null;
+  $scope.tLicencia = null;
   $scope.telefono = null;
   $scope.correo = null;
   $scope.options = options;
@@ -110,10 +111,10 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$ui
 
 angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', '$uibModalInstance', 'options', 'piloto', function ($scope, $uibModalInstance, options, piloto) {
   $scope.nombre = piloto.nombre;
-  $scope.apellidos = piloto.apellidos; 
-  $scope.direccion = piloto.direccion; 
-  $scope.nLicencia = piloto.nLicencia; 
-  $scope.tLicencia = piloto.tLicencia; 
+  $scope.apellidos = piloto.apellidos;
+  $scope.direccion = piloto.direccion;
+  $scope.nLicencia = piloto.nLicencia;
+  $scope.tLicencia = piloto.tLicencia;
   $scope.telefono = piloto.telefono;
   $scope.correo = piloto.correo;
   $scope.options = options;
