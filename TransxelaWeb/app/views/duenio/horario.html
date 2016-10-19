@@ -8,7 +8,7 @@
       ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
     </div>
 	<label>Hora inicio</label>
-	<div uib-timepicker ng-model="horainicio" show-meridian="true" autofocus></div><br>
+	<div uib-timepicker ng-model="horainicio" show-meridian="true" autofocus max="horafin"></div><br>
 	<label>Hora fin</label>
 	<div uib-timepicker ng-model="horafin" show-meridian="true"></div>
 </div>

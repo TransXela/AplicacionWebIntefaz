@@ -16,7 +16,9 @@
     "angular-ui-grid": "^3.2.9",
     "angular-bootstrap-calendar": "^0.24.0",
     "angular-i18n": "^1.5.8",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.43"
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43",
+    "metisMenu": "^2.5.2",
+    "font-awesome": "fontawesome#^4.6.3"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

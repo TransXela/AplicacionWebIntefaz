@@ -1,20 +1,95 @@
-<div class="main-head" id="centerhead">
-    <img src="images/yeoman.png">
-    {{usuario.nombre + " " +usuario.apellidos}}
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
-      <li class="breadcrumb-item active">...</li>
-    </ol>
-</div>
-<br>
-<div id="centerbody">
-    <div>
-        <h3>Horarios</h3>
-        <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close" 
-          ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+<div id="wrapper">
+  <!-- navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+      <!-- navbar-header -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#/duenio/principal">TransXela Dueños</a>
         </div>
-        <button class="btn btn-success" ng-click="showCrear('sm')">Crear horario</button>
-        <div id="grid1" ui-grid="gridOptions" class="grid"></div>
+      <!-- close-navbar-header -->
+      <!-- navbar-top-links -->
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-user fa-fw"></i> {{duenio.nombre + " " + duenio.apellidos}} <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#/duenio/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+      <!-- close-navbar-top-links -->
+      <!-- navbar-static-side -->
+        <div class="navbar-default sidebar" role="navigation">
+          <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+              <li>
+                <a href="#/duenio/pilotos"><i class="fa fa-users fa-fw"></i> Pilotos</a>
+              </li>
+              <li>
+                <a href="#/duenio/buses"><i class="fa fa-bus fa-fw"></i> Buses</a>
+              </li>
+              <li>
+                <a href="#/duenio/horarios"><i class="fa fa-clock-o fa-fw"></i> Horarios</a>
+              </li>
+              <li>
+                <a href="#/duenio/calendario"><i class="fa fa-calendar fa-fw"></i> Calendario</a>
+              </li>
+              <li>
+                <a href="#/duenio/estadisticas"><i class="fa fa-info fa-fw"></i> Estadísticas</a>
+              </li>
+            </ul>
+          </div>
+          <!-- /.sidebar-collapse -->
+        </div>
+      <!-- close-navbar-static-side -->
+    </nav>
+  <!-- close-navigation -->
+  <div id="page-wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Horarios</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+          <li class="breadcrumb-item active">Horarios</li>
+        </ol>
+      </div>
+      <!-- /.col-lg-12 -->
     </div>
+      <!-- /.row -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <button class="btn btn-success" href ng-click="showCrear()">Crear horario</button>
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+            <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" 
+              ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+            </div>
+            <div id="grid1" ui-grid="gridOptions" class="grid"></div>
+          </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>
+      <!-- /.col-lg-8 -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /#page-wrapper -->
 </div>
+<!-- /#wrapper -->
