@@ -35,6 +35,8 @@ module.exports = function(config) {
       'bower_components/angular-ui-grid/ui-grid.min.js',
       'bower_components/moment/moment.js',
       'bower_components/angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.js',
+      'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+      'bower_components/metisMenu/dist/metisMenu.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

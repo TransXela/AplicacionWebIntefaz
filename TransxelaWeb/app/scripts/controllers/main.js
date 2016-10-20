@@ -39,9 +39,6 @@ angular.module('transxelaWebApp').controller('IniciarSesionController', ['$scope
   };
 }]);
 // -------------PRINCIPAL-----------------------------------------------------------------------------------------------------------
-
-
-
 // Sticky Header
 $(window).scroll(function() {
 
@@ -78,7 +75,4 @@ $('nav a').click(function(event) {
     }, 500);
     event.preventDefault();
 });
-
-
-
 // ---------END PRINCIPAL --------------------------------------------------------------------------------------------------

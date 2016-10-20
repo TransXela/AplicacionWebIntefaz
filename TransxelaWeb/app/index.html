@@ -12,11 +12,17 @@
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.min.css" />
     <link rel="stylesheet" href="bower_components/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.css" />
+    <link rel="stylesheet" href="bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <!-- <link rel="stylesheet" href="styles/main.css"> -->
     <!-- endbuild -->
+
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="styles/sbadmin2/sb-admin-2.css" />
+
   </head>
   <body ng-app="transxelaWebApp">
     <!--[if lte IE 8]>
@@ -25,9 +31,9 @@
 
     <!-- Add your site or application content here -->
 
-    <div class="container">
+    <!-- <div class="container"> -->
     <div ng-view=""></div>
-    </div>
+    <!-- </div> -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -57,9 +63,12 @@
     <script src="bower_components/angular-ui-grid/ui-grid.min.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.js"></script>
+    <script src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="bower_components/metisMenu/dist/metisMenu.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <script src="bower_components/angular-i18n/angular-locale_es-gt.js"></script>
+    <script src="scripts/sbadmin2/sb-admin-2.js"></script>
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
@@ -78,6 +87,11 @@
         <script src="scripts/controllers/operador/duenios.js"></script>
         <script src="scripts/controllers/operador/estadisticas.js"></script>
         <script src="scripts/controllers/operador/perfil.js"></script>
+        <script src="scripts/controllers/cultura/principalcultura.js"> </script>
         <script src="scripts/controllers/admin/lista.js"></script>
+        <script src="scripts/controllers/pmt/principal.js"></script>
+        <script src="scripts/controllers/pmt/duenios.js"></script>
+        <script src="scripts/controllers/pmt/rutas.js"></script>
+        <script src="scripts/controllers/pmt/horarios.js"></script>
         <!-- endbuild -->
 </body>
