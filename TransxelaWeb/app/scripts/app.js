@@ -109,11 +109,6 @@ angular
         controller: 'PopupDemoCont',
         controllerAs: 'cultura/principalcultura'
       })
-      .when('/cultura/nuevaactividadcultural', {
-        templateUrl: 'views/cultura/nuevaactividadcultural.html',
-        controller: 'CulturaNuevaactividadculturalCtrl',
-        controllerAs: 'cultura/nuevaactividadcultural'
-      })      
       .when('/admin/lista', {
         templateUrl: 'views/admin/lista.html',
         controller: 'AdminListaCtrl',
