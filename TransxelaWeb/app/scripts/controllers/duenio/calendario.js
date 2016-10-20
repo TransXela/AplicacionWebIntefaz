@@ -11,70 +11,47 @@
 angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($scope, $resource) {
   $scope.calendarView = 'month';
   $scope.viewDate = new Date();
-  $scope.events = [
-  {
-    title: 'Titulo del evento', // The title of the event
-    startsAt: new Date(), // A javascript date object for when the event starts
-    endsAt: new Date(), // Optional - a javascript date object for when the event ends
-    color: { // can also be calendarConfig.colorTypes.warning for shortcuts to the deprecated event types
-      primary: '#e3bc08', // the primary event color (should be darker than secondary)
-      secondary: '#fdf1ba' // the secondary event color (should be lighter than primary)
-    },
-    // actions: [{ // an array of actions that will be displayed next to the event title
-    //   label: '<i class=\'glyphicon glyphicon-pencil\'></i>', // the label of the action
-    //   cssClass: 'edit-action', // a CSS class that will be added to the action element so you can implement custom styling
-    //   onClick: function(args) { // the action that occurs when it is clicked. The first argument will be an object containing the parent event
-    //     console.log('Edit event', args.calendarEvent);
-    //   }
-    // }],
-    draggable: true, //Allow an event to be dragged and dropped
-    resizable: true, //Allow an event to be resizable
-    incrementsBadgeTotal: true, //If set to false then will not count towards the badge total amount on the month and year view
-    recursOn: 'year', // If set the event will recur on the given period. Valid values are year or month
-    cssClass: 'a-css-class-name', //A CSS class (or more, just separate with spaces) that will be added to the event when it is displayed on each view. Useful for marking an event as selected / active etc
-    allDay: false // set to true to display the event as an all day event on the day view
-  },
-  {
-    title: 'Titulo del evento 2', // The title of the event
-    startsAt: new Date(), // A javascript date object for when the event starts
-    endsAt: new Date(), // Optional - a javascript date object for when the event ends
-    color: { // can also be calendarConfig.colorTypes.warning for shortcuts to the deprecated event types
-      primary: '#e3bc08', // the primary event color (should be darker than secondary)
-      secondary: '#fdf1ba' // the secondary event color (should be lighter than primary)
-    },
-    // actions: [{ // an array of actions that will be displayed next to the event title
-    //   label: '<i class=\'glyphicon glyphicon-pencil\'></i>', // the label of the action
-    //   cssClass: 'edit-action', // a CSS class that will be added to the action element so you can implement custom styling
-    //   onClick: function(args) { // the action that occurs when it is clicked. The first argument will be an object containing the parent event
-    //     console.log('Edit event', args.calendarEvent);
-    //   }
-    // }],
-    draggable: true, //Allow an event to be dragged and dropped
-    resizable: true, //Allow an event to be resizable
-    incrementsBadgeTotal: true, //If set to false then will not count towards the badge total amount on the month and year view
-    recursOn: 'year', // If set the event will recur on the given period. Valid values are year or month
-    cssClass: 'a-css-class-name', //A CSS class (or more, just separate with spaces) that will be added to the event when it is displayed on each view. Useful for marking an event as selected / active etc
-    allDay: false // set to true to display the event as an all day event on the day view
-  }
-  ];
-  var resource = $resource('http://127.0.0.1:8000/duenio/1/horarios');
-  $scope.horarios = resource.query(function() {
-    $scope.primero = $scope.horarios[3];
-    $scope.segundo = $scope.horarios[2];
-    $scope.hora_minutosI = $scope.primero.horainicio.split(":");
-    $scope.hora_minutosF = $scope.primero.horafin.split(":");
-
-    $scope.hora_minutosI2 = $scope.segundo.horainicio.split(":");
-    $scope.hora_minutosF2 = $scope.segundo.horafin.split(":");
-    $scope.events[0].startsAt.setHours($scope.hora_minutosI[0]);
-    $scope.events[0].startsAt.setMinutes($scope.hora_minutosI[1]);
-    $scope.events[0].endsAt.setHours($scope.hora_minutosF[0]);
-    $scope.events[0].endsAt.setMinutes($scope.hora_minutosF[1]);
-
-    $scope.events[1].startsAt.setHours($scope.hora_minutosI2[0]);
-    $scope.events[1].startsAt.setMinutes($scope.hora_minutosI2[1]);
-    $scope.events[1].endsAt.setHours($scope.hora_minutosF2[0]);
-    $scope.events[1].endsAt.setMinutes($scope.hora_minutosF2[1]);
+  var colors = [{primary: '#e3bc08', secondary: '#fdf1ba'},
+  {primary: '#1e90ff', secondary: '#d1e8ff'},
+  {primary: '#ad2121', secondary: '#fae3e3'},
+  {primary: '#3db048', secondary: '#e3faeb'},
+  {primary: '#adabab', secondary: '#bcbaba'}];
+  $scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.events = [];
+  var resource = $resource($scope.apiurl+'/duenio/1/horariosdetalle');
+  var respuesta = resource.get(function() {
+    $scope.duenio = {"nombre":respuesta.duenio.nombre, "apellidos": respuesta.duenio.apellidos};
+    var horariosdetalle = respuesta.diasHorarioDetalle;
+    var colorIndex = 0;
+    for(var i = 0; i < horariosdetalle.length; i++) {
+      if(colorIndex>4){
+        colorIndex = 0;
+      }
+      var fechasplit = horariosdetalle[i].fecha.split("-");
+      var fInicio = new Date("March 20, 2009 00:00:00");
+      var fFin = new Date("March 20, 2009 00:00:00");
+      fInicio.setFullYear(fechasplit[0], parseInt(fechasplit[1])-1, fechasplit[2]);
+      fFin.setFullYear(fechasplit[0], parseInt(fechasplit[1])-1, fechasplit[2]);
+      var hora_minutosI =  horariosdetalle[i].horario.horainicio.split(":");
+      var hora_minutosF =  horariosdetalle[i].horario.horafin.split(":");
+      fInicio.setHours(hora_minutosI[0]);
+      fInicio.setMinutes(hora_minutosI[1]);
+      fFin.setHours(hora_minutosF[0]);
+      fFin.setMinutes(hora_minutosF[1]);
+      $scope.events.push({
+        title: horariosdetalle[i].chofer.nombre + " " + horariosdetalle[i].chofer.apellidos + " / " + horariosdetalle[i].bus.marca + " " + horariosdetalle[i].bus.placa,
+        startsAt: fInicio,
+        endsAt: fFin,
+        color: colors[colorIndex],
+        draggable: true,
+        resizable: true,
+        incrementsBadgeTotal: true,
+        recursOn: 'year',
+        cssClass: 'a-css-class-name',
+        allDay: false
+      });
+      colorIndex +=1;
+    }
   });
 
 });
