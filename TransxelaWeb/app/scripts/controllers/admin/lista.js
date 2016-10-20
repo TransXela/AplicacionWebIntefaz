@@ -8,11 +8,12 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminListaCtrl', ['$scope', '$interval', 'uiGridConstants', '$http', function ($scope, $interval, uiGridConstants, $http) {
+  .controller('AdminListaCtrl', ['$scope', '$interval', '$log', '$timeout', 'uiGridConstants', '$http', function ($scope, $interval, $log, $timeout, uiGridConstants, $http) {
 
     var data = [];
 
     $scope.gridOptions = {
+
         showGridFooter: true,
         showColumnFooter: true,
         enableFiltering: true,
