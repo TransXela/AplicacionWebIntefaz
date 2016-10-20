@@ -114,6 +114,26 @@ angular
         controller: 'AdminListaCtrl',
         controllerAs: 'admin/lista'
       })
+      .when('/pmt/principal', {
+        templateUrl: 'views/pmt/principal.html',
+        controller: 'PmtPrincipalCtrl',
+        controllerAs: 'pmt/principal'
+      })
+      .when('/pmt/duenios', {
+        templateUrl: 'views/pmt/duenios.html',
+        controller: 'PmtDueniosCtrl',
+        controllerAs: 'pmt/duenios'
+      })
+      .when('/pmt/rutas', {
+        templateUrl: 'views/pmt/rutas.html',
+        controller: 'PmtRutasCtrl',
+        controllerAs: 'pmt/rutas'
+      })
+      .when('/pmt/horarios', {
+        templateUrl: 'views/pmt/horarios.html',
+        controller: 'PmtHorariosCtrl',
+        controllerAs: 'pmt/horarios'
+      })
       .otherwise({
         redirectTo: '/'
       });
