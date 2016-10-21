@@ -39,6 +39,7 @@ angular.module('transxelaWebApp')
         // data.forEach( function(row) {
         //   row.registered = Date.parse(row.registered);
         // });
+
         $scope.gridOptions.data = data;
       });
 

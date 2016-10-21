@@ -3,5 +3,6 @@
   {"id":"2", "nombre":"Carlos Henry", "apellido":"Aceituno Gerra", "tipo":"administrador", "estado":"activo", "telefono":"12345678"},
   {"id":"3", "nombre":"Hugo Jose", "apellido":"Ovando del Cid", "tipo":"administrador", "estado":"inactivo", "telefono":"12345678"},
   {"id":"4", "nombre":"Alex Vicente", "apellido":"Vazquel Delgado", "tipo":"administrador", "estado":"activo", "telefono":"12345678"},
-  {"id":"5", "nombre":"Luis Figo", "apellido":"Sanchez Maldonado", "tipo":"administrador", "estado":"inactivo", "telefono":"12345678"}
+  {"id":"5", "nombre":"Luis Figo", "apellido":"Sanchez Maldonado", "tipo":"administrador", "estado":"inactivo", "telefono":"12345678"},
+  {"id":"5", "nombre":"Luis Figo", "apellido":"Sanchez Maldonado", "tipo":"pmt", "estado":"inactivo", "telefono":"12345678"}
 ]
