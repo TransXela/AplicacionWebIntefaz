@@ -1,34 +1,31 @@
 <div id="wrapper">
-  <!-- navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-      <!-- navbar-header -->
-        <div class="navbar-header">
+  <!--Principal barra de navegacion y estructura-->
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+      <!-- navbar-Encabezado -->
+      <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
-        </div>
-      <!-- close-navbar-header -->
-      <!-- navbar-top-links -->
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
+        <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
+      </div>
+      <!-- navbar-FinEncabezado -->
+      <!-- navbar cerrar sesion y menu superior derecho -->
+      <ul class="nav navbar-top-links navbar-right">
+        <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
+                  <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
                     </li>
                 </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
-        </ul>
-      <!-- close-navbar-top-links -->
-      <!-- navbar-static-side -->
-        <div class="navbar-default sidebar" role="navigation">
+          </li>
+      </ul>
+      <!-- navbar-barra lateral-->
+      <div class="navbar-default sidebar" role="navigation">
           <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
               <li>
@@ -42,11 +39,9 @@
               </li>
             </ul>
           </div>
-          <!-- /.sidebar-collapse -->
-        </div>
-      <!-- close-navbar-static-side -->
-    </nav>
-  <!-- close-navigation -->
+      </div>
+  </nav>
+  <!--Fin estilo principal por defecto-->
   <div id="page-wrapper">
     <div class="row">
       <div class="col-lg-12">
@@ -56,11 +51,10 @@
           <li class="breadcrumb-item active">Dueños</li>
         </ol>
       </div>
-      <!-- /.col-lg-12 -->
     </div>
-
     <div class="row">
       <div class="col-md-5">
+        <!--Lista de dueños, obteniendo inforamcion de API-->
           <div class="panel panel-default">
               <div class="panel-heading">
                 <button type="button" class="btn btn-success" ng-click="showDuenio()">
@@ -68,76 +62,63 @@
                   Agregar</button>
                 <i class="fa fa-clock-o fa-fw"></i> Listado de Dueños
               </div>
-              <!-- /.panel-heading -->
               <div class="panel-body">
-
                   <div class="list-group">
-                      <a ng-click="showDetalle(duenio)" class="list-group-item" ng-repeat="duenio in listado">
-                          <i class="fa fa-users fa-fw"></i> {{duenio.nombre+" "+duenio.apellidos}}
-                          <span class="pull-right text-muted small"><em>{{duenio.codigo}}</em>
-                          </span>
-                      </a>
+                      <a class="list-group-item" href="javascript:void(0)" ng-repeat="duenio in listado" ng-click="showDetalle(duenio)">
+            								 			<i class="fa fa-user fa-fw"></i>
+            											<h4 class="list-group-item-heading">{{duenio.nombre+" "+duenio.apellidos}}</h4>
+            											<p class="list-group-item-text">{{duenio.direccion}}</p>
+            					</a>
                   </div>
               </div>
-              <!-- /.panel-body -->
           </div>
-          <!-- /.panel -->
+      <!--Lista de dueños, obteniendo inforamcion de API-->
       </div>
+      <!--Detalle de dueño seleccionado, obteniendo inforamcion de API-->
       <div class="col-md-7">
-       <!-- /.panel -->
-       <div class="panel panel-default">
-           <div class="panel-heading">
+        <div class="panel panel-default">
+            <div class="panel-heading">
                <i class="fa fa-clock-o fa-fw"></i> Detalle de informacion
            </div>
-           <!-- /.panel-heading -->
-           <div class="panel-body">
-             <div class="form-group">
+            <div class="panel-body">
+              <div class="form-group">
                <label class="col-sm-2 control-label" for="formGroupInputLarge">Nombre:</label>
                <div class="col-sm-10">
                  <p class="form-control-static">{{mostrar.nombre+" "+mostrar.apellidos}}</p>
                </div>
              </div>
-             <div class="form-group">
+              <div class="form-group">
                <label class="col-sm-2 control-label" for="formGroupInputLarge">Dirección:</label>
                <div class="col-sm-10">
                  <p class="form-control-static">{{mostrar.direccion}}</p>
                </div>
              </div>
-             <div class="form-group">
+              <div class="form-group">
                <label class="col-sm-2 control-label" for="formGroupInputLarge">Telefono:</label>
                <div class="col-sm-10">
                  <p class="form-control-static">{{mostrar.telefono}}</p>
                </div>
              </div>
-             <div class="form-group">
+              <div class="form-group">
                <label class="col-sm-2 control-label" for="formGroupInputLarge">Codigo:</label>
                <div class="col-sm-10">
                  <p class="form-control-static">{{mostrar.idduenio}}</p>
                </div>
              </div>
-             <div class="form-group">
+              <div class="form-group">
                <label class="col-sm-2 control-label" for="formGroupInputLarge">Estado:</label>
                <div class="col-sm-10">
                  <p class="form-control-static">{{mostrar.estado}}</p>
                </div>
              </div>
-             <a class="btn btn-primary pull-right" ng-click="showVerModificar(mostrar.idduenio)">
+              <a class="btn btn-primary pull-right" ng-click="showVerModificar(mostrar.idduenio)">
                   <i class="fa fa-pencil"></i>
                     Editar
                 </a>
            </div>
-           <!-- /.panel-body -->
-       </div>
-       <!-- /.panel -->
+        </div>
       </div>
-          <!-- /.panel -->
-      </div>
-
+      <!--Detalle de dueño seleccionado, obteniendo inforamcion de API-->
     </div>
-    <!-- /.row -->
-
-    <!-- /.row -->
   </div>
-  <!-- /#page-wrapper -->
 </div>
-<!-- /#wrapper -->

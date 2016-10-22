@@ -1,7 +1,8 @@
 [
-  {"id":"1", "nombre":"Jose", "tipo":"administrador", "estado":"activo", "telefono":"12345678"},
-  {"id":"2", "nombre":"Carlos", "tipo":"administrador", "estado":"activo", "telefono":"12345678"},
-  {"id":"3", "nombre":"Hugo", "tipo":"administrador", "estado":"inactivo", "telefono":"12345678"},
-  {"id":"4", "nombre":"Alex", "tipo":"administrador", "estado":"activo", "telefono":"12345678"},
-  {"id":"5", "nombre":"Luis", "tipo":"administrador", "estado":"inactivo", "telefono":"12345678"}
+  {"id":"1", "nombre":"Jose Arevalo", "apellido":"Guzman Boj", "tipo":"administrador", "estado":"1", "telefono":"12345678"},
+  {"id":"2", "nombre":"Carlos Henry", "apellido":"Aceituno Gerra", "tipo":"administrador", "estado":"1", "telefono":"12345678"},
+  {"id":"3", "nombre":"Hugo Jose", "apellido":"Ovando del Cid", "tipo":"administrador", "estado":"0", "telefono":"12345678"},
+  {"id":"4", "nombre":"Alex Vicente", "apellido":"Vazquel Delgado", "tipo":"administrador", "estado":"1", "telefono":"12345678"},
+  {"id":"5", "nombre":"Luis Figo", "apellido":"Sanchez Maldonado", "tipo":"dueño", "estado":"0", "telefono":"12345678"},
+  {"id":"5", "nombre":"Luis Figo", "apellido":"Sanchez Maldonado", "tipo":"pmt", "estado":"1", "telefono":"12345678"}
 ]
