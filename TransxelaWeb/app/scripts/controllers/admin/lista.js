@@ -59,6 +59,7 @@ angular.module('transxelaWebApp')
     };
 
     $scope.gridOptions.columnDefs[0].visible = false;
+    $scope.gridOptions.columnDefs[3].visible = false;
     $scope.gridOptions.columnDefs[4].visible = false;
 
     $http.get('http://localhost:9000/json/lista.json')
