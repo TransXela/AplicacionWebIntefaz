@@ -164,6 +164,11 @@ angular
         controller: 'AdminListaculCtrl',
         controllerAs: 'admin/listacul'
       })
+      .when('/admin/usuariosdes', {
+        templateUrl: 'views/admin/usuariosdes.html',
+        controller: 'AdminUsuariosdesCtrl',
+        controllerAs: 'admin/usuariosdes'
+      })
       .otherwise({
         redirectTo: '/'
       });
