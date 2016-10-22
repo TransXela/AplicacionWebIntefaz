@@ -7,5 +7,5 @@
   {"id":"6", "nombre":"Alexander Huva", "apellido":"Calderon Campos", "tipo":"dueño", "estado":"1", "telefono":"12345678"},
   {"id":"7", "nombre":"Daniel Pablo", "apellido":"Rivera Siguienza", "tipo":"pmt", "estado":"0", "telefono":"12345678"},
   {"id":"8", "nombre":"Paco Nestor", "apellido":"Toc Pocoy", "tipo":"pmt", "estado":"1", "telefono":"12345678"},
-  {"id":"9", "nombre":"Maria Damiela", "apellido":"Pander Mendoza", "tipo":"dueño", "estado":"1", "telefono":"12345678"}
+  {"id":"9", "nombre":"Maria Damiela", "apellido":"Pander Mendoza", "tipo":"cultura", "estado":"1", "telefono":"12345678"}
 ]
