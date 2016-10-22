@@ -8,7 +8,7 @@
  * Controller of the transxelaWebApp
  */
 
-angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, $resource, $uibModal, $location) {
+angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, $resource, $uibModal) {
   $scope.idduenio = 1;
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
@@ -28,10 +28,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     uibModalInstance.result.then(function (result) {
       $scope.pilotos.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Piloto creado exitosamente"});
-    }, function (status) {
-      if(status === 'error'){
-        $location.url('/404');
-      }
+    }, function () {
     });
   };
 
@@ -53,10 +50,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     uibModalInstance.result.then(function (result) {
       $scope.pilotos[$scope.index] = result;
       $scope.alertas.push({"tipo":"success", "mensaje": "Piloto modificado exitosamente"});
-    }, function (status) {
-      if(status === 'error'){
-        $location.url('/404');
-      }
+    }, function () {
     });
   };
 
@@ -72,7 +66,6 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
   $scope.gridOptions = {};
   var resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/pilotos');
   var query = resource.get(function(){
-    $scope.duenio = {"nombre":query.nombre, "apellidos": query.apellidos};
     $scope.pilotos = query.choferes;
     $scope.gridOptions.data = $scope.pilotos;
     $scope.gridOptions.enableFiltering = true;
@@ -83,23 +76,20 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
       {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver detalles</button></div>', enableFiltering: false}
       ];
-    }, function(response) {
-      $location.url('/404');
   });
-
   $scope.mapearEstado = function(estado) {
-    return estado ? 'Habilitado' : 'Deshabilitado';
+            return estado ? 'Habilitado' : 'Deshabilitado';
   };
 
 });
 
-angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$http', '$uibModalInstance','options', 'idduenio', function ($scope, $http, $uibModalInstance, options, idduenio) {
+angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$http', '$uibModalInstance', 'options', 'idduenio', function ($scope, $http, $uibModalInstance, options, idduenio) {
   $scope.nombre = null;
-  $scope.apellidos = null;
-  $scope.dpi = null;
-  $scope.direccion = null;
-  $scope.licencia = null;
-  $scope.tipolicencia = null;
+  $scope.apellidos = null; 
+  $scope.dpi = null; 
+  $scope.direccion = null; 
+  $scope.licencia = null; 
+  $scope.tipolicencia = null; 
   $scope.telefono = null;
   $scope.correo = null;
   $scope.estado = "1";
@@ -115,9 +105,6 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$ht
     res.success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
     });
-    res.error(function(data, status, headers, config) {
-      $uibModalInstance.dismiss('error');
-    });
   };
 
   $scope.cancel = function () {
@@ -127,11 +114,11 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$ht
 
 angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', '$resource', '$uibModalInstance', 'options', 'piloto', function ($scope, $resource, $uibModalInstance, options, piloto) {
   $scope.nombre = piloto.nombre;
-  $scope.apellidos = piloto.apellidos;
-  $scope.dpi = parseInt(piloto.dpi);
-  $scope.direccion = piloto.direccion;
-  $scope.licencia = piloto.licencia;
-  $scope.tipolicencia = piloto.tipolicencia;
+  $scope.apellidos = piloto.apellidos; 
+  $scope.dpi = parseInt(piloto.dpi); 
+  $scope.direccion = piloto.direccion; 
+  $scope.licencia = piloto.licencia; 
+  $scope.tipolicencia = piloto.tipolicencia; 
   $scope.telefono = piloto.telefono;
   $scope.correo = piloto.correo;
   $scope.estado = String(piloto.estado);
@@ -146,11 +133,10 @@ angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope
     }).$promise.then(function(data) {
       $uibModalInstance.close(data, 500);
     }, function(error) {
-        $uibModalInstance.dismiss('error');
     });
   };
 
   $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
+      $uibModalInstance.dismiss('cancel');
   };
 }]);

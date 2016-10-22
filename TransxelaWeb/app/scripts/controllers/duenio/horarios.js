@@ -7,7 +7,7 @@
  * # DuenioHorariosCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, $resource, $uibModal, $location) {
+angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, $resource, $uibModal) {
   $scope.idduenio = 1;
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
@@ -28,10 +28,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
     uibModalInstance.result.then(function (result) {
       $scope.horarios.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Horario creado exitosamente"});
-    }, function (status) {
-      if(status === 'error'){
-        $location.url('/404');
-      }
+    }, function () {
     });
   };
 
@@ -60,15 +57,12 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
         $scope.horarios.splice($scope.index,1);
         $scope.alertas.push({"tipo":"success", "mensaje": "Horario eliminado exitosamente"});
       }
-      else if(status ==='notdeleted'){
+      else if(status ==='error'){
        $scope.alertas.push({"tipo":"danger", "mensaje": "Imposible eliminar el horario"});
       }
-      else if(status === 'error'){
-          $location.url('/404');
-        }
     });
   };
-
+  
   $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
     for(var i = 0; i < array.length; i++) {
         if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
@@ -96,8 +90,6 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
       {name:'Hora fin',field:'horafin', cellFilter: 'date:\'hh:mm a\''},
       {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idhorario, \'sm\')">Ver detalles</button></div>'}
       ];
-  }, function(response) {
-    $location.url('/404');
   });
 });
 
@@ -113,13 +105,8 @@ angular.module('transxelaWebApp').controller('CrearHController', ['$scope', '$ht
       $uibModalInstance.close({horainicio: $scope.horainicio, horafin: $scope.horafin,
         duenio: idduenio, idhorario: data.idhorario}, 500);
     });
-    res.error(function(response, status, headers, config) {
-      if(response != null && response.crear != null) {
-        $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
-      }
-      else{
-        $uibModalInstance.dismiss('error');
-      }
+    res.error(function(data, status, headers, config) {
+      $scope.alertas.push({"tipo":"warning", "mensaje": data.crear.estado});
     });
   };
 
@@ -146,13 +133,9 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
         horainicio: $scope.horainicio,
         horafin: $scope.horafin
       }, 500);
-    }, function(response) {
-        if(response != null && response.data != null) {
-          $scope.alertas.push({"tipo":"warning", "mensaje": response.data.modificar.estado});
-        }
-        else{
-          $uibModalInstance.dismiss('error');
-        }
+    }, function(error) {
+      console.log(error);
+      $scope.alertas.push({"tipo":"warning", "mensaje": error.data.modificar.estado});
     });
   };
 
@@ -164,13 +147,8 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
     var resource = $resource(options.apiurl+'/duenio/horario/' + horario.idhorario);
     resource.delete().$promise.then(function() {
       $uibModalInstance.dismiss('success');
-    }, function(response) {
-      if(response != null && response.data != null) {
-        $uibModalInstance.dismiss('notdeleted');
-      }
-      else{
-        $uibModalInstance.dismiss('error');
-      }
+    }, function() {
+      $uibModalInstance.dismiss('error');
     });
   };
 
