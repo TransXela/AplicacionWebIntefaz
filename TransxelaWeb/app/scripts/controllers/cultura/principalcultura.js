@@ -9,26 +9,11 @@
  */
  // Create an application module for our demo.
 angular.module('transxelaWebApp').controller('PopupDemoCont' ,function ($scope, $uibModal) {
- $scope.actividades=[{
-   "idActividad":1,
-   "NombreActividad": "Sinfonica nacional",
-   "DescripcionActividad":"la Sinfonica nacional se presenta",
-   "LugarActividad" : "Teatro municipal",
-   "DateActividad" :"12/12/12",
-   "LatActividad": "-34.397",
-   "LngActividad": "150.644",
-   "Estado": 1
- },
- {
-   "idActividad":1,
-   "NombreActividad": "ballet nacional",
-  "DescripcionActividad":"el ballet nacional se presenta",
-   "LugarActividad" : "Teatro municipal",
-   "DateActividad" :"11/12/15",
-   "LatActividad": "-34.397",
-   "LngActividad": "150.644",
-   "Estado": 1
- }];
+  $scope.alertas = [];
+  $scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.idActividad=1;
+  $scope.alertas=[];
+
 
 $scope.CrearNuevaAct = function () {
    var uibModalInstance = $uibModal.open({
@@ -36,17 +21,21 @@ $scope.CrearNuevaAct = function () {
     controller:'PopupCont',
       resolve: {
         options: function () {
-          return {"titleAct": "Crear Actividad", "boton" :"Crear"};
-        }
+          return {"titleAct": "Crear Actividad", "boton" :"Crear", "apiurl": $scope.apiurl};
+        },
+         idActividad:function(){
+           return $scope.idActividad;
+         }
       }
     });
 
 
 
 
-    uibModalInstance.result.then(function (result) {
+      uibModalInstance.result.then(function (result) {
       console.log("entro");
       $scope.actividades.push(result);
+      $scope.alertas.push({"tipo":"success", "mensaje": "Actividad ingresada exitosamente"});
     }, function () {
      console.log('Modal dismissed at: ' + new Date());
     });
@@ -88,28 +77,39 @@ $scope.CrearNuevaAct = function () {
 
 
 
-angular.module('transxelaWebApp').controller('PopupCont', ['$scope','$uibModalInstance','options',function ($scope, $uibModalInstance, options) {
+angular.module('transxelaWebApp').controller('PopupCont', ['$scope','$http','$uibModalInstance','options',function ($scope, $http, $uibModalInstance, options) {
   console.log($scope.NombreActividad);
-  $scope.NombreActividad = null;
-  $scope.DescripcionActividad = null;
-  $scope.LugarActividad = null;
-  $scope.DateActividad = null;
-  $scope.LatActividad = null;
-  $scope.LngActividad = null;
+  $scope.nombre = null;
+  $scope.descripcion = null;
+  $scope.fecha = null;
+  $scope.lugar = null;
+  $scope.latitud = null;
+  $scope.longitud = null;
+  $scope.direccion= null;
+  $scope.estado="true";
   $scope.options= options;
 $scope.close = function () {
-  $uibModalInstance.close({
-    NombreActividad: $scope.NombreActividad,
-    DescripcionActividad: $scope.DescripcionActividad,
-    LugarActividad: $scope.LugarActividad,
-    DateActividad: $scope.DateActividad,
-    LatActividad: $scope.LatActividad,
-    LngActividad: $scope.LngActividad,
-  }, 500);
+  console.log({
+        nombre: $scope.nombre, descripcion: $scope.descripcion,
+        fecha: $scope.fecha, lugar: $scope.lugar,
+        latitud: $scope.latitud, longitud:$scope.longitud,
+        direccion: $scope.direccion, estado: $scope.estado
+  } );
+  var res= $http.post(options.apiurl+'/cultura/actividad/', {
+        nombre: $scope.nombre, descripcion: $scope.descripcion,
+        fecha: $scope.fecha, lugar: $scope.lugar,
+        latitud: $scope.latitud, longitud:$scope.longitud,
+        direccion: $scope.direccion, estado: $scope.estado
+  }  );
+    res.success(function(data, status, headers, config){
+      $uibModalInstance.close(data,500);
+    });
+    res.error(function(data, status, headers, config) {
+      });
 };
 $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
-};
+    };
 }]);
 
 
