@@ -15,6 +15,32 @@ angular.module('transxelaWebApp').controller('PopupDemoCont' ,function ($scope, 
   $scope.alertas=[];
 
 
+  $scope.today = function() {
+    $scope.fecha = new Date();
+  };
+  $scope.today();
+  $scope.clear = function() {
+    $scope.fecha = null;
+  };
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    maxDate: new Date(2020, 5, 22),
+    minDate: new Date(),
+    startingDay: 0
+  };
+  $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
+  $scope.setDate = function(year, month, day) {
+    $scope.fecha = new Date(year, month, day);
+  };
+
+  $scope.popup1 = {
+    opened: false
+  };
+
+
 $scope.CrearNuevaAct = function () {
    var uibModalInstance = $uibModal.open({
     templateUrl: 'views/cultura/nuevaactividadcultural.html',
