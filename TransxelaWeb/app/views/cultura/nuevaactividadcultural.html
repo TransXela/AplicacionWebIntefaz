@@ -6,31 +6,21 @@
 </div>
 <div class="modal-body">
 	<label>Nombre de la actividad:</label>
-	<input type="text" class="form-control" id="NombreAct" placeholder="Nombre de Actividad" ng-model="NombreActividad" autofocus><br>
+	<input type="text" class="form-control" id="NombreAct" placeholder="Nombre de Actividad" ng-model="nombre" autofocus><br>
 	<label>Descripcion:</label>
-	<input type="text" class="form-control" id="DescripcionAct" placeholder="Descripcion de Actividad" ng-model="DescripcionActividad"><br>
+	<input type="text" class="form-control" id="DescripcionAct" placeholder="Descripcion de Actividad" ng-model="descripcion"><br>
 	<label>Lugar:</label>
-	<input type="text" class="form-control" id="LugarAct" placeholder="Lugar de Actividad" ng-model="LugarActividad"><br>
+	<input type="text" class="form-control" id="LugarAct" placeholder="Lugar de Actividad" ng-model="lugar"><br>
+	<label>Direccion:</label>
+	<input type="text" class="form-control" id="DescripcionAct" placeholder="Descripcion de Actividad" ng-model="direccion"><br>
 	<label>Fecha:</label>
-  <div class="container">
-     <div class="row">
-         <div class='col-sm-6'>
-             <div class="form-group">
-                 <div class='input-group date' id='datetimepicker1'>
-                     <input type='text' class="form-control" ng-model="DateActividad"/>
-                     <span class="input-group-addon">
-                         <span class="glyphicon glyphicon-calendar"></span>
-                     </span>
-                 </div>
-             </div>
-         </div>
-         <script type="text/javascript">
-             $(function () {
-                 $('#datetimepicker1').datetimepicker();
-             });
-         </script>
-     </div>
- </div>
+	<p class="input-group">
+		<input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
+		<span class="input-group-btn">
+			<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+		</span>
+	</p>
+
 	<label>Seleccionar Ubicacion</label>
 <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 Ubicacion
@@ -38,10 +28,14 @@ Ubicacion
 <div class="collapse" id="collapseExample">
 
 	<div class="well">
+		<input type="hidden" id="lati"  ng-model="latitud">
+		<input type="hidden" id="lngi"  ng-model="longitud">
 
   <div id="map" style="width:100%;height:500px"></div>
 
 	<script>
+     var lat;
+		 var long;
 			function initMap() {
 				// Create a map object and specify the DOM element for display.
 
@@ -53,11 +47,13 @@ Ubicacion
 				});
 				 		map.addListener('click' , function(e){
 					 	placeMarkerAndPanTo(e.latLng,map);
-            var lat= e.latLng.lat();
-						var lng= e.latLng.lng();
-						document.getElementsByName("lat").value = lat;
-						document.getElementsByName("lng").value= lng;
+             lat= e.latLng.lat();
+						 lng= e.latLng.lng();
+						document.getElementsByName("lati").value = lat;
+						document.getElementsByName("lngi").value= lng;
 				 });
+
+
 	  		} //Google maps
 				function placeMarkerAndPanTo(latLng, map) {
 					var marker = new google.maps.Marker({
@@ -74,12 +70,11 @@ Ubicacion
 
 
 
-     <input type="hidden" ng-model="Latitud"  value="">
+
+
 
   </div>
 </div>
- <input type="hidden" name="lat"  ng-model="LatActividad">
- <input type="hidden" name="lng"  ng-model="LngActividad">
 </div>
 
 
