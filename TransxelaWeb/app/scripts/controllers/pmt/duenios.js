@@ -10,7 +10,7 @@
 
 angular.module('transxelaWebApp')
   .controller('PmtDueniosCtrl', function ($scope, $uibModal, $resource) {
-
+  $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.showDuenio = function () {
     var uibModalInstance = $uibModal.open({
@@ -24,8 +24,37 @@ angular.module('transxelaWebApp')
     });
     uibModalInstance.result.then(function (result) {
       $scope.listado.push(result);
+      $scope.alertas.push({"tipo":"success", "mensaje": "Dueño creado exitosamente"});
     }, function () {
     });
+  };
+
+
+  $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
+    for(var i = 0; i < array.length; i++) {
+        if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
+            return i;
+        }
+    }
+    return -1;
+  };
+
+  $scope.gridOptions = {};
+  var resource = $resource($scope.apiurl+'/pmt/duenio/');
+  var query = resource.query(function(){
+    $scope.listado = query;
+    $scope.gridOptions.data = $scope.listado;
+    $scope.showDetalle($scope.gridOptions.data[0]);
+    $scope.gridOptions.enableFiltering = true;
+    $scope.gridOptions.columnDefs = [
+      {name:'Nombre',field:'nombre'},
+      {name:'Apellidos',field:'apellidos'},
+      {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
+      {name:'Detalles',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showDetalle(row.entity)">Ver detalles</button></div>', enableFiltering: false}
+      ];
+  });
+  $scope.mapearEstado = function(estado) {
+            return estado ? 'Habilitado' : 'Deshabilitado';
   };
   $scope.showVerModificar = function (idduenio) {
     var uibModalInstance = $uibModal.open({
@@ -41,42 +70,17 @@ angular.module('transxelaWebApp')
         }
       }
     });
-
     uibModalInstance.result.then(function (result) {
       $scope.listado[$scope.index] = result;
+      $scope.alertas.push({"tipo":"success", "mensaje": "Dueño modificado exitosamente"});
     }, function () {
     });
   };
-
-  var resource = $resource($scope.apiurl+'/pmt/duenio');
-  var query = resource.query(function(){
-
-    $scope.listado = query;
-
-  });
-
   $scope.showDetalle = function(duenio) {
     $scope.mostrar = duenio;
 
   };
-
-  $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
-    for(var i = 0; i < array.length; i++) {
-        if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
-            return i;
-        }
-    }
-    return -1;
-  };
-
-
-
   });
-
-
-
-
-
 
   angular.module('transxelaWebApp').controller('CrearDController', ['$scope', '$http', '$uibModalInstance', 'options', function ($scope, $http, $uibModalInstance, options) {
     $scope.nombre = null;
@@ -103,12 +107,10 @@ angular.module('transxelaWebApp')
         console.log(data);
       });
     };
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
   }]);
-
 
   angular.module('transxelaWebApp').controller('VerModificarDController', ['$scope', '$resource', '$uibModalInstance', 'options', 'duenio', function ($scope, $resource, $uibModalInstance, options, duenio) {
     $scope.nombre = duenio.nombre;
@@ -133,7 +135,6 @@ angular.module('transxelaWebApp')
         console.log(error);
       });
     };
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
