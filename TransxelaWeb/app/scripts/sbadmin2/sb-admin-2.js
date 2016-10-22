@@ -1,5 +1,7 @@
 $(function() {
-    $('#side-menu').metisMenu();
+    $('#side-menu').metisMenu({
+        toggle: false
+    });
 });
 
 //Loads the correct sidebar on window load,
