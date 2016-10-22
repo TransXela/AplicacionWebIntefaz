@@ -20,8 +20,13 @@ angular.module('transxelaWebApp')
       }
     };
 
+
+
     $scope.gridOptions = {
       enableFiltering: true,
+      showGridFooter: true,
+      showColumnFooter: true,
+
       onRegisterApi: function(gridApi){
         $scope.gridApi = gridApi;
       },
@@ -34,12 +39,7 @@ angular.module('transxelaWebApp')
 
         { field: 'apellido', headerCellClass: $scope.highlightFilteredHeader },
 
-        { field: 'tipo', filter: {
-            term: '1',
-            type: uiGridConstants.filter.SELECT,
-            selectOptions: [ { value: '1', label: 'administrador' }]
-          },
-          cellFilter: 'mapGender', headerCellClass: $scope.highlightFilteredHeader },
+        { field: 'tipo', headerCellClass: $scope.highlightFilteredHeader },
 
         { field: 'estado', filter: {
             term: '1',
@@ -62,8 +62,6 @@ angular.module('transxelaWebApp')
 
 
         data.forEach( function addDates( row, index ){
-
-          row.tipo = row.tipo==='administrador' ? '1' : '2';
           row.estado = row.estado==='1' ? '1' : '2';
         });
       });
@@ -88,21 +86,6 @@ angular.module('transxelaWebApp')
       return '';
     } else {
       return genderHash2[input];
-    }
-  };
-})
-
-  .filter('mapGender', function() {
-  var genderHash = {
-    1: 'administrador',
-    2: 'pmt',
-  };
-
-  return function(input) {
-    if (!input){
-      return '';
-    } else {
-      return genderHash[input];
     }
   };
 });

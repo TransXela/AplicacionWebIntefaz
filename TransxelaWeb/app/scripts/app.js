@@ -149,6 +149,11 @@ angular
         controller: 'AdminUsuariosCtrl',
         controllerAs: 'admin/usuarios'
       })
+      .when('/admin/listapmt', {
+        templateUrl: 'views/admin/listapmt.html',
+        controller: 'AdminListapmtCtrl',
+        controllerAs: 'admin/listapmt'
+      })
       .otherwise({
         redirectTo: '/'
       });
