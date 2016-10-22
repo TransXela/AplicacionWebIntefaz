@@ -134,6 +134,21 @@ angular
         controller: 'PmtHorariosCtrl',
         controllerAs: 'pmt/horarios'
       })
+      .when('/admin/perfil', {
+        templateUrl: 'views/admin/perfil.html',
+        controller: 'AdminPerfilCtrl',
+        controllerAs: 'admin/perfil'
+      })
+      .when('/admin/principal', {
+        templateUrl: 'views/admin/principal.html',
+        controller: 'AdminPrincipalCtrl',
+        controllerAs: 'admin/principal'
+      })
+      .when('/admin/usuarios', {
+        templateUrl: 'views/admin/usuarios.html',
+        controller: 'AdminUsuariosCtrl',
+        controllerAs: 'admin/usuarios'
+      })
       .otherwise({
         redirectTo: '/'
       });
