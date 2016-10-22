@@ -7,7 +7,7 @@
  * # DuenioBusesCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, $resource, $uibModal) {
+angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, $resource, $uibModal,  $location) {
   $scope.idduenio = 1;
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
@@ -31,7 +31,10 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     uibModalInstance.result.then(function (result) {
       $scope.buses.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Bus creado exitosamente"});
-    }, function () {
+    }, function (status) {
+      if(status === 'error'){
+        $location.url('/404');
+      }
     });
   };
 
@@ -56,7 +59,10 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     uibModalInstance.result.then(function (result) {
       $scope.buses[$scope.index] = result;
       $scope.alertas.push({"tipo":"success", "mensaje": "Bus modificado exitosamente"});
-    }, function () {
+    }, function (status) {
+      if(status === 'error'){
+        $location.url('/404');
+      }
     });
   };
 
@@ -68,7 +74,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     }
     return -1;
   };
-  
+
   $scope.mapearEstado = function(estado) {
             return estado ? 'Habilitado' : 'Deshabilitado';
   };
@@ -81,12 +87,12 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     }
     return idruta;
   };
-  
+
 
   $scope.gridOptions = {};
-  
+
   var resource = $resource($scope.apiurl+'/ruta');
-  $scope.rutas = resource.query(function(){  
+  $scope.rutas = resource.query(function(){
     resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/buses');
     var query = resource.get(function(){
       $scope.buses = query.buses;
@@ -99,8 +105,10 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
         {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>", enableFiltering: false},
         {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
         {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
-        ];  
+        ];
     });
+  }, function(response) {
+    $location.url('/404');
   });
 });
 
@@ -140,6 +148,7 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', '$ht
       $uibModalInstance.close(data, 500);
     });
     res.error(function(data, status, headers, config) {
+      $uibModalInstance.dismiss('error');
     });
   };
 
@@ -150,11 +159,11 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', '$ht
 
 angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope', '$resource', '$uibModalInstance', 'options', 'bus', 'rutas', function ($scope, $resource, $uibModalInstance, options, bus, rutas) {
   $scope.marca = bus.marca;
-  $scope.modelo = bus.modelo; 
-  $scope.placa = bus.placa; 
-  $scope.numbus = bus.numbus; 
+  $scope.modelo = bus.modelo;
+  $scope.placa = bus.placa;
+  $scope.numbus = bus.numbus;
   $scope.color = bus.color;
-  $scope.ruta = String(bus.ruta); 
+  $scope.ruta = String(bus.ruta);
   $scope.observaciones = bus.observaciones;
   $scope.estado = String(bus.estado);
   $scope.rutas = rutas;
@@ -170,7 +179,7 @@ angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope
       console.log(data);
       $uibModalInstance.close(data, 500);
     }, function(error) {
-      console.log(error);
+      $uibModalInstance.dismiss('error');
     });
   };
 
