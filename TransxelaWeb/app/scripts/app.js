@@ -149,6 +149,12 @@ angular
         controller: 'AdminUsuariosCtrl',
         controllerAs: 'admin/usuarios'
       })
+      .when('/404', {
+        templateUrl: '404.html'
+      })
+      .when('/403', {
+        templateUrl: '403.html'
+      })
       .otherwise({
         redirectTo: '/'
       });
