@@ -14,27 +14,12 @@
 	<label>Direccion:</label>
 	<input type="text" class="form-control" id="DescripcionAct" placeholder="Descripcion de Actividad" ng-model="direccion"><br>
 	<label>Fecha:</label>
-  <div class="container">
-     <div class="row">
-         <div class='col-sm-6'>
-             <div class="form-group">
-                 <div class='input-group date' id="datetimepicker1" >
-                     <input type="text" class="form-control" ng-model="$parent.fecha" data-date-time-picker/>
-                     <span class="input-group-addon">
-                         <span class="glyphicon glyphicon-calendar"></span>
-                     </span>
-                 </div>
-             </div>
-         </div>
-
-         <script type="text/javascript">
-             			$(function () {
-                 	$('#datetimepicker1').datetimepicker();
-             	    	});
-         </script>
-
-     </div>
- </div>
+	<p class="input-group">
+		<input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
+		<span class="input-group-btn">
+			<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+		</span>
+	</p>
 
 	<label>Seleccionar Ubicacion</label>
 <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
