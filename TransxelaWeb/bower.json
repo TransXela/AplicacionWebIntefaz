@@ -18,7 +18,8 @@
     "angular-i18n": "^1.5.8",
     "eonasdan-bootstrap-datetimepicker": "^4.17.43",
     "metisMenu": "^2.5.2",
-    "font-awesome": "fontawesome#^4.6.3"
+    "font-awesome": "fontawesome#^4.6.3",
+    "bootcards": "^1.1.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
