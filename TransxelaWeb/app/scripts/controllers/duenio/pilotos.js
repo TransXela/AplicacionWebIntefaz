@@ -85,11 +85,11 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
 
 angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$http', '$uibModalInstance', 'options', 'idduenio', function ($scope, $http, $uibModalInstance, options, idduenio) {
   $scope.nombre = null;
-  $scope.apellidos = null; 
-  $scope.dpi = null; 
-  $scope.direccion = null; 
-  $scope.licencia = null; 
-  $scope.tipolicencia = null; 
+  $scope.apellidos = null;
+  $scope.dpi = null;
+  $scope.direccion = null;
+  $scope.licencia = null;
+  $scope.tipolicencia = null;
   $scope.telefono = null;
   $scope.correo = null;
   $scope.estado = "1";
@@ -114,11 +114,11 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$ht
 
 angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', '$resource', '$uibModalInstance', 'options', 'piloto', function ($scope, $resource, $uibModalInstance, options, piloto) {
   $scope.nombre = piloto.nombre;
-  $scope.apellidos = piloto.apellidos; 
-  $scope.dpi = parseInt(piloto.dpi); 
-  $scope.direccion = piloto.direccion; 
-  $scope.licencia = piloto.licencia; 
-  $scope.tipolicencia = piloto.tipolicencia; 
+  $scope.apellidos = piloto.apellidos;
+  $scope.dpi = parseInt(piloto.dpi);
+  $scope.direccion = piloto.direccion;
+  $scope.licencia = piloto.licencia;
+  $scope.tipolicencia = piloto.tipolicencia;
   $scope.telefono = piloto.telefono;
   $scope.correo = piloto.correo;
   $scope.estado = String(piloto.estado);
