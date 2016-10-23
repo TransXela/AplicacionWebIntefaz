@@ -104,11 +104,28 @@ angular
         controller: 'OperadorPerfilCtrl',
         controllerAs: 'operador/perfil'
       })
-      .when('/cultura/principalcultura', {
+      .when('/cultura/principalmodulocultura', {
+        templateUrl: 'views/cultura/principal.html',
+        controller: 'PopupDemoCont',
+        controllerAs: 'cultura/principalcultura'
+      })
+
+      .when('/cultura/principalactividades', {
         templateUrl: 'views/cultura/principalcultura.html',
         controller: 'PopupDemoCont',
         controllerAs: 'cultura/principalcultura'
       })
+      .when('/cultura/principalfaq', {
+        templateUrl: 'views/cultura/principalfaq.html',
+        controller: 'PopupDemoCont',
+        controllerAs: 'cultura/principalcultura'
+      })
+      .when('/cultura/principalconsejo', {
+        templateUrl: 'views/cultura/principalconsejo.html',
+        controller: 'PopupDemoCont',
+        controllerAs: 'cultura/principalcultura'
+      })
+
       .when('/admin/lista', {
         templateUrl: 'views/admin/lista.html',
         controller: 'AdminListaCtrl',
