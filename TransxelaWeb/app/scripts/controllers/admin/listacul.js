@@ -8,7 +8,7 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminListaCtrl', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants) {
+  .controller('AdminListaculCtrl', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants) {
 
 
 
@@ -42,7 +42,7 @@ angular.module('transxelaWebApp')
         { field: 'tipo', filter: {
             term: '1',
             type: uiGridConstants.filter.SELECT,
-            selectOptions: [ { value: '1', label: 'administrador' }]
+            selectOptions: [ { value: '1', label: 'cultura' }]
           },
           cellFilter: 'mapGender', headerCellClass: $scope.highlightFilteredHeader },
 
@@ -69,7 +69,7 @@ angular.module('transxelaWebApp')
 
         data.forEach( function addDates( row, index ){
 
-          row.tipo = row.tipo==='administrador' ? '1' : '2';
+          row.tipo = row.tipo==='cultura' ? '1' : '2';
           row.estado = row.estado==='1' ? '1' : '2';
         });
       });
@@ -100,7 +100,7 @@ angular.module('transxelaWebApp')
 
   .filter('mapGender', function() {
   var genderHash = {
-    1: 'administrador',
+    1: 'cultura',
     2: 'pmt',
   };
 

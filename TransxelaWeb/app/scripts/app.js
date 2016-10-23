@@ -134,6 +134,52 @@ angular
         controller: 'PmtHorariosCtrl',
         controllerAs: 'pmt/horarios'
       })
+      .when('/admin/perfil', {
+        templateUrl: 'views/admin/perfil.html',
+        controller: 'AdminPerfilCtrl',
+        controllerAs: 'admin/perfil'
+      })
+      .when('/admin/principal', {
+        templateUrl: 'views/admin/principal.html',
+        controller: 'AdminPrincipalCtrl',
+        controllerAs: 'admin/principal'
+      })
+      .when('/admin/usuarios', {
+        templateUrl: 'views/admin/usuarios.html',
+        controller: 'AdminUsuariosCtrl',
+        controllerAs: 'admin/usuarios'
+      })
+      .when('/admin/listapmt', {
+        templateUrl: 'views/admin/listapmt.html',
+        controller: 'AdminListapmtCtrl',
+        controllerAs: 'admin/listapmt'
+      })
+      .when('/admin/listadue', {
+        templateUrl: 'views/admin/listadue.html',
+        controller: 'AdminListadueCtrl',
+        controllerAs: 'admin/listadue'
+      })
+      .when('/admin/listacul', {
+        templateUrl: 'views/admin/listacul.html',
+        controller: 'AdminListaculCtrl',
+        controllerAs: 'admin/listacul'
+      })
+      .when('/admin/usuariosdes', {
+        templateUrl: 'views/admin/usuariosdes.html',
+        controller: 'AdminUsuariosdesCtrl',
+        controllerAs: 'admin/usuariosdes'
+      })
+      .when('/admin/usuarioscrud', {
+        templateUrl: 'views/admin/usuarioscrud.html',
+        controller: 'AdminUsuarioscrudCtrl',
+        controllerAs: 'admin/usuarioscrud'
+      })
+      .when('/404', {
+        templateUrl: '404.html'
+      })
+      .when('/403', {
+        templateUrl: '403.html'
+      })
       .otherwise({
         redirectTo: '/'
       });
