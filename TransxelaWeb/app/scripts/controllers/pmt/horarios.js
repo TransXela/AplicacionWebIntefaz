@@ -7,71 +7,85 @@
 * # PmtHorariosCtrl
 * Controller of the transxelaWebApp
 */
-angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function () {
+angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope, $resource, $uibModal, $location) {
+  $scope.calendarView = 'month';
+  $scope.viewDate = new Date();
   $scope.alertas = [];
+  var colors = [{primary: '#e3bc08', secondary: '#fdf1ba'},
+  {primary: '#1e90ff', secondary: '#d1e8ff'},
+  {primary: '#ad2121', secondary: '#fae3e3'},
+  {primary: '#3db048', secondary: '#e3faeb'},
+  {primary: '#adabab', secondary: '#bcbaba'}];
   $scope.apiurl = 'http://127.0.0.1:8000';
-  $scope.showDuenio = function () {
-    var uibModalInstance = $uibModal.open({
-      templateUrl: 'views/pmt/agregarRuta.html',
-      controller:'CrearRController',
-      resolve: {
-        options: function () {
-          return {"apiurl": $scope.apiurl};
-        }
-      }
-    });
-    uibModalInstance.result.then(function (result) {
-      $scope.listado.push(result);
-      $scope.alertas.push({"tipo":"success", "mensaje": "Ruta creada exitosamente"});
-    }, function (result) {
-
-    });
-  };
-  $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
-    for(var i = 0; i < array.length; i++) {
-      if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
-        return i;
-      }
-    }
-    return -1;
-  };
-  $scope.gridOptions = {};
-  var resource = $resource($scope.apiurl+'/pmt/ruta/');
+  $scope.idduenio = null;
+  var resource = $resource($scope.apiurl+'/pmt/duenio');
   var query = resource.query(function(){
-    $scope.listado = query;
-    $scope.gridOptions.data = $scope.listado;
-    $scope.showDetalle($scope.gridOptions.data[0]);
-    $scope.gridOptions.enableFiltering = true;
-    $scope.gridOptions.columnDefs = [
-        {name:'Nombre',field:'nombre'},
-        {name:'Recorrido',field:'recorrido'},
-        {name:'Detalles',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showDetalle(row.entity)">Ver detalles</button></div>', enableFiltering: false}
-    ];
+    $scope.duenios = query;
   });
-  $scope.mapearEstado = function(estado) {
-    return estado ? 'Habilitado' : 'Deshabilitado';
-  };
-  $scope.showVerModificar = function (idduenio) {
-    var uibModalInstance = $uibModal.open({
-      templateUrl: "views/pmt/editarRuta.html",
-      controller: "VerModificarRController",
-      resolve: {
-        options: function () {
-          return {"apiurl": $scope.apiurl};
-        },
-        duenio: function(){
-          $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idruta", idruta);
-          return $scope.listado[$scope.index];
+  var actions = [{
+    label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
+    onClick: function(args) {
+      $scope.showVerModificar(args.calendarEvent);
+    }
+  }// , {
+  //   label: '<i class=\'glyphicon glyphicon-remove\'></i>',
+  //   onClick: function(args) {
+  //     alert(args.calendarEvent.idhorariodetalle);
+  //   }}
+  ];
+
+  $scope.cargarHorarios = function(){
+    $scope.events = [];
+    console.log($scope.apiurl+'/duenio/'+parseInt($scope.idduenio)+'/horariosdetalle');
+    var resource = $resource($scope.apiurl+'/duenio/'+parseInt($scope.idduenio)+'/horariosdetalle');
+    var respuesta = resource.get(function() {
+      $scope.duenio = {"nombre":respuesta.duenio.nombre, "apellidos": respuesta.duenio.apellidos};
+      var horariosdetalle = respuesta.diasHorarioDetalle;
+      $scope.hd = horariosdetalle;
+      var colorIndex = 0;
+      var fechaActual = new Date();
+      for(var i = 0; i < horariosdetalle.length; i++) {
+        if(colorIndex>4){
+          colorIndex = 0;
         }
-      }
-    });
-    uibModalInstance.result.then(function (result) {
-      $scope.listado[$scope.index] = result;
-      $scope.alertas.push({"tipo":"success", "mensaje": "Ruta modificada exitosamente"});
-    }, function () {
-    });
+        var fechasplit = horariosdetalle[i].fecha.split("-");
+        var fInicio = new Date("March 20, 2009 00:00:00");
+        var fFin = new Date("March 20, 2009 00:00:00");
+        fInicio.setFullYear(fechasplit[0], parseInt(fechasplit[1])-1, fechasplit[2]);
+        fFin.setFullYear(fechasplit[0], parseInt(fechasplit[1])-1, fechasplit[2]);
+        var hora_minutosI =  horariosdetalle[i].horario.horainicio.split(":");
+        var hora_minutosF =  horariosdetalle[i].horario.horafin.split(":");
+        fInicio.setHours(hora_minutosI[0]);
+        fInicio.setMinutes(hora_minutosI[1]);
+        fFin.setHours(hora_minutosF[0]);
+        fFin.setMinutes(hora_minutosF[1]);
+        $scope.events.push({
+          title: horariosdetalle[i].chofer.nombre + " " + horariosdetalle[i].chofer.apellidos + " / " + horariosdetalle[i].bus.marca + " " + horariosdetalle[i].bus.placa,
+          startsAt: fInicio,
+          endsAt: fFin,
+          color: colors[colorIndex],
+          draggable: true,
+          resizable: true,
+          incrementsBadgeTotal: true,
+          recursOn: 'year',
+          cssClass: 'a-css-class-name',
+          allDay: false,
+          actions: actions,
+          idhorariodetalle: horariosdetalle[i].idhorariodetalle
+        });
+        colorIndex +=1;
+        }
+      }, function(response) {
+        $location.url('/404');
+      });
   };
-  $scope.showDetalle = function(duenio) {
-    $scope.mostrar = duenio;
+  $scope.getValueFromAttrAndValue = function(array, attr, value) {
+    for(var i = 0; i < array.length; i++) {
+        if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
+            return array[i];
+        }
+    }
+    return null;
   };
+
 });
