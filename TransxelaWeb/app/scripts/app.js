@@ -34,6 +34,11 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/login', {
+        templateUrl: 'views/loginFail.html',
+        controller: 'LogInCtrl',
+        controllerAs: 'login'
+      })
       .when('/duenio/principal', {
         templateUrl: 'views/duenio/principal.html',
         controller: 'DuenioPrincipalCtrl',

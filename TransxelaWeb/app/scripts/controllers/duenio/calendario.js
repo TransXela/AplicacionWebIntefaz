@@ -154,7 +154,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
         idbus: result.bus,
         idhorario: result.horario
       });
-      $scope.alertas.push({"tipo":"success", "mensaje": "Bus creado exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Evento creado exitosamente"});
     }, function(response) {
         $location.url('/404');
     });
