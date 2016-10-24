@@ -2,55 +2,61 @@
 
 /**
  * @ngdoc function
- * @name transxelaWebApp.controller:
+ * @name transxelaWebApp.controller:AdminUsuarioscrudCtrl
  * @description
- * #
+ * # AdminUsuarioscrudCtrl
  * Controller of the transxelaWebApp
  */
 
-angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($scope, $resource, $uibModal) {
-  $scope.idduenio = 1;
+angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($scope, $resource, $uibModal, $location) {
   $scope.alertas = [];
-  // $scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.idusuario = 0;
   $scope.showCrear = function () {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/admin/usuariocrud.html',
-      controller:'CrearPController',
+      controller:'CrearUsuarioController',
       resolve: {
         options: function () {
-          return {"title": "Crear Piloto", "buttom": "Crear", "apiurl": $scope.apiurl};
+          return {"title": "Crear Usuario", "buttom": "Crear", "apiurl": $scope.apiurl};
         },
-        idduenio: function () {
-          return $scope.idduenio;
+        idusuario: function () {
+          return $scope.idusuario;
         }
       }
     });
     uibModalInstance.result.then(function (result) {
-      $scope.pilotos.push(result);
-      $scope.alertas.push({"tipo":"success", "mensaje": "Piloto creado exitosamente"});
-    }, function () {
+      $scope.usuarios.push(result);
+      $scope.alertas.push({"tipo":"success", "mensaje": "Usuario creado exitosamente"});
+    }, function (status) {
+      // if(status === 'error'){
+      //   $location.url('/404');
+      // }
     });
   };
 
-  $scope.showVerModificar = function (idchofer) {
+  $scope.showVerModificar = function (idusuar) {
     var uibModalInstance = $uibModal.open({
       templateUrl: "views/admin/usuariocrud.html",
-      controller: "VerModificarPController",
+      controller: "ModificarUsController",
       resolve: {
         options: function () {
-          return {"title": "Ver Piloto", "buttom": "Modificar", "apiurl": $scope.apiurl};
+          return {"title": "Ver Usuario", "buttom": "Modificar", "apiurl": $scope.apiurl};
         },
-        piloto: function(){
-          $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.pilotos,"idchofer", idchofer);
-          return $scope.pilotos[$scope.index];
+        usuario: function(){
+          $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.usuarios,"idusuar", idusuar);
+          return $scope.usuarios[$scope.index];
         }
       }
     });
 
     uibModalInstance.result.then(function (result) {
-      $scope.pilotos[$scope.index] = result;
-      $scope.alertas.push({"tipo":"success", "mensaje": "Piloto modificado exitosamente"});
-    }, function () {
+      $scope.usuarios[$scope.index] = result;
+      $scope.alertas.push({"tipo":"success", "mensaje": "Usuario modificado exitosamente"});
+    }, function (status) {
+      // if(status === 'error'){
+      //   $location.url('/404');
+      // }
     });
   };
 
@@ -63,48 +69,65 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
     return -1;
   };
 
-  $scope.gridOptions = {};
-  // var resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/pilotos');
-  // var query = resource.get(function(){
-  //   $scope.pilotos = query.choferes;
-  //   $scope.gridOptions.data = $scope.pilotos;
-  //   $scope.gridOptions.enableFiltering = true;
-  //   $scope.gridOptions.columnDefs = [
-  //     {name:'Nombre',field:'nombre'},
-  //     {name:'Apellidos',field:'apellidos'},
-  //     {name:'Tipo Licencia',field:'tipolicencia'},
-  //     {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
-  //     {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver detalles</button></div>', enableFiltering: false}
-  //     ];
-  // });
+  $scope.gridOptions = {
+    enableFiltering: true,
+    showGridFooter: true,
+    showColumnFooter: true,
+  };
+  var resource = $resource($scope.apiurl+'/admin/'+$scope.idusuario+'/usuarioscrud');
+  var query = resource.get(function(){
+    $scope.duenio = {"nombre":query.nombre, "apellidos": query.apellidos};
+    $scope.usuarios = query.usuars;
+    $scope.gridOptions.data = $scope.usuarios;
+    $scope.gridOptions.enableFiltering = true;
+    $scope.gridOptions.columnDefs = [
+      {name:'Nombre',field:'nombre'},
+      {name:'Apellidos',field:'apellidos'},
+      {name:'direccion',field:'direccion'},
+      {name:'DPI',field:'dpi'},
+      {name:'Tipo Usuario',field:'tipousuario'},
+      {name:'Telefono',field:'telefono'},
+      {name:'Correo',field:'correo'},
+      {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
+      {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idusuar)">Ver detalles</button></div>', enableFiltering: false}
+      ];
+    }
+
+  //   function(response) {
+  //     $location.url('/404');
+  // }
+);
+
   $scope.mapearEstado = function(estado) {
-            return estado ? 'Habilitado' : 'Deshabilitado';
+    return estado ? 'Habilitado' : 'Deshabilitado';
   };
 
 });
 
-angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$http', '$uibModalInstance', 'options', 'idduenio', function ($scope, $http, $uibModalInstance, options, idduenio) {
+angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope', '$http', '$uibModalInstance','options', 'idusuario', function ($scope, $http, $uibModalInstance, options, idusuario) {
   $scope.nombre = null;
   $scope.apellidos = null;
   $scope.dpi = null;
   $scope.direccion = null;
-  $scope.licencia = null;
-  $scope.tipolicencia = null;
+  $scope.tipousuario = null;
   $scope.telefono = null;
   $scope.correo = null;
   $scope.estado = "1";
   $scope.options = options;
   $scope.close = function () {
-    // var res = $http.post(options.apiurl+'/admin/usuariocrud/', {
-    //   nombre: $scope.nombre, apellidos: $scope.apellidos,
-    //   dpi: String($scope.dpi), direccion: $scope.direccion,
-    //   licencia: $scope.licencia, tipolicencia: $scope.tipolicencia,
-    //   telefono: $scope.telefono, correo: $scope.correo,
-    //   estado: parseInt($scope.estado), duenio: idduenio
-    // });
+    var res = $http.post(options.apiurl+'/admin/usuariocrud/', {
+      nombre: $scope.nombre, apellidos: $scope.apellidos,
+      dpi: String($scope.dpi), direccion: $scope.direccion,
+      tipousuario: $scope.tipousuario,
+      telefono: $scope.telefono, correo: $scope.correo,
+      estado: parseInt($scope.estado), duenio: idusuario
+    });
     res.success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
     });
+    // res.error(function(data, status, headers, config) {
+    //   $uibModalInstance.dismiss('error');
+    // });
   };
 
   $scope.cancel = function () {
@@ -112,31 +135,33 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', '$ht
   };
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', '$resource', '$uibModalInstance', 'options', 'piloto', function ($scope, $resource, $uibModalInstance, options, piloto) {
-  $scope.nombre = piloto.nombre;
-  $scope.apellidos = piloto.apellidos;
-  $scope.dpi = parseInt(piloto.dpi);
-  $scope.direccion = piloto.direccion;
-  $scope.licencia = piloto.licencia;
-  $scope.tipolicencia = piloto.tipolicencia;
-  $scope.telefono = piloto.telefono;
-  $scope.correo = piloto.correo;
-  $scope.estado = String(piloto.estado);
+angular.module('transxelaWebApp').controller('ModificarUsController', ['$scope', '$resource', '$uibModalInstance', 'options', 'usuario', function ($scope, $resource, $uibModalInstance, options, usuario) {
+  $scope.nombre = usuario.nombre;
+  $scope.apellidos = usuario.apellidos;
+  $scope.dpi = parseInt(usuario.dpi);
+  $scope.direccion = usuario.direccion;
+  $scope.tipousuario = usuario.tipousuario;
+  $scope.telefono = usuario.telefono;
+  $scope.correo = usuario.correo;
+  $scope.estado = String(usuario.estado);
   $scope.options = options;
   $scope.close = function () {
-    // var resource = $resource(options.apiurl+'/admin/usuariocrud/' + piloto.idchofer, {}, {'update': {method:'PUT'}});
+    var resource = $resource(options.apiurl+'/admin/usuariocrud/' + usuario.idusuar, {}, {'update': {method:'PUT'}});
     resource.update({}, {
       nombre: $scope.nombre, apellidos: $scope.apellidos, dpi: String($scope.dpi),
-      direccion: $scope.direccion, licencia: $scope.licencia, tipolicencia: $scope.tipolicencia,
+      direccion: $scope.direccion, tipousuario: $scope.tipousuario,
       telefono: $scope.telefono, correo: $scope.correo,
-      estado: parseInt($scope.estado), duenio: piloto.duenio
+      estado: parseInt($scope.estado), duenio: usuario.duenio
     }).$promise.then(function(data) {
       $uibModalInstance.close(data, 500);
-    }, function(error) {
-    });
+    }
+    // , function(error) {
+    //     $uibModalInstance.dismiss('error');
+    // }
+  );
   };
 
   $scope.cancel = function () {
-      $uibModalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 }]);
