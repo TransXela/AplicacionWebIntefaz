@@ -17,7 +17,8 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
   {primary: '#ad2121', secondary: '#fae3e3'},
   {primary: '#3db048', secondary: '#e3faeb'},
   {primary: '#adabab', secondary: '#bcbaba'}];
-  $scope.apiurl = 'http://127.0.0.1:8000';
+  //$scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
   $scope.idduenio = $cookies.getObject('user').id;
   var actions = [{
     label: '<i class=\'glyphicon glyphicon-pencil\'></i>',

@@ -8,8 +8,12 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp').controller('DuenioPrincipalCtrl', function ($scope, $http, $location, $cookies) {
+  //$cookies.putObject('user', {"token": 1234, "id": 1, "apiurl": '192.168.1.4'});
+  $cookies.putObject('user', {"token": 1234, "id": 1, "apiurl": '127.0.0.1'});
   $scope.idduenio = $cookies.getObject('user').id;
-  var url = 'http://127.0.0.1:8000/duenio/'+$scope.idduenio+'/principal';
+  //$scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
+  var url = $scope.apiurl + '/duenio/'+$scope.idduenio+'/principal';
   $http.get(url).
   success(function(response, status, headers, config){
     $scope.duenio = response;
