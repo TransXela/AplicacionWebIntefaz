@@ -11,7 +11,8 @@
 angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, $resource, $uibModal, $location, $cookies) {
   $scope.idduenio = $cookies.getObject('user').id;
   $scope.alertas = [];
-  $scope.apiurl = 'http://127.0.0.1:8000';
+  //$scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
   $scope.showCrear = function () {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/duenio/piloto.html',

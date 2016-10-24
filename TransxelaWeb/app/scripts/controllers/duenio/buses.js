@@ -10,7 +10,8 @@
 angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, $resource, $uibModal,  $location, $cookies) {
   $scope.idduenio = $cookies.getObject('user').id;
   $scope.alertas = [];
-  $scope.apiurl = 'http://127.0.0.1:8000';
+  //$scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
   $scope.showCrear = function () {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/duenio/bus.html',
@@ -95,6 +96,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
   $scope.rutas = resource.query(function(){
     resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/buses');
     var query = resource.get(function(){
+      $scope.duenio = {"nombre":query.nombre, "apellidos": query.apellidos};
       $scope.buses = query.buses;
       $scope.gridOptions.data = $scope.buses;
       $scope.gridOptions.enableFiltering = true;
