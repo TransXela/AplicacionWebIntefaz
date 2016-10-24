@@ -7,10 +7,11 @@
  * # DuenioHorariosCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, $resource, $uibModal, $location) {
-  $scope.idduenio = 1;
+angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, $resource, $uibModal, $location, $cookies) {
+  $scope.idduenio = $cookies.getObject('user').id;
   $scope.alertas = [];
-  $scope.apiurl = 'http://127.0.0.1:8000';
+  //$scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
   $scope.showCrear = function (size) {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/duenio/horario.html',
