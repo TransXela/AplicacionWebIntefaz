@@ -8,8 +8,8 @@
  * Controller of the transxelaWebApp
  */
 
-angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, $resource, $uibModal, $location) {
-  $scope.idduenio = 1;
+angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, $resource, $uibModal, $location, $cookies) {
+  $scope.idduenio = $cookies.getObject('user').id;
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.showCrear = function () {

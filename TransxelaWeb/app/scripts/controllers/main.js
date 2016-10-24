@@ -8,7 +8,8 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('MainCtrl', function ($scope, $uibModal, $location) {
+  .controller('MainCtrl', function ($scope, $uibModal, $location, $cookies) {
+  $cookies.putObject('user', {"token": 1234, id:1});
   $scope.iniciarSesion = function (size) {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/login.html',

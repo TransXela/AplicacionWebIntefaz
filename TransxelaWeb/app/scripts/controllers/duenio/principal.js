@@ -7,8 +7,9 @@
  * # DuenioPrincipalCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioPrincipalCtrl', function ($scope, $http, $location) {
-  var url = 'http://127.0.0.1:8000/duenio/1/principal';
+angular.module('transxelaWebApp').controller('DuenioPrincipalCtrl', function ($scope, $http, $location, $cookies) {
+  $scope.idduenio = $cookies.getObject('user').id;
+  var url = 'http://127.0.0.1:8000/duenio/'+$scope.idduenio+'/principal';
   $http.get(url).
   success(function(response, status, headers, config){
     $scope.duenio = response;
