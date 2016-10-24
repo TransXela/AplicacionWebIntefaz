@@ -118,12 +118,12 @@ angular
       .when('/cultura/principalfaq', {
         templateUrl: 'views/cultura/principalfaq.html',
         controller: 'PopupDemoCont',
-        controllerAs: 'cultura/principalcultura'
+        controllerAs: 'cultura/principalfaq'
       })
       .when('/cultura/principalconsejo', {
         templateUrl: 'views/cultura/principalconsejo.html',
         controller: 'PopupDemoCont',
-        controllerAs: 'cultura/principalcultura'
+        controllerAs: 'cultura/principalconsejo'
       })
 
       .when('/admin/lista', {
