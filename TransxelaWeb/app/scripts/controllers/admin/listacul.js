@@ -8,7 +8,7 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminUsuariosCtrl', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants) {
+  .controller('AdminListaculCtrl', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants) {
 
 
 
@@ -39,7 +39,12 @@ angular.module('transxelaWebApp')
 
         { field: 'apellido', headerCellClass: $scope.highlightFilteredHeader },
 
-        { field: 'tipo', headerCellClass: $scope.highlightFilteredHeader },
+        { field: 'tipo', filter: {
+            term: '1',
+            type: uiGridConstants.filter.SELECT,
+            selectOptions: [ { value: '1', label: 'cultura' }]
+          },
+          cellFilter: 'mapGender', headerCellClass: $scope.highlightFilteredHeader },
 
         { field: 'estado', filter: {
             term: '1',
@@ -54,6 +59,7 @@ angular.module('transxelaWebApp')
     };
 
     $scope.gridOptions.columnDefs[0].visible = false;
+    $scope.gridOptions.columnDefs[3].visible = false;
     $scope.gridOptions.columnDefs[4].visible = false;
 
     $http.get('http://localhost:9000/json/lista.json')
@@ -62,6 +68,8 @@ angular.module('transxelaWebApp')
 
 
         data.forEach( function addDates( row, index ){
+
+          row.tipo = row.tipo==='cultura' ? '1' : '2';
           row.estado = row.estado==='1' ? '1' : '2';
         });
       });
@@ -86,6 +94,21 @@ angular.module('transxelaWebApp')
       return '';
     } else {
       return genderHash2[input];
+    }
+  };
+})
+
+  .filter('mapGender', function() {
+  var genderHash = {
+    1: 'cultura',
+    2: 'pmt',
+  };
+
+  return function(input) {
+    if (!input){
+      return '';
+    } else {
+      return genderHash[input];
     }
   };
 });

@@ -2,39 +2,113 @@
 
 /**
  * @ngdoc function
- * @name transxelaWebApp.controller:AdminListaCtrl
+ * @name transxelaWebApp.controller:AdminUsuariosCtrl
  * @description
- * # AdminListaCtrl
+ * # AdminUsuariosCtrl
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminListaCtrl', ['$scope', '$interval', '$log', '$timeout', 'uiGridConstants', '$http', function ($scope, $interval, $log, $timeout, uiGridConstants, $http) {
-    var data = [];
-    $scope.gridOptions = {
-        showGridFooter: true,
-        showColumnFooter: true,
-        enableFiltering: true,
+  .controller('AdminListaCtrl', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants) {
 
-        data: data,
-        onRegisterApi: function(gridApi) {
-                $scope.gridApi = gridApi;
-        }
+
+
+    $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
+      if( col.filters[0].term ){
+        return 'header-filtered';
+      } else {
+        return '';
+      }
     };
-    $scope.toggleFooter = function() {
-      $scope.gridOptions.showGridFooter = !$scope.gridOptions.showGridFooter;
-      $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.OPTIONS);
+
+
+
+    $scope.gridOptions = {
+      enableFiltering: true,
+      showGridFooter: true,
+      showColumnFooter: true,
+
+      onRegisterApi: function(gridApi){
+        $scope.gridApi = gridApi;
+      },
+      columnDefs: [
+        // default
+        { field: 'id', headerCellClass: $scope.highlightFilteredHeader },
+        // pre-populated search field
+
+        { field: 'nombre', headerCellClass: $scope.highlightFilteredHeader },
+
+        { field: 'apellido', headerCellClass: $scope.highlightFilteredHeader },
+
+        { field: 'tipo', filter: {
+            term: '1',
+            type: uiGridConstants.filter.SELECT,
+            selectOptions: [ { value: '1', label: 'administrador' }]
+          },
+          cellFilter: 'mapGender', headerCellClass: $scope.highlightFilteredHeader },
+
+        { field: 'estado', filter: {
+            term: '1',
+            type: uiGridConstants.filter.SELECT,
+            selectOptions: [ { value: '1', label: '1' }]
+          },
+          cellFilter: 'mapGender2', headerCellClass: $scope.highlightFilteredHeader },
+
+          { field: 'telefono', headerCellClass: $scope.highlightFilteredHeader },
+
+      ]
     };
-    $scope.toggleColumnFooter = function() {
-      $scope.gridOptions.showColumnFooter = !$scope.gridOptions.showColumnFooter;
-      $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.OPTIONS);
-    };
+
+    $scope.gridOptions.columnDefs[0].visible = false;
+    $scope.gridOptions.columnDefs[3].visible = false;
+    $scope.gridOptions.columnDefs[4].visible = false;
+
     $http.get('http://localhost:9000/json/lista.json')
       .success(function(data) {
-        // data.forEach( function(row) {
-        //   row.registered = Date.parse(row.registered);
-        // });
-
         $scope.gridOptions.data = data;
+
+
+        data.forEach( function addDates( row, index ){
+
+          row.tipo = row.tipo==='administrador' ? '1' : '2';
+          row.estado = row.estado==='1' ? '1' : '2';
+        });
       });
 
-  }]);
+    $scope.toggleFiltering = function(){
+      $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
+      $scope.gridApi.core.notifyDataChange( uiGridConstants.dataChange.COLUMN );
+    };
+
+
+
+  }])
+
+  .filter('mapGender2', function() {
+  var genderHash2 = {
+    1: '1',
+    2: '0',
+  };
+
+  return function(input) {
+    if (!input){
+      return '';
+    } else {
+      return genderHash2[input];
+    }
+  };
+})
+
+  .filter('mapGender', function() {
+  var genderHash = {
+    1: 'administrador',
+    2: 'pmt',
+  };
+
+  return function(input) {
+    if (!input){
+      return '';
+    } else {
+      return genderHash[input];
+    }
+  };
+});

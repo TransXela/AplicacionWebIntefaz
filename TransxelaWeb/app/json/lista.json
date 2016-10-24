@@ -1,8 +1,11 @@
 [
-  {"id":"1", "nombre":"Jose Arevalo", "apellido":"Guzman Boj", "tipo":"administrador", "estado":"1", "telefono":"12345678"},
-  {"id":"2", "nombre":"Carlos Henry", "apellido":"Aceituno Gerra", "tipo":"administrador", "estado":"1", "telefono":"12345678"},
+  {"id":"1", "nombre":"Jose Arevalo", "apellido":"Guzman Boj", "tipo":"cultura", "estado":"1", "telefono":"12345678"},
+  {"id":"2", "nombre":"Carlos Henry", "apellido":"Aceituno Gerra", "tipo":"cultura", "estado":"0", "telefono":"12345678"},
   {"id":"3", "nombre":"Hugo Jose", "apellido":"Ovando del Cid", "tipo":"administrador", "estado":"0", "telefono":"12345678"},
   {"id":"4", "nombre":"Alex Vicente", "apellido":"Vazquel Delgado", "tipo":"administrador", "estado":"1", "telefono":"12345678"},
   {"id":"5", "nombre":"Luis Figo", "apellido":"Sanchez Maldonado", "tipo":"dueño", "estado":"0", "telefono":"12345678"},
-  {"id":"5", "nombre":"Luis Figo", "apellido":"Sanchez Maldonado", "tipo":"pmt", "estado":"1", "telefono":"12345678"}
+  {"id":"6", "nombre":"Alexander Huva", "apellido":"Calderon Campos", "tipo":"dueño", "estado":"1", "telefono":"12345678"},
+  {"id":"7", "nombre":"Daniel Pablo", "apellido":"Rivera Siguienza", "tipo":"pmt", "estado":"0", "telefono":"12345678"},
+  {"id":"8", "nombre":"Paco Nestor", "apellido":"Toc Pocoy", "tipo":"pmt", "estado":"1", "telefono":"12345678"},
+  {"id":"9", "nombre":"Maria Damiela", "apellido":"Pander Mendoza", "tipo":"cultura", "estado":"1", "telefono":"12345678"}
 ]
