@@ -8,7 +8,7 @@
 * Controller of the transxelaWebApp
 */
 
-angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($scope, $resource, $uibModal, $location) {
+angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($scope, $resource, $uibModal, $location, $cookies) {
   $scope.calendarView = 'month';
   $scope.viewDate = new Date();
   $scope.alertas = [];
@@ -17,8 +17,9 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
   {primary: '#ad2121', secondary: '#fae3e3'},
   {primary: '#3db048', secondary: '#e3faeb'},
   {primary: '#adabab', secondary: '#bcbaba'}];
-  $scope.apiurl = 'http://127.0.0.1:8000';
-  $scope.idduenio = 1;
+  //$scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
+  $scope.idduenio = $cookies.getObject('user').id;
   var actions = [{
     label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
     onClick: function(args) {
@@ -154,7 +155,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
         idbus: result.bus,
         idhorario: result.horario
       });
-      $scope.alertas.push({"tipo":"success", "mensaje": "Bus creado exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Evento creado exitosamente"});
     }, function(response) {
         $location.url('/404');
     });

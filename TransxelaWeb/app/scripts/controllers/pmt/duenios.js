@@ -86,6 +86,7 @@ angular.module('transxelaWebApp').controller('CrearDController', ['$scope', '$ht
   $scope.nombre = null;
   $scope.apellidos = null;
   $scope.dpi = null;
+  $scope.empresa = null;
   $scope.direccion = null;
   $scope.licencia = null;
   $scope.tipolicencia = null;
@@ -97,7 +98,7 @@ angular.module('transxelaWebApp').controller('CrearDController', ['$scope', '$ht
     var res = $http.post(options.apiurl+'/pmt/duenio/', {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
-      telefono: $scope.telefono, correo: $scope.correo, foto: "HOLA",
+      telefono: $scope.telefono, correo: $scope.correo, empresa: $scope.empresa,
       estado: parseInt($scope.estado)
     });
     res.success(function(data, status, headers, config) {
@@ -119,15 +120,15 @@ angular.module('transxelaWebApp').controller('VerModificarDController', ['$scope
   $scope.direccion = duenio.direccion;
   $scope.telefono = duenio.telefono;
   $scope.correo = duenio.correo;
-  $scope.foto = "no hay";
+  $scope.empresa = duenio.empresa;
   $scope.estado = String(duenio.estado);
   $scope.options = options;
   $scope.close = function () {
     var resource = $resource(options.apiurl+'/pmt/duenio/' + duenio.idduenio, {}, {'update': {method:'PUT'}});
     resource.update({}, {
       nombre: $scope.nombre, apellidos: $scope.apellidos, dpi: String($scope.dpi),
-      direccion: $scope.direccion, foto: "noHay",
-      telefono: $scope.telefono, correo: $scope.correo,
+      direccion: $scope.direccion,
+      telefono: $scope.telefono, correo: $scope.correo, empresa: $scope.empresa,
       estado: parseInt($scope.estado), idduenio: duenio.idduenio
     }).$promise.then(function(data) {
       $uibModalInstance.close(data, 500);

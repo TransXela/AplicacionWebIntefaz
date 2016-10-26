@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="styles/login.css">
+<form name="logForm" class="form" novalidate>
+		<h2 class="form-heading">Iniciar sesión en TransXela</h2>
+		<div class="form-fields">
+			<input type="text" class="form-control" name = "usuario" id="usuario" placeholder="Correo electrónico" ng-model="usuario" autocomplete autofocus required>
+	    <div ng-messages="logForm.usuario.$error" role="alert" class="text-danger">
+	        <div ng-message="required">Campo requerido</div>
+	    </div>
+			<input type="password" class="form-control" name="contrasenia" id="contrasenia" placeholder="Contraseña" ng-model="contrasenia" required>
+	    <div ng-messages="logForm.contrasenia.$error" role="alert" class="text-danger">
+	        <div ng-message="required">Campo requerido</div>
+	    </div>
+		</div>
+	  <button type="button" class="btn btn-lg btn-primary btn-block" ng-click="iniciar()" ng-disabled="logForm.$invalid">Iniciar sesión</button>
+</form>

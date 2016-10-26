@@ -8,7 +8,8 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('MainCtrl', function ($scope, $uibModal) {
+  .controller('MainCtrl', function ($scope, $uibModal, $location, $cookies) {
+  $cookies.putObject('user', {"token": 1234, id:1});
   $scope.iniciarSesion = function (size) {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/login.html',
@@ -17,9 +18,12 @@ angular.module('transxelaWebApp')
     });
 
     uibModalInstance.result.then(function (result) {
-      console.log(result);
+      $location.url('/login');
+      // $location.url('/duenio/principal');
+      // $location.url('/pmt/principal');
+      // $location.url('/cultura/principalcultura');
+      // $location.url('/admin/principal');
     }, function () {
-     console.log('Modal dismissed at: ' + new Date());
     });
   };
 });
