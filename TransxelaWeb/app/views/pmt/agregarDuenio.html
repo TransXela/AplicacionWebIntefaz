@@ -42,14 +42,6 @@
       </div>
       <div class="form-group">
         <label  class="col-sm-2 control-label"
-                  >Codigo:</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" ng-model="codigo"
-            placeholder="Generado por el sistema"/ disabled="true">
-        </div>
-      </div>
-      <div class="form-group">
-        <label  class="col-sm-2 control-label"
                   >DPI:</label>
         <div class="col-xs-10">
       	<input type="number" class="form-control" name="dpi" id="dpi" placeholder="DPI del Dueño" ng-model="dpi" required min="1000000000000" max="9999999999999">
@@ -85,7 +77,7 @@
           <div class="modal-footer">
             <div class='wrapper text-center'>
              <div class="btn-group">
-                <button class="btn btn-danger" ng-click="cancel()">
+                <button class="btn btn-warning" ng-click="cancel()">
                   <i class="fa fa-times"></i>
                   Cancelar
                 </button>
