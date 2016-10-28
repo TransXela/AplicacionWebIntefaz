@@ -85,7 +85,8 @@ $scope.CrearNuevaAct = function () {
 
 
 angular.module('transxelaWebApp').controller('PopupCtrlActividades', ['$scope','$http','$uibModalInstance','options','$window',function ($scope, $http, $uibModalInstance, options, $window) {
-  console.log("entro");
+  $scope.longitud;
+
   $scope.nombre = null;
   $scope.descripcion = null;
   $scope.fecha = null;
@@ -96,10 +97,12 @@ angular.module('transxelaWebApp').controller('PopupCtrlActividades', ['$scope','
   $scope.estado="true";
   $scope.options= options;
 $scope.close = function () {
+  $scope.longitud=document.getElementById('latitud').value;
+  $scope.latitud=document.getElementById('longitud').value;
   console.log({
         nombre: $scope.nombre, descripcion: $scope.descripcion,
         fecha: $scope.fecha, lugar: $scope.lugar,
-        latitud: $scope.mod.latitud, longitud:$scope.mod.longitud,
+        latitud: $scope.latitud, longitud:$scope.longitud,
         direccion: $scope.direccion, estado: $scope.estado
   } );
 
