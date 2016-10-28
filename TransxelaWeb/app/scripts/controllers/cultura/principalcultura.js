@@ -10,7 +10,7 @@
  * Controller of the transxelaWebApp
  */
  // Create an application module for our demo.
-angular.module('transxelaWebApp').controller('PopupDemoCont' ,function ($scope, $uibModal) {
+angular.module('transxelaWebApp').controller('PrincipalCulturaCtrl' ,function ($scope, $uibModal) {
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.idActividad=1;
@@ -22,7 +22,7 @@ angular.module('transxelaWebApp').controller('PopupDemoCont' ,function ($scope, 
 $scope.CrearNuevaAct = function () {
    var uibModalInstance = $uibModal.open({
     templateUrl: 'views/cultura/nuevaactividadcultural.html',
-    controller:'PopupCont',
+    controller:'PopupCtrlActividades',
       resolve: {
         options: function () {
           return {"titleAct": "Crear Actividad", "boton" :"Crear", "apiurl": $scope.apiurl};
@@ -84,8 +84,8 @@ $scope.CrearNuevaAct = function () {
 
 
 
-angular.module('transxelaWebApp').controller('PopupCont', ['$scope','$http','$uibModalInstance','options',function ($scope, $http, $uibModalInstance, options) {
-  console.log($scope.NombreActividad);
+angular.module('transxelaWebApp').controller('PopupCtrlActividades', ['$scope','$http','$uibModalInstance','options','$window',function ($scope, $http, $uibModalInstance, options, $window) {
+  console.log("entro");
   $scope.nombre = null;
   $scope.descripcion = null;
   $scope.fecha = null;
@@ -99,9 +99,10 @@ $scope.close = function () {
   console.log({
         nombre: $scope.nombre, descripcion: $scope.descripcion,
         fecha: $scope.fecha, lugar: $scope.lugar,
-        latitud: $scope.latitud, longitud:$scope.longitud,
+        latitud: $scope.mod.latitud, longitud:$scope.mod.longitud,
         direccion: $scope.direccion, estado: $scope.estado
   } );
+
   var res= $http.post(options.apiurl+'/cultura/actividad/', {
         nombre: $scope.nombre, descripcion: $scope.descripcion,
         fecha: $scope.fecha, lugar: $scope.lugar,
