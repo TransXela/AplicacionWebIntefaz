@@ -34,6 +34,11 @@ angular
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/login', {
+        templateUrl: 'views/loginFail.html',
+        controller: 'LogInCtrl',
+        controllerAs: 'login'
+      })
       .when('/duenio/principal', {
         templateUrl: 'views/duenio/principal.html',
         controller: 'DuenioPrincipalCtrl',
@@ -104,11 +109,28 @@ angular
         controller: 'OperadorPerfilCtrl',
         controllerAs: 'operador/perfil'
       })
-      .when('/cultura/principalcultura', {
+      .when('/cultura/principalmodulocultura', {
+        templateUrl: 'views/cultura/principal.html',
+        controller: 'PopupDemoCont',
+        controllerAs: 'cultura/principalcultura'
+      })
+
+      .when('/cultura/principalactividades', {
         templateUrl: 'views/cultura/principalcultura.html',
         controller: 'PopupDemoCont',
         controllerAs: 'cultura/principalcultura'
       })
+      .when('/cultura/principalfaq', {
+        templateUrl: 'views/cultura/principalfaq.html',
+        controller: 'PopupDemoCont',
+        controllerAs: 'cultura/principalfaq'
+      })
+      .when('/cultura/principalconsejo', {
+        templateUrl: 'views/cultura/principalconsejo.html',
+        controller: 'PopupDemoCont',
+        controllerAs: 'cultura/principalconsejo'
+      })
+
       .when('/admin/lista', {
         templateUrl: 'views/admin/lista.html',
         controller: 'AdminListaCtrl',

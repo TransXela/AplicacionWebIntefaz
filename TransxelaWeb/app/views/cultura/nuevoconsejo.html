@@ -1,0 +1,25 @@
+
+<div class="modal-header">
+	<button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{options.titleAct}}</h4>
+</div>
+<div class="modal-body">
+	<label>Titulo Del consejo:</label>
+	<input type="text" class="form-control" id="NombreAct" placeholder="Nombre de Actividad" ng-model="nombre" autofocus><br>
+	<label>Fecha:</label>
+	<p class="input-group">
+		<input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
+		<span class="input-group-btn">
+			<button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+		</span>
+	</p>
+
+  </div>
+	 <input type="hidden" id="lat" ng-model="latitud">
+</div>
+</div>
+
+
+<div class="modal-footer">
+    <button type="button" ng-click="close()"  class="btn btn-primary" data-dismiss="modal">{{options.boton}}</button>
+    <button type="button" ng-click="cancel()" class="btn btn-warning">Cancelar</button>
