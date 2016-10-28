@@ -7,7 +7,7 @@
  * # DuenioHorariosCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, $resource, $uibModal, $location, $cookies) {
+angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, $http, $uibModal, $location, $cookies) {
   $scope.idduenio = $cookies.getObject('user').id;
   $scope.alertas = [];
   //$scope.apiurl = 'http://127.0.0.1:8000';
@@ -80,26 +80,28 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
   };
 
   $scope.gridOptions = {};
-  var resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/horarios');
-  $scope.horarios = resource.query(function(){
-    $scope.nuevaHora = new Date("March 20, 2009 19:00:00");
-    for (var i=0; i<$scope.horarios.length; i++) {
-      $scope.hora_minutosI = $scope.horarios[i].horainicio.split(":");
-      $scope.hora_minutosF = $scope.horarios[i].horafin.split(":");
-      $scope.horarios[i].horainicio = $scope.nuevaHora.setHours($scope.hora_minutosI[0]);
-      $scope.horarios[i].horainicio = $scope.nuevaHora.setMinutes($scope.hora_minutosI[1]);
-      $scope.horarios[i].horafin = $scope.nuevaHora.setHours($scope.hora_minutosF[0]);
-      $scope.horarios[i].horafin = $scope.nuevaHora.setMinutes($scope.hora_minutosF[1]);
-    }
-    $scope.gridOptions.data = $scope.horarios;
-    $scope.gridOptions.columnDefs = [
-      {name:'Hora inicio',field:'horainicio', cellFilter: 'date:\'hh:mm a\''},
-      {name:'Hora fin',field:'horafin', cellFilter: 'date:\'hh:mm a\''},
-      {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idhorario, \'sm\')">Ver detalles</button></div>'}
-      ];
-  }, function(response) {
-    $location.url('/404');
-  });
+  var res = $http.get($scope.apiurl+'/duenio/'+$scope.idduenio+'/horarios');
+    res.success(function(response, status, headers, config) {
+      $scope.horarios = response;
+      $scope.nuevaHora = new Date("March 20, 2009 19:00:00");
+      for (var i=0; i<$scope.horarios.length; i++) {
+        $scope.hora_minutosI = $scope.horarios[i].horainicio.split(":");
+        $scope.hora_minutosF = $scope.horarios[i].horafin.split(":");
+        $scope.horarios[i].horainicio = $scope.nuevaHora.setHours($scope.hora_minutosI[0]);
+        $scope.horarios[i].horainicio = $scope.nuevaHora.setMinutes($scope.hora_minutosI[1]);
+        $scope.horarios[i].horafin = $scope.nuevaHora.setHours($scope.hora_minutosF[0]);
+        $scope.horarios[i].horafin = $scope.nuevaHora.setMinutes($scope.hora_minutosF[1]);
+      }
+      $scope.gridOptions.data = $scope.horarios;
+      $scope.gridOptions.columnDefs = [
+        {name:'Hora inicio',field:'horainicio', cellFilter: 'date:\'hh:mm a\''},
+        {name:'Hora fin',field:'horafin', cellFilter: 'date:\'hh:mm a\''},
+        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idhorario)">Ver detalles</button></div>'}
+        ];
+    });
+    res.error(function(response, status, headers, config) {
+      $location.url('/404');
+    });
 });
 
 angular.module('transxelaWebApp').controller('CrearHController', ['$scope', '$http','$uibModalInstance', 'options', 'idduenio', function ($scope, $http, $uibModalInstance, options, idduenio) {
