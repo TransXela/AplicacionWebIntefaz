@@ -8,7 +8,7 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminListadueCtrl', ['$scope', '$http', 'uiGridConstants', function ($scope, $http, uiGridConstants, $cookies) {
+  .controller('AdminListadueCtrl', ['$scope', '$http', 'uiGridConstants','$cookies', '$location' , '$uibModal', function ($scope, $http, uiGridConstants, $cookies, $location, $uibModal) {
     // $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
     // $scope.apiurl = 'http://127.0.0.1:8000';
     // $scope.gridOptions = {};
@@ -50,6 +50,43 @@ angular.module('transxelaWebApp')
         return '';
       }
     };
+
+    // ----------------------------------- VER MODIFICAR --------------------------------------------------------------
+    $scope.showVerModificar = function (idduenio) {
+      var uibModalInstance = $uibModal.open({
+        templateUrl: "views/admin/listavm.html",
+        controller: "VerModificarPController",
+        resolve: {
+          options: function () {
+            return {"title": "Ver Dueño", "buttom": "Modificar", "apiurl": $scope.apiurl};
+          },
+          dueni: function(){
+            $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.datos,"idduenio", idduenio);
+            return $scope.datos[$scope.index];
+          }
+        }
+      });
+
+      uibModalInstance.result.then(function (result) {
+        $scope.datos[$scope.index] = result;
+        $scope.alertas.push({"tipo":"success", "mensaje": "Dueño modificado exitosamente"});
+      }, function (status) {
+        if(status === 'error'){
+          $location.url('/404');
+        }
+      });
+    };
+
+    $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
+      for(var i = 0; i < array.length; i++) {
+          if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
+              return i;
+          }
+      }
+      return -1;
+    };
+    // ----------------------------------- END VER MODIFICAR --------------------------------------------------------------
+
 
 
 
@@ -126,3 +163,34 @@ angular.module('transxelaWebApp')
     }
   };
 });
+
+
+angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', '$resource', '$uibModalInstance', 'options', 'dueni', function ($scope, $resource, $uibModalInstance, options, dueni) {
+  $scope.nombre = dueni.nombre;
+  $scope.apellidos = dueni.apellidos;
+  $scope.dpi = parseInt(dueni.dpi);
+  $scope.direccion = dueni.direccion;
+  $scope.empresa = dueni.empresa;
+  $scope.telefono = dueni.telefono;
+  $scope.correo = dueni.correo;
+  $scope.estado = String(dueni.estado);
+  $scope.options = options;
+  $scope.close = function () {
+    var resource = $resource(options.apiurl+'/duenio/piloto/' + piloto.idchofer, {}, {'update': {method:'PUT'}});
+    resource.update({}, {
+      nombre: $scope.nombre, apellidos: $scope.apellidos, dpi: String($scope.dpi),
+      direccion: $scope.direccion, licencia: $scope.licencia, tipolicencia: $scope.tipolicencia,
+      telefono: $scope.telefono, correo: $scope.correo,
+      estado: parseInt($scope.estado), duenio: piloto.duenio
+    }
+  ).$promise.then(function(data) {
+      $uibModalInstance.close(data, 500);
+    }, function(error) {
+        $uibModalInstance.dismiss('error');
+    });
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+}]);
