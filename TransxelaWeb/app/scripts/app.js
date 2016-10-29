@@ -196,6 +196,21 @@ angular
         controller: 'AdminUsuarioscrudCtrl',
         controllerAs: 'admin/usuarioscrud'
       })
+      .when('/reporte/rutasdenunciadas', {
+        templateUrl: 'views/Reportes/Reporte.html',
+        controller: 'PmtDenRutaCtrl',
+        controllerAs: 'pmt/principal'
+      })
+      .when('/reporte/busesdenunciados', {
+        templateUrl: 'views/Reportes/Reporte.html',
+        controller: 'PmtPrincipalCtrl',
+        controllerAs: 'pmt/principal'
+      })
+      .when('/reporte/pilotodenunc', {
+        templateUrl: 'views/Reportes/Reporte.html',
+        controller: 'PmtPilotoDenCtrl',
+        controllerAs: 'pmt/principal'
+      })
       .when('/404', {
         templateUrl: '404.html'
       })
