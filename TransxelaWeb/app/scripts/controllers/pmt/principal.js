@@ -109,14 +109,14 @@ angular.module('transxelaWebApp')
         .success(function(data){
           console.log(data);
           $scope.pilotoDen = data;
-          $scope.nom=[];
+          $scope.Ldpi=[];
           $scope.cant=0;
           $scope.numDen=[];
           for (var i = 0; i < $scope.pilotoDen.length; i++) {
             for (var j = 0; j < $scope.pilotoDen[i].den.length; j++) {
               $scope.cant = $scope.cant+1;
             }
-            $scope.nom[i]=$scope.pilotoDen[i].nombre;
+            $scope.Ldpi[i]=$scope.pilotoDen[i].dpi;
             $scope.numDen[i]=$scope.cant;
             $scope.cant=0;
           }
@@ -124,7 +124,7 @@ angular.module('transxelaWebApp')
           var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-              labels: $scope.nom,
+              labels: $scope.Ldpi,
               datasets: [{
                 backgroundColor: ["#2ecc71"],
                 label: "Número de denuncias por piloto",
