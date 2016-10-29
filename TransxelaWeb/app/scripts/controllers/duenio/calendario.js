@@ -245,8 +245,11 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
         $scope.events.splice(evento.calendarEventId,1);
         $scope.alertas.push({"tipo": "success", "mensaje": "Evento eliminado exitosamente"});
       }
-      else if(status ==='notdeleted'){
+      else if(status ==='imposibleborrar'){
         $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar el evento"});
+      }
+      else if(status ==='notdeleted'){
+        $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar eventos del día actual"});
       }
       else if(status === 'error'){
         $location.url('/404');
@@ -269,6 +272,9 @@ angular.module('transxelaWebApp').controller('CrearEController', ['$scope', '$ht
   $scope.piloto = null;
   $scope.bus = null;
   $scope.estado = "1";
+  $scope.fecha = new Date();
+  $scope.fechafin = null;
+  $scope.col = 4;
   $scope.options = options;
   $scope.buses = data.buses;
   $scope.horarios = data.horarios;
@@ -291,13 +297,6 @@ angular.module('transxelaWebApp').controller('CrearEController', ['$scope', '$ht
   $scope.formatoFecha = function(fecha){
     return fecha.getFullYear() + "-" + (fecha.getMonth()+1) + "-" + fecha.getDate();
   }
-  $scope.today = function() {
-    $scope.fecha = new Date();
-  };
-  $scope.today();
-  $scope.clear = function() {
-    $scope.fecha = null;
-  };
   $scope.dateOptions = {
     formatYear: 'yy',
     maxDate: new Date(2020, 5, 22),
@@ -307,12 +306,19 @@ angular.module('transxelaWebApp').controller('CrearEController', ['$scope', '$ht
   $scope.open1 = function() {
     $scope.popup1.opened = true;
   };
+  $scope.open2 = function() {
+    $scope.popup2.opened = true;
+  };
 
   $scope.setDate = function(year, month, day) {
     $scope.fecha = new Date(year, month, day);
   };
 
   $scope.popup1 = {
+    opened: false
+  };
+
+  $scope.popup2 = {
     opened: false
   };
 }]);
@@ -326,6 +332,7 @@ angular.module('transxelaWebApp').controller('VerModificarEController', ['$scope
   $scope.piloto = String(horariodetalle.idpiloto);
   $scope.bus = String(horariodetalle.idbus);
   $scope.fecha = horariodetalle.fecha;
+  $scope.col = 10;
   $scope.close = function () {
     var resource = $resource(options.apiurl+'/duenio/horariodetalle/' + horariodetalle.idhorariodetalle, {}, {'update': {method:'PUT'}});
     resource.update({}, {bus: parseInt($scope.bus), chofer: parseInt($scope.piloto), horario: parseInt($scope.horario), "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)}).$promise.then(function(data) {
@@ -336,12 +343,18 @@ angular.module('transxelaWebApp').controller('VerModificarEController', ['$scope
   };
 
   $scope.delete = function () {
-    var resource = $resource(options.apiurl+'/duenio/horariodetalle/' + horariodetalle.idhorariodetalle);
-    resource.delete().$promise.then(function() {
-      $uibModalInstance.dismiss('success');
-    }, function(response) {
-      $uibModalInstance.dismiss('error');
-    });
+    if(horariodetalle.fecha.getDate() !== new Date().getDate()){
+      var resource = $resource(options.apiurl+'/duenio/horariodetalle/' + horariodetalle.idhorariodetalle);
+      resource.delete().$promise.then(function() {
+        $uibModalInstance.dismiss('success');
+      }, function(response) {
+        $uibModalInstance.dismiss('imposibleborrar');
+      });
+    }
+    else{
+      $uibModalInstance.dismiss('notdeleted');
+    }
+
   };
 
   $scope.cancel = function () {
@@ -351,18 +364,14 @@ angular.module('transxelaWebApp').controller('VerModificarEController', ['$scope
   $scope.formatoFecha = function(fecha){
     return fecha.getFullYear() + "-" + (fecha.getMonth()+1) + "-" + fecha.getDate();
   }
-  $scope.today = function() {
-    $scope.fecha = new Date();
-  };
-  $scope.clear = function() {
-    $scope.fecha = null;
-  };
+
   $scope.dateOptions = {
     formatYear: 'yy',
     maxDate: new Date(2020, 5, 22),
     minDate: new Date(),
     startingDay: 0
   };
+
   $scope.open1 = function() {
     $scope.popup1.opened = true;
   };
