@@ -206,6 +206,11 @@ angular
         controller: 'PmtPrincipalCtrl',
         controllerAs: 'pmt/principal'
       })
+      .when('/reporte/pilotodenunc', {
+        templateUrl: 'views/Reportes/Reporte.html',
+        controller: 'PmtPilotoDenCtrl',
+        controllerAs: 'pmt/principal'
+      })
       .when('/404', {
         templateUrl: '404.html'
       })

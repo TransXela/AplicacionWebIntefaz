@@ -101,3 +101,40 @@ angular.module('transxelaWebApp')
           })
         })
       });
+
+//pilotos denunciados
+  angular.module('transxelaWebApp')
+  .controller('PmtPilotoDenCtrl', function ($scope, $http) {
+      $http.get("http://127.0.0.1:8000/reporte/pmt/RepPilotoDen/")
+        .success(function(data){
+          console.log(data);
+          $scope.pilotoDen = data;
+          $scope.nom=[];
+          $scope.cant=0;
+          $scope.numDen=[];
+          for (var i = 0; i < $scope.pilotoDen.length; i++) {
+            for (var j = 0; j < $scope.pilotoDen[i].den.length; j++) {
+              $scope.cant = $scope.cant+1;
+            }
+            $scope.nom[i]=$scope.pilotoDen[i].nombre;
+            $scope.numDen[i]=$scope.cant;
+            $scope.cant=0;
+          }
+          var ctx = document.getElementById("PilotoDenGraph").getContext('2d');
+          var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: $scope.nom,
+              datasets: [{
+                backgroundColor: ["#2ecc71"],
+                label: "Número de denuncias por piloto",
+                lineTension: 1,
+                pointBorderColor:"1F0D7B",
+                pointRadius: 3.5,
+                pointBackgroundColor: "#18cfdf",
+                data: $scope.numDen
+              }]
+            }
+          });
+        })
+});
