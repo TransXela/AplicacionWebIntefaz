@@ -211,6 +211,11 @@ angular
         controller: 'PmtPilotoDenCtrl',
         controllerAs: 'pmt/principal'
       })
+      .when('/reporte/dueniodenunc', {
+        templateUrl: 'views/Reportes/Reporte.html',
+        controller: 'PmtDuenioDenCtrl',
+        controllerAs: 'pmt/principal'
+      })
       .when('/404', {
         templateUrl: '404.html'
       })

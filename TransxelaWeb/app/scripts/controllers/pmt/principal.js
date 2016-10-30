@@ -138,3 +138,52 @@ angular.module('transxelaWebApp')
           });
         })
 });
+
+//duenios denunciados
+angular.module('transxelaWebApp')
+.controller('PmtDuenioDenCtrl', function ($scope, $http) {
+    $http.get("http://127.0.0.1:8000/reporte/pmt/RepDuenioBuses/")
+      .success(function(data){
+        console.log(data);
+        $scope.dueBus = data;
+        $scope.Ddpi = [];
+        $scope.cantD = 0;
+        $scope.noDen = [];
+        $http.get("http://127.0.0.1:8000/reporte/pmt/RepDuenioBusD/")
+          .success(function(data){
+            console.log(data);
+            $scope.denPlak = data;
+            for (var a = 0; a < $scope.dueBus.length; a++) {
+              for (var i = 0; i < $scope.dueBus[a].buss.length; i++) {
+                for (var x = 0; x < $scope.denPlak.length; x++) {
+                  if($scope.dueBus[a].buss[i].placa === $scope.denPlak[x].placa){
+                    $scope.cantD = $scope.cantD + 1;
+                  }
+                }
+              }
+              if($scope.cantD > 0){
+                $scope.Ddpi[a] = $scope.dueBus[a].dpi;
+                $scope.noDen[a] = $scope.cantD;
+              }
+              $scope.cantD = 0;
+            }
+          })
+
+        var ctx = document.getElementById("DuenioDenGraph").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: $scope.Ddpi,
+            datasets: [{
+              backgroundColor: ["#2ecc71"],
+              label: "Número de denuncias por dueño",
+              lineTension: 1,
+              pointBorderColor:"1F0D7B",
+              pointRadius: 3.5,
+              pointBackgroundColor: "#18cfdf",
+              data: $scope.noDen
+            }]
+          }
+        });
+      })
+});
