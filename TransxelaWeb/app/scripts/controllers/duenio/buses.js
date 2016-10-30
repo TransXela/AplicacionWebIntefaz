@@ -7,18 +7,16 @@
  * # DuenioBusesCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, $resource, $uibModal,  $location, $cookies) {
+angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, apiService, $uibModal,  $location, $cookies) {
   $scope.idduenio = $cookies.getObject('user').id;
   $scope.alertas = [];
-  //$scope.apiurl = 'http://127.0.0.1:8000';
-  $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
   $scope.showCrear = function () {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/duenio/bus.html',
       controller:'CrearBController',
       resolve: {
         options: function () {
-          return {"title": "Crear Bus", "buttom": "Crear", "apiurl": $scope.apiurl};
+          return {"title": "Crear Bus", "buttom": "Crear"};
         },
         rutas: function() {
           return $scope.rutas;
@@ -45,7 +43,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       controller: "VerModificarBController",
       resolve: {
         options: function () {
-          return {"title": "Ver Bus", "buttom": "Modificar", "apiurl": $scope.apiurl};
+          return {"title": "Ver Bus", "buttom": "Modificar"};
         },
         bus: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.buses,"idbus", idbus);
@@ -89,15 +87,14 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     return idruta;
   };
 
-
   $scope.gridOptions = {};
-
-  var resource = $resource($scope.apiurl+'/ruta');
-  $scope.rutas = resource.query(function(){
-    resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/buses');
-    var query = resource.get(function(){
-      $scope.duenio = {"nombre":query.nombre, "apellidos": query.apellidos};
-      $scope.buses = query.buses;
+  apiService.obtener('/ruta').
+  success(function(response, status, headers, config){
+    $scope.rutas = response;
+    apiService.obtener('/duenio/'+$scope.idduenio+'/buses').
+    success(function(response, status, headers, config){
+      $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
+      $scope.buses = response.buses;
       $scope.gridOptions.data = $scope.buses;
       $scope.gridOptions.enableFiltering = true;
       $scope.gridOptions.columnDefs = [
@@ -108,13 +105,27 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
         {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
         {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
         ];
+    }).
+    error(function(response, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
     });
-  }, function(response) {
-    $location.url('/404');
+  }).
+  error(function(response, status, headers, config) {
+    if(status === null || status === -1){
+      $location.url('/404');
+    }
+    else if(status === 401){
+      $location.url('/403');
+    }
   });
 });
 
-angular.module('transxelaWebApp').controller('CrearBController', ['$scope', '$http', '$uibModalInstance', 'options', 'rutas', 'idduenio',function ($scope, $http, $uibModalInstance, options, rutas, idduenio) {
+angular.module('transxelaWebApp').controller('CrearBController', ['$scope', 'apiService', '$uibModalInstance', 'options', 'rutas', 'idduenio',function ($scope, apiService, $uibModalInstance, options, rutas, idduenio) {
   $scope.marca = null;
   $scope.modelo = null;
   $scope.placa = null;
@@ -140,16 +151,16 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', '$ht
   };
 
   $scope.close = function () {
-    var res = $http.post(options.apiurl+'/duenio/bus/', {
+    apiService.crear('/duenio/bus/', {
       marca: $scope.marca, modelo: $scope.modelo,
       placa: $scope.placa, numbus: $scope.numbus,
       color: $scope.color, ruta: parseInt($scope.ruta),
       observaciones: $scope.observaciones, estado: parseInt($scope.estado), duenio: idduenio
-    });
-    res.success(function(data, status, headers, config) {
+    }).
+    success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
-    });
-    res.error(function(data, status, headers, config) {
+    }).
+    error(function(data, status, headers, config) {
       $uibModalInstance.dismiss('error');
     });
   };
@@ -159,7 +170,7 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', '$ht
   };
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope', '$resource', '$uibModalInstance', 'options', 'bus', 'rutas', function ($scope, $resource, $uibModalInstance, options, bus, rutas) {
+angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope', 'apiService', '$uibModalInstance', 'options', 'bus', 'rutas', function ($scope, apiService, $uibModalInstance, options, bus, rutas) {
   $scope.marca = bus.marca;
   $scope.modelo = bus.modelo;
   $scope.placa = bus.placa;
@@ -171,16 +182,16 @@ angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope
   $scope.rutas = rutas;
   $scope.options = options;
   $scope.close = function () {
-    var resource = $resource(options.apiurl+'/duenio/bus/' + bus.idbus, {}, {'update': {method:'PUT'}});
-    resource.update({}, {
+    apiService.modificar('/duenio/bus/' + bus.idbus, {
       marca: $scope.marca, modelo: $scope.modelo,
       placa: $scope.placa, numbus: $scope.numbus,
       color: $scope.color, ruta: parseInt($scope.ruta),
       observaciones: $scope.observaciones, estado: parseInt($scope.estado), duenio: bus.duenio
-    }).$promise.then(function(data) {
-      console.log(data);
-      $uibModalInstance.close(data, 500);
-    }, function(error) {
+    }).
+    success(function(response, status, headers, config){
+      $uibModalInstance.close(response, 500);
+    }).
+    error(function(response, status, headers, config) {
       $uibModalInstance.dismiss('error');
     });
   };
