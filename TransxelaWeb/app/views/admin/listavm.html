@@ -1,0 +1,62 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{options.title}}</h4>
+</div>
+<form name="pilotoForm" class="form" novalidate>
+<div class="modal-body">
+	<label>Nombre</label>
+	<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre del dueño" ng-model="nombre" required autofocus ng-disabled="pilotoForm.$invalid">
+	<div ng-messages="pilotoForm.nombre.$error" role="alert" class="text-danger">
+  		<div ng-message="required">Campo requerido</div>
+	</div><br>
+	<label>Apellidos</label>
+	<input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="Apellidos del dueño" ng-model="apellidos" required ng-disabled="pilotoForm.$invalid">
+	<div ng-messages="pilotoForm.apellidos.$error" role="alert" class="text-danger">
+  		<div ng-message="required">Campo requerido</div>
+	</div><br>
+	<label>Dirección</label>
+	<input type="text" class="form-control" id="direccion" placeholder="Dirección del dueño" ng-model="direccion" ng-disabled="pilotoForm.$invalid"><br>
+	<label>DPI</label>
+	<input type="number" class="form-control" name="dpi" id="dpi" placeholder="DPI del dueño" ng-model="dpi" required min="1000000000000" max="9999999999999" ng-disabled="pilotoForm.$invalid">
+	<div ng-messages="pilotoForm.dpi.$error" role="alert" class="text-danger">
+  		<div ng-message="required">Campo requerido</div>
+     	<div ng-message="min || max">DPI inválido (debe tener 13 dígitos)</div>
+	</div><br>
+	<label>Empresa</label>
+	<input type="text" class="form-control" name="empresa" id="empresa" placeholder="Empresa del dueño" ng-model="empresa" required ng-disabled="pilotoForm.$invalid">
+	<div ng-messages="pilotoForm.licencia.$error" role="alert" class="text-danger">
+  		<div ng-message="required">Campo requerido</div>
+	</div><br>
+	<!-- <label for="tipolicencia">Tipo de Licencia</label>
+  	<select class="form-control" name="tipolicencia" id="tipolicencia" ng-model="tipolicencia" required>
+	    <option value="" disabled>Tipo de Licencia del dueño</option>
+	    <option value="A">A</option>
+	    <option value="B">B</option>
+	    <option value="C">C</option>
+	    <option value="D">D</option>
+	    <option value="E">E</option>
+	</select>
+	<div ng-messages="pilotoForm.tipolicencia.$error" role="alert" class="text-danger">
+  		<div ng-message="required">Campo requerido</div>
+	</div><br> -->
+	<label>No. de Teléfono</label>
+	<input type="number" class="form-control" name="telefono" id="telefono" placeholder="No. de Teléfono del dueño" ng-model="telefono" min="10000000" max="99999999" ng-disabled="pilotoForm.$invalid">
+	<div ng-messages="pilotoForm.telefono.$error" role="alert" class="text-danger">
+     	<div ng-message="min || max">No. de teléfono inválido (debe tener 8 dígitos)</div>
+	</div><br>
+	<label>Correo Electrónico</label>
+	<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico del dueño" ng-model="correo" ng-disabled="pilotoForm.$invalid">
+	<div ng-messages="pilotoForm.correo.$error" role="alert" class="text-danger">
+     	<div ng-message="email">Correo electrónico inválido</div>
+	</div><br>
+	<label>Estado</label>
+	<div class="btn-group">
+        <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'" ng-disabled="pilotoForm.$invalid">Habilitado</label>
+        <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'0'" ng-disabled="pilotoForm.$invalid">Deshabilitado</label>
+    </div>
+</div>
+<div class="modal-footer">
+    <!-- <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal" ng-disabled="pilotoForm.$invalid">{{options.buttom}}</button>
+    <button type="button" ng-click="cancel()" class="btn btn-warning">Cancelar</button> -->
+</div>
+</form>
