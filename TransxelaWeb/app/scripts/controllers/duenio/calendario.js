@@ -37,7 +37,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
     $scope.duenio = {"nombre":respuesta.duenio.nombre, "apellidos": respuesta.duenio.apellidos};
     var horariosdetalle = respuesta.diasHorarioDetalle;
     var colorIndex = 0;
-    resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/horarios');
+    resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/'+'f02472ca6c3684ed0954370161e168fbdf31a8da'+'/horarios');
     $scope.horarios = resource.query(function(){
       resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/pilotos');
       var respuesta1 = resource.get(function(){
@@ -101,6 +101,9 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       }
       else{
         colorIndex = 0;
+        if((horariosdetalle[i].hasOwnProperty("estado")) && (horariosdetalle[i].estado === 0)){
+          colorIndex = 4;
+        }
         $scope.events.push({
           title: horariosdetalle[i].chofer.nombre + " " + horariosdetalle[i].chofer.apellidos + " / " + horariosdetalle[i].bus.marca + " " + horariosdetalle[i].bus.placa,
           startsAt: fInicio,
@@ -162,25 +165,48 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       if(result.estado === 0){
         colorIndex = 4;
       }
-      $scope.events.push({
-        title: chofer.nombre + " " + chofer.apellidos + " / " + bus.marca + " " + bus.placa,
-        startsAt: fInicio,
-        endsAt: fFin,
-        color: colors[colorIndex],
-        draggable: true,
-        resizable: true,
-        incrementsBadgeTotal: true,
-        recursOn: 'year',
-        cssClass: 'a-css-class-name',
-        allDay: false,
-        actions: actions,
-        idhorariodetalle: result.idhorariodetalle,
-        idpiloto: result.chofer,
-        idbus: result.bus,
-        idhorario: result.horario,
-        estado: result.estado
-      });
-      $scope.alertas.push({"tipo":"success", "mensaje": "Evento creado exitosamente"});
+      if(result.hasOwnProperty("dias")){
+        $scope.events.push({
+          title: chofer.nombre + " " + chofer.apellidos + " / " + bus.marca + " " + bus.placa,
+          startsAt: fInicio,
+          endsAt: fFin,
+          color: colors[colorIndex],
+          draggable: true,
+          resizable: true,
+          incrementsBadgeTotal: true,
+          recursOn: 'year',
+          cssClass: 'a-css-class-name',
+          allDay: false,
+          actions: actions,
+          idhorariodetalle: result.idhorariodetalle,
+          idpiloto: result.chofer,
+          idbus: result.bus,
+          idhorario: result.horario,
+          estado: result.estado
+        });
+        $scope.alertas.push({"tipo":"success", "mensaje": "Eventos creados exitosamente"});
+      }
+      else{
+        $scope.events.push({
+          title: chofer.nombre + " " + chofer.apellidos + " / " + bus.marca + " " + bus.placa,
+          startsAt: fInicio,
+          endsAt: fFin,
+          color: colors[colorIndex],
+          draggable: true,
+          resizable: true,
+          incrementsBadgeTotal: true,
+          recursOn: 'year',
+          cssClass: 'a-css-class-name',
+          allDay: false,
+          actions: actions,
+          idhorariodetalle: result.idhorariodetalle,
+          idpiloto: result.chofer,
+          idbus: result.bus,
+          idhorario: result.horario,
+          estado: result.estado
+        });
+        $scope.alertas.push({"tipo":"success", "mensaje": "Evento creado exitosamente"});
+      }
     }, function(response) {
       if(response === 'error'){
         $location.url('/404');
@@ -279,15 +305,43 @@ angular.module('transxelaWebApp').controller('CrearEController', ['$scope', '$ht
   $scope.buses = data.buses;
   $scope.horarios = data.horarios;
   $scope.pilotos = data.pilotos;
+  $scope.alertas = [];
   $scope.close = function () {
-  var res = $http.post(options.apiurl+'/duenio/horariodetalle/', {bus: $scope.bus, chofer: $scope.piloto,
-    horario: $scope.horario, "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)});
-    res.success(function(data, status, headers, config) {
-      $uibModalInstance.close(data, 500);
-    });
-    res.error(function(response, status, headers, config) {
-      $uibModalInstance.dismiss('error');
-    });
+    if($scope.fechafin != null){
+      // var dias = Math.floor(($scope.fechafin-$scope.fecha) / (1000 * 60 * 60 * 24))+1;
+      // console.log(dias);
+      // var iteradorfecha = $scope.fecha;
+      // for(var i = 0; i<=dias; i++){
+      //   console.log(iteradorfecha);
+      //   iteradorfecha.setDate(iteradorfecha.getDate()+1);
+      // }
+      if(($scope.fechafin-$scope.fecha)>0){
+          var res = $http.post(options.apiurl+'/duenio/horariosdetalle/crearrango/', {bus: $scope.bus, chofer: $scope.piloto,
+            horario: $scope.horario, fechaInicial: $scope.formatoFecha($scope.fecha),
+            fechaFinal: $scope.formatoFecha($scope.fechafin), estado: parseInt($scope.estado)});
+            res.success(function(data, status, headers, config) {
+              var dias = Math.floor(($scope.fechafin-$scope.fecha) / (1000 * 60 * 60 * 24))+1;
+              $uibModalInstance.close({"bus": parseInt($scope.bus), "chofer": parseInt($scope.piloto), "horario": parseInt($scope.horario),
+                "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado), "dias": dias}, 500);
+            });
+            res.error(function(response, status, headers, config) {
+              $uibModalInstance.dismiss('error');
+            });
+      }
+      else{
+        $scope.alertas.push({"tipo":"warning", "mensaje": "Fecha fin debe ser mayor o diferente a Fecha"});
+      }
+    }
+    else{
+      var res = $http.post(options.apiurl+'/duenio/horariodetalle/', {bus: $scope.bus, chofer: $scope.piloto,
+        horario: $scope.horario, "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)});
+        res.success(function(data, status, headers, config) {
+          $uibModalInstance.close(data, 500);
+        });
+        res.error(function(response, status, headers, config) {
+          $uibModalInstance.dismiss('error');
+        });
+    }
   };
 
   $scope.cancel = function () {

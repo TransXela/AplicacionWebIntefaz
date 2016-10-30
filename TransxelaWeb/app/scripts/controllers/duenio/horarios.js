@@ -80,7 +80,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
   };
 
   $scope.gridOptions = {};
-  var res = $http.get($scope.apiurl+'/duenio/'+$scope.idduenio+'/horarios');
+  var res = $http.get($scope.apiurl+'/duenio/'+$scope.idduenio+'/'+'f02472ca6c3684ed0954370161e168fbdf31a8da'+'/horarios');
     res.success(function(response, status, headers, config) {
       $scope.horarios = response;
       $scope.nuevaHora = new Date("March 20, 2009 19:00:00");
