@@ -202,6 +202,16 @@ angular
       .when('/403', {
         templateUrl: '403.html'
       })
+      .when('/pmt/horariosBus', {
+        templateUrl: 'views/pmt/horariosbus.html',
+        controller: 'PmtHorariosbusCtrl',
+        controllerAs: 'pmt/horariosBus'
+      })
+      .when('/pmt/horariosPiloto', {
+        templateUrl: 'views/pmt/horariospiloto.html',
+        controller: 'PmtHorariospilotoCtrl',
+        controllerAs: 'pmt/horariosPiloto'
+      })
       .otherwise({
         redirectTo: '/'
       });
