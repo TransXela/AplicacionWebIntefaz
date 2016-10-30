@@ -185,6 +185,11 @@ angular
       .when('/403', {
         templateUrl: '403.html'
       })
+      .when('/admin/lispmtsinu', {
+        templateUrl: 'views/admin/lispmtsinu.html',
+        controller: 'AdminLispmtsinuCtrl',
+        controllerAs: 'admin/lispmtsinu'
+      })
       .otherwise({
         redirectTo: '/'
       });
