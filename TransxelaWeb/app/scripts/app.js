@@ -202,17 +202,17 @@ angular
         controllerAs: 'pmt/principal'
       })
       .when('/reporte/busesdenunciados', {
-        templateUrl: 'views/Reportes/Reporte.html',
+        templateUrl: 'views/Reportes/ReporteBusD.html',
         controller: 'PmtPrincipalCtrl',
         controllerAs: 'pmt/principal'
       })
       .when('/reporte/pilotodenunc', {
-        templateUrl: 'views/Reportes/Reporte.html',
+        templateUrl: 'views/Reportes/ReportePilotosD.html',
         controller: 'PmtPilotoDenCtrl',
         controllerAs: 'pmt/principal'
       })
       .when('/reporte/dueniodenunc', {
-        templateUrl: 'views/Reportes/Reporte.html',
+        templateUrl: 'views/Reportes/ReporteDuenioD.html',
         controller: 'PmtDuenioDenCtrl',
         controllerAs: 'pmt/principal'
       })
