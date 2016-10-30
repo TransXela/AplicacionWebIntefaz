@@ -97,8 +97,8 @@ angular.module('transxelaWebApp').controller('PopupCtrlActividades', ['$scope','
   $scope.estado="true";
   $scope.options= options;
 $scope.close = function () {
-  $scope.longitud=document.getElementById('latitud').value;
-  $scope.latitud=document.getElementById('longitud').value;
+  $scope.longitud=document.getElementById('longitud').value;
+  $scope.latitud=document.getElementById('latitud').value;
   console.log({
         nombre: $scope.nombre, descripcion: $scope.descripcion,
         fecha: $scope.fecha, lugar: $scope.lugar,

@@ -122,7 +122,7 @@ angular
       })
       .when('/cultura/principalfaq', {
         templateUrl: 'views/cultura/principalfaq.html',
-        controller: 'PopupDemoCont',
+        controller: 'PrincipalFaqCtrl',
         controllerAs: 'cultura/principalfaq'
       })
       .when('/cultura/principalconsejo', {

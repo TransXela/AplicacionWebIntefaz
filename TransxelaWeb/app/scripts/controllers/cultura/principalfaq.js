@@ -10,7 +10,7 @@
  * Controller of the transxelaWebApp
  */
  // Create an application module for our demo.
-angular.module('transxelaWebApp').controller('PopupDemoCont' ,function ($scope, $uibModal) {
+angular.module('transxelaWebApp').controller('PrincipalFaqCtrl' ,function ($scope, $uibModal) {
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.idActividad=1;
@@ -22,7 +22,7 @@ angular.module('transxelaWebApp').controller('PopupDemoCont' ,function ($scope, 
 $scope.CrearNuevaAct = function () {
    var uibModalInstance = $uibModal.open({
     templateUrl: 'views/cultura/nuevapreguntafaq.html',
-    controller:'PopupCont',
+    controller:'PopupContFaq',
       resolve: {
         options: function () {
           return {"titleAct": "Crear Actividad", "boton" :"Crear", "apiurl": $scope.apiurl};
@@ -84,7 +84,7 @@ $scope.CrearNuevaAct = function () {
 
 
 
-angular.module('transxelaWebApp').controller('PopupCont', ['$scope','$http','$uibModalInstance','options',function ($scope, $http, $uibModalInstance, options) {
+angular.module('transxelaWebApp').controller('PopupContFaq', ['$scope','$http','$uibModalInstance','options',function ($scope, $http, $uibModalInstance, options) {
   console.log($scope.NombreActividad);
   $scope.nombre = null;
   $scope.descripcion = null;
