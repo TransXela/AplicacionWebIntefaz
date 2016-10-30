@@ -2,8 +2,8 @@
   <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
   <h4 class="modal-title">{{options.title}}</h4>
 </div>
-<div class="modal-body">
-  <form class="form-horizontal" novalidate>
+<form class="form-horizontal" novalidate>
+  <div class="modal-body">
     <div class="form-group">
       <div class="col-sm-12">
         <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
