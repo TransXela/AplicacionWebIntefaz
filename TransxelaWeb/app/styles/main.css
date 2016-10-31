@@ -14,6 +14,14 @@
   width: 20%;
 }
 
+<<<<<<< Updated upstream
+=======
+
+textarea {
+    resize: none;
+}
+
+>>>>>>> Stashed changes
 .download {
   width: 200px;
   height: 75px;

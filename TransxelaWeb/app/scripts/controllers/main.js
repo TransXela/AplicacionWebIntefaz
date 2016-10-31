@@ -7,9 +7,7 @@
  * # MainCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp')
-  .controller('MainCtrl', function ($scope, $uibModal, $location, $cookies) {
-  $cookies.putObject('user', {"token": 1234, id:1});
+angular.module('transxelaWebApp').controller('MainCtrl', function ($scope, $uibModal, $location, $cookies) {
   $scope.iniciarSesion = function (size) {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/login.html',
@@ -18,28 +16,52 @@ angular.module('transxelaWebApp')
     });
 
     uibModalInstance.result.then(function (result) {
-      $location.url('/login');
-      // $location.url('/duenio/principal');
-      // $location.url('/pmt/principal');
-      // $location.url('/cultura/principalcultura');
-      // $location.url('/admin/principal');
-    }, function () {
+      var grupo = result.Grupo;
+      if(grupo.name === "Dueños"){
+        $cookies.putObject('user', {"token": result.Token, id: result.Duenio.idduenio, usuario: result.Duenio});
+        $location.url('/duenio/principal');
+      }
+      else if (grupo.name === "Cultura") {
+        console.log({"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura});
+        $cookies.putObject('user', {"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura});
+        $location.url('/cultura/principal');
+      }
+      else if (grupo.name === "PMT") {
+        $cookies.putObject('user', {"token": result.Token, id: result.PMT.idpmt, usuario: result.PMT});
+        $location.url('/pmt/principal');
+      }
+      else if (grupo.name === "Admin") {
+        $cookies.putObject('user', {"token": result.Token, usuario: result.Usuario});
+        $location.url('/admin/principal');
+      }
+      else {
+        $cookies.remove('user');
+        $location.url('/');
+      }
+    }, function (status) {
+      if(status === 'error'){
+        $cookies.remove('user');
+        $location.url('/login');
+      }
     });
   };
 });
 
-angular.module('transxelaWebApp').controller('IniciarSesionController', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+angular.module('transxelaWebApp').controller('IniciarSesionController', ['$scope', '$uibModalInstance', 'apiService', function ($scope, $uibModalInstance, apiService) {
   $scope.usuario = null;
   $scope.contrasenia = null;
   $scope.close = function () {
-    $uibModalInstance.close({
-      usuario: $scope.usuario,
-      contrasenia: $scope.contrasenia
-    }, 500);
+    apiService.crear('/obtenertoken/', {user: $scope.usuario, pass: $scope.contrasenia}).
+    success(function(response, status, headers, config){
+      $uibModalInstance.close(response, 500);
+    }).
+    error(function(response, status, headers, config) {
+      $uibModalInstance.dismiss('error');
+    });
   };
 
   $scope.cancel = function () {
-      $uibModalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 }]);
 // -------------PRINCIPAL-----------------------------------------------------------------------------------------------------------

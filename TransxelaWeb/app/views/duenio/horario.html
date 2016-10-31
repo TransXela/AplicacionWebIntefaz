@@ -2,18 +2,30 @@
   <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
   <h4 class="modal-title">{{options.title}}</h4>
 </div>
-<div class="modal-body">
-    <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close" 
-      ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+<form class="form-horizontal" novalidate>
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="col-sm-12">
+        <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+          ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+        </div>
+      </div>
     </div>
-	<label>Hora inicio</label>
-	<div uib-timepicker ng-model="horainicio" show-meridian="true" autofocus max="horafin"></div><br>
-	<label>Hora fin</label>
-	<div uib-timepicker ng-model="horafin" show-meridian="true"></div>
-</div>
-<div class="modal-footer">
-	<button ng-show="options.title == 'Ver Horario'" type="button" ng-click="delete()" class="btn btn-danger">Eliminar</button>
-	<button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal">{{options.button}}</button>
-	<button type="button" ng-click="cancel()" class="btn btn-warning">Cancelar</button>
-</div>
+    <div class="form-group">
+      <div class="col-sm-6">
+        <label class="control-label">Hora inicio</label>
+        <div uib-timepicker ng-model="horainicio" show-meridian="true" autofocus max="horafin"></div>
+      </div>
+      <div class="col-sm-6">
+        <label class="control-label">Hora fin</label>
+        <div uib-timepicker ng-model="horafin" show-meridian="true"></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button ng-show="options.title == 'Ver Horario'" type="button" ng-click="delete()" class="btn btn-danger">Eliminar</button>
+    <button type="button" ng-click="close()" class="btn btn-success" data-dismiss="modal">{{options.button}}</button>
+    <button type="button" ng-click="cancel()" class="btn btn-warning">Cancelar</button>
+  </div>
+</form>

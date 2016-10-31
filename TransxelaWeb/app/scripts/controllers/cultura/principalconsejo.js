@@ -10,7 +10,7 @@
  * Controller of the transxelaWebApp
  */
  // Create an application module for our demo.
-angular.module('transxelaWebApp').controller('PrincipalFaqCtrl' ,function ($scope, $uibModal) {
+angular.module('transxelaWebApp').controller('PrincipalConsejoCtrl' ,function ($scope, $uibModal) {
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.idActividad=1;
@@ -21,11 +21,11 @@ angular.module('transxelaWebApp').controller('PrincipalFaqCtrl' ,function ($scop
 
 $scope.CrearNuevaAct = function () {
    var uibModalInstance = $uibModal.open({
-    templateUrl: 'views/cultura/nuevapreguntafaq.html',
-    controller:'PopupContFaq',
+    templateUrl: 'views/cultura/nuevoconsejo.html',
+    controller:'PopupContConsejo',
       resolve: {
         options: function () {
-          return {"titleAct": "Crear Actividad", "boton" :"Crear", "apiurl": $scope.apiurl};
+          return {"titleAct": "Crear Consejo", "boton" :"Crear", "apiurl": $scope.apiurl};
         },
          idActividad:function(){
            return $scope.idActividad;
@@ -39,7 +39,7 @@ $scope.CrearNuevaAct = function () {
       uibModalInstance.result.then(function (result) {
       console.log("entro");
       $scope.actividades.push(result);
-      $scope.alertas.push({"tipo":"success", "mensaje": "Actividad ingresada exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Consejo Cargado exitosamente"});
     }, function () {
      console.log('Modal dismissed at: ' + new Date());
     });
@@ -51,11 +51,11 @@ $scope.CrearNuevaAct = function () {
 
   $scope.showVerModificar = function (index) {
     var uibModalInstance = $uibModal.open({
-      templateUrl: "views/cultura/nuevaactividadcultural.html",
+      templateUrl: "views/cultura/nuevoconsejo.html",
       controller: "VerModificarAController",
       resolve: {
         options: function () {
-          return {"title": "Ver actividad", "boton": "Modificar"};
+          return {"title": "Ver Consejo", "boton": "Modificar"};
         },
         act: function(){
           return $scope.actividades[index];
@@ -75,7 +75,7 @@ $scope.CrearNuevaAct = function () {
            enableFiltering :true,
            columnDefs:[
              {name:'Nombre',field:'NombreActividad'},
-             {name:'Lugar',field:'LugarActividad'},
+             {name:'Fecha',field:'FechaConsejo'},
              {name:' ',cellTemplate:'<div><button ng-click="grid.appScope.showVerModificar(rowRenderIndex)">Ver detalles</button></div>', enableFiltering: false}
            ]
      };
@@ -84,7 +84,7 @@ $scope.CrearNuevaAct = function () {
 
 
 
-angular.module('transxelaWebApp').controller('PopupContFaq', ['$scope','$http','$uibModalInstance','options',function ($scope, $http, $uibModalInstance, options) {
+angular.module('transxelaWebApp').controller('PopupContConsejo', ['$scope','$http','$uibModalInstance','options',function ($scope, $http, $uibModalInstance, options) {
   console.log($scope.NombreActividad);
   $scope.nombre = null;
   $scope.descripcion = null;

@@ -35,7 +35,18 @@
                 <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
               </li>
               <li>
-                <a href="#/pmt/horarios"><i class="fa fa-clock-o fa-fw"></i> Horarios</a>
+                <a href="javascript:void(0);"><i class="fa fa-clock-o fa-fw"></i> Horarios<span class="fa arrow"></span></a>
+                <ul class="#/pmt/rutas">
+                    <li>
+                      <a href="#/pmt/horariosBus">Ver por Bus</a>
+                    </li>
+                    <li>
+                      <a href="#/pmt/horarios">Ver por Dueño</a>
+                    </li>
+                    <li>
+                      <a href="#/pmt/horariosPiloto">Ver por Piloto</a>
+                    </li>
+                </ul>
               </li>
             </ul>
           </div>
@@ -60,7 +71,7 @@
 
               <div class="panel-heading clearfix">
                 <h3 class="panel-title pull-left">Informacion Rutas</h3>
-                  <a class="btn btn-primary pull-right" ng-click="showDuenio()">
+                  <a class="btn btn-primary pull-right" ng-click="showRutas()">
                     <i class="fa fa-pencil"></i>
                     Crear
                   </a>
@@ -85,36 +96,19 @@
         <div class="panel panel-default">
           <div class="panel-heading clearfix">
             <h3 class="panel-title pull-left">Informacion Rutas</h3>
-              <a class="btn btn-primary pull-right" ng-click="showVerModificar(mostrar.idduenio)">
+              <a class="btn btn-primary pull-right" ng-click="showVerModificar(mostrar.idruta)">
                 <i class="fa fa-pencil"></i>
                 Editar
               </a>
           </div>
             <div class="list-group">
               <div class="list-group-item">
-                  <p class="list-group-item-text">Nombre Completo:</p>
-                  <h4 class="list-group-item-heading">{{mostrar.nombre+" "+ mostrar.apellidos}}</h4>
+                  <p class="list-group-item-text">Nombre Ruta:</p>
+                  <h4 class="list-group-item-heading">{{mostrar.nombre}}</h4>
               </div>
               <div class="list-group-item">
-                <p class="list-group-item-text">Nombre de la Empresa: </p>
-                <h4 class="list-group-item-heading">Transportes Solis</h4>
-              </div>
-              <div class="list-group-item">
-                <p class="list-group-item-text">Dirección: </p>
-                <h4 class="list-group-item-heading">{{mostrar.direccion}}</h4>
-              </div>
-              <div class="list-group-item">
-                <p class="list-group-item-text">Numero de Identificación: </p>
-                <h4 class="list-group-item-heading">{{mostrar.dpi}}</h4>
-              </div>
-              <div class="list-group-item">
-                <p class="list-group-item-text">Contacto:</p>
-                <h5 class="list-group-item-heading"><label for="">Telefono:</label> {{mostrar.telefono}}</h5>
-                <h5 class="list-group-item-heading"><label for="">Correo:</label> {{mostrar.correo}}</h5>
-              </div>
-              <div class="list-group-item">
-                <p class="list-group-item-text">Estado:</p>
-                <h5 class="list-group-item-heading">{{mostrar.estado}}</h5>
+                <p class="list-group-item-text">Recorrido:</p>
+                <textarea style="resize:none" class="form-control" id="recorrido" name="recorrido" rows=3 disabled="true">{{mostrar.recorrido}}</textarea>
               </div>
             </div>
           <div class="panel-footer">
@@ -122,7 +116,6 @@
           </div>
         </div>
       </div>
-
       <!--Fin prueba-->
       <!--Detalle de dueño seleccionado, obteniendo inforamcion de API-->
 

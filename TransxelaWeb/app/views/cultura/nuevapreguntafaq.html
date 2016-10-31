@@ -5,36 +5,15 @@
     <h4 class="modal-title">{{options.titleAct}}</h4>
 </div>
 <div class="modal-body">
-	<label>Nombre de la actividad:</label>
-	<input type="text" class="form-control" id="NombreAct" placeholder="Nombre de Actividad" ng-model="NombreActividad" autofocus><br>
-	<label>Descripcion:</label>
-	<input type="text" class="form-control" id="DescripcionAct" placeholder="Descripcion de Actividad" ng-model="DescripcionActividad"><br>
-	<label>Lugar:</label>
-	<input type="text" class="form-control" id="LugarAct" placeholder="Lugar de Actividad" ng-model="LugarActividad"><br>
-	<label>Fecha:</label>
-  <div class="container">
-     <div class="row">
-         <div class='col-sm-6'>
-             <div class="form-group">
-                 <div class='input-group date' id='datetimepicker1'>
-                     <input type='text' class="form-control" ng-model="DateActividad"/>
-                     <span class="input-group-addon">
-                         <span class="glyphicon glyphicon-calendar"></span>
-                     </span>
-                 </div>
-             </div>
-         </div>
-         <script type="text/javascript">
-             $(function () {
-                 $('#datetimepicker1').datetimepicker();
-             });
-         </script>
-     </div>
- </div>
-	<label>Seleccionar Ubicacion</label>
-<button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-Ubicacion
-</button>
+	<label>Nombre del Titulo:</label>
+	<input type="text" class="form-control" id="NombreAct" placeholder="Nombre del titulo" ng-model="nombre" autofocus><br>
+	<label>Articulo:</label>
+	<input type="text" class="form-control" id="DescripcionAct" placeholder="Articulo" ng-model="articulo"><br>
+	<label>Capitulo:</label>
+	<input type="text" class="form-control" id="LugarAct" placeholder="Capitulo" ng-model="capitulo"><br>
+	<label>Pregunta:</label>
+	<input type="text" class="form-control" id="LugarAct" placeholder=" Pregunta" ng-model="pregunta"><br>
+
 
  <input type="hidden" name="lat"  ng-model="LatActividad">
  <input type="hidden" name="lng"  ng-model="LngActividad">
