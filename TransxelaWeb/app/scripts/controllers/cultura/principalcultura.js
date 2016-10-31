@@ -10,7 +10,7 @@
  * Controller of the transxelaWebApp
  */
  // Create an application module for our demo.
-angular.module('transxelaWebApp').controller('PrincipalCulturaCtrl' ,function ($scope, $uibModal) {
+angular.module('transxelaWebApp').controller('PrincipalCulturaCtrl' ,function ($scope, $uibModal, $resource) {
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.idActividad=1;
@@ -37,7 +37,6 @@ $scope.CrearNuevaAct = function () {
 
 
       uibModalInstance.result.then(function (result) {
-      console.log("entro");
       $scope.actividades.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Actividad ingresada exitosamente"});
     }, function () {
@@ -70,15 +69,13 @@ $scope.CrearNuevaAct = function () {
     });
   };
 
-  $scope.gridOptions = {
-           data: $scope.actividades,
-           enableFiltering :true,
-           columnDefs:[
-             {name:'Nombre',field:'NombreActividad'},
-             {name:'Lugar',field:'LugarActividad'},
-             {name:' ',cellTemplate:'<div><button ng-click="grid.appScope.showVerModificar(rowRenderIndex)">Ver detalles</button></div>', enableFiltering: false}
-           ]
-     };
+  $scope.gridOptions={};
+  var resource = $resource('http://127.0.0.1:8000/cultura/actividad/');
+  var query = resource.get(function(){
+  $scope.actividades ={"NombreActividad" :query.NombreActividad, "DescripcionActividad" :query.DescripcionActividad};
+  $scope.actividades = query.actividades;
+    console.log($scope.actividades);
+  });
 
 });
 
