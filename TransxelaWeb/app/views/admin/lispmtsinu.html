@@ -1,0 +1,103 @@
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-touch.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/csv.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/pdfmake.js"></script>
+    <script src="http://ui-grid.info/docs/grunt-scripts/vfs_fonts.js"></script>
+    <script src="/bower_components/angular-ui-grid/ui-grid.js"></script>
+    <!-- <script src="/bower_components/angular-ui-grid/ui-grid.css"></script> -->
+</head>
+
+<div id="wrapper">
+    <!-- navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <!-- navbar-header -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand">TransXela Administrador</a>
+                </div>
+            <!-- close-navbar-header -->
+            <!-- navbar-top-links -->
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-user fa-fw"></i> {{duenio.nombre + " " + duenio.apellidos}} <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#/admin/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                    <!-- /.dropdown -->
+                </ul>
+            <!-- close-navbar-top-links -->
+
+            <!-- navbar-static-side -->
+                <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse">
+                        <ul class="nav" id="side-menu">
+                          <li>
+                            <a href="#/admin/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                          </li>
+                          <li>
+                            <a href="#/admin/principal"><i class="fa fa-user-plus fa-fw"></i> Administrador</a>
+                          </li>
+                          <li>
+                            <a href="#/pmt/principal"><i class="fa fa-cab fa-fw"></i> PMT</a>
+                          </li>
+                          <li>
+                            <a href="#/cultura/principal"><i class="fa fa-street-view fa-fw"></i> Cultura</a>
+                          </li>
+                          <li>
+                            <a href="#/operador/principal"><i class="fa fa-drupal fa-fw"></i> Operador</a>
+                          </li>
+                        </ul>
+                    </div>
+                    <!-- /.sidebar-collapse -->
+                </div>
+            <!-- close-navbar-static-side -->
+        </nav>
+    <!-- close-navigation -->
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">PMT sin usuario</h1>
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#/admin/principal">Principal</a></li>
+                  <li class="breadcrumb-item active">...</li>
+              </ol>
+          </div>
+        <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <button class="btn btn-success" href ng-click="crearPMT()">Crear PMT</button>
+              </div>
+              <!-- /.panel-heading -->
+              <div class="panel-body" ng-controller="AdminLispmtsinuCtrl">
+                <div class="gridStyles" ui-grid="gridOptions"></div>
+              </div>
+              <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+          </div>
+        </div>
+
+    </div>
+    <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->

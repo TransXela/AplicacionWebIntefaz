@@ -242,6 +242,21 @@ angular
     controller: 'OperadorDenunciasrutasCtrl',
     controllerAs: 'operador/denunciasrutas'
   })
+  .when('/admin/lispmtsinu', {
+    templateUrl: 'views/admin/lispmtsinu.html',
+    controller: 'AdminLispmtsinuCtrl',
+    controllerAs: 'admin/lispmtsinu'
+  })
+  .when('/admin/dueniosinu', {
+    templateUrl: 'views/admin/dueniosinu.html',
+    controller: 'AdminDueniosinuCtrl',
+    controllerAs: 'admin/dueniosinu'
+  })
+  .when('/admin/culturasinu', {
+    templateUrl: 'views/admin/culturasinu.html',
+    controller: 'AdminCulturasinuCtrl',
+    controllerAs: 'admin/culturasinu'
+  })
   .otherwise({
     redirectTo: '/'
   });
