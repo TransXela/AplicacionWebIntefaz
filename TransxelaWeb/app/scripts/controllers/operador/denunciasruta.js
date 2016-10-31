@@ -22,7 +22,7 @@ angular.module('transxelaWebApp')
         $scope.gridOptions.enableFiltering = true;
         $scope.gridOptions.columnDefs = [
           {name:'Bus',field:'placa' },
-          {name:'No. de denuncias',field:'numdenuncias'},
+          {name:'No. de denuncias',field:'numdenuncias', enableFiltering: false},
           {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showBus(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
         ];
       }).

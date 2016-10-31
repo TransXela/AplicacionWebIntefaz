@@ -7,7 +7,7 @@
 * # OperadorDenunciasCtrl
 * Controller of the transxelaWebApp
 */
-angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function ($scope, apiService, $cookies) {
+angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function ($scope, apiService, $cookies, $location) {
   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
     $scope.token = $cookies.getObject('user').token;
     $scope.usuario = $cookies.getObject('user').usuario;
@@ -18,7 +18,7 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
       $scope.gridOptions.data = $scope.denuncias;
       $scope.gridOptions.enableFiltering = true;
       $scope.gridOptions.columnDefs = [
-        {name:'Fecha',field:'denuncia.fechahora' },
+        {name:'Fecha',field:'denuncia.fechahora', cellFilter: 'date:\'hh:mm a dd-MM-yy\''},
         {name:'Bus',field:'denuncia.placa'},
         {name:'Piloto',field:'chofer[0].dpi'},
         {name:'Tipo denuncia',field:'tipodenuncia[0].descripcion'}
@@ -41,4 +41,9 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
     $cookies.remove('user');
     $location.url('/');
   };
+
+  $scope.denunciasRutas = function(){
+    $location.url('/operador/denunciasrutas');
+  };
+
 });
