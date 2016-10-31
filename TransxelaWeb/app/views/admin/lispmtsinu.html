@@ -71,7 +71,7 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Dueños</h1>
+                <h1 class="page-header">PMT sin usuario</h1>
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="#/admin/principal">Principal</a></li>
                   <li class="breadcrumb-item active">...</li>
@@ -80,9 +80,20 @@
         <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
+
         <div class="row">
-          <div ng-controller="AdminLispmtsinuCtrl">
-            <div class="gridStyles" ui-grid="gridOptions"></div>
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <button class="btn btn-success" href ng-click="crearPMT()">Crear PMT</button>
+              </div>
+              <!-- /.panel-heading -->
+              <div class="panel-body" ng-controller="AdminLispmtsinuCtrl">
+                <div class="gridStyles" ui-grid="gridOptions"></div>
+              </div>
+              <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
           </div>
         </div>
 

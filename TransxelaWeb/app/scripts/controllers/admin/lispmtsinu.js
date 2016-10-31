@@ -8,21 +8,27 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminLispmtsinuCtrl', [ '$scope', '$http', 'uiGridConstants','$cookies', '$location' , '$uibModal', function ($scope, $http, uiGridConstants, $cookies, $location, $uibModal) {
-
+  .controller('AdminLispmtsinuCtrl', [ '$scope', '$http', 'uiGridConstants','$cookies', '$location' , '$uibModal', '$resource', function ($scope, $http, uiGridConstants, $cookies, $location, $uibModal, $resource) {
+    $scope.alertas = [];
     $scope.apiurl = 'http://127.0.0.1:8000';
-    var res = $http.get($scope.apiurl+'/pmt/sinusuario');
-      res.success(function(response, status, headers, config) {
-        $scope.datos = response;
-        $scope.gridOptions.data = response;
-        // data.forEach( function addDates( row, index ){
-        //   row.estado = row.estado==='1' ? '1' : '2';
-        // });
-      });
-      res.error(function(response, status, headers, config) {
-        $location.url('/404');
-      });
+    var resource = $resource($scope.apiurl+'/pmt/sinusuario');
+    var query = resource.query(function(){
+      $scope.listado = query;
+      $scope.gridOptions.data = $scope.listado;
 
+    });
+    $scope.mapearEstado = function(estado) {
+      return estado ? 'Habilitado' : 'Deshabilitado';
+    };
+
+    $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
+      for(var i = 0; i < array.length; i++) {
+        if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
+          return i;
+        }
+      }
+      return -1;
+    };
 
     $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
       if( col.filters[0].term ){
@@ -33,40 +39,49 @@ angular.module('transxelaWebApp')
     };
 
     // ----------------------------------- VER MODIFICAR --------------------------------------------------------------
-    $scope.showVerModificar = function (idPmt) {
+    $scope.showVerModificar = function (idpmt) {
       var uibModalInstance = $uibModal.open({
-        templateUrl: "views/admin/lispmtsinusu",
-        controller: "VerModificarPController",
+        templateUrl: "views/admin/lispmtsinusu.html",
+        controller: "VerModificarDController",
         resolve: {
           options: function () {
-            return {"title": "Ver PMT", "buttom": "Modificar", "apiurl": $scope.apiurl};
+            return {"title": "Ver modificar PMT", "buttom": "Modificar","apiurl": $scope.apiurl};
           },
           pmtusu: function(){
-            $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.datos,"idPmt", idPmt);
-            return $scope.datos[$scope.index];
+            $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idpmt", idpmt);
+            return $scope.listado[$scope.index];
           }
         }
       });
-
       uibModalInstance.result.then(function (result) {
-        $scope.datos[$scope.index] = result;
-        $scope.alertas.push({"tipo":"success", "mensaje": "PMT modificado exitosamente"});
-      }, function (status) {
-        if(status === 'error'){
-          $location.url('/404');
-        }
+        $scope.listado[$scope.index] = result;
+        $scope.alertas.push({"tipo":"success", "mensaje": "Dueño modificado exitosamente"});
+      }, function () {
       });
-    };
-
-    $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
-      for(var i = 0; i < array.length; i++) {
-          if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
-              return i;
-          }
-      }
-      return -1;
     };
     // ----------------------------------- END VER MODIFICAR --------------------------------------------------------------
+
+
+
+    // ----------------------------------- VER CREAR PMT --------------------------------------------------------------
+    $scope.crearPMT = function () {
+      var uibModalInstance = $uibModal.open({
+        templateUrl: 'views/admin/lispmtsinusu.html',
+        controller:'CrearDController',
+        resolve: {
+          options: function () {
+            return {"title": "Crear PMT", "buttom": "Crear","apiurl": $scope.apiurl};
+          }
+        }
+      });
+      uibModalInstance.result.then(function (result) {
+        $scope.listado.push(result);
+        $scope.alertas.push({"tipo":"success", "mensaje": "Dueño creado exitosamente"});
+      }, function () {
+      });
+    };
+    // ----------------------------------- END CREAR PMT --------------------------------------------------------------
+
 
     $scope.gridOptions = {
       enableFiltering: true,
@@ -93,7 +108,7 @@ angular.module('transxelaWebApp')
 
           {name: 'Direccion', field: 'direccion', headerCellClass: $scope.highlightFilteredHeader },
 
-          {name:'Descripcion',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idPmt)">Ver detalles</button></div>', enableFiltering: false}
+          {name:'Descripcion',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idpmt)">Ver detalles</button></div>', enableFiltering: false}
 
       ]
     };
@@ -127,31 +142,55 @@ angular.module('transxelaWebApp')
 });
 
 
-angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', '$resource', '$uibModalInstance', 'options', 'pmtusu', function ($scope, $resource, $uibModalInstance, options, pmtusu) {
+angular.module('transxelaWebApp').controller('CrearDController', ['$scope', '$http', '$uibModalInstance', 'options', function ($scope, $http, $uibModalInstance, options) {
+  $scope.nombre = null;
+  $scope.apellidos = null;
+  $scope.dpi = null;
+  $scope.direccion = null;
+  $scope.telefono = null;
+  $scope.correo = null;
+  $scope.estado = "1";
+  $scope.options = options;
+  $scope.close = function () {
+    var res = $http.post(options.apiurl+'/pmt/', {
+      nombre: $scope.nombre, apellidos: $scope.apellidos,
+      dpi: String($scope.dpi), direccion: $scope.direccion,
+      telefono: $scope.telefono, correo: $scope.correo,
+      estado: parseInt($scope.estado)
+    });
+    res.success(function(data, status, headers, config) {
+      $uibModalInstance.close(data, 500);
+    });
+    res.error(function(data, status, headers, config) {
+      console.log(data);
+    });
+  };
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+}]);
+
+
+angular.module('transxelaWebApp').controller('VerModificarDController', ['$scope', '$resource', '$uibModalInstance', 'options', 'pmtusu', function ($scope, $resource, $uibModalInstance, options, pmtusu) {
   $scope.nombre = pmtusu.nombre;
   $scope.apellidos = pmtusu.apellidos;
   $scope.dpi = parseInt(pmtusu.dpi);
   $scope.direccion = pmtusu.direccion;
-  $scope.empresa = pmtusu.empresa;
   $scope.telefono = pmtusu.telefono;
   $scope.correo = pmtusu.correo;
   $scope.estado = String(pmtusu.estado);
   $scope.options = options;
   $scope.close = function () {
-    var resource = $resource(options.apiurl+'/duenio/piloto/' + piloto.idchofer, {}, {'update': {method:'PUT'}});
+    var resource = $resource(options.apiurl+'/pmt/' + pmtusu.idpmt, {}, {'update': {method:'PUT'}});
     resource.update({}, {
-      nombre: $scope.nombre, apellidos: $scope.apellidos, dpi: String($scope.dpi),
-      direccion: $scope.direccion, licencia: $scope.licencia, tipolicencia: $scope.tipolicencia,
+      nombre: $scope.nombre, apellidos: $scope.apellidos,
+      direccion: $scope.direccion, dpi:$scope.dpi,
       telefono: $scope.telefono, correo: $scope.correo,
-      estado: parseInt($scope.estado), duenio: piloto.duenio
-    }
-  ).$promise.then(function(data) {
+      estado: parseInt($scope.estado), idpmt: pmtusu.idpmt
+    }).$promise.then(function(data) {
       $uibModalInstance.close(data, 500);
-    }, function(error) {
-        $uibModalInstance.dismiss('error');
     });
   };
-
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
