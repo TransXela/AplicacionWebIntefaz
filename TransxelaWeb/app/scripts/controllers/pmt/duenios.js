@@ -94,7 +94,7 @@ angular.module('transxelaWebApp').controller('DuenioCntrl', ['$scope', '$uibModa
   $scope.close = function () {
   apiService.crear('/pmt/duenio/', {
     nombre: $scope.nombre, apellidos: $scope.apellidos, direccion: $scope.direccion, empresa: $scope.empresa,
-    fecha_nac: $scope.formatoFecha($scope.fecha_nac), fecha_crea: $scope.formatoFecha($scope.fecha_crea), dpi: String($scope.dpi), telefono: $scope.telefono,
+    fecha_nac: "2009-02-20 00:00:00", fecha_crea: "2009-02-20 00:00:00", dpi: String($scope.dpi), telefono: $scope.telefono,
     correo: $scope.correo, estado: parseInt($scope.estado)
     })
     .success(function(data, status, headers, config) {

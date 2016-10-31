@@ -247,6 +247,7 @@ angular
   });
 })
 .service('apiService', function($cookies, $http) {
+  var apiURL = 'http://127.0.0.1:8000';
   var obtener = function(endpoint) {
     return $http.get(apiURL+endpoint);
   }
