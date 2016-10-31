@@ -7,15 +7,18 @@
  * # DuenioBusesCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, apiService, $uibModal,  $location, $cookies) {
+angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, $resource, $uibModal,  $location, $cookies) {
+  $scope.idduenio = $cookies.getObject('user').id;
   $scope.alertas = [];
+  //$scope.apiurl = 'http://127.0.0.1:8000';
+  $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
   $scope.showCrear = function () {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/duenio/bus.html',
       controller:'CrearBController',
       resolve: {
         options: function () {
-          return {"title": "Crear Bus", "buttom": "Crear", "token": $scope.token};
+          return {"title": "Crear Bus", "buttom": "Crear", "apiurl": $scope.apiurl};
         },
         rutas: function() {
           return $scope.rutas;
@@ -42,7 +45,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       controller: "VerModificarBController",
       resolve: {
         options: function () {
-          return {"title": "Ver Bus", "buttom": "Modificar", "token": $scope.token};
+          return {"title": "Ver Bus", "buttom": "Modificar", "apiurl": $scope.apiurl};
         },
         bus: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.buses,"idbus", idbus);
@@ -79,64 +82,39 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
 
   $scope.mapearRuta = function(idruta) {
     for(var i = 0; i < $scope.rutas.length; i++) {
-      if($scope.rutas[i]["idruta"] === idruta) {
-          return $scope.rutas[i]["nombre"];
-      }
+        if($scope.rutas[i]["idruta"] === idruta) {
+            return $scope.rutas[i]["nombre"];
+        }
     }
     return idruta;
   };
 
-  $scope.cerrar = function(){
-    $cookies.remove('user');
-      $location.url('/');
-  };
 
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
-    $scope.idduenio = $cookies.getObject('user').id;
-    $scope.token = $cookies.getObject('user').token;
-    $scope.gridOptions = {};
-    apiService.obtener('/ruta' + '/' + $scope.token).
-    success(function(response, status, headers, config){
-      $scope.rutas = response;
-      apiService.obtener('/duenio/'+$scope.idduenio+'/buses' + '/' + $scope.token).
-      success(function(response, status, headers, config){
-        $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
-        $scope.buses = response.buses;
-        $scope.gridOptions.data = $scope.buses;
-        $scope.gridOptions.enableFiltering = true;
-        $scope.gridOptions.columnDefs = [
-          {name:'Placa',field:'placa'},
-          {name:'Marca',field:'marca'},
-          {name:'Modelo',field:'modelo'},
-          {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>", enableFiltering: false},
-          {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
-          {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
-          ];
-      }).
-      error(function(response, status, headers, config) {
-        if(status === null || status === -1){
-          $location.url('/404');
-        }
-        else if(status === 401){
-          $location.url('/403');
-        }
-      });
-    }).
-    error(function(response, status, headers, config) {
-      if(status === null || status === -1){
-        $location.url('/404');
-      }
-      else if(status === 401){
-        $location.url('/403');
-      }
+  $scope.gridOptions = {};
+
+  var resource = $resource($scope.apiurl+'/ruta');
+  $scope.rutas = resource.query(function(){
+    resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/buses');
+    var query = resource.get(function(){
+      $scope.duenio = {"nombre":query.nombre, "apellidos": query.apellidos};
+      $scope.buses = query.buses;
+      $scope.gridOptions.data = $scope.buses;
+      $scope.gridOptions.enableFiltering = true;
+      $scope.gridOptions.columnDefs = [
+        {name:'Placa',field:'placa'},
+        {name:'Marca',field:'marca'},
+        {name:'Modelo',field:'modelo'},
+        {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>", enableFiltering: false},
+        {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
+        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
+        ];
     });
-  }
-  else{
-    $location.url('/login');
-  }
+  }, function(response) {
+    $location.url('/404');
+  });
 });
 
-angular.module('transxelaWebApp').controller('CrearBController', ['$scope', 'apiService', '$uibModalInstance', 'options', 'rutas', 'idduenio',function ($scope, apiService, $uibModalInstance, options, rutas, idduenio) {
+angular.module('transxelaWebApp').controller('CrearBController', ['$scope', '$http', '$uibModalInstance', 'options', 'rutas', 'idduenio',function ($scope, $http, $uibModalInstance, options, rutas, idduenio) {
   $scope.marca = null;
   $scope.modelo = null;
   $scope.placa = null;
@@ -162,16 +140,16 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', 'api
   };
 
   $scope.close = function () {
-    apiService.crear('/duenio/bus/' + options.token + '/', {
+    var res = $http.post(options.apiurl+'/duenio/bus/', {
       marca: $scope.marca, modelo: $scope.modelo,
       placa: $scope.placa, numbus: $scope.numbus,
       color: $scope.color, ruta: parseInt($scope.ruta),
       observaciones: $scope.observaciones, estado: parseInt($scope.estado), duenio: idduenio
-    }).
-    success(function(data, status, headers, config) {
+    });
+    res.success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
-    }).
-    error(function(data, status, headers, config) {
+    });
+    res.error(function(data, status, headers, config) {
       $uibModalInstance.dismiss('error');
     });
   };
@@ -181,7 +159,7 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', 'api
   };
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope', 'apiService', '$uibModalInstance', 'options', 'bus', 'rutas', function ($scope, apiService, $uibModalInstance, options, bus, rutas) {
+angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope', '$resource', '$uibModalInstance', 'options', 'bus', 'rutas', function ($scope, $resource, $uibModalInstance, options, bus, rutas) {
   $scope.marca = bus.marca;
   $scope.modelo = bus.modelo;
   $scope.placa = bus.placa;
@@ -193,16 +171,16 @@ angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope
   $scope.rutas = rutas;
   $scope.options = options;
   $scope.close = function () {
-    apiService.modificar('/duenio/bus/' + bus.idbus + '/' + options.token + '/', {
+    var resource = $resource(options.apiurl+'/duenio/bus/' + bus.idbus, {}, {'update': {method:'PUT'}});
+    resource.update({}, {
       marca: $scope.marca, modelo: $scope.modelo,
       placa: $scope.placa, numbus: $scope.numbus,
       color: $scope.color, ruta: parseInt($scope.ruta),
       observaciones: $scope.observaciones, estado: parseInt($scope.estado), duenio: bus.duenio
-    }).
-    success(function(response, status, headers, config){
-      $uibModalInstance.close(response, 500);
-    }).
-    error(function(response, status, headers, config) {
+    }).$promise.then(function(data) {
+      console.log(data);
+      $uibModalInstance.close(data, 500);
+    }, function(error) {
       $uibModalInstance.dismiss('error');
     });
   };

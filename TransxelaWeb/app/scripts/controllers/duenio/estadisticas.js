@@ -9,5 +9,9 @@
  */
 angular.module('transxelaWebApp')
   .controller('DuenioEstadisticasCtrl', function () {
-  
+    this.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
   });
