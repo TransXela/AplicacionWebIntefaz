@@ -9,7 +9,7 @@
       <div class="form-group">
         <label  class="col-sm-2 control-label">Nombre:</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" ng-model="nombre" placeholder="Nombres del Dueño" required autofocus/>
+            <input type="text" class="form-control" ng-model="nombre" placeholder="Nombres del Dueño" required autofocus style="text-transform:uppercase"/>
             <div ng-messages="duenioForm.nombre.$error" role="alert" class="text-danger">
               <div ng-messages="required">Campo requerido</div>
             </div>
@@ -18,7 +18,7 @@
       <div class="form-group">
         <label  class="col-sm-2 control-label">Apellido</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" ng-model="apellidos" placeholder="Apellidos del Dueño" required autofocus/>
+            <input type="text" class="form-control" ng-model="apellidos" placeholder="Apellidos del Dueño" required autofocus style="text-transform:uppercase"/>
             <div ng-messages="duenioForm.nombre.$error" role="alert" class="text-danger">
               <div ng-messages="required">Campo requerido</div>
             </div>
@@ -27,7 +27,7 @@
       <div class="form-group">
         <label  class="col-sm-2 control-label">Dirección:</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" ng-model="direccion" placeholder="Dirección del Dueño" required autofocus/>
+            <input type="text" class="form-control" ng-model="direccion" placeholder="Dirección del Dueño" required autofocus style="text-transform:uppercase"/>
             <div ng-messages="duenioForm.nombre.$error" role="alert" class="text-danger">
               <div ng-messages="required">Campo requerido</div>
             </div>
@@ -64,7 +64,7 @@
                   >Correo:</label>
         <div class="col-sm-10">
             <input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico del piloto" ng-model="correo">
-            
+
         </div>
         <div ng-messages="pilotoForm.correo.$error" role="alert" class="text-danger">
            	<div ng-message="email">Correo electrónico inválido</div>
