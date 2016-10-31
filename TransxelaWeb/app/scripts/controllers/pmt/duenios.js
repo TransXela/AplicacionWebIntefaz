@@ -9,18 +9,12 @@
 */
 
 angular.module('transxelaWebApp')
-.controller('PmtDueniosCtrl', function ($scope, $uibModal, $resource) {
+.controller('PmtDueniosCtrl', function ($scope, $uibModal, apiService) {
   $scope.alertas = [];
-  $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.showDuenio = function () {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/pmt/agregarDuenio.html',
-      controller:'CrearDController',
-      resolve: {
-        options: function () {
-          return {"apiurl": $scope.apiurl};
-        }
-      }
+      controller:'DuenioCntrl'
     });
     uibModalInstance.result.then(function (result) {
       $scope.listado.push(result);
@@ -28,8 +22,6 @@ angular.module('transxelaWebApp')
     }, function () {
     });
   };
-
-
   $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
     for(var i = 0; i < array.length; i++) {
       if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
@@ -38,11 +30,10 @@ angular.module('transxelaWebApp')
     }
     return -1;
   };
-
   $scope.gridOptions = {};
-  var resource = $resource($scope.apiurl+'/pmt/duenio/');
-  var query = resource.query(function(){
-    $scope.listado = query;
+  apiService.obtener('/pmt/duenio/').
+  success(function(response, status, headers, config){
+    $scope.listado = response;
     $scope.gridOptions.data = $scope.listado;
     $scope.showDetalle($scope.gridOptions.data[0]);
     $scope.gridOptions.enableFiltering = true;
@@ -52,68 +43,96 @@ angular.module('transxelaWebApp')
       {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
       {name:'Detalles',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showDetalle(row.entity)">Ver detalles</button></div>', enableFiltering: false}
     ];
-  });
-  $scope.mapearEstado = function(estado) {
-    return estado ? 'Habilitado' : 'Deshabilitado';
-  };
-  $scope.showVerModificar = function (idduenio) {
-    var uibModalInstance = $uibModal.open({
-      templateUrl: "views/pmt/editarDuenio.html",
-      controller: "VerModificarDController",
-      resolve: {
-        options: function () {
-          return {"apiurl": $scope.apiurl};
-        },
-        duenio: function(){
-          $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idduenio", idduenio);
-          return $scope.listado[$scope.index];
+    $scope.mapearEstado = function(estado) {
+      return estado ? 'Habilitado' : 'Deshabilitado';
+    };
+    $scope.showVerModificar = function (idduenio) {
+      var uibModalInstance = $uibModal.open({
+        templateUrl: "views/pmt/editarDuenio.html",
+        controller: "VerModificarDController",
+        resolve: {
+          options: function () {
+            return {"apiurl": $scope.apiurl};
+          },
+          duenio: function(){
+            $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idduenio", idduenio);
+            return $scope.listado[$scope.index];
+          }
         }
-      }
-    });
-    uibModalInstance.result.then(function (result) {
-      $scope.listado[$scope.index] = result;
-      $scope.alertas.push({"tipo":"success", "mensaje": "Dueño modificado exitosamente"});
-    }, function () {
-    });
-  };
+      });
+      uibModalInstance.result.then(function (result) {
+        $scope.listado[$scope.index] = result;
+        $scope.alertas.push({"tipo":"success", "mensaje": "Dueño modificado exitosamente"});
+      }, function () {
+      });
+    };
+  }).
+  error(function(response, status, headers, config) {
+    if(status === null || status === -1){
+      $location.url('/404');
+    }
+    else if(status === 401){
+      $location.url('/403');
+    }
+  });
   $scope.showDetalle = function(duenio) {
     $scope.mostrar = duenio;
-
   };
 });
-
-angular.module('transxelaWebApp').controller('CrearDController', ['$scope', '$http', '$uibModalInstance', 'options', function ($scope, $http, $uibModalInstance, options) {
+angular.module('transxelaWebApp').controller('DuenioCntrl', ['$scope', '$uibModalInstance','apiService' , function ($scope, $uibModalInstance, apiService) {
   $scope.nombre = null;
   $scope.apellidos = null;
-  $scope.dpi = null;
-  $scope.empresa = null;
   $scope.direccion = null;
-  $scope.licencia = null;
-  $scope.tipolicencia = null;
+  $scope.empresa = null;
+  $scope.fecha_nac = new Date();
+  $scope.fecha_crea = new Date();
+  $scope.dpi = null;
   $scope.telefono = null;
   $scope.correo = null;
   $scope.estado = "1";
-  $scope.options = options;
+  $scope.usuario_id =null;
   $scope.close = function () {
-    var res = $http.post(options.apiurl+'/pmt/duenio/', {
-      nombre: $scope.nombre, apellidos: $scope.apellidos,
-      dpi: String($scope.dpi), direccion: $scope.direccion,
-      telefono: $scope.telefono, correo: $scope.correo, empresa: $scope.empresa,
-      estado: parseInt($scope.estado)
-    });
-    res.success(function(data, status, headers, config) {
+  apiService.crear('/pmt/duenio/', {
+    nombre: $scope.nombre, apellidos: $scope.apellidos, direccion: $scope.direccion, empresa: $scope.empresa,
+    fecha_nac: "2009-02-20 00:00:00", fecha_crea: "2009-02-20 00:00:00", dpi: String($scope.dpi), telefono: $scope.telefono,
+    correo: $scope.correo, estado: parseInt($scope.estado)
+    })
+    .success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
-    });
-    res.error(function(data, status, headers, config) {
-      console.log(data);
+    })
+    .error(function(data, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
     });
   };
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
+  $scope.formatoFecha = function(fecha){
+    return fecha.getFullYear() + "-" + (fecha.getMonth()+1) + "-" + fecha.getDate();
+  }
+  $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+  $scope.setDate = function(year, month, day) {
+    $scope.fecha = new Date(year, month, day);
+  };
+  $scope.popup1 = {
+    opened: false
+  };
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    maxDate: new Date(2020, 5, 22),
+    minDate: new Date(),
+    startingDay: 0
+  };
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarDController', ['$scope', '$resource', '$uibModalInstance', 'options', 'duenio', function ($scope, $resource, $uibModalInstance, options, duenio) {
+angular.module('transxelaWebApp').controller('VerModificarDController', ['$scope', 'apiService', '$uibModalInstance', 'options', 'duenio', function ($scope, apiService, $uibModalInstance, options, duenio) {
   $scope.nombre = duenio.nombre;
   $scope.apellidos = duenio.apellidos;
   $scope.dpi = parseInt(duenio.dpi);
@@ -122,18 +141,18 @@ angular.module('transxelaWebApp').controller('VerModificarDController', ['$scope
   $scope.correo = duenio.correo;
   $scope.empresa = duenio.empresa;
   $scope.estado = String(duenio.estado);
-  $scope.options = options;
   $scope.close = function () {
-    var resource = $resource(options.apiurl+'/pmt/duenio/' + duenio.idduenio, {}, {'update': {method:'PUT'}});
-    resource.update({}, {
+      apiService.modificar('/pmt/duenio/' + duenio.idduenio, {
       nombre: $scope.nombre, apellidos: $scope.apellidos, dpi: String($scope.dpi),
       direccion: $scope.direccion,
       telefono: $scope.telefono, correo: $scope.correo, empresa: $scope.empresa,
       estado: parseInt($scope.estado), idduenio: duenio.idduenio
-    }).$promise.then(function(data) {
-      $uibModalInstance.close(data, 500);
-    }, function(error) {
-      console.log(error);
+    }).
+    success(function(response, status, headers, config){
+      $uibModalInstance.close(response, 500);
+    }).
+    error(function(response, status, headers, config) {
+      $uibModalInstance.dismiss('error');
     });
   };
   $scope.cancel = function () {

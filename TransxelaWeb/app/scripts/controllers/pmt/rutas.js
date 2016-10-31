@@ -7,20 +7,14 @@
  * # PmtRutasCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp')
-  .controller('PmtRutasCtrl', function ($scope, $uibModal, $resource) {
+angular.module('transxelaWebApp').controller('PmtRutasCtrl', function ($scope, $uibModal, apiService) {
     $scope.alertas = [];
-    $scope.apiurl = 'http://127.0.0.1:8000';
     $scope.showRutas = function () {
       var uibModalInstance = $uibModal.open({
         templateUrl: 'views/pmt/agregarRuta.html',
-        controller:'CrearRController',
-        resolve: {
-          options: function () {
-            return {"apiurl": $scope.apiurl};
-          }
-        }
+        controller:'CrearRController'
       });
+
       uibModalInstance.result.then(function (result) {
         $scope.listado.push(result);
         $scope.alertas.push({"tipo":"success", "mensaje": "Ruta creada exitosamente"});
@@ -38,10 +32,9 @@ angular.module('transxelaWebApp')
       };
 
       $scope.gridOptions = {};
-      var resource = $resource($scope.apiurl+'/pmt/rutas/');
-      var query = resource.query(function(){
-
-        $scope.listado = query;
+      apiService.obtener('/pmt/rutas/').
+      success(function(response, status, headers, config){
+        $scope.listado = response;
         $scope.gridOptions.data = $scope.listado;
         $scope.showDetalle($scope.gridOptions.data[0]);
         $scope.gridOptions.enableFiltering = true;
@@ -50,16 +43,21 @@ angular.module('transxelaWebApp')
           {name:'Recorrido',field:'recorrido', enableFiltering: false},
           {name:'Detalles',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showDetalle(row.entity)">Ver detalles</button></div>', enableFiltering: false}
         ];
+      }).
+      error(function(response, status, headers, config) {
+        if(status === null || status === -1){
+          $location.url('/404');
+        }
+        else if(status === 401){
+          $location.url('/403');
+        }
       });
 
       $scope.showVerModificar = function (idRuta) {
         var uibModalInstance = $uibModal.open({
           templateUrl: "views/pmt/modificarRuta.html",
-          controller: "VerModificarRController",
+          controller: "ModCtrl",
           resolve: {
-            options: function () {
-              return {"apiurl": $scope.apiurl};
-            },
             ruta: function(){
               $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idruta", idRuta);
               return $scope.listado[$scope.index];
@@ -74,28 +72,25 @@ angular.module('transxelaWebApp')
       };
       $scope.showDetalle = function(ruta) {
         $scope.mostrar = ruta;
-
       };
-
-
-
-
   });
-
-
-  angular.module('transxelaWebApp').controller('CrearRController', ['$scope', '$http', '$uibModalInstance', 'options', function ($scope, $http, $uibModalInstance, options) {
+  angular.module('transxelaWebApp').controller('CrearRController', ['$scope', 'apiService', '$uibModalInstance', function ($scope, apiService, $uibModalInstance) {
     $scope.nombre = null;
     $scope.recorrido = null;
-    $scope.options = options;
     $scope.close = function () {
-      var res = $http.post(options.apiurl+'/pmt/ruta/', {
+      apiService.crear('/pmt/ruta/', {
         nombre: $scope.nombre, recorrido: $scope.recorrido
-      });
-      res.success(function(data, status, headers, config) {
+      }).
+      success(function(data, status, headers, config) {
         $uibModalInstance.close(data, 500);
-      });
-      res.error(function(data, status, headers, config) {
-        console.log(data);
+      }).
+      error(function(data, status, headers, config) {
+        if(status === null || status === -1){
+          $location.url('/404');
+        }
+        else if(status === 401){
+          $location.url('/403');
+        }
       });
     };
     $scope.cancel = function () {
@@ -103,19 +98,19 @@ angular.module('transxelaWebApp')
     };
   }]);
 
-  angular.module('transxelaWebApp').controller('VerModificarRController', ['$scope', '$resource', '$uibModalInstance', 'options', 'ruta', function ($scope, $resource, $uibModalInstance, options, ruta) {
+  angular.module('transxelaWebApp').controller('ModCtrl', ['$scope', 'apiService', '$uibModalInstance', 'ruta', function ($scope, apiService, $uibModalInstance, ruta) {
     $scope.nombre = ruta.nombre;
     $scope.recorrido = ruta.recorrido;
-    $scope.options = options;
     $scope.close = function () {
-      var resource = $resource(options.apiurl+'/pmt/ruta/' + ruta.idRuta, {}, {'update': {method:'PUT'}});
-      resource.update({}, {
+      apiService.modificar('/pmt/ruta/' + ruta.idruta, {
         nombre: $scope.nombre, recorrido: $scope.recorrido,
         idRuta: ruta.idRuta
-      }).$promise.then(function(data) {
-        $uibModalInstance.close(data, 500);
-      }, function(error) {
-        console.log(error);
+      }).
+      success(function(response, status, headers, config){
+        $uibModalInstance.close(response, 500);
+      }).
+      error(function(response, status, headers, config) {
+        $uibModalInstance.dismiss('error');
       });
     };
     $scope.cancel = function () {

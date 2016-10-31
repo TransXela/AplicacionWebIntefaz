@@ -10,7 +10,7 @@
  * Controller of the transxelaWebApp
  */
  // Create an application module for our demo.
-angular.module('transxelaWebApp').controller('PopupDemoCont' ,function ($scope, $uibModal) {
+angular.module('transxelaWebApp').controller('PrincipalCulturaCtrl' ,function ($scope, $uibModal, $resource) {
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.idActividad=1;
@@ -22,7 +22,7 @@ angular.module('transxelaWebApp').controller('PopupDemoCont' ,function ($scope, 
 $scope.CrearNuevaAct = function () {
    var uibModalInstance = $uibModal.open({
     templateUrl: 'views/cultura/nuevaactividadcultural.html',
-    controller:'PopupCont',
+    controller:'PopupCtrlActividades',
       resolve: {
         options: function () {
           return {"titleAct": "Crear Actividad", "boton" :"Crear", "apiurl": $scope.apiurl};
@@ -37,7 +37,6 @@ $scope.CrearNuevaAct = function () {
 
 
       uibModalInstance.result.then(function (result) {
-      console.log("entro");
       $scope.actividades.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Actividad ingresada exitosamente"});
     }, function () {
@@ -70,22 +69,21 @@ $scope.CrearNuevaAct = function () {
     });
   };
 
-  $scope.gridOptions = {
-           data: $scope.actividades,
-           enableFiltering :true,
-           columnDefs:[
-             {name:'Nombre',field:'NombreActividad'},
-             {name:'Lugar',field:'LugarActividad'},
-             {name:' ',cellTemplate:'<div><button ng-click="grid.appScope.showVerModificar(rowRenderIndex)">Ver detalles</button></div>', enableFiltering: false}
-           ]
-     };
+  $scope.gridOptions={};
+  var resource = $resource('http://127.0.0.1:8000/cultura/actividad/');
+  var query = resource.get(function(){
+  $scope.actividades ={"NombreActividad" :query.NombreActividad, "DescripcionActividad" :query.DescripcionActividad};
+  $scope.actividades = query.actividades;
+    console.log($scope.actividades);
+  });
 
 });
 
 
 
-angular.module('transxelaWebApp').controller('PopupCont', ['$scope','$http','$uibModalInstance','options',function ($scope, $http, $uibModalInstance, options) {
-  console.log($scope.NombreActividad);
+angular.module('transxelaWebApp').controller('PopupCtrlActividades', ['$scope','$http','$uibModalInstance','options','$window',function ($scope, $http, $uibModalInstance, options, $window) {
+  $scope.longitud;
+
   $scope.nombre = null;
   $scope.descripcion = null;
   $scope.fecha = null;
@@ -96,12 +94,15 @@ angular.module('transxelaWebApp').controller('PopupCont', ['$scope','$http','$ui
   $scope.estado="true";
   $scope.options= options;
 $scope.close = function () {
+  $scope.longitud=document.getElementById('longitud').value;
+  $scope.latitud=document.getElementById('latitud').value;
   console.log({
         nombre: $scope.nombre, descripcion: $scope.descripcion,
         fecha: $scope.fecha, lugar: $scope.lugar,
         latitud: $scope.latitud, longitud:$scope.longitud,
         direccion: $scope.direccion, estado: $scope.estado
   } );
+
   var res= $http.post(options.apiurl+'/cultura/actividad/', {
         nombre: $scope.nombre, descripcion: $scope.descripcion,
         fecha: $scope.fecha, lugar: $scope.lugar,

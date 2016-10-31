@@ -7,7 +7,7 @@
 * # PmtHorariosCtrl
 * Controller of the transxelaWebApp
 */
-angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope, $resource, $uibModal, $location) {
+angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope, apiService, $location) {
   $scope.calendarView = 'month';
   $scope.viewDate = new Date();
   $scope.alertas = [];
@@ -16,38 +16,40 @@ angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope
   {primary: '#ad2121', secondary: '#fae3e3'},
   {primary: '#3db048', secondary: '#e3faeb'},
   {primary: '#adabab', secondary: '#bcbaba'}];
-  $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.idduenio = null;
-  var resource = $resource($scope.apiurl+'/pmt/duenio');
-  var query = resource.query(function(){
-    $scope.duenios = query;
+  apiService.obtener('/pmt/duenio').
+  success(function(response, status, headers, config){
+    $scope.duenios = response;
+  }).
+  error(function(response, status, headers, config) {
+    if(status === null || status === -1){
+      $location.url('/404');
+    }
+    else if(status === 401){
+      $location.url('/403');
+    }
   });
+
   var actions = [{
     label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
     onClick: function(args) {
       $scope.showVerModificar(args.calendarEvent);
     }
-  }// , {
-  //   label: '<i class=\'glyphicon glyphicon-remove\'></i>',
-  //   onClick: function(args) {
-  //     alert(args.calendarEvent.idhorariodetalle);
-  //   }}
-  ];
+  }];
 
   $scope.cargarHorarios = function(){
     $scope.events = [];
-    console.log($scope.apiurl+'/duenio/'+parseInt($scope.idduenio)+'/horariosdetalle');
-    var resource = $resource($scope.apiurl+'/duenio/'+parseInt($scope.idduenio)+'/horariosdetalle');
-    var respuesta = resource.get(function() {
-      $scope.duenio = {"nombre":respuesta.duenio.nombre, "apellidos": respuesta.duenio.apellidos};
-      var horariosdetalle = respuesta.diasHorarioDetalle;
+    apiService.obtener('/duenio/'+parseInt($scope.idduenio)+'/horariosdetalle').
+    success(function(response, status, headers, config){
+      var horariosdetalle = response.diasHorarioDetalle;
+      $scope.duenio = {"nombre":response.duenio.nombre, "apellidos": response.duenio.apellidos};
       $scope.hd = horariosdetalle;
-      var colorIndex = 0;
       var fechaActual = new Date();
+      var colorIndex = 0;
+      fechaActual.setHours("0");
+      fechaActual.setMinutes("0");
+      fechaActual.setSeconds("0");
       for(var i = 0; i < horariosdetalle.length; i++) {
-        if(colorIndex>4){
-          colorIndex = 0;
-        }
         var fechasplit = horariosdetalle[i].fecha.split("-");
         var fInicio = new Date("March 20, 2009 00:00:00");
         var fFin = new Date("March 20, 2009 00:00:00");
@@ -59,6 +61,17 @@ angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope
         fInicio.setMinutes(hora_minutosI[1]);
         fFin.setHours(hora_minutosF[0]);
         fFin.setMinutes(hora_minutosF[1]);
+        if(fechaActual.getTime()<fInicio.getTime()){
+          if(fechaActual.getDate() === fInicio.getDate()){
+            colorIndex = 1;
+          }
+          else {
+            colorIndex = 3;
+          }
+          if((horariosdetalle[i].hasOwnProperty("estado")) && (horariosdetalle[i].estado === 0)){
+            colorIndex = 4;
+          }
+        }
         $scope.events.push({
           title: horariosdetalle[i].chofer.nombre + " " + horariosdetalle[i].chofer.apellidos + " / " + horariosdetalle[i].bus.marca + " " + horariosdetalle[i].bus.placa,
           startsAt: fInicio,
@@ -73,11 +86,16 @@ angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope
           actions: actions,
           idhorariodetalle: horariosdetalle[i].idhorariodetalle
         });
-        colorIndex +=1;
-        }
-      }, function(response) {
+      }
+    }).
+    error(function(response, status, headers, config) {
+      if(status === null || status === -1){
         $location.url('/404');
-      });
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
+    });
   };
   $scope.getValueFromAttrAndValue = function(array, attr, value) {
     for(var i = 0; i < array.length; i++) {
