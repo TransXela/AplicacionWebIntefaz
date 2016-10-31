@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name transxelaWebApp.controller:OperadorDenunciastipoCtrl
+ * @name transxelaWebApp.controller:PmtHorariosbusCtrl
  * @description
- * # OperadorDenunciastipoCtrl
+ * # PmtHorariosbusCtrl
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('OperadorDenunciastipoCtrl', function ($scope, apiService, denunciaService) {
+  .controller('PmtHorariosbusCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
