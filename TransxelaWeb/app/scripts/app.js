@@ -257,6 +257,11 @@ angular
     controller: 'AdminCulturasinuCtrl',
     controllerAs: 'admin/culturasinu'
   })
+  .when('/admin/listausuarios', {
+    templateUrl: 'views/admin/listausuarios.html',
+    controller: 'AdminListausuariosCtrl',
+    controllerAs: 'admin/listausuarios'
+  })
   .otherwise({
     redirectTo: '/'
   });

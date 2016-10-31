@@ -1,0 +1,35 @@
+<div class="modal-header">
+	<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{options.title}}</h4>
+</div>
+<form name="pilotoForm" class="form" novalidate>
+<div class="modal-body">
+	<label>Nombre de usuario</label>
+	<input type="text" class="form-control" name = "username" id="username" placeholder="Nombre de usuario" ng-model="username" required autofocus >
+	<div ng-messages="pilotoForm.username.$error" role="alert" class="text-danger">
+  		<div ng-message="required">Campo requerido</div>
+	</div><br>
+
+
+  <label>Ingresar contraseña</label>
+  <input type="password" class="form-control" id="pw1" name="pw1" placeholder="Contraseña" ng-model="pw1" ng-required="" />
+
+  <label>confirmacion de la contraseña</label>
+  <input type="password" class="form-control" id="password" name="password" placeholder="Repetir contraseña" ng-model="password" ng-required=""/>
+  <div ng-messages="pilotoForm.password.$error" role="alert" class="text-danger">
+  		<div ng-message="required">Campo requerido</div>
+	</div><br>
+
+  <select class="form-control" name= "user" id="user" ng-model="user" required>
+    <option value="" disabled>Grupos</option>
+    <option ng-repeat="x in usuarios" value="{{x.id}}">{{x.name}}</option>
+  </select>
+  <div ng-messages="busForm.user.$error" role="alert" class="text-danger">
+      <div ng-message="required">Campo requerido</div>
+  </div>
+</div>
+<div class="modal-footer">
+    <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal" ng-disabled="pilotoForm.$invalid">{{options.buttom}}</button>
+    <button type="button" ng-click="cancel()" class="btn btn-warning">Cancelar</button>
+</div>
+</form>
