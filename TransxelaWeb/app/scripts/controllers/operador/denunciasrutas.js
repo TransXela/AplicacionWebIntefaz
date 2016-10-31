@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name transxelaWebApp.controller:OperadorDenunciastipoCtrl
+ * @name transxelaWebApp.controller:OperadorDenunciasrutasCtrl
  * @description
- * # OperadorDenunciastipoCtrl
+ * # OperadorDenunciasrutasCtrl
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('OperadorDenunciastipoCtrl', function ($scope, apiService, denunciaService) {
+  .controller('OperadorDenunciasrutasCtrl', function ($scope, apiService, denunciaService) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
