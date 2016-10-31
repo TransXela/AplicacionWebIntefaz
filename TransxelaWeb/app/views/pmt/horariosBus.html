@@ -46,7 +46,6 @@
                       <li>
                           <a href="#/pmt/horariosPiloto">Ver por Piloto</a>
                       </li>
-
                   </ul>
               </li>
             </ul>
@@ -70,9 +69,9 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <div class="input-group custom-search-form">
-                <input type="text" class="form-control" placeholder="Introduzca el numero de placa">
+                <input type="text" class="form-control" ng-model="busPlaca" placeholder="Introduzca el numero de placa">
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">
+                  <button class="btn btn-default" type="button" ng-click="buscar()">
                       <i class="fa fa-search"></i>
                   </button>
                 </span>
