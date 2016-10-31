@@ -84,7 +84,7 @@ angular.module('transxelaWebApp').controller('DuenioCntrl', ['$scope', '$uibModa
   $scope.apellidos = null;
   $scope.direccion = null;
   $scope.empresa = null;
-  $scope.fecha_nac = null;
+  $scope.fecha_nac = new Date();
   $scope.fecha_crea = new Date();
   $scope.dpi = null;
   $scope.telefono = null;

@@ -1,17 +1,14 @@
 'use strict';
 
 /**
- * @ngdoc function
- * @name transxelaWebApp.controller:DuenioHorariosCtrl
- * @description
- * # DuenioHorariosCtrl
- * Controller of the transxelaWebApp
- */
-angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, $resource, $uibModal, $location, $cookies) {
-  $scope.idduenio = $cookies.getObject('user').id;
+* @ngdoc function
+* @name transxelaWebApp.controller:DuenioHorariosCtrl
+* @description
+* # DuenioHorariosCtrl
+* Controller of the transxelaWebApp
+*/
+angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, apiService, $uibModal, $location, $cookies) {
   $scope.alertas = [];
-  //$scope.apiurl = 'http://127.0.0.1:8000';
-  $scope.apiurl = 'http://'+ $cookies.getObject('user').apiurl +':8000';
   $scope.showCrear = function (size) {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/duenio/horario.html',
@@ -19,7 +16,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
       size: size,
       resolve: {
         options: function () {
-          return {"title": "Crear Horario", "button": "Crear", "apiurl": $scope.apiurl};
+          return {"title": "Crear Horario", "button": "Crear", "token": $scope.token};
         },
         idduenio: function () {
           return $scope.idduenio;
@@ -43,7 +40,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
       size: size,
       resolve: {
         options: function () {
-          return {"title": "Ver Horario", "button": "Modificar", "apiurl": $scope.apiurl};
+          return {"title": "Ver Horario", "button": "Modificar", "token": $scope.token};
         },
         horario: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.horarios,"idhorario", idhorario);
@@ -62,59 +59,77 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
         $scope.alertas.push({"tipo":"success", "mensaje": "Horario eliminado exitosamente"});
       }
       else if(status ==='notdeleted'){
-       $scope.alertas.push({"tipo":"danger", "mensaje": "Imposible eliminar el horario"});
+        $scope.alertas.push({"tipo":"danger", "mensaje": "Imposible eliminar el horario"});
       }
       else if(status === 'error'){
-          $location.url('/404');
-        }
+        $location.url('/404');
+      }
     });
   };
 
   $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
     for(var i = 0; i < array.length; i++) {
-        if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
-            return i;
-        }
+      if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
+        return i;
+      }
     }
     return -1;
   };
 
-  $scope.gridOptions = {};
-  var resource = $resource($scope.apiurl+'/duenio/'+$scope.idduenio+'/horarios');
-  $scope.horarios = resource.query(function(){
-    $scope.nuevaHora = new Date("March 20, 2009 19:00:00");
-    for (var i=0; i<$scope.horarios.length; i++) {
-      $scope.hora_minutosI = $scope.horarios[i].horainicio.split(":");
-      $scope.hora_minutosF = $scope.horarios[i].horafin.split(":");
-      $scope.horarios[i].horainicio = $scope.nuevaHora.setHours($scope.hora_minutosI[0]);
-      $scope.horarios[i].horainicio = $scope.nuevaHora.setMinutes($scope.hora_minutosI[1]);
-      $scope.horarios[i].horafin = $scope.nuevaHora.setHours($scope.hora_minutosF[0]);
-      $scope.horarios[i].horafin = $scope.nuevaHora.setMinutes($scope.hora_minutosF[1]);
-    }
-    $scope.gridOptions.data = $scope.horarios;
-    $scope.gridOptions.columnDefs = [
-      {name:'Hora inicio',field:'horainicio', cellFilter: 'date:\'hh:mm a\''},
-      {name:'Hora fin',field:'horafin', cellFilter: 'date:\'hh:mm a\''},
-      {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idhorario, \'sm\')">Ver detalles</button></div>'}
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+      $location.url('/');
+  };
+
+  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+    $scope.idduenio = $cookies.getObject('user').id;
+    $scope.token = $cookies.getObject('user').token;
+    $scope.duenio = $cookies.getObject('user').usuario;
+    $scope.gridOptions = {};
+    apiService.obtener('/duenio/'+$scope.idduenio+'/horarios'+'/'+$scope.token).
+    success(function(response, status, headers, config) {
+      $scope.horarios = response;
+      $scope.nuevaHora = new Date("March 20, 2009 19:00:00");
+      for (var i=0; i<$scope.horarios.length; i++) {
+        $scope.hora_minutosI = $scope.horarios[i].horainicio.split(":");
+        $scope.hora_minutosF = $scope.horarios[i].horafin.split(":");
+        $scope.horarios[i].horainicio = $scope.nuevaHora.setHours($scope.hora_minutosI[0]);
+        $scope.horarios[i].horainicio = $scope.nuevaHora.setMinutes($scope.hora_minutosI[1]);
+        $scope.horarios[i].horafin = $scope.nuevaHora.setHours($scope.hora_minutosF[0]);
+        $scope.horarios[i].horafin = $scope.nuevaHora.setMinutes($scope.hora_minutosF[1]);
+      }
+      $scope.gridOptions.data = $scope.horarios;
+      $scope.gridOptions.columnDefs = [
+        {name:'Hora inicio',field:'horainicio', cellFilter: 'date:\'hh:mm a\''},
+        {name:'Hora fin',field:'horafin', cellFilter: 'date:\'hh:mm a\''},
+        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idhorario)">Ver detalles</button></div>'}
       ];
-  }, function(response) {
-    $location.url('/404');
-  });
+    }).
+    error(function(response, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
+    });
+  }
+  else{
+    $location.url('/login');
+  }
 });
 
-angular.module('transxelaWebApp').controller('CrearHController', ['$scope', '$http','$uibModalInstance', 'options', 'idduenio', function ($scope, $http, $uibModalInstance, options, idduenio) {
+angular.module('transxelaWebApp').controller('CrearHController', ['$scope', 'apiService','$uibModalInstance', 'options', 'idduenio', function ($scope, apiService, $uibModalInstance, options, idduenio) {
   $scope.horainicio = new Date("March 20, 2009 7:00:00");
   $scope.horafin = new Date("March 20, 2009 8:00:00");
   $scope.options = options;
   $scope.alertas = [];
   $scope.close = function () {
-    var res = $http.post(options.apiurl+'/duenio/horario/', {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin),
-        duenio: idduenio});
-    res.success(function(data, status, headers, config) {
-      $uibModalInstance.close({horainicio: $scope.horainicio, horafin: $scope.horafin,
-        duenio: idduenio, idhorario: data.idhorario}, 500);
-    });
-    res.error(function(response, status, headers, config) {
+    apiService.crear('/duenio/horario/' + options.token + '/', {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: idduenio}).
+    success(function(data, status, headers, config) {
+      $uibModalInstance.close({horainicio: $scope.horainicio, horafin: $scope.horafin, duenio: idduenio, idhorario: data.idhorario}, 500);
+    }).
+    error(function(response, status, headers, config) {
       if(response != null && response.crear != null) {
         $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
       }
@@ -134,26 +149,26 @@ angular.module('transxelaWebApp').controller('CrearHController', ['$scope', '$ht
   }
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope', '$resource','$uibModalInstance', 'options', 'horario', function ($scope, $resource, $uibModalInstance, options, horario) {
+angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope', 'apiService','$uibModalInstance', 'options', 'horario', function ($scope, apiService, $uibModalInstance, options, horario) {
   $scope.horainicio = horario.horainicio;
   $scope.horafin = horario.horafin;
   $scope.options = options;
   $scope.alertas = [];
   $scope.close = function () {
-    var resource = $resource(options.apiurl+'/duenio/horario/' + horario.idhorario, {}, {'update': {method:'PUT'}});
-    resource.update({},{horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin),
-        duenio: horario.duenio}).$promise.then(function(data) {
+    apiService.modificar('/duenio/horario/' + horario.idhorario + '/' + options.token + '/', {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: horario.duenio}).
+    success(function(data, status, headers, config) {
       $uibModalInstance.close({
         horainicio: $scope.horainicio,
         horafin: $scope.horafin
       }, 500);
-    }, function(response) {
-        if(response != null && response.data != null) {
-          $scope.alertas.push({"tipo":"warning", "mensaje": response.data.modificar.estado});
-        }
-        else{
-          $uibModalInstance.dismiss('error');
-        }
+    }).
+    error(function(response, status, headers, config) {
+      if(response != null && response.data != null) {
+        $scope.alertas.push({"tipo":"warning", "mensaje": response.data.modificar.estado});
+      }
+      else{
+        $uibModalInstance.dismiss('error');
+      }
     });
   };
 
@@ -162,10 +177,11 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
   };
 
   $scope.delete = function () {
-    var resource = $resource(options.apiurl+'/duenio/horario/' + horario.idhorario);
-    resource.delete().$promise.then(function() {
+    apiService.borrar('/duenio/horario/' + horario.idhorario + '/' + options.token + '/').
+    success(function(response, status, headers, config){
       $uibModalInstance.dismiss('success');
-    }, function(response) {
+    }).
+    error(function(response, status, headers, config) {
       if(response != null && response.data != null) {
         $uibModalInstance.dismiss('notdeleted');
       }

@@ -7,21 +7,14 @@
  * # PmtRutasCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp')
-<<<<<<< Updated upstream
-  .controller('PmtRutasCtrl', function ($scope) {
-=======
-  .controller('PmtRutasCtrl', function ($scope, $uibModal, apiService) {
->>>>>>> Stashed changes
+angular.module('transxelaWebApp').controller('PmtRutasCtrl', function ($scope, $uibModal, apiService) {
     $scope.alertas = [];
     $scope.showRutas = function () {
       var uibModalInstance = $uibModal.open({
         templateUrl: 'views/pmt/agregarRuta.html',
         controller:'CrearRController'
       });
-<<<<<<< Updated upstream
-  }});
-=======
+
       uibModalInstance.result.then(function (result) {
         $scope.listado.push(result);
         $scope.alertas.push({"tipo":"success", "mensaje": "Ruta creada exitosamente"});
@@ -124,4 +117,3 @@ angular.module('transxelaWebApp')
       $uibModalInstance.dismiss('cancel');
     };
   }]);
->>>>>>> Stashed changes
