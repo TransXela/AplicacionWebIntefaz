@@ -8,5 +8,10 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('OperadorDenunciasrutaCtrl', function ($scope, apiService, denunciaService) {
+  .controller('OperadorDenunciasrutaCtrl', function () {
+    this.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
   });
