@@ -8,7 +8,6 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, apiService, $uibModal,  $location, $cookies) {
-  $scope.idduenio = $cookies.getObject('user').id;
   $scope.alertas = [];
   $scope.showCrear = function () {
     var uibModalInstance = $uibModal.open({
@@ -16,7 +15,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       controller:'CrearBController',
       resolve: {
         options: function () {
-          return {"title": "Crear Bus", "buttom": "Crear"};
+          return {"title": "Crear Bus", "buttom": "Crear", "token": $scope.token};
         },
         rutas: function() {
           return $scope.rutas;
@@ -43,7 +42,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       controller: "VerModificarBController",
       resolve: {
         options: function () {
-          return {"title": "Ver Bus", "buttom": "Modificar"};
+          return {"title": "Ver Bus", "buttom": "Modificar", "token": $scope.token};
         },
         bus: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.buses,"idbus", idbus);
@@ -80,31 +79,48 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
 
   $scope.mapearRuta = function(idruta) {
     for(var i = 0; i < $scope.rutas.length; i++) {
-        if($scope.rutas[i]["idruta"] === idruta) {
-            return $scope.rutas[i]["nombre"];
-        }
+      if($scope.rutas[i]["idruta"] === idruta) {
+          return $scope.rutas[i]["nombre"];
+      }
     }
     return idruta;
   };
 
-  $scope.gridOptions = {};
-  apiService.obtener('/ruta').
-  success(function(response, status, headers, config){
-    $scope.rutas = response;
-    apiService.obtener('/duenio/'+$scope.idduenio+'/buses').
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+      $location.url('/');
+  };
+
+  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+    $scope.idduenio = $cookies.getObject('user').id;
+    $scope.token = $cookies.getObject('user').token;
+    $scope.gridOptions = {};
+    apiService.obtener('/ruta' + '/' + $scope.token).
     success(function(response, status, headers, config){
-      $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
-      $scope.buses = response.buses;
-      $scope.gridOptions.data = $scope.buses;
-      $scope.gridOptions.enableFiltering = true;
-      $scope.gridOptions.columnDefs = [
-        {name:'Placa',field:'placa'},
-        {name:'Marca',field:'marca'},
-        {name:'Modelo',field:'modelo'},
-        {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>", enableFiltering: false},
-        {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
-        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
-        ];
+      $scope.rutas = response;
+      apiService.obtener('/duenio/'+$scope.idduenio+'/buses' + '/' + $scope.token).
+      success(function(response, status, headers, config){
+        $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
+        $scope.buses = response.buses;
+        $scope.gridOptions.data = $scope.buses;
+        $scope.gridOptions.enableFiltering = true;
+        $scope.gridOptions.columnDefs = [
+          {name:'Placa',field:'placa'},
+          {name:'Marca',field:'marca'},
+          {name:'Modelo',field:'modelo'},
+          {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>", enableFiltering: false},
+          {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
+          {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
+          ];
+      }).
+      error(function(response, status, headers, config) {
+        if(status === null || status === -1){
+          $location.url('/404');
+        }
+        else if(status === 401){
+          $location.url('/403');
+        }
+      });
     }).
     error(function(response, status, headers, config) {
       if(status === null || status === -1){
@@ -114,15 +130,10 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
         $location.url('/403');
       }
     });
-  }).
-  error(function(response, status, headers, config) {
-    if(status === null || status === -1){
-      $location.url('/404');
-    }
-    else if(status === 401){
-      $location.url('/403');
-    }
-  });
+  }
+  else{
+    $location.url('/login');
+  }
 });
 
 angular.module('transxelaWebApp').controller('CrearBController', ['$scope', 'apiService', '$uibModalInstance', 'options', 'rutas', 'idduenio',function ($scope, apiService, $uibModalInstance, options, rutas, idduenio) {
@@ -151,7 +162,7 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', 'api
   };
 
   $scope.close = function () {
-    apiService.crear('/duenio/bus/', {
+    apiService.crear('/duenio/bus/' + options.token + '/', {
       marca: $scope.marca, modelo: $scope.modelo,
       placa: $scope.placa, numbus: $scope.numbus,
       color: $scope.color, ruta: parseInt($scope.ruta),
@@ -182,7 +193,7 @@ angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope
   $scope.rutas = rutas;
   $scope.options = options;
   $scope.close = function () {
-    apiService.modificar('/duenio/bus/' + bus.idbus, {
+    apiService.modificar('/duenio/bus/' + bus.idbus + '/' + options.token + '/', {
       marca: $scope.marca, modelo: $scope.modelo,
       placa: $scope.placa, numbus: $scope.numbus,
       color: $scope.color, ruta: parseInt($scope.ruta),

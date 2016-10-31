@@ -9,7 +9,6 @@
  */
 
 angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, apiService, $uibModal, $location, $cookies) {
-  $scope.idduenio = $cookies.getObject('user').id;
   $scope.alertas = [];
   $scope.showCrear = function () {
     var uibModalInstance = $uibModal.open({
@@ -17,7 +16,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       controller:'CrearPController',
       resolve: {
         options: function () {
-          return {"title": "Crear Piloto", "buttom": "Crear"};
+          return {"title": "Crear Piloto", "buttom": "Crear", "token": $scope.token};
         },
         idduenio: function () {
           return $scope.idduenio;
@@ -37,10 +36,10 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
   $scope.showVerModificar = function (idchofer) {
     var uibModalInstance = $uibModal.open({
       templateUrl: "views/duenio/piloto.html",
-      controller: "VerModificarPController",
+      controller: "VerController",
       resolve: {
         options: function () {
-          return {"title": "Ver Piloto", "buttom": "Modificar"};
+          return {"title": "Ver Piloto", "buttom": "Modificar", "token": $scope.token};
         },
         piloto: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.pilotos,"idchofer", idchofer);
@@ -68,33 +67,45 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     return -1;
   };
 
-  $scope.gridOptions = {};
-  apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos').
-  success(function(response, status, headers, config){
-    $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
-    $scope.pilotos = response.choferes;
-    $scope.gridOptions.data = $scope.pilotos;
-    $scope.gridOptions.enableFiltering = true;
-    $scope.gridOptions.columnDefs = [
-      {name:'Nombre',field:'nombre'},
-      {name:'Apellidos',field:'apellidos'},
-      {name:'Tipo Licencia',field:'tipolicencia'},
-      {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
-      {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver detalles</button></div>', enableFiltering: false}
-      ];
-  }).
-  error(function(response, status, headers, config) {
-    if(status === null || status === -1){
-      $location.url('/404');
-    }
-    else if(status === 401){
-      $location.url('/403');
-    }
-  });
   $scope.mapearEstado = function(estado) {
     return estado ? 'Habilitado' : 'Deshabilitado';
   };
 
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+    $location.url('/');
+  };
+
+  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+    $scope.idduenio = $cookies.getObject('user').id;
+    $scope.token = $cookies.getObject('user').token;
+    $scope.gridOptions = {};
+    apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '/' + $scope.token).
+    success(function(response, status, headers, config){
+      $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
+      $scope.pilotos = response.choferes;
+      $scope.gridOptions.data = $scope.pilotos;
+      $scope.gridOptions.enableFiltering = true;
+      $scope.gridOptions.columnDefs = [
+        {name:'Nombre',field:'nombre'},
+        {name:'Apellidos',field:'apellidos'},
+        {name:'Tipo Licencia',field:'tipolicencia'},
+        {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
+        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver detalles</button></div>', enableFiltering: false}
+        ];
+      }).
+      error(function(response, status, headers, config) {
+        if(status === null || status === -1){
+          $location.url('/404');
+        }
+        else if(status === 401){
+          $location.url('/403');
+        }
+      });
+  }
+  else{
+    $location.url('/login');
+  }
 });
 
 angular.module('transxelaWebApp').controller('CrearPController', ['$scope', 'apiService', '$uibModalInstance','options', 'idduenio', function ($scope, apiService, $uibModalInstance, options, idduenio) {
@@ -109,7 +120,7 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', 'api
   $scope.estado = "1";
   $scope.options = options;
   $scope.close = function () {
-    apiService.crear('/duenio/piloto/', {
+    apiService.crear('/duenio/piloto/' + options.token + '/', {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
       licencia: $scope.licencia, tipolicencia: $scope.tipolicencia,
@@ -129,7 +140,7 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', 'api
   };
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope', 'apiService', '$uibModalInstance', 'options', 'piloto', function ($scope, apiService, $uibModalInstance, options, piloto) {
+angular.module('transxelaWebApp').controller('VerController', ['$scope', 'apiService', '$uibModalInstance', 'options', 'piloto', function ($scope, apiService, $uibModalInstance, options, piloto) {
   $scope.nombre = piloto.nombre;
   $scope.apellidos = piloto.apellidos;
   $scope.dpi = parseInt(piloto.dpi);
@@ -141,7 +152,7 @@ angular.module('transxelaWebApp').controller('VerModificarPController', ['$scope
   $scope.estado = String(piloto.estado);
   $scope.options = options;
   $scope.close = function () {
-    apiService.modificar('/duenio/piloto/' + piloto.idchofer, {
+    apiService.modificar('/duenio/piloto/' + piloto.idchofer + '/' + options.token + '/', {
       nombre: $scope.nombre, apellidos: $scope.apellidos, dpi: String($scope.dpi),
       direccion: $scope.direccion, licencia: $scope.licencia, tipolicencia: $scope.tipolicencia,
       telefono: $scope.telefono, correo: $scope.correo,
