@@ -195,6 +195,11 @@ angular
         controller: 'AdminDueniosinuCtrl',
         controllerAs: 'admin/dueniosinu'
       })
+      .when('/admin/culturasinu', {
+        templateUrl: 'views/admin/culturasinu.html',
+        controller: 'AdminCulturasinuCtrl',
+        controllerAs: 'admin/culturasinu'
+      })
       .otherwise({
         redirectTo: '/'
       });
