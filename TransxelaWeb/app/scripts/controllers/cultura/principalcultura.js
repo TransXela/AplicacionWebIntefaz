@@ -10,7 +10,7 @@
  * Controller of the transxelaWebApp
  */
  // Create an application module for our demo.
-angular.module('transxelaWebApp').controller('PrincipalCulturaCtrl' ,function ($scope, $uibModal, $resource) {
+angular.module('transxelaWebApp').controller('PrincipalCulturaCtrl' ,function ($scope, $uibModal, $resource, $http) {
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.idActividad=1;
@@ -50,14 +50,15 @@ $scope.CrearNuevaAct = function () {
 
   $scope.showVerModificar = function (index) {
     var uibModalInstance = $uibModal.open({
-      templateUrl: "views/cultura/nuevaactividadcultural.html",
-      controller: "VerModificarAController",
+      templateUrl: "views/cultura/modificaractividadcultural.html",
+      controller: "VerModificarControllerCultura",
       resolve: {
         options: function () {
-          return {"title": "Ver actividad", "boton": "Modificar"};
+          return {"title": "Ver actividad", "boton": "Modificar","apiurl": $scope.apiurl};
         },
         act: function(){
-          return $scope.actividades[index];
+          $scope.index=$scope.getIndexIfObjWithOwnAttr($scope.actividades,"idactividad", index);
+          return $scope.actividades[$scope.index];
         }
       }
     });
@@ -69,14 +70,33 @@ $scope.CrearNuevaAct = function () {
     });
   };
 
-  $scope.gridOptions={};
-  var resource = $resource('http://127.0.0.1:8000/cultura/actividad/');
-  var query = resource.get(function(){
-  $scope.actividades ={"NombreActividad" :query.NombreActividad, "DescripcionActividad" :query.DescripcionActividad};
-  $scope.actividades = query.actividades;
-    console.log($scope.actividades);
-  });
+  $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
+    for(var i = 0; i < array.length; i++) {
+        if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
+            return i;
+        }
+    }
+    return -1;
+  };
 
+  $scope.gridOptions={};
+
+var actividades = $http.get('http://127.0.0.1:8000/cultura/actividad/');
+    actividades.then(function(result) {
+    $scope.actividades = result.data;
+    $scope.gridOptions.data=$scope.actividades;
+    console.log($scope.actividades);
+    $scope.gridOptions.enableFiltering=true;
+    $scope.gridOptions.columnDefs=[
+      {name: 'Nombre actividad', field: 'nombre'},
+      {name: 'Descripcion actividad', field:'descripcion'},
+      {name: 'Fecha', field:'fecha'},
+      {name: 'Direccion', field:'direccion'},
+      {name: 'Lugar', field:'lugar'},
+      {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idactividad)">Ver detalles</button></div>', enableFiltering: false}
+
+    ];
+});
 });
 
 
@@ -93,7 +113,7 @@ angular.module('transxelaWebApp').controller('PopupCtrlActividades', ['$scope','
   $scope.direccion= null;
   $scope.estado="true";
   $scope.options= options;
-$scope.close = function () {
+ $scope.close = function () {
   $scope.longitud=document.getElementById('longitud').value;
   $scope.latitud=document.getElementById('latitud').value;
   console.log({
@@ -124,6 +144,7 @@ $scope.cancel = function () {
     }
     $scope.today = function() {
       $scope.fecha = new Date();
+
     };
     $scope.today();
     $scope.clear = function() {
@@ -141,6 +162,7 @@ $scope.cancel = function () {
 
     $scope.setDate = function(year, month, day) {
       $scope.fecha = new Date(year, month, day);
+
     };
 
     $scope.popup1 = {
@@ -153,23 +175,26 @@ $scope.cancel = function () {
 }]);
 
 
-angular.module('transxelaWebApp').controller('VerModificarAController', ['$scope','$uibModalInstance','options','act',function ($scope, $uibModalInstance, options,act) {
-  $scope.NombreActividad = act.NombreActividad;
-  $scope.DescripcionActividad = act.DescripcionActividad;
-  $scope.LugarActividad = act.LugarActividad;
-  $scope.DateActividad = act.DateActividad;
-  $scope.LatActividad = act.LatActividad;
-  $scope.LngActividad = act.LngActividad;
+angular.module('transxelaWebApp').controller('VerModificarControllerCultura', ['$scope','$uibModalInstance','options','act',function ($scope, $uibModalInstance, options,act) {
+  console.log("entro");
+  console.log(act.nombre);
+  $scope.nombre = act.nombre;
+  $scope.descripcion = act.descripcion;
+  $scope.lugar = act.lugar;
+  $scope.fecha = act.fecha;
+  $scope.latitud = act.latitud;
+  $scope.longitud = act.longitud;
+  $scope.direccion=act.direccion;
   $scope.options= options;
 $scope.close = function () {
   $uibModalInstance.close({
 
-    NombreActividad: $scope.NombreActividad,
-    DescripcionActividad: $scope.DescripcionActividad,
-    LugarActividad: $scope.LugarActividad,
-    DateActividad: $scope.DateActividad,
-    LatActividad: $scope.LatActividad,
-    LngActividad: $scope.LngActividad,
+    nombre: $scope.nombre,
+    description: $scope.descripcion,
+    lugar: $scope.lugar,
+    fecha: $scope.fecha,
+    latitud: $scope.latitud,
+    longitud: $scope.longitud
 
   }, 500);
 };

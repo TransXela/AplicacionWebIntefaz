@@ -257,17 +257,12 @@ angular
     controller: 'AdminCulturasinuCtrl',
     controllerAs: 'admin/culturasinu'
   })
-  .when('/admin/listausuarios', {
-    templateUrl: 'views/admin/listausuarios.html',
-    controller: 'AdminListausuariosCtrl',
-    controllerAs: 'admin/listausuarios'
-  })
   .otherwise({
     redirectTo: '/'
   });
 })
 .service('apiService', function($cookies, $http) {
-  var apiURL = 'http://192.168.1.4:8000';
+  var apiURL = 'http://127.0.0.1:8000';
   var obtener = function(endpoint) {
     return $http.get(apiURL+endpoint);
   }
