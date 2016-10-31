@@ -12,13 +12,30 @@ angular.module('transxelaWebApp')
 
     $scope.alertas = [];
     $scope.apiurl = 'http://127.0.0.1:8000';
-    var resource = $resource($scope.apiurl+'/cultura/sinusuario');
-    var query = resource.query(function(){
-      $scope.listado = query;
-      $scope.gridOptions.data = $scope.listado;
-      $scope.showDetalle($scope.gridOptions.data[0]);
+    var resource = $resource($scope.apiurl+'/users/');
+    $scope.usuarios = resource.query(function(){
+      var resource = $resource($scope.apiurl+'/cultura/sinusuario');
+      var query = resource.query(function(){
+        $scope.listado = query;
+        $scope.gridOptions.data = $scope.listado;
+        $scope.showDetalle($scope.gridOptions.data[0]);
 
+      });
+
+
+    },function(response){
+      console.log(response);
     });
+
+    $scope.mapearRuta = function(idruta) {
+      for(var i = 0; i < $scope.usuarios.length; i++) {
+          if($scope.usuarios[i]["idruta"] === idruta) {
+              return $scope.usuarios[i]["nombre"];
+          }
+      }
+      return idruta;
+    };
+
     $scope.mapearEstado = function(estado) {
       return estado ? 'Habilitado' : 'Deshabilitado';
     };
@@ -52,6 +69,9 @@ angular.module('transxelaWebApp')
           culturausu: function(){
             $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idcultura", idcultura);
             return $scope.listado[$scope.index];
+          },
+          usuarios: function() {
+            return $scope.usuarios;
           }
         }
       });
@@ -73,12 +93,18 @@ angular.module('transxelaWebApp')
         resolve: {
           options: function () {
             return {"title": "Crear persona de cultura", "buttom": "Crear","apiurl": $scope.apiurl};
+          },
+          usuarios: function() {
+            return $scope.usuarios;
+          },
+          idcultura: function () {
+            return $scope.idcultura;
           }
         }
       });
       uibModalInstance.result.then(function (result) {
         $scope.listado.push(result);
-        $scope.alertas.push({"tipo":"success", "mensaje": "persona de cultura creado exitosamente"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Persona de cultura creado exitosamente"});
       }, function () {
       });
     };
@@ -176,7 +202,7 @@ angular.module('transxelaWebApp').controller('crearCulturaController', ['$scope'
 }]);
 
 
-angular.module('transxelaWebApp').controller('VerModificarCulturaController', ['$scope', '$resource', '$uibModalInstance', 'options', 'culturausu', function ($scope, $resource, $uibModalInstance, options, culturausu) {
+angular.module('transxelaWebApp').controller('VerModificarCulturaController', ['$scope', '$resource', '$uibModalInstance', 'options', 'culturausu', 'usuarios', function ($scope, $resource, $uibModalInstance, options, culturausu, usuarios) {
   $scope.fecha_nac = new Date("March 20, 2009 7:00:00");
   $scope.fecha_crea = new Date("March 20, 2009 7:00:00");
   $scope.nombre = culturausu.nombre;
@@ -187,15 +213,18 @@ angular.module('transxelaWebApp').controller('VerModificarCulturaController', ['
   $scope.telefono = culturausu.telefono;
   $scope.correo = culturausu.correo;
   $scope.estado = String(culturausu.estado);
+  $scope.user = null;
   $scope.options = options;
   $scope.alertas = [];
+  $scope.usuarios = usuarios;
   $scope.close = function () {
     var resource = $resource(options.apiurl+'/cultura/' + culturausu.idcultura, {}, {'update': {method:'PUT'}});
     resource.update({}, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       direccion: $scope.direccion, dpi:$scope.dpi,
       telefono: $scope.telefono, correo: $scope.correo,
-      estado: parseInt($scope.estado), idcultura: culturausu.idcultura
+      estado: parseInt($scope.estado), idcultura: culturausu.idcultura,
+      usuario: parseInt($scope.user)
     }).$promise.then(function(data) {
       $uibModalInstance.close(data, 500);
     });
