@@ -190,6 +190,11 @@ angular
         controller: 'AdminLispmtsinuCtrl',
         controllerAs: 'admin/lispmtsinu'
       })
+      .when('/admin/dueniosinu', {
+        templateUrl: 'views/admin/dueniosinu.html',
+        controller: 'AdminDueniosinuCtrl',
+        controllerAs: 'admin/dueniosinu'
+      })
       .otherwise({
         redirectTo: '/'
       });

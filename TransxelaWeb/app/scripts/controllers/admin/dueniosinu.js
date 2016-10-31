@@ -2,19 +2,21 @@
 
 /**
  * @ngdoc function
- * @name transxelaWebApp.controller:AdminLispmtsinuCtrl
+ * @name transxelaWebApp.controller:AdminDueniosinuCtrl
  * @description
- * # AdminLispmtsinuCtrl
+ * # AdminDueniosinuCtrl
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminLispmtsinuCtrl', [ '$scope', '$http', 'uiGridConstants','$cookies', '$location' , '$uibModal', '$resource', function ($scope, $http, uiGridConstants, $cookies, $location, $uibModal, $resource) {
+  .controller('AdminDueniosinuCtrl', [ '$scope', '$http', 'uiGridConstants','$cookies', '$location' , '$uibModal', '$resource', function ($scope, $http, uiGridConstants, $cookies, $location, $uibModal, $resource) {
+
     $scope.alertas = [];
     $scope.apiurl = 'http://127.0.0.1:8000';
-    var resource = $resource($scope.apiurl+'/pmt/sinusuario');
+    var resource = $resource($scope.apiurl+'/duenio/sinusuario');
     var query = resource.query(function(){
       $scope.listado = query;
       $scope.gridOptions.data = $scope.listado;
+      $scope.showDetalle($scope.gridOptions.data[0]);
 
     });
     $scope.mapearEstado = function(estado) {
@@ -39,23 +41,23 @@ angular.module('transxelaWebApp')
     };
 
     // ----------------------------------- VER MODIFICAR --------------------------------------------------------------
-    $scope.showVerModificar = function (idpmt) {
+    $scope.showVerModificar = function (idduenio) {
       var uibModalInstance = $uibModal.open({
-        templateUrl: "views/admin/lispmtsinusu.html",
-        controller: "VerModificarPmtController",
+        templateUrl: "views/admin/dueniosinusu.html",
+        controller: "VerModificarDuenioController",
         resolve: {
           options: function () {
-            return {"title": "Ver modificar PMT", "buttom": "Modificar","apiurl": $scope.apiurl};
+            return {"title": "Ver modificar dueño", "buttom": "Modificar","apiurl": $scope.apiurl};
           },
-          pmtusu: function(){
-            $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idpmt", idpmt);
+          dueniousu: function(){
+            $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idduenio", idduenio);
             return $scope.listado[$scope.index];
           }
         }
       });
       uibModalInstance.result.then(function (result) {
         $scope.listado[$scope.index] = result;
-        $scope.alertas.push({"tipo":"success", "mensaje": "Usuario de PMT modificado exitosamente"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Dueño modificado exitosamente"});
       }, function () {
       });
     };
@@ -64,19 +66,19 @@ angular.module('transxelaWebApp')
 
 
     // ----------------------------------- VER CREAR PMT --------------------------------------------------------------
-    $scope.crearPMT = function () {
+    $scope.crearDuenio = function () {
       var uibModalInstance = $uibModal.open({
-        templateUrl: 'views/admin/lispmtsinusu.html',
-        controller:'CrearPmtController',
+        templateUrl: 'views/admin/dueniosinusu.html',
+        controller:'CrearDuenioController',
         resolve: {
           options: function () {
-            return {"title": "Crear PMT", "buttom": "Crear","apiurl": $scope.apiurl};
+            return {"title": "Crear dueño", "buttom": "Crear","apiurl": $scope.apiurl};
           }
         }
       });
       uibModalInstance.result.then(function (result) {
         $scope.listado.push(result);
-        $scope.alertas.push({"tipo":"success", "mensaje": "Usuario de PMT creado exitosamente"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Dueño creado exitosamente"});
       }, function () {
       });
     };
@@ -108,7 +110,7 @@ angular.module('transxelaWebApp')
 
           {name: 'Direccion', field: 'direccion', headerCellClass: $scope.highlightFilteredHeader },
 
-          {name:'Descripcion',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idpmt)">Ver detalles</button></div>', enableFiltering: false}
+          {name:'Descripcion',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idduenio)">Ver detalles</button></div>', enableFiltering: false}
 
       ]
     };
@@ -120,10 +122,12 @@ angular.module('transxelaWebApp')
       $scope.gridApi.core.notifyDataChange( uiGridConstants.dataChange.COLUMN );
     };
 
+    $scope.showDetalle = function(dueniousu) {
+      $scope.mostrar = dueniousu;
+    };
+
 
   }])
-
-
 
 
   .filter('mapGender2', function() {
@@ -142,21 +146,26 @@ angular.module('transxelaWebApp')
 });
 
 
-angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$http', '$uibModalInstance', 'options', function ($scope, $http, $uibModalInstance, options) {
+angular.module('transxelaWebApp').controller('CrearDuenioController', ['$scope', '$http', '$uibModalInstance', 'options', function ($scope, $http, $uibModalInstance, options) {
   $scope.nombre = null;
+  $scope.fecha_nac = new Date("March 20, 2009 7:00:00");
+  $scope.fecha_crea = new Date("March 20, 2009 7:00:00");
   $scope.apellidos = null;
-  $scope.dpi = null;
   $scope.direccion = null;
+  $scope.empresa = null;
+  $scope.dpi = null;
   $scope.telefono = null;
   $scope.correo = null;
   $scope.estado = "1";
   $scope.options = options;
+  $scope.alertas = [];
   $scope.close = function () {
-    var res = $http.post(options.apiurl+'/pmt/', {
+    var res = $http.post(options.apiurl+'/duenio/', {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
       telefono: $scope.telefono, correo: $scope.correo,
-      estado: parseInt($scope.estado)
+      fecha_nac: $scope.fecha_nac, fecha_crea: $scope.fecha_crea,
+      estado: parseInt($scope.estado), empresa: $scope.empresa
     });
     res.success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
@@ -171,22 +180,27 @@ angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$
 }]);
 
 
-angular.module('transxelaWebApp').controller('VerModificarPmtController', ['$scope', '$resource', '$uibModalInstance', 'options', 'pmtusu', function ($scope, $resource, $uibModalInstance, options, pmtusu) {
-  $scope.nombre = pmtusu.nombre;
-  $scope.apellidos = pmtusu.apellidos;
-  $scope.dpi = parseInt(pmtusu.dpi);
-  $scope.direccion = pmtusu.direccion;
-  $scope.telefono = pmtusu.telefono;
-  $scope.correo = pmtusu.correo;
-  $scope.estado = String(pmtusu.estado);
+angular.module('transxelaWebApp').controller('VerModificarDuenioController', ['$scope', '$resource', '$uibModalInstance', 'options', 'dueniousu', function ($scope, $resource, $uibModalInstance, options, dueniousu) {
+  $scope.fecha_nac = new Date("March 20, 2009 7:00:00");
+  $scope.fecha_crea = new Date("March 20, 2009 7:00:00");
+  $scope.nombre = dueniousu.nombre;
+  $scope.apellidos = dueniousu.apellidos;
+  $scope.empresa = dueniousu.empresa;
+  $scope.dpi = parseInt(dueniousu.dpi);
+  $scope.direccion = dueniousu.direccion;
+  $scope.telefono = dueniousu.telefono;
+  $scope.correo = dueniousu.correo;
+  $scope.estado = String(dueniousu.estado);
   $scope.options = options;
+  $scope.alertas = [];
   $scope.close = function () {
-    var resource = $resource(options.apiurl+'/pmt/' + pmtusu.idpmt, {}, {'update': {method:'PUT'}});
+    var resource = $resource(options.apiurl+'/duenio/' + dueniousu.idduenio, {}, {'update': {method:'PUT'}});
     resource.update({}, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
-      direccion: $scope.direccion, dpi:$scope.dpi,
+      direccion: $scope.direccion, dpi:$scope.dpi, empresa: $scope.empresa,
       telefono: $scope.telefono, correo: $scope.correo,
-      estado: parseInt($scope.estado), idpmt: pmtusu.idpmt
+      fecha_nac: $scope.fecha_nac, fecha_crea: $scope.fecha_crea,
+      estado: parseInt($scope.estado), idduenio: dueniousu.idduenio
     }).$promise.then(function(data) {
       $uibModalInstance.close(data, 500);
     });
