@@ -2,45 +2,92 @@
   <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
   <h4 class="modal-title">{{options.title}}</h4>
 </div>
-<form name="eventoForm" class="form" novalidate>
+<form name="eventoForm" class="form-horizontal" novalidate>
   <div class="modal-body">
-    <label>Fecha</label>
-    <p class="input-group">
-      <input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
-      <span class="input-group-btn">
-        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-      </span>
-    </p>
-    <div ng-messages="eventoForm.fecha.$error" role="alert" class="text-danger">
-        <div ng-message="required">Campo requerido</div>
-    </div><br>
-    <label for="ruta">Horario</label>
-    <select class="form-control" name= "horario" id="horario" ng-model="horario" required>
-      <option value="" disabled>Seleccione un horario</option>
-      <option ng-repeat="x in horarios" value="{{x.idhorario}}">{{x.horainicio + " a " + x.horafin}}</option>
-    </select>
-    <div ng-messages="eventoForm.horario.$error" role="alert" class="text-danger">
-        <div ng-message="required">Campo requerido</div>
-    </div><br>
-    <label for="ruta">Piloto</label>
-    <select class="form-control" name= "piloto" id="piloto" ng-model="piloto" required>
-      <option value="" disabled>Seleccione un piloto</option>
-      <option ng-repeat="x in pilotos" ng-if="x.estado == '1'" value="{{x.idchofer}}">{{x.nombre + " " + x.apellidos + " " + x.dpi}}</option>
-    </select>
-    <div ng-messages="eventoForm.piloto.$error" role="alert" class="text-danger">
-        <div ng-message="required">Campo requerido</div>
-    </div><br>
-    <label for="ruta">Bus</label>
-    <select class="form-control" name= "bus" id="bus" ng-model="bus" required>
-      <option value="" disabled>Seleccione un bus</option>
-      <option ng-repeat="x in buses" ng-if="x.estado == '1'" value="{{x.idbus}}">{{x.marca + " " + x.modelo + " " + x.placa}}</option>
-    </select>
-    <div ng-messages="eventoForm.bus.$error" role="alert" class="text-danger">
-        <div ng-message="required">Campo requerido</div>
-    </div><br>
-  <div class="modal-footer">
-  	<button ng-show="options.title == 'Modificar Evento'" type="button" ng-click="delete()" class="btn btn-danger">Eliminar</button>
-    <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal" ng-disabled="eventoForm.$invalid">{{options.buttom}}</button>
-    <button type="button" ng-click="cancel()" class="btn btn-warning">Cancelar</button>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+          ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Fecha:</label>
+      <div class="col-sm-{{col}}">
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+        <div ng-messages="eventoForm.fecha.$error" role="alert" class="text-danger">
+          <div ng-message="required">Campo requerido</div>
+        </div>
+      </div>
+      <label ng-show="options.title == 'Crear Evento'" class="col-sm-2 control-label">Fecha fin:</label>
+      <div ng-show="options.title == 'Crear Evento'" class="col-sm-4">
+        <p class="input-group">
+          <input placeholder="Opcional" type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fechafin" name="fechafin" id="fechafin" is-open="popup2.opened" datepicker-options="dateOptions" close-text="Close"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="ruta" class="col-sm-2 control-label">Horario:</label>
+      <div class="col-sm-10">
+        <select class="form-control" name= "horario" id="horario" ng-model="horario" required>
+          <option value="" disabled>Seleccione un horario</option>
+          <option ng-repeat="x in horarios" value="{{x.idhorario}}">{{x.horainicio + " a " + x.horafin}}</option>
+        </select>
+        <div ng-messages="eventoForm.horario.$error" role="alert" class="text-danger">
+          <div ng-message="required">Campo requerido</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="ruta" class="col-sm-2 control-label">Piloto:</label>
+      <div class="col-sm-10">
+        <select class="form-control" name= "piloto" id="piloto" ng-model="piloto" required>
+          <option value="" disabled>Seleccione un piloto</option>
+          <option ng-repeat="x in pilotos" ng-if="x.estado == '1'" value="{{x.idchofer}}">{{x.nombre + " " + x.apellidos + " " + x.dpi}}</option>
+        </select>
+        <div ng-messages="eventoForm.piloto.$error" role="alert" class="text-danger">
+          <div ng-message="required">Campo requerido</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="ruta" class="col-sm-2 control-label">Bus:</label>
+      <div class="col-sm-10">
+        <select class="form-control" name= "bus" id="bus" ng-model="bus" required>
+          <option value="" disabled>Seleccione un bus</option>
+          <option ng-repeat="x in buses" ng-if="x.estado == '1'" value="{{x.idbus}}">{{x.marca + " " + x.modelo + " " + x.placa}}</option>
+        </select>
+        <div ng-messages="eventoForm.bus.$error" role="alert" class="text-danger">
+          <div ng-message="required">Campo requerido</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Estado:</label>
+      <div class="col-sm-10">
+        <div class="btn-group">
+          <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'">Habilitado</label>
+          <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'0'">Deshabilitado</label>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+<div class="modal-footer">
+  <button ng-show="options.title == 'Modificar Evento'" type="button" ng-click="delete()" class="btn btn-danger">Eliminar</button>
+  <button type="button" ng-click="close()" class="btn btn-success" data-dismiss="modal" ng-disabled="eventoForm.$invalid">{{options.buttom}}</button>
+  <button type="button" ng-click="cancel()" class="btn btn-warning">Cancelar</button>
+</div>
 </form>
