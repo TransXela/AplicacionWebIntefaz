@@ -14,16 +14,16 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasbusCtrl', functio
     $scope.idruta = denunciaService.getRuta();
     $scope.idbus = denunciaService.getBus();
     $scope.gridOptions = {};
-    apiService.obtener('/denuncias/ruta/'+$scope.idruta+'/'+$scope.token).
+    apiService.obtener('/denuncias/ruta/bus/'+$scope.idbus+'/'+$scope.token).
     success(function(response, status, headers, config) {
-      $scope.denuncias = response.buses;
-      $scope.ruta = response.ruta[0];
+      $scope.denuncias = response.TiposDenuncia;
+      $scope.bus = response.bus;
       $scope.gridOptions.data = $scope.denuncias;
       $scope.gridOptions.enableFiltering = true;
       $scope.gridOptions.columnDefs = [
-        {name:'Bus',field:'placa' },
-        {name:'No. de denuncias',field:'numdenuncias'},
-        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showBus(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
+        {name:'Tipo denuncia',field:'descripcion' },
+        {name:'No. de denuncias',field:'NumeroDenuncias', enableFiltering: false},
+        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showTD(row.entity.idtipoDenuncia)">Ver detalles</button></div>', enableFiltering: false}
       ];
     }).
     error(function(response, status, headers, config) {
@@ -39,10 +39,11 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasbusCtrl', functio
     $location.url('/login');
   }
 
-  $scope.showBus = function(id){
-    denunciaService.setRuta($scope.ruta.idruta);
-    denunciaService.setBus(id);
-    $location.url('/operador/denunciasBus');
+  $scope.showTD = function(id){
+    denunciaService.setRuta($scope.idruta);
+    denunciaService.setBus($scope.bus.idbus);
+    denunciaService.setTipo(id);
+    $location.url('/operador/denunciasTipo');
   };
 
   $scope.cerrar = function(){

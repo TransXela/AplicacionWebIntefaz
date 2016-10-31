@@ -19,7 +19,7 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasrutasCtrl', funct
         $scope.gridOptions.enableFiltering = true;
         $scope.gridOptions.columnDefs = [
           {name:'Ruta',field:'nombre' },
-          {name:'No. de denuncias',field:'TotalDenuncias'},
+          {name:'No. de denuncias',field:'TotalDenuncias', enableFiltering: false},
           {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showRuta(row.entity.idruta)">Ver detalles</button></div>', enableFiltering: false}
         ];
       }).
