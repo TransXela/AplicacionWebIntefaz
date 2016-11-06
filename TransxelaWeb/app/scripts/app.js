@@ -39,6 +39,7 @@ angular
     controller: 'LogInCtrl',
     controllerAs: 'login'
   })
+  // Duenio routes
   .when('/duenio/principal', {
     templateUrl: 'views/duenio/principal.html',
     controller: 'DuenioPrincipalCtrl',
@@ -74,6 +75,7 @@ angular
     controller: 'DuenioEstadisticasCtrl',
     controllerAs: 'duenio/estadisticas'
   })
+  // Operador routes
   .when('/operador/principal', {
     templateUrl: 'views/operador/principal.html',
     controller: 'OperadorPrincipalCtrl',
@@ -109,33 +111,17 @@ angular
     controller: 'OperadorPerfilCtrl',
     controllerAs: 'operador/perfil'
   })
-  .when('/cultura/principalmodulocultura', {
-    templateUrl: 'views/cultura/principal.html',
-    controller: 'PopupDemoCont',
-    controllerAs: 'cultura/principalcultura'
+  .when('/operador/denuncias', {
+    templateUrl: 'views/operador/denuncias.html',
+    controller: 'OperadorDenunciasCtrl',
+    controllerAs: 'operador/denuncias'
   })
-
-  .when('/cultura/principalactividades', {
-    templateUrl: 'views/cultura/principalcultura.html',
-    controller: 'PopupDemoCont',
-    controllerAs: 'cultura/principalcultura'
+  .when('/operador/denunciasrutas', {
+    templateUrl: 'views/operador/denunciasrutas.html',
+    controller: 'OperadorDenunciasrutasCtrl',
+    controllerAs: 'operador/denunciasrutas'
   })
-  .when('/cultura/principalfaq', {
-    templateUrl: 'views/cultura/principalfaq.html',
-    controller: 'PopupDemoCont',
-    controllerAs: 'cultura/principalfaq'
-  })
-  .when('/cultura/principalconsejo', {
-    templateUrl: 'views/cultura/principalconsejo.html',
-    controller: 'PopupDemoCont',
-    controllerAs: 'cultura/principalconsejo'
-  })
-
-  .when('/admin/lista', {
-    templateUrl: 'views/admin/lista.html',
-    controller: 'AdminListaCtrl',
-    controllerAs: 'admin/lista'
-  })
+  // Pmt routes
   .when('/pmt/principal', {
     templateUrl: 'views/pmt/principal.html',
     controller: 'PmtPrincipalCtrl',
@@ -155,6 +141,71 @@ angular
     templateUrl: 'views/pmt/horarios.html',
     controller: 'PmtHorariosCtrl',
     controllerAs: 'pmt/horarios'
+  })
+  .when('/pmt/horariosBus', {
+    templateUrl: 'views/pmt/horariosbus.html',
+    controller: 'PmtHorariosbusCtrl',
+    controllerAs: 'pmt/horariosBus'
+  })
+  .when('/pmt/horariosPiloto', {
+    templateUrl: 'views/pmt/horariospiloto.html',
+    controller: 'PmtHorariospilotoCtrl',
+    controllerAs: 'pmt/horariosPiloto'
+  })
+  // Error routes
+  .when('/404', {
+    templateUrl: '404.html'
+  })
+  .when('/403', {
+    templateUrl: '403.html'
+  })
+  // Report routes
+  .when('/reporte/rutasdenunciadas', {
+    templateUrl: 'views/Reportes/Reporte.html',
+    controller: 'PmtDenRutaCtrl',
+    controllerAs: 'pmt/principal'
+  })
+  .when('/reporte/busesdenunciados', {
+    templateUrl: 'views/Reportes/ReporteBusD.html',
+    controller: 'PmtPrincipalCtrl',
+    controllerAs: 'pmt/principal'
+  })
+  .when('/reporte/pilotodenunc', {
+    templateUrl: 'views/Reportes/ReportePilotosD.html',
+    controller: 'PmtPilotoDenCtrl',
+    controllerAs: 'pmt/principal'
+  })
+  .when('/reporte/dueniodenunc', {
+    templateUrl: 'views/Reportes/ReporteDuenioD.html',
+    controller: 'PmtDuenioDenCtrl',
+    controllerAs: 'pmt/principal'
+  })
+  // Cultura routes
+  .when('/cultura/principalmodulocultura', {
+    templateUrl: 'views/cultura/principal.html',
+    controller: 'PopupDemoCont',
+    controllerAs: 'cultura/principalcultura'
+  })
+  .when('/cultura/principalactividades', {
+    templateUrl: 'views/cultura/principalcultura.html',
+    controller: 'PopupDemoCont',
+    controllerAs: 'cultura/principalcultura'
+  })
+  .when('/cultura/principalfaq', {
+    templateUrl: 'views/cultura/principalfaq.html',
+    controller: 'PopupDemoCont',
+    controllerAs: 'cultura/principalfaq'
+  })
+  .when('/cultura/principalconsejo', {
+    templateUrl: 'views/cultura/principalconsejo.html',
+    controller: 'PopupDemoCont',
+    controllerAs: 'cultura/principalconsejo'
+  })
+  // Admin routes
+  .when('/admin/lista', {
+    templateUrl: 'views/admin/lista.html',
+    controller: 'AdminListaCtrl',
+    controllerAs: 'admin/lista'
   })
   .when('/admin/perfil', {
     templateUrl: 'views/admin/perfil.html',
@@ -186,6 +237,11 @@ angular
     controller: 'AdminListaculCtrl',
     controllerAs: 'admin/listacul'
   })
+  .when('/admin/listausuarios', {
+    templateUrl: 'views/admin/listausuarios.html',
+    controller: 'AdminListausuariosCtrl',
+    controllerAs: 'admin/listausuarios'
+  })
   .when('/admin/usuariosdes', {
     templateUrl: 'views/admin/usuariosdes.html',
     controller: 'AdminUsuariosdesCtrl',
@@ -195,52 +251,6 @@ angular
     templateUrl: 'views/admin/usuarioscrud.html',
     controller: 'AdminUsuarioscrudCtrl',
     controllerAs: 'admin/usuarioscrud'
-  })
-  .when('/reporte/rutasdenunciadas', {
-    templateUrl: 'views/Reportes/Reporte.html',
-    controller: 'PmtDenRutaCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/reporte/busesdenunciados', {
-    templateUrl: 'views/Reportes/ReporteBusD.html',
-    controller: 'PmtPrincipalCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/reporte/pilotodenunc', {
-    templateUrl: 'views/Reportes/ReportePilotosD.html',
-    controller: 'PmtPilotoDenCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/reporte/dueniodenunc', {
-    templateUrl: 'views/Reportes/ReporteDuenioD.html',
-    controller: 'PmtDuenioDenCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/404', {
-    templateUrl: '404.html'
-  })
-  .when('/403', {
-    templateUrl: '403.html'
-  })
-  .when('/pmt/horariosBus', {
-    templateUrl: 'views/pmt/horariosbus.html',
-    controller: 'PmtHorariosbusCtrl',
-    controllerAs: 'pmt/horariosBus'
-  })
-  .when('/pmt/horariosPiloto', {
-    templateUrl: 'views/pmt/horariospiloto.html',
-    controller: 'PmtHorariospilotoCtrl',
-    controllerAs: 'pmt/horariosPiloto'
-  })
-  .when('/operador/denuncias', {
-    templateUrl: 'views/operador/denuncias.html',
-    controller: 'OperadorDenunciasCtrl',
-    controllerAs: 'operador/denuncias'
-  })
-  .when('/operador/denunciasrutas', {
-    templateUrl: 'views/operador/denunciasrutas.html',
-    controller: 'OperadorDenunciasrutasCtrl',
-    controllerAs: 'operador/denunciasrutas'
   })
   .when('/admin/lispmtsinu', {
     templateUrl: 'views/admin/lispmtsinu.html',

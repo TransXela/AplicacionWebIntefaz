@@ -16,7 +16,7 @@
       <label class="col-sm-2 control-label">Fecha:</label>
       <div class="col-sm-{{col}}">
         <p class="input-group">
-          <input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
+          <input type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
           </span>
@@ -28,7 +28,7 @@
       <label ng-show="options.title == 'Crear Evento'" class="col-sm-2 control-label">Fecha fin:</label>
       <div ng-show="options.title == 'Crear Evento'" class="col-sm-4">
         <p class="input-group">
-          <input placeholder="Opcional" type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fechafin" name="fechafin" id="fechafin" is-open="popup2.opened" datepicker-options="dateOptions" close-text="Close"/>
+          <input placeholder="Opcional" type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="fechafin" name="fechafin" id="fechafin" is-open="popup2.opened" datepicker-options="dateOptions" close-text="Close"/>
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
           </span>

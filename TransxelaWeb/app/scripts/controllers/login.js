@@ -32,8 +32,7 @@ angular.module('transxelaWebApp').controller('LogInCtrl', function ($scope, $loc
         $location.url('/admin/principal');
       }
       else {
-        $cookies.remove('user');
-        $location.url('/');
+        $location.url('/login');
       }
     }).
     error(function(response, status, headers, config) {

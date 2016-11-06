@@ -86,7 +86,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
     $scope.token = $cookies.getObject('user').token;
     $scope.duenio = $cookies.getObject('user').usuario;
     $scope.gridOptions = {};
-    apiService.obtener('/duenio/'+$scope.idduenio+'/horarios'+'/'+token).
+    apiService.obtener('/duenio/'+$scope.idduenio+'/horarios'+'/'+$scope.token).
     success(function(response, status, headers, config) {
       $scope.horarios = response;
       $scope.nuevaHora = new Date("March 20, 2009 19:00:00");
@@ -125,7 +125,7 @@ angular.module('transxelaWebApp').controller('CrearHController', ['$scope', 'api
   $scope.options = options;
   $scope.alertas = [];
   $scope.close = function () {
-    apiService.crear('/duenio/horario/' + token + '/', {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: idduenio}).
+    apiService.crear('/duenio/horario/' + options.token + '/', {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: idduenio}).
     success(function(data, status, headers, config) {
       $uibModalInstance.close({horainicio: $scope.horainicio, horafin: $scope.horafin, duenio: idduenio, idhorario: data.idhorario}, 500);
     }).
@@ -149,13 +149,13 @@ angular.module('transxelaWebApp').controller('CrearHController', ['$scope', 'api
   }
 }]);
 
-angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope', 'apiService','$uibModalInstance', 'options', 'horario', 'token', function ($scope, apiService, $uibModalInstance, options, horario, token) {
+angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope', 'apiService','$uibModalInstance', 'options', 'horario', function ($scope, apiService, $uibModalInstance, options, horario) {
   $scope.horainicio = horario.horainicio;
   $scope.horafin = horario.horafin;
   $scope.options = options;
   $scope.alertas = [];
   $scope.close = function () {
-    apiService.modificar('/duenio/horario/' + horario.idhorario + '/' + token + '/', {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: horario.duenio}).
+    apiService.modificar('/duenio/horario/' + horario.idhorario + '/' + options.token + '/', {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: horario.duenio}).
     success(function(data, status, headers, config) {
       $uibModalInstance.close({
         horainicio: $scope.horainicio,
@@ -177,7 +177,7 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
   };
 
   $scope.delete = function () {
-    apiService.borrar('/duenio/horario/' + horario.idhorario + '/' + token + '/').
+    apiService.borrar('/duenio/horario/' + horario.idhorario + '/' + options.token + '/').
     success(function(response, status, headers, config){
       $uibModalInstance.dismiss('success');
     }).

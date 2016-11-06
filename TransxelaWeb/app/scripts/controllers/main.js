@@ -36,7 +36,7 @@ angular.module('transxelaWebApp').controller('MainCtrl', function ($scope, $uibM
       }
       else {
         $cookies.remove('user');
-        $location.url('/');
+        $location.url('/login');
       }
     }, function (status) {
       if(status === 'error'){
