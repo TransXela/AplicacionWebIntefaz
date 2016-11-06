@@ -188,7 +188,7 @@ angular
   })
   .when('/cultura/principalactividades', {
     templateUrl: 'views/cultura/principalcultura.html',
-    controller: 'PopupDemoCont',
+    controller: 'PrincipalCulturaCtrl',
     controllerAs: 'cultura/principalcultura'
   })
   .when('/cultura/principalfaq', {
