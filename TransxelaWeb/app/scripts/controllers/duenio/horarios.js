@@ -163,8 +163,8 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
       }, 500);
     }).
     error(function(response, status, headers, config) {
-      if(response != null && response.data != null) {
-        $scope.alertas.push({"tipo":"warning", "mensaje": response.data.modificar.estado});
+      if(response != null && response.modificar != null) {
+        $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
       }
       else{
         $uibModalInstance.dismiss('error');
