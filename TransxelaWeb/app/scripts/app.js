@@ -201,6 +201,12 @@ angular
     controller: 'PopupDemoCont',
     controllerAs: 'cultura/principalconsejo'
   })
+  .when('/cultura/veractividadesculturales', {
+    templateUrl: 'views/cultura/veractividadescultura.html',
+    controller: 'VerActividadesCtrl',
+    controllerAs: 'cultura/veractividadescultura'
+  })
+
   // Admin routes
   .when('/admin/lista', {
     templateUrl: 'views/admin/lista.html',
