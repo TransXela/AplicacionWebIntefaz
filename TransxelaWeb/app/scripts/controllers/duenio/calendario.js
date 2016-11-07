@@ -12,7 +12,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
   $scope.calendarView = 'month';
   $scope.viewDate = new Date();
   $scope.alertas = [];
-  var colors = [{primary: '#e3bc08', secondary: '#fdf1ba'/*Amarillo*/},
+  var colors = [{primary: '#a4d1e1', secondary: '#a6ddf1'/*Celeste*/},
   {primary: '#1e90ff', secondary: '#d1e8ff'/*Azul*/},
   {primary: '#ad2121', secondary: '#fae3e3'/*Rojo*/},
   {primary: '#3db048', secondary: '#e3faeb'/*Verde*/},
@@ -64,11 +64,11 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
               fFin.setHours(hora_minutosF[0]);
               fFin.setMinutes(hora_minutosF[1]);
               if(fechaActual.getTime()<fInicio.getTime()){
-                if(fechaActual.getDate() === fInicio.getDate()){
-                  colorIndex = 1;
+                if(fechaActual.getDate() === fInicio.getDate() && fechaActual.getMonth() === fInicio.getMonth()){
+                  colorIndex = 3;
                 }
                 else {
-                  colorIndex = 3;
+                  colorIndex = 1;
                 }
                 if((horariosdetalle[i].hasOwnProperty("estado")) && (horariosdetalle[i].estado === 0)){
                   colorIndex = 4;
@@ -186,55 +186,37 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       fechaActual.setMinutes("0");
       fechaActual.setSeconds("0");
       var colorIndex = 0;
-      if(fechaActual.getDate() === fInicio.getDate()){
-        colorIndex = 1;
+      if(fechaActual.getDate() === fInicio.getDate() && fechaActual.getMonth() === fInicio.getMonth()){
+        colorIndex = 3;
       }
       else {
-        colorIndex = 3;
+        colorIndex = 1;
       }
       if(result.estado === 0){
         colorIndex = 4;
       }
+      $scope.events.push({
+        title: chofer.nombre + " " + chofer.apellidos + " / " + bus.marca + " " + bus.placa,
+        startsAt: fInicio,
+        endsAt: fFin,
+        color: colors[colorIndex],
+        draggable: true,
+        resizable: true,
+        incrementsBadgeTotal: true,
+        recursOn: 'year',
+        cssClass: 'a-css-class-name',
+        allDay: false,
+        actions: actions,
+        idhorariodetalle: result.idhorariodetalle,
+        idpiloto: result.chofer,
+        idbus: result.bus,
+        idhorario: result.horario,
+        estado: result.estado
+      });
       if(result.hasOwnProperty("dias")){
-        $scope.events.push({
-          title: chofer.nombre + " " + chofer.apellidos + " / " + bus.marca + " " + bus.placa,
-          startsAt: fInicio,
-          endsAt: fFin,
-          color: colors[colorIndex],
-          draggable: true,
-          resizable: true,
-          incrementsBadgeTotal: true,
-          recursOn: 'year',
-          cssClass: 'a-css-class-name',
-          allDay: false,
-          actions: actions,
-          idhorariodetalle: result.idhorariodetalle,
-          idpiloto: result.chofer,
-          idbus: result.bus,
-          idhorario: result.horario,
-          estado: result.estado
-        });
-        $scope.alertas.push({"tipo":"success", "mensaje": "Eventos creados exitosamente"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Eventos creados exitosamente. Recarge la página para visualizar eventos"});
       }
       else{
-        $scope.events.push({
-          title: chofer.nombre + " " + chofer.apellidos + " / " + bus.marca + " " + bus.placa,
-          startsAt: fInicio,
-          endsAt: fFin,
-          color: colors[colorIndex],
-          draggable: true,
-          resizable: true,
-          incrementsBadgeTotal: true,
-          recursOn: 'year',
-          cssClass: 'a-css-class-name',
-          allDay: false,
-          actions: actions,
-          idhorariodetalle: result.idhorariodetalle,
-          idpiloto: result.chofer,
-          idbus: result.bus,
-          idhorario: result.horario,
-          estado: result.estado
-        });
         $scope.alertas.push({"tipo":"success", "mensaje": "Evento creado exitosamente"});
       }
     }, function(response) {
@@ -280,16 +262,17 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       $scope.events[evento.calendarEventId].title = chofer.nombre + " " + chofer.apellidos + " / " + bus.marca + " " + bus.placa;
       $scope.events[evento.calendarEventId].startsAt = fInicio;
       $scope.events[evento.calendarEventId].endsAt = fFin;
+      $scope.events[evento.calendarEventId].estado = result.estado;
       var fechaActual = new Date();
       fechaActual.setHours("0");
       fechaActual.setMinutes("0");
       fechaActual.setSeconds("0");
       var colorIndex = 0;
-      if(fechaActual.getDate() === fInicio.getDate()){
-        colorIndex = 1;
+      if(fechaActual.getDate() === fInicio.getDate() && fechaActual.getMonth() === fInicio.getMonth()){
+        colorIndex = 3;
       }
       else {
-        colorIndex = 3;
+        colorIndex = 1;
       }
       if(result.estado === 0){
         colorIndex = 4;

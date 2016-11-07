@@ -20,6 +20,7 @@ angular
   'ngTouch',
   'ui.bootstrap',
   'ui.grid',
+  'ui.grid.pagination',
   'mwl.calendar'
 ])
 .config(function ($routeProvider) {

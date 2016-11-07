@@ -16,7 +16,7 @@ angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scop
         $scope.duenio = response;
       }).
       error(function(response, status, headers, config) {
-        if(status === null || status === -1){
+        if(status === null || status === -1|| status === 404){
           $location.url('/404');
         }
         else if(status === 401){
@@ -27,7 +27,7 @@ angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scop
     else{
       $location.url('/login');
     }
-    
+
     $scope.cerrar = function(){
       $cookies.remove('user');
         $location.url('/');

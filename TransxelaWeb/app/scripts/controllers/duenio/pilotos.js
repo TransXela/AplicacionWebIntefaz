@@ -86,12 +86,14 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       $scope.pilotos = response.choferes;
       $scope.gridOptions.data = $scope.pilotos;
       $scope.gridOptions.enableFiltering = true;
+      $scope.gridOptions.paginationPageSizes = [10, 25, 50];
+      $scope.gridOptions.paginationPageSize = 10;
       $scope.gridOptions.columnDefs = [
         {name:'Nombre',field:'nombre'},
         {name:'Apellidos',field:'apellidos'},
         {name:'Tipo Licencia',field:'tipolicencia'},
         {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
-        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver detalles</button></div>', enableFiltering: false}
+        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver más</button></div>', enableFiltering: false}
         ];
       }).
       error(function(response, status, headers, config) {
