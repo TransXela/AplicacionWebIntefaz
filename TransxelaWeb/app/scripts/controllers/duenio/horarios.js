@@ -99,10 +99,12 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
         $scope.horarios[i].horafin = $scope.nuevaHora.setMinutes($scope.hora_minutosF[1]);
       }
       $scope.gridOptions.data = $scope.horarios;
+      $scope.gridOptions.paginationPageSizes = [10, 25, 50];
+      $scope.gridOptions.paginationPageSize = 10;
       $scope.gridOptions.columnDefs = [
         {name:'Hora inicio',field:'horainicio', cellFilter: 'date:\'hh:mm a\''},
         {name:'Hora fin',field:'horafin', cellFilter: 'date:\'hh:mm a\''},
-        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idhorario)">Ver detalles</button></div>'}
+        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idhorario)">Ver más</button></div>'}
       ];
     }).
     error(function(response, status, headers, config) {

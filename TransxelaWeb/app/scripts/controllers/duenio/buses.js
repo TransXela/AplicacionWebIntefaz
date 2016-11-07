@@ -104,13 +104,15 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
         $scope.buses = response.buses;
         $scope.gridOptions.data = $scope.buses;
         $scope.gridOptions.enableFiltering = true;
+        $scope.gridOptions.paginationPageSizes = [10, 25, 50];
+        $scope.gridOptions.paginationPageSize = 10;
         $scope.gridOptions.columnDefs = [
           {name:'Placa',field:'placa'},
           {name:'Marca',field:'marca'},
           {name:'Modelo',field:'modelo'},
           {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>", enableFiltering: false},
           {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
-          {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
+          {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver más</button></div>', enableFiltering: false}
           ];
       }).
       error(function(response, status, headers, config) {
