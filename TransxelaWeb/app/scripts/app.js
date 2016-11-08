@@ -76,6 +76,16 @@ angular
     controller: 'DuenioEstadisticasCtrl',
     controllerAs: 'duenio/estadisticas'
   })
+  .when('/duenio/calendariobus', {
+    templateUrl: 'views/duenio/calendariobus.html',
+    controller: 'DuenioCalendariobusCtrl',
+    controllerAs: 'duenio/calendariobus'
+  })
+  .when('/duenio/calendariopiloto', {
+    templateUrl: 'views/duenio/calendariopiloto.html',
+    controller: 'DuenioCalendariopilotoCtrl',
+    controllerAs: 'duenio/calendariopiloto'
+  })
   // Operador routes
   .when('/operador/principal', {
     templateUrl: 'views/operador/principal.html',
@@ -273,7 +283,7 @@ angular
   });
 })
 .service('apiService', function($cookies, $http) {
-  var apiURL = 'http://127.0.0.1:8000';
+  var apiURL = 'http://192.168.1.4:8000';
   var obtener = function(endpoint) {
     return $http.get(apiURL+endpoint);
   }
