@@ -173,22 +173,7 @@ angular
   // Report routes
   .when('/reporte/rutasdenunciadas', {
     templateUrl: 'views/Reportes/Reporte.html',
-    controller: 'PmtDenRutaCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/reporte/busesdenunciados', {
-    templateUrl: 'views/Reportes/ReporteBusD.html',
-    controller: 'PmtPrincipalCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/reporte/pilotodenunc', {
-    templateUrl: 'views/Reportes/ReportePilotosD.html',
-    controller: 'PmtPilotoDenCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/reporte/dueniodenunc', {
-    templateUrl: 'views/Reportes/ReporteDuenioD.html',
-    controller: 'PmtDuenioDenCtrl',
+    controller: 'PmtDenRutaCtr',
     controllerAs: 'pmt/principal'
   })
   // Cultura routes
@@ -283,7 +268,7 @@ angular
   });
 })
 .service('apiService', function($cookies, $http) {
-  var apiURL = 'http://192.168.1.4:8000';
+  var apiURL = 'http://127.0.0.1:8000';
   var obtener = function(endpoint) {
     return $http.get(apiURL+endpoint);
   }
