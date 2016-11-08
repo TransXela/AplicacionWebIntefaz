@@ -163,22 +163,7 @@ angular
   // Report routes
   .when('/reporte/rutasdenunciadas', {
     templateUrl: 'views/Reportes/Reporte.html',
-    controller: 'PmtDenRutaCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/reporte/busesdenunciados', {
-    templateUrl: 'views/Reportes/ReporteBusD.html',
-    controller: 'PmtPrincipalCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/reporte/pilotodenunc', {
-    templateUrl: 'views/Reportes/ReportePilotosD.html',
-    controller: 'PmtPilotoDenCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/reporte/dueniodenunc', {
-    templateUrl: 'views/Reportes/ReporteDuenioD.html',
-    controller: 'PmtDuenioDenCtrl',
+    controller: 'PmtDenRutaCtr',
     controllerAs: 'pmt/principal'
   })
   // Cultura routes
