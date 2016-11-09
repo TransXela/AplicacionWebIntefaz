@@ -181,9 +181,9 @@ angular
     controllerAs: 'pmt/principal'
   })
   // Cultura routes
-  .when('/cultura/principalmodulocultura', {
-    templateUrl: 'views/cultura/principal.html',
-    controller: 'PopupDemoCont',
+  .when('/cultura/principalcultura', {
+    templateUrl: 'views/cultura/principalcultura.html',
+    controller: 'PrincipalCulturaCtrl',
     controllerAs: 'cultura/principalcultura'
   })
   .when('/cultura/principalactividades', {
@@ -193,18 +193,23 @@ angular
   })
   .when('/cultura/principalfaq', {
     templateUrl: 'views/cultura/principalfaq.html',
-    controller: 'PopupDemoCont',
+    controller: 'PrincipalFaqCtrl',
     controllerAs: 'cultura/principalfaq'
   })
   .when('/cultura/principalconsejo', {
     templateUrl: 'views/cultura/principalconsejo.html',
-    controller: 'PopupDemoCont',
+    controller: 'PrincipalConsejoCtrl',
     controllerAs: 'cultura/principalconsejo'
   })
   .when('/cultura/veractividadesculturales', {
     templateUrl: 'views/cultura/veractividadescultura.html',
     controller: 'VerActividadesCtrl',
     controllerAs: 'cultura/veractividadescultura'
+  })
+  .when('/cultura/principal', {
+    templateUrl: 'views/cultura/principal.html',
+    controller: 'PrincipalCtrl',
+    controllerAs: 'cultura/principal'
   })
 
   // Admin routes
