@@ -8,7 +8,7 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('OperadorDenunciasrutaCtrl', function ($scope, apiService, $cookies, $location) {
+  .controller('OperadorDenunciasrutaCtrl', function ($scope, apiService, $cookies, $location, uiGridConstants) {
     if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
       $scope.token = $cookies.getObject('user').token;
       $scope.usuario = $cookies.getObject('user').usuario;
@@ -22,8 +22,8 @@ angular.module('transxelaWebApp')
         $scope.gridOptions.enableFiltering = true;
         $scope.gridOptions.columnDefs = [
           {name:'Bus',field:'placa' },
-          {name:'No. de denuncias',field:'numdenuncias', enableFiltering: false},
-          {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showBus(row.entity.idbus)">Ver detalles</button></div>', enableFiltering: false}
+          {name:'No. de denuncias',field:'numdenuncias', enableFiltering: false, sort: { direction: uiGridConstants.DESC }},
+          {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showBus(row.entity.idbus)">Ver más</button></div>', enableFiltering: false}
         ];
       }).
       error(function(response, status, headers, config) {

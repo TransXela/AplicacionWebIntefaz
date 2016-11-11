@@ -8,7 +8,7 @@
  * Controller of the transxelaWebApp
  */
 
-angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, apiService, $uibModal, $location, $cookies) {
+angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scope, apiService, $uibModal, $location, $cookies, uiGridConstants) {
   $scope.alertas = [];
   $scope.showCrear = function () {
     var uibModalInstance = $uibModal.open({
@@ -89,11 +89,13 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       $scope.gridOptions.paginationPageSizes = [10, 25, 50];
       $scope.gridOptions.paginationPageSize = 10;
       $scope.gridOptions.columnDefs = [
-        {name:'Nombre',field:'nombre'},
+        {name:'Nombre',field:'nombre', sort: { direction: uiGridConstants.ASC }},
         {name:'Apellidos',field:'apellidos'},
         {name:'DPI',field:'dpi'},
-        {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
-        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver más</button></div>', enableFiltering: false}
+        {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",
+          filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
+          selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]}, headerCellClass: $scope.highlightFilteredHeader},
+        {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver más</button></div>', enableFiltering: false}
         ];
       }).
       error(function(response, status, headers, config) {
