@@ -1,14 +1,14 @@
 'use strict';
 
 /**
- * @ngdoc function
- * @name transxelaWebApp.controller:AdminUsuarioscrudCtrl
- * @description
- * # AdminUsuarioscrudCtrl
- * Controller of the transxelaWebApp
- */
+* @ngdoc function
+* @name transxelaWebApp.controller:AdminUsuarioscrudCtrl
+* @description
+* # AdminUsuarioscrudCtrl
+* Controller of the transxelaWebApp
+*/
 
-angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($scope, $resource, $uibModal, $location) {
+angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($scope, apiService, $uibModal, $location, $cookies, uiGridConstants) {
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.idusuario = 0;
@@ -18,10 +18,10 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
       controller:'CrearUsuarioController',
       resolve: {
         options: function () {
-          return {"title": "Crear Usuario", "buttom": "Crear", "apiurl": $scope.apiurl};
+          return {"title": "Crear Usuario", "buttom": "Crear", "token": $scope.token};
         },
-        idusuario: function () {
-          return $scope.idusuario;
+        grupos: function () {
+          return $scope.grupos;
         }
       }
     });
@@ -62,41 +62,59 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
 
   $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
     for(var i = 0; i < array.length; i++) {
-        if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
-            return i;
-        }
+      if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
+        return i;
+      }
     }
     return -1;
   };
 
+  $scope.mapearGrupo = function(idgrupo) {
+    for(var i = 0; i < $scope.grupos.length; i++) {
+      if($scope.grupos[i]["id"] === idgrupo) {
+          return $scope.grupos[i]["name"];
+      }
+    }
+    return idgrupo;
+  };
   $scope.gridOptions = {
     enableFiltering: true,
     showGridFooter: true,
     showColumnFooter: true,
   };
-  var resource = $resource($scope.apiurl+'/users/');
-  var query = resource.query(function(){
-
-    $scope.usuarios = query;
-    $scope.gridOptions.data = $scope.usuarios;
-    $scope.gridOptions.enableFiltering = true;
-    $scope.gridOptions.columnDefs = [
-      {name:'Nombre',field:'nombre'},
-      {name:'Apellidos',field:'apellidos'},
-      {name:'direccion',field:'direccion'},
-      {name:'DPI',field:'dpi'},
-      {name:'Tipo Usuario',field:'tipousuario'},
-      {name:'Telefono',field:'telefono'},
-      {name:'Correo',field:'correo'},
-      {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
-      {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idusuar)">Ver detalles</button></div>', enableFiltering: false}
-      ];
-    }
-
-  //   function(response) {
-  //     $location.url('/404');
-  // }
-);
+  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+    $scope.token = $cookies.getObject('user').token;
+    apiService.obtener('/groups/' + $scope.token).
+    success(function(response, status, headers, config){
+      $scope.grupos = response;
+      $scope.filtrogrupos = [];
+      for(var i = 0; i<$scope.grupos.length; i++){
+        $scope.filtrogrupos.push({value: $scope.grupos[i].id, label: $scope.grupos[i].name});
+      }
+      apiService.obtener('/users/' + $scope.token).
+      success(function(response, status, headers, config){
+        $scope.usuarios = response;
+        $scope.gridOptions.data = $scope.usuarios;
+        $scope.gridOptions.enableFiltering = true;
+        $scope.gridOptions.columnDefs = [
+          {name:'Usuario',field:'username'},
+          {name:'Correo',field:'email'},
+          {name:'Tipo usuario', field: 'groups[0]', cellTemplate: "<div>{{grid.appScope.mapearGrupo(row.entity.groups[0])}}</div>",
+            filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
+            selectOptions: $scope.filtrogrupos}, headerCellClass: $scope.highlightFilteredHeader},
+          {name:'Estado',field:'is_active', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.is_active)}}</div>", enableFiltering: false},
+          {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idusuar)">Ver detalles</button></div>', enableFiltering: false}
+        ];
+      }).
+      error(function(response, status, headers, config) {
+      });
+    }).
+    error(function(response, status, headers, config) {
+    });
+  }
+  else{
+    $location.url('/login');
+  }
 
   $scope.mapearEstado = function(estado) {
     return estado ? 'Habilitado' : 'Deshabilitado';
@@ -104,7 +122,7 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
 
 });
 
-angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope', '$http', '$uibModalInstance','options', 'idusuario', function ($scope, $http, $uibModalInstance, options, idusuario) {
+angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope', 'apiService', '$uibModalInstance','options', 'grupos', function ($scope, apiService, $uibModalInstance, options, grupos) {
   $scope.nombre = null;
   $scope.apellidos = null;
   $scope.dpi = null;
@@ -114,20 +132,21 @@ angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope'
   $scope.correo = null;
   $scope.estado = "1";
   $scope.options = options;
+  $scope.grupos = grupos;
   $scope.close = function () {
-    var res = $http.post(options.apiurl+'/admin/usuariocrud/', {
+    apiService.crear('/user/' + options.token + '/', {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
-      tipousuario: $scope.tipousuario,
+      tipousuario: $scope.grupo,
       telefono: $scope.telefono, correo: $scope.correo,
       estado: parseInt($scope.estado), duenio: idusuario
-    });
-    res.success(function(data, status, headers, config) {
+    })
+    .success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
+    })
+    .error(function(data, status, headers, config) {
+      $uibModalInstance.dismiss('error');
     });
-    // res.error(function(data, status, headers, config) {
-    //   $uibModalInstance.dismiss('error');
-    // });
   };
 
   $scope.cancel = function () {

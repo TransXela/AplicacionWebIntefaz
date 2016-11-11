@@ -28,13 +28,10 @@
   		<div ng-message="required">Campo requerido</div>
 	</div><br> -->
 	<label for="tipolicencia">Tipo de Usuario</label>
-  	<select class="form-control" name="tipolicencia" id="tipolicencia" ng-model="tipolicencia" required>
-	    <option value="" disabled>Tipos de usuarios</option>
-	    <option value="A">Administrador</option>
-	    <option value="B">PMT</option>
-	    <option value="C">Cultura</option>
-	    <option value="D">Dueño</option>
-	</select>
+	<select class="form-control" name= "grupo" id="grupo" ng-model="grupo">
+    <option value="" disabled>Seleccione un tipo usuario</option>
+    <option ng-repeat="x in grupos" value="{{x.id}}">{{x.name}}</option>
+  </select>
 	<div ng-messages="pilotoForm.tipolicencia.$error" role="alert" class="text-danger">
   		<div ng-message="required">Campo requerido</div>
 	</div><br>
