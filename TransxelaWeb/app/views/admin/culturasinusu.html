@@ -22,13 +22,16 @@
   		<div ng-message="required">Campo requerido</div>
      	<div ng-message="min || max">DPI inválido (debe tener 13 dígitos)</div>
 	</div><br>
-  <select class="form-control" name= "user" id="user" ng-model="user" required>
+
+  <!-- <select class="form-control" name= "user" id="user" ng-model="user" required>
     <option value="" disabled>Usuarios</option>
     <option ng-repeat="x in usuarios" value="{{x.id}}">{{x.username}}</option>
   </select>
   <div ng-messages="busForm.user.$error" role="alert" class="text-danger">
       <div ng-message="required">Campo requerido</div>
-  </div><br>
+  </div><br> -->
+
+	
 	<!-- <label>Empresa</label>
 	<input type="text" class="form-control" name="empresa" id="empresa" placeholder="Empresa del dueño" ng-model="empresa" required >
 	<div ng-messages="pilotoForm.licencia.$error" role="alert" class="text-danger">

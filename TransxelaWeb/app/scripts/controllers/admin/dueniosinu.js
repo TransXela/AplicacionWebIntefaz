@@ -72,7 +72,7 @@ angular.module('transxelaWebApp')
         controller:'CrearDuenioController',
         resolve: {
           options: function () {
-            return {"title": "Crear dueño", "buttom": "Crear","apiurl": $scope.apiurl};
+            return {"title": "Crear persona dueño", "buttom": "Crear","apiurl": $scope.apiurl};
           }
         }
       });
@@ -101,10 +101,10 @@ angular.module('transxelaWebApp')
 
 
 
-        {name: 'Estado', field: 'estado', filter: {
+        {name: 'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",filter: {
             term: '1',
             type: uiGridConstants.filter.SELECT,
-            selectOptions: [ { value: '1', label: '1' }]
+            selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]
           },
           cellFilter: 'mapGender2', headerCellClass: $scope.highlightFilteredHeader },
 
@@ -115,7 +115,7 @@ angular.module('transxelaWebApp')
       ]
     };
 
-    $scope.gridOptions.columnDefs[2].visible = false;
+    //$scope.gridOptions.columnDefs[2].visible = false;
 
     $scope.toggleFiltering = function(){
       $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
