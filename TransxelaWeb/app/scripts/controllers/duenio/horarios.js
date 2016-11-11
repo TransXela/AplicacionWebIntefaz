@@ -7,7 +7,7 @@
 * # DuenioHorariosCtrl
 * Controller of the transxelaWebApp
 */
-angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, apiService, $uibModal, $location, $cookies) {
+angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($scope, apiService, $uibModal, $location, $cookies, uiGridConstants) {
   $scope.alertas = [];
   $scope.showCrear = function (size) {
     var uibModalInstance = $uibModal.open({
@@ -102,9 +102,9 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
       $scope.gridOptions.paginationPageSizes = [10, 25, 50];
       $scope.gridOptions.paginationPageSize = 10;
       $scope.gridOptions.columnDefs = [
-        {name:'Hora inicio',field:'horainicio', cellFilter: 'date:\'hh:mm a\''},
+        {name:'Hora inicio',field:'horainicio', cellFilter: 'date:\'hh:mm a\'', sort: { direction: uiGridConstants.ASC }},
         {name:'Hora fin',field:'horafin', cellFilter: 'date:\'hh:mm a\''},
-        {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idhorario)">Ver más</button></div>'}
+        {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idhorario)">Ver más</button></div>'}
       ];
     }).
     error(function(response, status, headers, config) {

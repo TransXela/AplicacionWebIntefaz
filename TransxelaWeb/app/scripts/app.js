@@ -170,6 +170,9 @@ angular
   .when('/403', {
     templateUrl: '403.html'
   })
+  .when('/500', {
+    templateUrl: '500.html'
+  })
   // Report routes
   .when('/reporte/rutasdenunciadas', {
     templateUrl: 'views/Reportes/Reporte.html',

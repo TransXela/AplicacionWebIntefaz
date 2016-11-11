@@ -7,7 +7,7 @@
  * # DuenioBusesCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, apiService, $uibModal,  $location, $cookies) {
+angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope, apiService, $uibModal,  $location, $cookies, uiGridConstants) {
   $scope.alertas = [];
   $scope.showCrear = function () {
     var uibModalInstance = $uibModal.open({
@@ -27,6 +27,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     });
 
     uibModalInstance.result.then(function (result) {
+      $scope.addFiltroRuta(result.ruta);
       $scope.buses.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Bus creado exitosamente"});
     }, function (status) {
@@ -55,6 +56,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     });
 
     uibModalInstance.result.then(function (result) {
+      $scope.addFiltroRuta(result.ruta);
       $scope.buses[$scope.index] = result;
       $scope.alertas.push({"tipo":"success", "mensaje": "Bus modificado exitosamente"});
     }, function (status) {
@@ -74,7 +76,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
   };
 
   $scope.mapearEstado = function(estado) {
-            return estado ? 'Habilitado' : 'Deshabilitado';
+    return estado ? 'Habilitado' : 'Deshabilitado';
   };
 
   $scope.mapearRuta = function(idruta) {
@@ -84,6 +86,19 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       }
     }
     return idruta;
+  };
+
+  $scope.addFiltroRuta = function(idruta){
+    var nueva = true;
+    for(var i = 0; i<$scope.filtrorutas.length; i++){
+      if($scope.filtrorutas[i].value === idruta){
+        nueva = false;
+        break;
+      }
+    }
+    if(nueva){
+      $scope.filtrorutas.push({value: idruta, label: $scope.mapearRuta(idruta)});
+    }
   };
 
   $scope.cerrar = function(){
@@ -102,16 +117,24 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       success(function(response, status, headers, config){
         $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
         $scope.buses = response.buses;
+        $scope.filtrorutas = [];
+        for(var i = 0; i<$scope.buses.length; i++){
+          $scope.addFiltroRuta($scope.buses[i].ruta);
+        }
         $scope.gridOptions.data = $scope.buses;
         $scope.gridOptions.enableFiltering = true;
         $scope.gridOptions.paginationPageSizes = [10, 25, 50];
         $scope.gridOptions.paginationPageSize = 10;
         $scope.gridOptions.columnDefs = [
-          {name:'Placa',field:'placa'},
+          {name:'Placa',field:'placa', sort: { direction: uiGridConstants.ASC }},
           {name:'No. de bus',field:'numbus'},
-          {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>", enableFiltering: false},
-          {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
-          {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver más</button></div>', enableFiltering: false}
+          {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>",
+            filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
+            selectOptions: $scope.filtrorutas}, headerCellClass: $scope.highlightFilteredHeader},
+          {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",
+            filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
+            selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]}, headerCellClass: $scope.highlightFilteredHeader},
+          {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver más</button></div>', enableFiltering: false}
           ];
       }).
       error(function(response, status, headers, config) {
