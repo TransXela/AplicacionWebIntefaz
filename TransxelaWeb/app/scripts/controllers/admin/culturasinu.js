@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc function
- * @name transxelaWebApp.controller:AdminCulturasinuCtrl
+ * @name transxelaWebApp.controller:AdminDueniosinuCtrl
  * @description
- * # AdminCulturasinuCtrl
+ * # AdminDueniosinuCtrl
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
@@ -12,30 +12,13 @@ angular.module('transxelaWebApp')
 
     $scope.alertas = [];
     $scope.apiurl = 'http://127.0.0.1:8000';
-    var resource = $resource($scope.apiurl+'/users/');
-    $scope.usuarios = resource.query(function(){
-      var resource = $resource($scope.apiurl+'/cultura/sinusuario');
-      var query = resource.query(function(){
-        $scope.listado = query;
-        $scope.gridOptions.data = $scope.listado;
-        $scope.showDetalle($scope.gridOptions.data[0]);
+    var resource = $resource($scope.apiurl+'/cultura/sinusuario');
+    var query = resource.query(function(){
+      $scope.listado = query;
+      $scope.gridOptions.data = $scope.listado;
+      $scope.showDetalle($scope.gridOptions.data[0]);
 
-      });
-
-
-    },function(response){
-      console.log(response);
     });
-
-    $scope.mapearRuta = function(idruta) {
-      for(var i = 0; i < $scope.usuarios.length; i++) {
-          if($scope.usuarios[i]["idruta"] === idruta) {
-              return $scope.usuarios[i]["nombre"];
-          }
-      }
-      return idruta;
-    };
-
     $scope.mapearEstado = function(estado) {
       return estado ? 'Habilitado' : 'Deshabilitado';
     };
@@ -64,20 +47,17 @@ angular.module('transxelaWebApp')
         controller: "VerModificarCulturaController",
         resolve: {
           options: function () {
-            return {"title": "Ver o modificar persona de cultura", "buttom": "Modificar","apiurl": $scope.apiurl};
+            return {"title": "Ver modificar persona de cultura", "buttom": "Modificar","apiurl": $scope.apiurl};
           },
           culturausu: function(){
             $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idcultura", idcultura);
             return $scope.listado[$scope.index];
-          },
-          usuarios: function() {
-            return $scope.usuarios;
           }
         }
       });
       uibModalInstance.result.then(function (result) {
         $scope.listado[$scope.index] = result;
-        $scope.alertas.push({"tipo":"success", "mensaje": "Persona de cultura modificado exitosamente"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Persona de cultura modificada exitosamente"});
       }, function () {
       });
     };
@@ -92,19 +72,16 @@ angular.module('transxelaWebApp')
         controller:'crearCulturaController',
         resolve: {
           options: function () {
-            return {"title": "Crear persona de cultura", "buttom": "Crear","apiurl": $scope.apiurl};
+            return {"title": "Crear persona dueño", "buttom": "Crear","apiurl": $scope.apiurl};
           },
           usuarios: function() {
             return $scope.usuarios;
-          },
-          idcultura: function () {
-            return $scope.idcultura;
           }
         }
       });
       uibModalInstance.result.then(function (result) {
         $scope.listado.push(result);
-        $scope.alertas.push({"tipo":"success", "mensaje": "Persona de cultura creado exitosamente"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Persona de cultura creada exitosamente"});
       }, function () {
       });
     };
@@ -127,10 +104,10 @@ angular.module('transxelaWebApp')
 
 
 
-        {name: 'Estado', field: 'estado', filter: {
+        {name: 'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",filter: {
             term: '1',
             type: uiGridConstants.filter.SELECT,
-            selectOptions: [ { value: '1', label: '1' }]
+            selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]
           },
           cellFilter: 'mapGender2', headerCellClass: $scope.highlightFilteredHeader },
 
@@ -141,7 +118,7 @@ angular.module('transxelaWebApp')
       ]
     };
 
-    $scope.gridOptions.columnDefs[2].visible = false;
+    //$scope.gridOptions.columnDefs[2].visible = false;
 
     $scope.toggleFiltering = function(){
       $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
@@ -202,7 +179,7 @@ angular.module('transxelaWebApp').controller('crearCulturaController', ['$scope'
 }]);
 
 
-angular.module('transxelaWebApp').controller('VerModificarCulturaController', ['$scope', '$resource', '$uibModalInstance', 'options', 'culturausu', 'usuarios', function ($scope, $resource, $uibModalInstance, options, culturausu, usuarios) {
+angular.module('transxelaWebApp').controller('VerModificarCulturaController', ['$scope', '$resource', '$uibModalInstance', 'options', 'culturausu', function ($scope, $resource, $uibModalInstance, options, culturausu) {
   $scope.fecha_nac = new Date("March 20, 2009 7:00:00");
   $scope.fecha_crea = new Date("March 20, 2009 7:00:00");
   $scope.nombre = culturausu.nombre;
@@ -213,18 +190,16 @@ angular.module('transxelaWebApp').controller('VerModificarCulturaController', ['
   $scope.telefono = culturausu.telefono;
   $scope.correo = culturausu.correo;
   $scope.estado = String(culturausu.estado);
-  $scope.user = null;
   $scope.options = options;
   $scope.alertas = [];
-  $scope.usuarios = usuarios;
   $scope.close = function () {
     var resource = $resource(options.apiurl+'/cultura/' + culturausu.idcultura, {}, {'update': {method:'PUT'}});
     resource.update({}, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
-      direccion: $scope.direccion, dpi:$scope.dpi,
+      direccion: $scope.direccion, dpi:$scope.dpi, empresa: $scope.empresa,
       telefono: $scope.telefono, correo: $scope.correo,
-      estado: parseInt($scope.estado), idcultura: culturausu.idcultura,
-      usuario: parseInt($scope.user)
+      fecha_nac: $scope.fecha_nac, fecha_crea: $scope.fecha_crea,
+      estado: parseInt($scope.estado), idcultura: culturausu.idcultura
     }).$promise.then(function(data) {
       $uibModalInstance.close(data, 500);
     });

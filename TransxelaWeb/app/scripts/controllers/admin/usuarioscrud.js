@@ -74,10 +74,10 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
     showGridFooter: true,
     showColumnFooter: true,
   };
-  var resource = $resource($scope.apiurl+'/admin/'+$scope.idusuario+'/usuarioscrud');
-  var query = resource.get(function(){
-    $scope.duenio = {"nombre":query.nombre, "apellidos": query.apellidos};
-    $scope.usuarios = query.usuars;
+  var resource = $resource($scope.apiurl+'/users/');
+  var query = resource.query(function(){
+
+    $scope.usuarios = query;
     $scope.gridOptions.data = $scope.usuarios;
     $scope.gridOptions.enableFiltering = true;
     $scope.gridOptions.columnDefs = [
