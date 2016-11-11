@@ -306,39 +306,4 @@ angular
     modificar: modificar,
     borrar: borrar
   };
-})
-.service('denunciaService', function() {
-  var idruta = null;
-  var idbus = null;
-  var idtipodenuncia = null;
-  var getRuta = function() {
-    return idruta;
-  }
-  var getBus = function() {
-    return idbus;
-  }
-  var getTipo = function() {
-    return idtipodenuncia;
-  }
-
-  var setBus = function(id) {
-    idbus = id;
-  }
-
-  var setTipo = function(id){
-    return idtipodenuncia = id;
-  }
-
-  var setRuta = function(id){
-    return idruta = id;
-  }
-
-  return {
-    getBus: getBus,
-    getTipo: getTipo,
-    setBus: setBus,
-    setTipo: setTipo,
-    getRuta: getRuta,
-    setRuta: setRuta,
-  };
 });

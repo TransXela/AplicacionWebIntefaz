@@ -8,12 +8,12 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('OperadorDenunciastipoCtrl', function ($scope, apiService, denunciaService, $cookies, $location) {
+  .controller('OperadorDenunciastipoCtrl', function ($scope, apiService, $cookies, $location) {
     if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
       $scope.token = $cookies.getObject('user').token;
       $scope.usuario = $cookies.getObject('user').usuario;
-      $scope.idbus = denunciaService.getBus();
-      $scope.idtipo = denunciaService.getTipo();
+      $scope.idbus = $cookies.get('idbus');
+      $scope.idtipo = $cookies.get('idtipo');
       $scope.gridOptions = {};
       apiService.obtener('/denuncias/ruta/bus/'+$scope.idbus+'/'+$scope.idtipo+'/'+$scope.token).
       success(function(response, status, headers, config) {
@@ -26,9 +26,6 @@ angular.module('transxelaWebApp')
           {name:'Fecha',field:'fechahora', cellFilter: 'date:\'hh:mm a dd-MM-yy\''},
           {name:'Bus',field:'placa'},
         ];
-        denunciaService.setRuta($scope.idruta);
-        denunciaService.setBus($scope.bus.idbus);
-        denunciaService.setTipo($scope.idtipo);
       }).
       error(function(response, status, headers, config) {
         if(status === null || status === -1){
@@ -43,15 +40,11 @@ angular.module('transxelaWebApp')
       $location.url('/login');
     }
 
-    $scope.showTD = function(id){
-      denunciaService.setRuta($scope.idruta);
-      denunciaService.setBus($scope.bus.idbus);
-      denunciaService.setTipo(id);
-      $location.url('/operador/denunciasTipo');
-    };
-
     $scope.cerrar = function(){
       $cookies.remove('user');
+      $cookies.remove('idruta');
+      $cookies.remove('idbus');
+      $cookies.remove('idtipo');
       $location.url('/');
     };
   });
