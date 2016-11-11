@@ -108,8 +108,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
         $scope.gridOptions.paginationPageSize = 10;
         $scope.gridOptions.columnDefs = [
           {name:'Placa',field:'placa'},
-          {name:'Marca',field:'marca'},
-          {name:'Modelo',field:'modelo'},
+          {name:'No. de bus',field:'numbus'},
           {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>", enableFiltering: false},
           {name:'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
           {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idbus)">Ver más</button></div>', enableFiltering: false}

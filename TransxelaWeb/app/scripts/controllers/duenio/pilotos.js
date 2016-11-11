@@ -91,7 +91,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       $scope.gridOptions.columnDefs = [
         {name:'Nombre',field:'nombre'},
         {name:'Apellidos',field:'apellidos'},
-        {name:'Tipo Licencia',field:'tipolicencia'},
+        {name:'DPI',field:'dpi'},
         {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
         {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver más</button></div>', enableFiltering: false}
         ];

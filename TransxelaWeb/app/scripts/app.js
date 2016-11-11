@@ -76,6 +76,16 @@ angular
     controller: 'DuenioEstadisticasCtrl',
     controllerAs: 'duenio/estadisticas'
   })
+  .when('/duenio/calendariobus', {
+    templateUrl: 'views/duenio/calendariobus.html',
+    controller: 'DuenioCalendariobusCtrl',
+    controllerAs: 'duenio/calendariobus'
+  })
+  .when('/duenio/calendariopiloto', {
+    templateUrl: 'views/duenio/calendariopiloto.html',
+    controller: 'DuenioCalendariopilotoCtrl',
+    controllerAs: 'duenio/calendariopiloto'
+  })
   // Operador routes
   .when('/operador/principal', {
     templateUrl: 'views/operador/principal.html',
@@ -167,26 +177,37 @@ angular
     controllerAs: 'pmt/principal'
   })
   // Cultura routes
-  .when('/cultura/principalmodulocultura', {
-    templateUrl: 'views/cultura/principal.html',
-    controller: 'PopupDemoCont',
+  .when('/cultura/principalcultura', {
+    templateUrl: 'views/cultura/principalcultura.html',
+    controller: 'PrincipalCulturaCtrl',
     controllerAs: 'cultura/principalcultura'
   })
   .when('/cultura/principalactividades', {
     templateUrl: 'views/cultura/principalcultura.html',
-    controller: 'PopupDemoCont',
+    controller: 'PrincipalCulturaCtrl',
     controllerAs: 'cultura/principalcultura'
   })
   .when('/cultura/principalfaq', {
     templateUrl: 'views/cultura/principalfaq.html',
-    controller: 'PopupDemoCont',
+    controller: 'PrincipalFaqCtrl',
     controllerAs: 'cultura/principalfaq'
   })
   .when('/cultura/principalconsejo', {
     templateUrl: 'views/cultura/principalconsejo.html',
-    controller: 'PopupDemoCont',
+    controller: 'PrincipalConsejoCtrl',
     controllerAs: 'cultura/principalconsejo'
   })
+  .when('/cultura/veractividadesculturales', {
+    templateUrl: 'views/cultura/veractividadescultura.html',
+    controller: 'VerActividadesCtrl',
+    controllerAs: 'cultura/veractividadescultura'
+  })
+  .when('/cultura/principal', {
+    templateUrl: 'views/cultura/principal.html',
+    controller: 'PrincipalCtrl',
+    controllerAs: 'cultura/principal'
+  })
+
   // Admin routes
   .when('/admin/lista', {
     templateUrl: 'views/admin/lista.html',
