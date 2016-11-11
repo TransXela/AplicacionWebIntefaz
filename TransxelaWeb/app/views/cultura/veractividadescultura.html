@@ -1,3 +1,179 @@
-<div >
-  {{map}}
-</div>
+
+<!--  <div class="main-head" id="centerhead">
+  	<img src="images/yeoman.png">
+
+  	<ol class="breadcrumb">
+  		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+  		<li class="breadcrumb-item active">...</li>
+  	</ol>
+  </div>
+  <br>
+<div  id="centerbody">
+  <div id="navegador"  ng-controller="PopupDemoCont">
+    <ul>
+      <li>
+        <a class="glyphicon glyphicon-file" ng-click="CrearNuevaAct()"> Nueva Actividad cultural</a></li>
+    </ul>
+  </div>
+      <div class="thumbnails">
+          <div id="grid1" ui-grid="gridOptions" class="grid"></div>
+      </div>
+
+  </div>
+</div>-->
+
+  <div id="wrapper">
+    <!-- navigation -->
+      <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <!-- navbar-header -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/cultura/principal">TransXela Cultura</a>
+          </div>
+
+        <!-- close-navbar-header -->
+        <!-- navbar-top-links -->
+          <ul class="nav navbar-top-links navbar-right">
+              <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown">
+                      <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-user">
+                      <li><a href="#/duenio/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                      </li>
+                      <li class="divider"></li>
+                      <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+                      </li>
+                  </ul>
+                  <!-- /.dropdown-user -->
+              </li>
+              <!-- /.dropdown -->
+          </ul>
+        <!-- close-navbar-top-links -->
+        <!-- navbar-static-side -->
+          <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+              <ul class="nav" id="side-menu">
+                <li>
+                  <a href="#/cultura/principal"><i class="fa fa-home fa-fw"></i>Home Cultura</a>
+                </li>
+                <li>
+                  <a href="#/cultura/principalcultura"><i class="fa fa-pencil fa-fw"></i>Actividades Culturales</a>
+                </li>
+                <li>
+                  <a href="#/cultura/principalfaq"><i class="fa fa-question-circle fa-fw"></i> Actividades FAQ</a>
+                </li>
+                <li>
+                  <a href="#/cultura/principalconsejo"><i class="fa fa-clock-o fa-fw"></i> Conesejo Del Dia</a>
+                </li>
+              </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+          </div>
+        <!-- close-navbar-static-side -->
+      </nav>
+    <!-- close-navigation -->
+    <div id="page-wrapper">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">Agenda de Actividades culturales</h1>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#/cultura/principal">Principal</a></li>
+            <li class="breadcrumb-item active">Actividades culturales</li>
+          </ol>
+        </div>
+        <!-- /.col-lg-12 -->
+      </div>
+        <!-- /.row -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+
+                <div id="map" style="width: 900px; height: 400px;" ></div>
+                <script type="text/javascript">
+                    //  var neighborhoods = [
+                    //    {lat: 52.511, lng: 13.447},
+                    //    {lat: 52.549, lng: 13.422},
+                    //    {lat: 52.497, lng: 13.396},
+                    //    {lat: 52.517, lng: 13.394}
+                    //  ];
+                    var locations;
+                    var xhr = new XMLHttpRequest();
+                      xhr.open("GET", "http://127.0.0.1:8000/cultura/actividad/");
+                      xhr.send();
+                      console.log("hola");
+                      console.log(xhr);
+                      console.log(xhr.statusText);
+
+                      xhr.onreadystatechange = function() {
+                          if (this.readyState == 4 && this.status == 200) {
+                              locations = JSON.parse(this.responseText);
+                              myFunction(locations);
+                          }
+                      };
+
+                          function myFunction(locations){
+                            console.log(locations);
+                          }
+
+                            function initMap(){
+
+                              var map = new google.maps.Map(document.getElementById('map'), {
+                              zoom: 13,
+                              center: new google.maps.LatLng(14.83333, -91.5167),
+                              mapTypeId: google.maps.MapTypeId.ROADMAP
+                              });
+
+                              var infowindow = new google.maps.InfoWindow({});
+
+                              var marker, i;
+
+                              for (i = 0; i < locations.length; i++) {
+                              marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(locations[i].latitud, locations[i].longitud),
+                                map: map
+                              });
+
+                                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                  return function () {
+                                    infowindow.setContent("<strong>"+locations[i].nombre+"</strong><br>"+locations[i].descripcion+"<br>"+"<br>"+locations[i].direccion);
+                                    infowindow.open(map, marker);
+                                  }
+                                })(marker, i));
+                              }
+
+                            }
+
+
+
+
+
+
+
+
+                          </script>
+                          <script async defer
+                              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKfgk0vdG6McwqDBNCqCRlaa0ojh5cl_4&signed_in=true&callback=initMap"></script>
+                <div id="grid1" ui-grid="gridOptions" class="grid"></div>
+            </div>
+            <!-- /.panel-body -->
+          </div>
+          <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-8 -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+  </div>
+  <!-- /#wrapper -->
