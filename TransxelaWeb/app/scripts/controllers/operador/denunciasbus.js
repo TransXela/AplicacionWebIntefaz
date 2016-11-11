@@ -7,12 +7,12 @@
  * # OperadorDenunciasbusCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('OperadorDenunciasbusCtrl', function ($scope, apiService, denunciaService, $cookies, $location) {
+angular.module('transxelaWebApp').controller('OperadorDenunciasbusCtrl', function ($scope, apiService, $cookies, $location) {
   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
     $scope.token = $cookies.getObject('user').token;
     $scope.usuario = $cookies.getObject('user').usuario;
-    $scope.idruta = denunciaService.getRuta();
-    $scope.idbus = denunciaService.getBus();
+    $scope.idruta = $cookies.get('idruta');
+    $scope.idbus = $cookies.get('idbus');
     $scope.gridOptions = {};
     apiService.obtener('/denuncias/ruta/bus/'+$scope.idbus+'/'+$scope.token).
     success(function(response, status, headers, config) {
@@ -40,14 +40,15 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasbusCtrl', functio
   }
 
   $scope.showTD = function(id){
-    denunciaService.setRuta($scope.idruta);
-    denunciaService.setBus($scope.bus.idbus);
-    denunciaService.setTipo(id);
+    $cookies.remove('idtipo');
+    $cookies.put('idtipo', id);
     $location.url('/operador/denunciasTipo');
   };
 
   $scope.cerrar = function(){
     $cookies.remove('user');
+    $cookies.remove('idruta');
+    $cookies.remove('idtipo');
     $location.url('/');
   };
 });
