@@ -8,10 +8,15 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminLispmtsinuCtrl', [ '$scope', '$http', 'uiGridConstants','$cookies', '$location' , '$uibModal', '$resource', 'apiService', function ($scope, $http, uiGridConstants, $cookies, $location, $uibModal, $resource, apiService) {
+  .controller('AdminLispmtsinuCtrl', [ '$scope', '$http', 'uiGridConstants','$cookies', '$location' , '$uibModal', '$resource', function ($scope, $http, uiGridConstants, $cookies, $location, $uibModal, $resource) {
     $scope.alertas = [];
     $scope.apiurl = 'http://127.0.0.1:8000';
+    var resource = $resource($scope.apiurl+'/pmt/sinusuario');
+    var query = resource.query(function(){
+      $scope.listado = query;
+      $scope.gridOptions.data = $scope.listado;
 
+    });
     $scope.mapearEstado = function(estado) {
       return estado ? 'Habilitado' : 'Deshabilitado';
     };
@@ -40,7 +45,7 @@ angular.module('transxelaWebApp')
         controller: "VerModificarPmtController",
         resolve: {
           options: function () {
-            return {"title": "Ver modificar PMT", "buttom": "Modificar","token": $scope.token};
+            return {"title": "Ver modificar PMT", "buttom": "Modificar","apiurl": $scope.apiurl};
           },
           pmtusu: function(){
             $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idpmt", idpmt);
@@ -65,7 +70,7 @@ angular.module('transxelaWebApp')
         controller:'CrearPmtController',
         resolve: {
           options: function () {
-            return {"title": "Crear PMT", "buttom": "Crear","token": $scope.token};
+            return {"title": "Crear PMT", "buttom": "Crear","apiurl": $scope.apiurl};
           }
         }
       });
@@ -77,41 +82,36 @@ angular.module('transxelaWebApp')
     };
     // ----------------------------------- END CREAR PMT --------------------------------------------------------------
 
-    if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
-      $scope.token = $cookies.getObject('user').token;
-      $scope.gridOptions = {
-        enableFiltering: true,
-        showGridFooter: true,
-        showColumnFooter: true,
-      };
-      apiService.obtener('/pmt/sinusuario/' + $scope.token).
-      success(function(response, status, headers, config){
-        $scope.listado = response;
-        $scope.gridOptions.data = $scope.listado;
-        $scope.gridOptions.enableFiltering = true;
-        $scope.gridOptions.columnDefs = [
-          {name: 'Nombre', field: 'nombre', headerCellClass: $scope.highlightFilteredHeader },
-          {name: 'Apellidos', field: 'apellidos', headerCellClass: $scope.highlightFilteredHeader },
-          {name: 'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",filter: {
-              term: '1',
-              type: uiGridConstants.filter.SELECT,
-              selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]
-            },
-            cellFilter: 'mapGender2', headerCellClass: $scope.highlightFilteredHeader },
-            {name: 'Direccion', field: 'direccion', headerCellClass: $scope.highlightFilteredHeader },
 
-            {name:'Descripcion',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idpmt)">Ver detalles</button></div>', enableFiltering: false}
-        ];
+    $scope.gridOptions = {
+      enableFiltering: true,
+      showGridFooter: true,
+      showColumnFooter: true,
 
-      }).
-      error(function(response, status, headers, config) {
-      });
+      onRegisterApi: function(gridApi){
+        $scope.gridApi = gridApi;
+      },
+      columnDefs: [
 
-    }
-    else{
-      $location.url('/login');
-    }
+        {name: 'Nombre', field: 'nombre', headerCellClass: $scope.highlightFilteredHeader },
 
+        {name: 'Apellidos', field: 'apellidos', headerCellClass: $scope.highlightFilteredHeader },
+
+
+
+        {name: 'Estado', field: 'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",filter: {
+            term: '1',
+            type: uiGridConstants.filter.SELECT,
+            selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]
+          },
+          cellFilter: 'mapGender2', headerCellClass: $scope.highlightFilteredHeader },
+
+          {name: 'Direccion', field: 'direccion', headerCellClass: $scope.highlightFilteredHeader },
+
+          {name:'Descripcion',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idpmt)">Ver detalles</button></div>', enableFiltering: false}
+
+      ]
+    };
 
     // $scope.gridOptions.columnDefs[2].visible = false;
 
@@ -142,7 +142,7 @@ angular.module('transxelaWebApp')
 });
 
 
-angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$http', '$uibModalInstance', 'options', 'apiService', function ($scope, $http, $uibModalInstance, options, apiService) {
+angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$http', '$uibModalInstance', 'options', function ($scope, $http, $uibModalInstance, options) {
   $scope.nombre = null;
   $scope.apellidos = null;
   $scope.dpi = null;
@@ -152,17 +152,17 @@ angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$
   $scope.estado = "1";
   $scope.options = options;
   $scope.close = function () {
-    apiService.crear('/pmt/' + options.token + '/', {
+    var res = $http.post(options.apiurl+'/pmt/', {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
       telefono: $scope.telefono, correo: $scope.correo,
       estado: parseInt($scope.estado)
-    }).
-    success(function(data, status, headers, config) {
+    });
+    res.success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
-    })
-    .error(function(data, status, headers, config) {
-      $uibModalInstance.dismiss('error');
+    });
+    res.error(function(data, status, headers, config) {
+      console.log(data);
     });
   };
   $scope.cancel = function () {
@@ -171,7 +171,7 @@ angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$
 }]);
 
 
-angular.module('transxelaWebApp').controller('VerModificarPmtController', ['$scope', '$resource', '$uibModalInstance', 'options', 'pmtusu', 'apiService', function ($scope, $resource, $uibModalInstance, options, pmtusu, apiService) {
+angular.module('transxelaWebApp').controller('VerModificarPmtController', ['$scope', '$resource', '$uibModalInstance', 'options', 'pmtusu', function ($scope, $resource, $uibModalInstance, options, pmtusu) {
   $scope.nombre = pmtusu.nombre;
   $scope.apellidos = pmtusu.apellidos;
   $scope.dpi = parseInt(pmtusu.dpi);
@@ -181,17 +181,14 @@ angular.module('transxelaWebApp').controller('VerModificarPmtController', ['$sco
   $scope.estado = String(pmtusu.estado);
   $scope.options = options;
   $scope.close = function () {
-    apiService.modificar('/pmt/' + pmtusu.idpmt + '/' + options.token + '/', {
+    var resource = $resource(options.apiurl+'/pmt/' + pmtusu.idpmt, {}, {'update': {method:'PUT'}});
+    resource.update({}, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       direccion: $scope.direccion, dpi:$scope.dpi,
       telefono: $scope.telefono, correo: $scope.correo,
       estado: parseInt($scope.estado), idpmt: pmtusu.idpmt
-    }).
-    success(function(response, status, headers, config){
-      $uibModalInstance.close(response, 500);
-    }).
-    error(function(response, status, headers, config) {
-      $uibModalInstance.dismiss('error');
+    }).$promise.then(function(data) {
+      $uibModalInstance.close(data, 500);
     });
   };
   $scope.cancel = function () {
