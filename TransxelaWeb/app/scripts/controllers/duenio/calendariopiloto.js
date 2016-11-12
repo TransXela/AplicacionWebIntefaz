@@ -31,40 +31,73 @@
      $scope.idduenio = $cookies.getObject('user').id;
      $scope.token = $cookies.getObject('user').token;
      $scope.duenio = $cookies.getObject('user').usuario;
-     apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '/' + $scope.token).
+     apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '?tk=' + $scope.token).
      success(function(response, status, headers, config) {
        $scope.pilotos = response.choferes;
-       apiService.obtener('/duenio/'+$scope.idduenio+'/horarios' + '/' + $scope.token).
+       apiService.obtener('/duenio/'+$scope.idduenio+'/horarios' + '?tk=' + $scope.token).
        success(function(response, status, headers, config){
-         $scope.horarios = response;
-         apiService.obtener('/duenio/'+$scope.idduenio + '/buses/' + $scope.token).
+         $scope.horarios = response.horarios;
+         apiService.obtener('/duenio/'+$scope.idduenio + '/buses?tk=' + $scope.token).
          success(function(response, status, headers, config){
          $scope.buses = response.buses;
          }).
          error(function(response, status, headers, config) {
-           if(status === null || status === -1|| status === 404){
-             $location.url('/404');
-           }
-           else if(status === 401){
-             $location.url('/403');
+           switch(status) {
+             case 400: {
+               $location.url('/404');
+               break;
+             }
+             case 403: {
+               $location.url('/403');
+               break;
+             }
+             case 404: {
+               $location.url('/404');
+               break;
+             }
+             default: {
+               $location.url('/500');
+             }
            }
          });
        }).
        error(function(response, status, headers, config) {
-         if(status === null || status === -1|| status === 404){
-           $location.url('/404');
-         }
-         else if(status === 401){
-           $location.url('/403');
+         switch(status) {
+           case 400: {
+             $location.url('/404');
+             break;
+           }
+           case 403: {
+             $location.url('/403');
+             break;
+           }
+           case 404: {
+             $location.url('/404');
+             break;
+           }
+           default: {
+             $location.url('/500');
+           }
          }
        });
      }).
      error(function(response, status, headers, config) {
-       if(status === null || status === -1|| status === 404){
-         $location.url('/404');
-       }
-       else if(status === 401){
-         $location.url('/403');
+       switch(status) {
+         case 400: {
+           $location.url('/404');
+           break;
+         }
+         case 403: {
+           $location.url('/403');
+           break;
+         }
+         case 404: {
+           $location.url('/404');
+           break;
+         }
+         default: {
+           $location.url('/500');
+         }
        }
      });
    }
@@ -75,7 +108,7 @@
    $scope.showVerModificar = function (evento) {
      var uibModalInstance = $uibModal.open({
        templateUrl: 'views/duenio/evento.html',
-       controller:'VerModificarEController',
+       controller:'ModificarEControlador',
        resolve: {
          options: function () {
            return {"title": "Modificar Evento", "buttom": "Modificar", "token": $scope.token};
@@ -130,7 +163,8 @@
          $scope.events.splice(evento.calendarEventId,1);
        }
        $scope.alertas.push({"tipo": "success", "mensaje": "Evento modificado exitosamente"});
-     }, function (status) {
+     },
+     function (status) {
        if(status ==='success'){
          $scope.events.splice(evento.calendarEventId,1);
          $scope.alertas.push({"tipo": "success", "mensaje": "Evento eliminado exitosamente"});
@@ -138,11 +172,14 @@
        else if(status ==='imposibleborrar'){
          $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar el evento"});
        }
-       else if(status ==='notdeleted'){
-         $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar eventos del día actual"});
+       else if(status === '403'){
+         $location.url('/403');
        }
-       else if(status === 'error'){
+       else if(status === '404'){
          $location.url('/404');
+       }
+       else if(status === '500'){
+         $location.url('/400');
        }
      });
    };
@@ -150,7 +187,7 @@
    $scope.buscar = function(){
      if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
        $scope.events = [];
-       apiService.obtener('/horariosdetalle/piloto/' + $scope.idpiloto + '/' + $scope.token).
+       apiService.obtener('/horariosdetalle/piloto/' + $scope.idpiloto + '?tk=' + $scope.token).
        success(function(response, status, headers, config){
          $scope.piloto = {"idchofer": response.idchofer, "nombre": response.nombre,
          "apellidos": response.apellidos, "direccion": response.direccion,
@@ -231,11 +268,22 @@
          }
        }).
        error(function(response, status, headers, config) {
-         if(status === null || status === -1){
-           $location.url('/404');
-         }
-         else if(status === 401){
-           $location.url('/403');
+         switch(status) {
+           case 400: {
+             $location.url('/404');
+             break;
+           }
+           case 403: {
+             $location.url('/403');
+             break;
+           }
+           case 404: {
+             $location.url('/404');
+             break;
+           }
+           default: {
+             $location.url('/500');
+           }
          }
        });
      }
@@ -258,8 +306,7 @@
        $location.url('/');
    };
  });
-
- angular.module('transxelaWebApp').controller('VerModificarEController', ['$scope', 'apiService','$uibModalInstance', 'options', 'horariodetalle', 'data', function ($scope, apiService, $uibModalInstance, options, horariodetalle, data) {
+ angular.module('transxelaWebApp').controller('ModificarEControlador', ['$scope', 'apiService','$uibModalInstance', 'options', 'horariodetalle', 'data', function ($scope, apiService, $uibModalInstance, options, horariodetalle, data) {
    $scope.options = options;
    $scope.buses = data.buses;
    $scope.horarios = data.horarios;
@@ -270,28 +317,65 @@
    $scope.bus = String(horariodetalle.idbus);
    $scope.fecha = horariodetalle.fecha;
    $scope.col = 10;
+   $scope.alertas = [];
    $scope.close = function () {
-     apiService.modificar('/duenio/horariodetalle/' + horariodetalle.idhorariodetalle + '/' + options.token + '/', {bus: parseInt($scope.bus), chofer: parseInt($scope.piloto), horario: parseInt($scope.horario), "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)}).
+     apiService.modificar('/duenio/horariodetalle/' + horariodetalle.idhorariodetalle + '/?tk=' + options.token, {bus: parseInt($scope.bus), chofer: parseInt($scope.piloto), horario: parseInt($scope.horario), "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)}).
      success(function(response, status, headers, config){
        $uibModalInstance.close({bus: parseInt($scope.bus), chofer: parseInt($scope.piloto), horario: parseInt($scope.horario), "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)}, 500);
      }).
      error(function(response, status, headers, config) {
-       $uibModalInstance.dismiss('error');
+       switch(status) {
+         case 400: {
+           $uibModalInstance.dismiss('404');
+           break;
+         }
+         case 403: {
+           $uibModalInstance.dismiss('403');
+           break;
+         }
+         case 404: {
+           $uibModalInstance.dismiss('404');
+           break;
+         }
+         case 406: {
+           $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
+           break;
+         }
+         default: {
+           $uibModalInstance.dismiss('500');
+         }
+       }
      });
    };
 
    $scope.delete = function () {
      if(horariodetalle.fecha.getDate() !== new Date().getDate()){
-         apiService.borrar('/duenio/horariodetalle/' + horariodetalle.idhorariodetalle + '/' + options.token + '/').
+         apiService.borrar('/duenio/horariodetalle/' + horariodetalle.idhorariodetalle + '/?tk=' + options.token).
          success(function(response, status, headers, config){
            $uibModalInstance.dismiss('success');
          }).
          error(function(response, status, headers, config) {
-           $uibModalInstance.dismiss('imposibleborrar');
+           switch(status) {
+             case 400: {
+               $uibModalInstance.dismiss('404');
+               break;
+             }
+             case 403: {
+               $uibModalInstance.dismiss('403');
+               break;
+             }
+             case 404: {
+               $uibModalInstance.dismiss('404');
+               break;
+             }
+             default: {
+               $uibModalInstance.dismiss('500');
+             }
+           }
          });
      }
      else{
-       $uibModalInstance.dismiss('notdeleted');
+       $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar eventos del día actual"});
      }
 
    };

@@ -86,9 +86,9 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
     $scope.token = $cookies.getObject('user').token;
     $scope.duenio = $cookies.getObject('user').usuario;
     $scope.gridOptions = {};
-    apiService.obtener('/duenio/'+$scope.idduenio+'/horarios'+'/'+$scope.token).
+    apiService.obtener('/duenio/'+$scope.idduenio+'/horarios'+'?tk='+$scope.token).
     success(function(response, status, headers, config) {
-      $scope.horarios = response;
+      $scope.horarios = response.horarios;
       $scope.nuevaHora = new Date("March 20, 2009 19:00:00");
       for (var i=0; i<$scope.horarios.length; i++) {
         $scope.hora_minutosI = $scope.horarios[i].horainicio.split(":");
@@ -108,11 +108,22 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
       ];
     }).
     error(function(response, status, headers, config) {
-      if(status === null || status === -1){
-        $location.url('/404');
-      }
-      else if(status === 401){
-        $location.url('/403');
+      switch(status) {
+        case 400: {
+          $location.url('/404');
+          break;
+        }
+        case 403: {
+          $location.url('/403');
+          break;
+        }
+        case 404: {
+          $location.url('/404');
+          break;
+        }
+        default: {
+          $location.url('/500');
+        }
       }
     });
   }
@@ -127,7 +138,7 @@ angular.module('transxelaWebApp').controller('CrearHController', ['$scope', 'api
   $scope.options = options;
   $scope.alertas = [];
   $scope.close = function () {
-    apiService.crear('/duenio/horario/' + options.token + '/', {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: idduenio}).
+    apiService.crear('/duenio/horario/?tk=' + options.token, {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: idduenio}).
     success(function(data, status, headers, config) {
       $uibModalInstance.close({horainicio: $scope.horainicio, horafin: $scope.horafin, duenio: idduenio, idhorario: data.idhorario}, 500);
     }).
