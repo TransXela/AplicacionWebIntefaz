@@ -86,7 +86,7 @@ angular.module('transxelaWebApp')
         showColumnFooter: true,
       };
 
-      apiService.obtener('/duenio/sinusuario/' + $scope.token).
+      apiService.obtener('/duenio/sinusuario?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.listado = response;
         $scope.gridOptions.data = $scope.listado;
@@ -162,7 +162,7 @@ angular.module('transxelaWebApp').controller('CrearDuenioController', ['$scope',
   $scope.options = options;
   $scope.alertas = [];
   $scope.close = function () {
-    apiService.crear('/duenio/' + options.token + '/', {
+    apiService.crear('/pmt/duenio/?tk=' + options.token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
       telefono: $scope.telefono, correo: $scope.correo,
@@ -196,7 +196,7 @@ angular.module('transxelaWebApp').controller('VerModificarDuenioController', ['$
   $scope.options = options;
   $scope.alertas = [];
   $scope.close = function () {
-    apiService.modificar('/duenio/' + dueniousu.idduenio + '/' + options.token + '/', {
+    apiService.modificar('/duenio/' + dueniousu.idduenio + '/?tk=' + options.token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       direccion: $scope.direccion, dpi:$scope.dpi, empresa: $scope.empresa,
       telefono: $scope.telefono, correo: $scope.correo,
