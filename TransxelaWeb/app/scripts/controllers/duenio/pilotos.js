@@ -16,7 +16,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       controller:'CrearPController',
       resolve: {
         options: function () {
-          return {"title": "Crear Piloto", "buttom": "Crear", "token": $scope.token};
+          return {"title": "Nuevo piloto", "buttom": "Crear piloto", "token": $scope.token};
         },
         idduenio: function () {
           return $scope.idduenio;
@@ -45,7 +45,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       controller: "VerController",
       resolve: {
         options: function () {
-          return {"title": "Ver Piloto", "buttom": "Modificar", "token": $scope.token};
+          return {"title": "Información del piloto", "buttom": "Guardar cambios", "token": $scope.token};
         },
         piloto: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.pilotos,"idchofer", idchofer);
@@ -101,11 +101,14 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       $scope.gridOptions.paginationPageSizes = [10, 25, 50];
       $scope.gridOptions.paginationPageSize = 10;
       $scope.gridOptions.columnDefs = [
-        {name:'Nombre',field:'nombre', sort: { direction: uiGridConstants.ASC }},
-        {name:'Apellidos',field:'apellidos'},
-        {name:'DPI',field:'dpi'},
+        {name:'Nombre',field:'nombre', sort: { direction: uiGridConstants.ASC },
+          filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Nombre del piloto', headerCellClass: $scope.highlightFilteredHeader}},
+        {name:'Apellidos',field:'apellidos',
+          filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Apellidos del piloto', headerCellClass: $scope.highlightFilteredHeader}},
+        {name:'DPI',field:'dpi',
+          filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'DPI del piloto', headerCellClass: $scope.highlightFilteredHeader}},
         {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",
-          filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
+          filter: {type: uiGridConstants.filter.SELECT,
           selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]}, headerCellClass: $scope.highlightFilteredHeader},
         {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver más</button></div>', enableFiltering: false}
         ];

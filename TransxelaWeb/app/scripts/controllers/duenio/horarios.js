@@ -16,7 +16,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
       size: size,
       resolve: {
         options: function () {
-          return {"title": "Crear Horario", "button": "Crear", "token": $scope.token};
+          return {"title": "Nuevo horario", "button": "Crear horario", "token": $scope.token};
         },
         idduenio: function () {
           return $scope.idduenio;
@@ -27,8 +27,11 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
       $scope.horarios.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Horario creado exitosamente"});
     }, function (status) {
-      if(status === 'error'){
-        $location.url('/404');
+      if(status === '403'){
+        $location.url('/403');
+      }
+      else if(status === '500'){
+        $location.url('/400');
       }
     });
   };
@@ -40,7 +43,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
       size: size,
       resolve: {
         options: function () {
-          return {"title": "Ver Horario", "button": "Modificar", "token": $scope.token};
+          return {"title": "Información del horario", "button": "Guardar cambios", "token": $scope.token};
         },
         horario: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.horarios,"idhorario", idhorario);
@@ -58,11 +61,11 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
         $scope.horarios.splice($scope.index,1);
         $scope.alertas.push({"tipo":"success", "mensaje": "Horario eliminado exitosamente"});
       }
-      else if(status ==='notdeleted'){
-        $scope.alertas.push({"tipo":"danger", "mensaje": "Imposible eliminar el horario"});
+      else if(status === '403'){
+        $location.url('/403');
       }
-      else if(status === 'error'){
-        $location.url('/404');
+      else if(status === '500'){
+        $location.url('/400');
       }
     });
   };
@@ -88,7 +91,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
     $scope.gridOptions = {};
     apiService.obtener('/duenio/'+$scope.idduenio+'/horarios'+'?tk='+$scope.token).
     success(function(response, status, headers, config) {
-      $scope.horarios = response.horarios;
+      $scope.horarios = response;
       $scope.nuevaHora = new Date("March 20, 2009 19:00:00");
       for (var i=0; i<$scope.horarios.length; i++) {
         $scope.hora_minutosI = $scope.horarios[i].horainicio.split(":");
@@ -143,11 +146,22 @@ angular.module('transxelaWebApp').controller('CrearHController', ['$scope', 'api
       $uibModalInstance.close({horainicio: $scope.horainicio, horafin: $scope.horafin, duenio: idduenio, idhorario: data.idhorario}, 500);
     }).
     error(function(response, status, headers, config) {
-      if(response != null && response.crear != null) {
-        $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
-      }
-      else{
-        $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
       }
     });
   };
@@ -168,7 +182,7 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
   $scope.options = options;
   $scope.alertas = [];
   $scope.close = function () {
-    apiService.modificar('/duenio/horario/' + horario.idhorario + '/' + options.token + '/', {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: horario.duenio}).
+    apiService.modificar('/duenio/horario/' + horario.idhorario + '/?tk=' + options.token, {horainicio: $scope.formatoTime($scope.horainicio), horafin: $scope.formatoTime($scope.horafin), duenio: horario.duenio}).
     success(function(data, status, headers, config) {
       $uibModalInstance.close({
         horainicio: $scope.horainicio,
@@ -176,11 +190,22 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
       }, 500);
     }).
     error(function(response, status, headers, config) {
-      if(response != null && response.modificar != null) {
-        $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
-      }
-      else{
-        $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
       }
     });
   };
@@ -190,16 +215,27 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
   };
 
   $scope.delete = function () {
-    apiService.borrar('/duenio/horario/' + horario.idhorario + '/' + options.token + '/').
+    apiService.borrar('/duenio/horario/' + horario.idhorario + '/?tk=' + options.token).
     success(function(response, status, headers, config){
       $uibModalInstance.dismiss('success');
     }).
     error(function(response, status, headers, config) {
-      if(response != null && response.data != null) {
-        $uibModalInstance.dismiss('notdeleted');
-      }
-      else{
-        $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $scope.alertas.push({"tipo":"danger", "mensaje": response.estado});
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $scope.alertas.push({"tipo":"danger", "mensaje": response.estado});
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
       }
     });
   };
