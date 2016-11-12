@@ -11,7 +11,7 @@ angular.module('transxelaWebApp')
   .controller('AdminLispmtsinuCtrl', [ '$scope', '$http', 'uiGridConstants','$cookies', '$location' , '$uibModal', '$resource', 'apiService', function ($scope, $http, uiGridConstants, $cookies, $location, $uibModal, $resource, apiService) {
     $scope.alertas = [];
     $scope.apiurl = 'http://127.0.0.1:8000';
-    
+
     $scope.mapearEstado = function(estado) {
       return estado ? 'Habilitado' : 'Deshabilitado';
     };
@@ -84,7 +84,7 @@ angular.module('transxelaWebApp')
         showGridFooter: true,
         showColumnFooter: true,
       };
-      apiService.obtener('/pmt/sinusuario/' + $scope.token).
+      apiService.obtener('/pmt/sinusuario?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.listado = response;
         $scope.gridOptions.data = $scope.listado;
@@ -151,7 +151,7 @@ angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$
   $scope.estado = "1";
   $scope.options = options;
   $scope.close = function () {
-    apiService.crear('/pmt/' + options.token + '/', {
+    apiService.crear('/pmt/?tk=' + options.token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
       telefono: $scope.telefono, correo: $scope.correo,
@@ -180,7 +180,7 @@ angular.module('transxelaWebApp').controller('VerModificarPmtController', ['$sco
   $scope.estado = String(pmtusu.estado);
   $scope.options = options;
   $scope.close = function () {
-    apiService.modificar('/pmt/' + pmtusu.idpmt + '/' + options.token + '/', {
+    apiService.modificar('/pmt/' + pmtusu.idpmt + '/?tk=' + options.token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       direccion: $scope.direccion, dpi:$scope.dpi,
       telefono: $scope.telefono, correo: $scope.correo,
