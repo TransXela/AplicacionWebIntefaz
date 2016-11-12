@@ -72,37 +72,56 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
-                        <div class="pull-right">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                    Actions
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu pull-right" role="menu">
-                                    <li><a href="#">Action</a>
-                                    </li>
-                                    <li><a href="#">Another action</a>
-                                    </li>
-                                    <li><a href="#">Something else here</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Separated link</a>
-                                    </li>
-                                </ul>
+                  <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-bar-chart-o fa-fw"></i> Gráfica de Denuncias por Bus
+                                    <div>
+                                      <canvas id="DueDenBusGraph"></canvas>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <div id="morris-area-chart"></div>
-                    </div>
-                    <!-- /.panel-body -->
-                </div>
-                <!-- /.panel -->
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-bar-chart-o fa-fw"></i> Gráfica de Denuncias por chofer
+                                    <div>
+                                      <canvas id="ChofDenDueGraph"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <i class="fa fa-bar-chart-o fa-fw"></i> Gráfica de Denuncias por Bus
+                              <div>
+                                <canvas id="DueTipDenDenGraph"></canvas>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <i class="fa fa-bar-chart-o fa-fw"></i> Gráfica de Denuncias por chofer
+                              <div>
+                                <canvas id="DueRutaDenGraph"></canvas>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- /.panel -->
+                        </div>
+                      </div>
+                  </div>
             </div>
             <!-- /.col-lg-8 -->
+          </div>
         </div>
         <!-- /.row -->
     </div>
