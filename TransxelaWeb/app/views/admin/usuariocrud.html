@@ -4,47 +4,31 @@
 </div>
 <form name="pilotoForm" class="form" novalidate>
 <div class="modal-body">
-	<label>Nombre</label>
-	<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre del usuario" ng-model="nombre" required autofocus>
+	<label>Usuario</label>
+	<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre de usuario" ng-model="nombre" required autofocus>
 	<div ng-messages="pilotoForm.nombre.$error" role="alert" class="text-danger">
   		<div ng-message="required">Campo requerido</div>
 	</div><br>
-	<label>Apellidos</label>
-	<input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="Apellidos del usuario" ng-model="apellidos" required>
-	<div ng-messages="pilotoForm.apellidos.$error" role="alert" class="text-danger">
-  		<div ng-message="required">Campo requerido</div>
+	<label>Correo Electrónico</label>
+	<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico del usuario" ng-model="correo" required>
+	<div ng-messages="pilotoForm.correo.$error" role="alert" class="text-danger">
+			<div ng-message="email">Correo electrónico inválido</div>
 	</div><br>
-	<label>Dirección</label>
-	<input type="text" class="form-control" id="direccion" placeholder="Dirección del usuario" ng-model="direccion"><br>
-	<label>DPI</label>
-	<input type="number" class="form-control" name="dpi" id="dpi" placeholder="DPI del usuario" ng-model="dpi" required min="1000000000000" max="9999999999999">
-	<div ng-messages="pilotoForm.dpi.$error" role="alert" class="text-danger">
-  		<div ng-message="required">Campo requerido</div>
-     	<div ng-message="min || max">DPI inválido (debe tener 13 dígitos)</div>
-	</div><br>
-	<!-- <label>Licencia</label>
-	<input type="text" class="form-control" name="licencia" id="licencia" placeholder="Licencia del piloto" ng-model="licencia" required>
-	<div ng-messages="pilotoForm.licencia.$error" role="alert" class="text-danger">
-  		<div ng-message="required">Campo requerido</div>
-	</div><br> -->
-	<label for="tipolicencia">Tipo de Usuario</label>
-	<select class="form-control" name= "grupo" id="grupo" ng-model="grupo">
+	<label for="grupos">Tipo de Usuario</label>
+	<select class="form-control" name= "grupo" id="grupo" ng-model="grupo" required>
     <option value="" disabled>Seleccione un tipo usuario</option>
     <option ng-repeat="x in grupos" value="{{x.id}}">{{x.name}}</option>
   </select>
-	<div ng-messages="pilotoForm.tipolicencia.$error" role="alert" class="text-danger">
+	<div ng-messages="pilotoForm.grupo.$error" role="alert" class="text-danger">
   		<div ng-message="required">Campo requerido</div>
 	</div><br>
-	<label>No. de Teléfono</label>
-	<input type="number" class="form-control" name="telefono" id="telefono" placeholder="No. de Teléfono del usuario" ng-model="telefono" min="10000000" max="99999999">
-	<div ng-messages="pilotoForm.telefono.$error" role="alert" class="text-danger">
-     	<div ng-message="min || max">No. de teléfono inválido (debe tener 8 dígitos)</div>
+
+	<label>Contraseña</label>
+	<input type="password" class="form-control" name="contrasenia" id="contrasenia" placeholder="Contraseña del usuario" ng-model="contrasenia" required>
+	<div ng-messages="pilotoForm.contrasenia.$error" role="alert" class="text-danger">
+     	<div ng-message="required">Campo requerido</div>
 	</div><br>
-	<label>Correo Electrónico</label>
-	<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico del usuario" ng-model="correo">
-	<div ng-messages="pilotoForm.correo.$error" role="alert" class="text-danger">
-     	<div ng-message="email">Correo electrónico inválido</div>
-	</div><br>
+
 	<label>Estado</label>
 	<div class="btn-group">
         <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'">Habilitado</label>

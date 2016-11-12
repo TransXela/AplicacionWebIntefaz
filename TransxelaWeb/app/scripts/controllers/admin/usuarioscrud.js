@@ -82,6 +82,7 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
     showGridFooter: true,
     showColumnFooter: true,
   };
+
   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
     $scope.token = $cookies.getObject('user').token;
     apiService.obtener('/groups/' + $scope.token).
@@ -108,13 +109,13 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
       }).
       error(function(response, status, headers, config) {
       });
-    }).
-    error(function(response, status, headers, config) {
-    });
-  }
-  else{
-    $location.url('/login');
-  }
+      }).
+      error(function(response, status, headers, config) {
+      });
+    }
+    else{
+      $location.url('/login');
+    }
 
   $scope.mapearEstado = function(estado) {
     return estado ? 'Habilitado' : 'Deshabilitado';
@@ -124,22 +125,23 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
 
 angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope', 'apiService', '$uibModalInstance','options', 'grupos', function ($scope, apiService, $uibModalInstance, options, grupos) {
   $scope.nombre = null;
-  $scope.apellidos = null;
-  $scope.dpi = null;
-  $scope.direccion = null;
-  $scope.tipousuario = null;
-  $scope.telefono = null;
   $scope.correo = null;
-  $scope.estado = "1";
+  $scope.contrasenia = null;
+  $scope.grupo = null;
+  $scope.estado = true;
+  $scope.is_staff = true;
   $scope.options = options;
   $scope.grupos = grupos;
   $scope.close = function () {
     apiService.crear('/user/' + options.token + '/', {
-      nombre: $scope.nombre, apellidos: $scope.apellidos,
-      dpi: String($scope.dpi), direccion: $scope.direccion,
-      tipousuario: $scope.grupo,
-      telefono: $scope.telefono, correo: $scope.correo,
-      estado: parseInt($scope.estado), duenio: idusuario
+      // if ($scope.grupo === 4) {
+      //   is_staff: $scope.is_staff;
+      // },
+      username: $scope.nombre,
+      groups: [parseInt( $scope.grupo)],
+      email: $scope.correo,
+      password: $scope.contrasenia,
+      is_active: $scope.estado
     })
     .success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
