@@ -40,7 +40,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       var colorIndex = 0;
       apiService.obtener('/duenio/'+$scope.idduenio+'/horarios' + '?tk=' + $scope.token).
       success(function(response, status, headers, config){
-        $scope.horarios = response.horarios;
+        $scope.horarios = response;
         apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '?tk=' + $scope.token).
         success(function(response, status, headers, config){
           $scope.pilotos = response.choferes;
@@ -81,7 +81,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
                   draggable: true,
                   resizable: true,
                   incrementsBadgeTotal: true,
-                  recursOn: 'year',
+                  // recursOn: 'year',
                   cssClass: 'a-css-class-name',
                   allDay: false,
                   actions: actions,
@@ -105,7 +105,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
                   draggable: true,
                   resizable: true,
                   incrementsBadgeTotal: true,
-                  recursOn: 'year',
+                  // recursOn: 'year',
                   cssClass: 'a-css-class-name',
                   allDay: false
                 });
@@ -202,7 +202,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       controller:'CrearEController',
       resolve: {
         options: function () {
-          return {"title": "Crear Evento", "buttom": "Crear", "token": $scope.token};
+          return {"title": "Nueva asignación", "buttom": "Realizar asignación", "token": $scope.token};
         },
         data: function () {
           return {"horarios": $scope.horarios, "buses": $scope.buses, "pilotos": $scope.pilotos};
@@ -247,7 +247,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
         draggable: true,
         resizable: true,
         incrementsBadgeTotal: true,
-        recursOn: 'year',
+        // recursOn: 'year',
         cssClass: 'a-css-class-name',
         allDay: false,
         actions: actions,
@@ -258,10 +258,10 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
         estado: result.estado
       });
       if(result.hasOwnProperty("dias")){
-        $scope.alertas.push({"tipo":"success", "mensaje": "Eventos creados exitosamente. Recarge la página para visualizar eventos"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Asignaciones realizadas exitosamente. Recarge la página para visualizar asignaciones"});
       }
       else{
-        $scope.alertas.push({"tipo":"success", "mensaje": "Evento creado exitosamente"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Asignación realizada exitosamente"});
       }
     }, function(status) {
       if(status === '403'){
@@ -282,7 +282,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       controller:'VModificarEController',
       resolve: {
         options: function () {
-          return {"title": "Modificar Evento", "buttom": "Modificar", "token": $scope.token};
+          return {"title": "Información de la asignación", "buttom": "Guardar cambios", "token": $scope.token};
         },
         horariodetalle: function () {
           return {"idhorariodetalle": evento.idhorariodetalle, "idhorario": evento.idhorario,
@@ -328,15 +328,15 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
         colorIndex = 4;
       }
       $scope.events[evento.calendarEventId].color = colors[colorIndex];
-      $scope.alertas.push({"tipo": "success", "mensaje": "Evento modificado exitosamente"});
+      $scope.alertas.push({"tipo": "success", "mensaje": "Asignación modificada exitosamente"});
     },
     function (status) {
       if(status ==='success'){
         $scope.events.splice(evento.calendarEventId,1);
-        $scope.alertas.push({"tipo": "success", "mensaje": "Evento eliminado exitosamente"});
+        $scope.alertas.push({"tipo": "success", "mensaje": "Asignación eliminada exitosamente"});
       }
       else if(status ==='imposibleborrar'){
-        $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar el evento"});
+        $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar la asignación"});
       }
       else if(status === '403'){
         $location.url('/403');

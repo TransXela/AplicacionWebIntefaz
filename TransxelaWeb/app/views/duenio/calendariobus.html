@@ -47,7 +47,7 @@
                 <a href="#/duenio/calendario"><i class="fa fa-calendar fa-fw"></i> Calendario</a>
               </li>
               <li>
-                <a href="#/duenio/estadisticas"><i class="fa fa-info fa-fw"></i> Estadísticas</a>
+                <a href="#/duenio/estadisticas"><i class="fa fa-bar-chart fa-fw"></i> Estadísticas</a>
               </li>
             </ul>
           </div>
@@ -63,7 +63,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
             <li class="breadcrumb-item"><a href="#/duenio/calendario">Calendario</a></li>
-          <li class="breadcrumb-item active">Calendario por Bus</li>
+          <li class="breadcrumb-item active">Calendario por bus</li>
         </ol>
       </div>
       <!-- /.col-lg-12 -->
@@ -79,8 +79,8 @@
               <option ng-repeat="x in buses" value="{{x.idbus}}">{{x.placa}}</option>
               </select>
               <span class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="buscar()">
-                  <i class="fa fa-search"></i>
+                <button class="btn btn-success" type="button" ng-click="buscar()">
+                  <i class="fa fa-search"></i> Asignaciones
                 </button>
               </span>
             </div>

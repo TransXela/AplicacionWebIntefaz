@@ -72,14 +72,14 @@
 
       <div class="col-sm-10">
         <div class="btn-group">
-          <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'">Habilitado</label>
-          <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'0'">Deshabilitado</label>
+					<label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'"><i class="fa fa-check"></i> Habilitado</label>
+					<label class="btn btn-primary" ng-model="estado" uib-btn-radio="'0'"><i class="fa fa-times"></i> Deshabilitado</label>
         </div>
       </div>
     </div>
   </div>
   <div class="modal-footer">
     <button type="button" ng-click="close()" class="btn btn-success" data-dismiss="modal" ng-disabled="busForm.$invalid">{{options.buttom}}</button>
-    <button type="button" ng-click="cancel()" class="btn btn-warning">Cancelar</button>
+    <button type="button" ng-click="cancel()" class="btn btn-warning">Regresar</button>
   </div>
 </form>
