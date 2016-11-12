@@ -1,52 +1,53 @@
+<!DOCTYPE html>
 <div id="wrapper">
-  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-      <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-        <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
+  <nav class="navbar navbar-default navbar-static-top"  style="margin-bottom: 0">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
+    </div>
+    <ul class="nav navbar-top-links navbar-right">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+          <li>
+            <a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div class="navbar-default sidebar" role="navigation">
+      <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+          <li>
+            <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
+          </li>
+          <li>
+            <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);"><i class="fa fa-clock-o fa-fw"></i> Horarios<span class="fa arrow"></span></a>
+            <ul class="#/pmt/rutas">
+              <li>
+                <a href="#/pmt/horariosBus">Ver por Bus</a>
+              </li>
+              <li>
+                <a href="#/pmt/horarios">Ver por Dueño</a>
+              </li>
+              <li>
+                <a href="#/pmt/horariosPiloto">Ver por Piloto</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
-      <ul class="nav navbar-top-links navbar-right">
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
-          </a>
-          <ul class="dropdown-menu dropdown-user">
-            <li>
-              <a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-          <ul class="nav" id="side-menu">
-            <li>
-              <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
-            </li>
-            <li>
-              <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
-            </li>
-            <li>
-              <a href="javascript:void(0);"><i class="fa fa-clock-o fa-fw"></i> Horarios<span class="fa arrow"></span></a>
-              <ul class="#/pmt/rutas">
-                  <li>
-                    <a href="#/pmt/horariosBus">Ver por Bus</a>
-                  </li>
-                  <li>
-                    <a href="#/pmt/horarios">Ver por Dueño</a>
-                  </li>
-                  <li>
-                    <a href="#/pmt/horariosPiloto">Ver por Piloto</a>
-                  </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
+    </div>
   </nav>
   <div id="page-wrapper">
     <div class="row">
@@ -74,34 +75,15 @@
           </div>
           <div class="panel-body">
             <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-              ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
             </div>
             <h2 class="text-center">{{ calendarTitle }}</h2>
             <div class="row">
               <div class="col-md-6 text-center">
                 <div class="btn-group">
-                  <button
-                    class="btn btn-primary"
-                    mwl-date-modifier
-                    date="viewDate"
-                    decrement="calendarView">
-                    Anterior
-                  </button>
-                  <button
-                    class="btn btn-default"
-                    mwl-date-modifier
-                    date="viewDate"
-                    set-to-today>
-                    Hoy
-                  </button>
-                  <button
-                    class="btn btn-primary"
-                    mwl-date-modifier
-                    date="viewDate"
-                    increment="calendarView">
-                    Siguiente
-                  </button>
+                  <button class="btn btn-primary" mwl-date-modifier date="viewDate" decrement="calendarView">Anterior</button>
+                  <button class="btn btn-default" mwl-date-modifier date="viewDate" set-to-today>Hoy</button>
+                  <button class="btn btn-primary" mwl-date-modifier date="viewDate" increment="calendarView">Siguiente</button>
                 </div>
               </div>
               <br class="visible-xs visible-sm">
@@ -114,7 +96,7 @@
                 </div>
               </div>
             </div>
-            <mwl-calendar
+              <mwl-calendar
               view="calendarView"
               view-date="viewDate"
               events="events"
