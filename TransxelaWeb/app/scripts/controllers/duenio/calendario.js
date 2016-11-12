@@ -33,18 +33,18 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.duenio = $cookies.getObject('user').usuario;
-    apiService.obtener('/duenio/'+$scope.idduenio+'/horariosdetalle' + '/' + $scope.token).
+    apiService.obtener('/duenio/'+$scope.idduenio+'/horariosdetalle' + '?tk=' + $scope.token).
     success(function(response, status, headers, config){
       $scope.duenio = {"nombre":response.duenio.nombre, "apellidos": response.duenio.apellidos};
       var horariosdetalle = response.diasHorarioDetalle;
       var colorIndex = 0;
-      apiService.obtener('/duenio/'+$scope.idduenio+'/horarios' + '/' + $scope.token).
+      apiService.obtener('/duenio/'+$scope.idduenio+'/horarios' + '?tk=' + $scope.token).
       success(function(response, status, headers, config){
-        $scope.horarios = response;
-        apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '/' + $scope.token).
+        $scope.horarios = response.horarios;
+        apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '?tk=' + $scope.token).
         success(function(response, status, headers, config){
           $scope.pilotos = response.choferes;
-          apiService.obtener('/duenio/'+$scope.idduenio+'/buses' + '/' + $scope.token).
+          apiService.obtener('/duenio/'+$scope.idduenio+'/buses' + '?tk=' + $scope.token).
           success(function(response, status, headers, config){
             $scope.buses = response.buses;
             var fechaActual = new Date();
@@ -113,38 +113,82 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
             }
           }).
           error(function(response, status, headers, config) {
-            if(status === null || status === -1){
-              $location.url('/404');
-            }
-            else if(status === 401){
-              $location.url('/403');
+            switch(status) {
+              case 400: {
+                $uibModalInstance.dismiss('404');
+                break;
+              }
+              case 403: {
+                $uibModalInstance.dismiss('403');
+                break;
+              }
+              case 404: {
+                $uibModalInstance.dismiss('404');
+                break;
+              }
+              default: {
+                $uibModalInstance.dismiss('500');
+              }
             }
           });
         }).
         error(function(response, status, headers, config) {
-          if(status === null || status === -1){
-            $location.url('/404');
-          }
-          else if(status === 401){
-            $location.url('/403');
+          switch(status) {
+            case 400: {
+              $uibModalInstance.dismiss('404');
+              break;
+            }
+            case 403: {
+              $uibModalInstance.dismiss('403');
+              break;
+            }
+            case 404: {
+              $uibModalInstance.dismiss('404');
+              break;
+            }
+            default: {
+              $uibModalInstance.dismiss('500');
+            }
           }
         });
       }).
       error(function(response, status, headers, config) {
-        if(status === null || status === -1){
-          $location.url('/404');
-        }
-        else if(status === 401){
-          $location.url('/403');
+        switch(status) {
+          case 400: {
+            $uibModalInstance.dismiss('404');
+            break;
+          }
+          case 403: {
+            $uibModalInstance.dismiss('403');
+            break;
+          }
+          case 404: {
+            $uibModalInstance.dismiss('404');
+            break;
+          }
+          default: {
+            $uibModalInstance.dismiss('500');
+          }
         }
       });
     }).
     error(function(response, status, headers, config) {
-      if(status === null || status === -1){
-        $location.url('/404');
-      }
-      else if(status === 401){
-        $location.url('/403');
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
       }
     });
   }
@@ -219,9 +263,15 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       else{
         $scope.alertas.push({"tipo":"success", "mensaje": "Evento creado exitosamente"});
       }
-    }, function(response) {
-      if(response === 'error'){
+    }, function(status) {
+      if(status === '403'){
+        $location.url('/403');
+      }
+      else if(status === '404'){
         $location.url('/404');
+      }
+      else if(status === '500'){
+        $location.url('/400');
       }
     });
   };
@@ -229,7 +279,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
   $scope.showVerModificar = function (evento) {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/duenio/evento.html',
-      controller:'VerModificarEController',
+      controller:'VModificarEController',
       resolve: {
         options: function () {
           return {"title": "Modificar Evento", "buttom": "Modificar", "token": $scope.token};
@@ -279,7 +329,8 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       }
       $scope.events[evento.calendarEventId].color = colors[colorIndex];
       $scope.alertas.push({"tipo": "success", "mensaje": "Evento modificado exitosamente"});
-    }, function (status) {
+    },
+    function (status) {
       if(status ==='success'){
         $scope.events.splice(evento.calendarEventId,1);
         $scope.alertas.push({"tipo": "success", "mensaje": "Evento eliminado exitosamente"});
@@ -287,11 +338,14 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       else if(status ==='imposibleborrar'){
         $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar el evento"});
       }
-      else if(status ==='notdeleted'){
-        $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar eventos del día actual"});
+      else if(status === '403'){
+        $location.url('/403');
       }
-      else if(status === 'error'){
+      else if(status === '404'){
         $location.url('/404');
+      }
+      else if(status === '500'){
+        $location.url('/400');
       }
     });
   };
@@ -310,7 +364,6 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       $location.url('/');
   };
 });
-
 angular.module('transxelaWebApp').controller('CrearEController', ['$scope', 'apiService','$uibModalInstance', 'options', 'data', function ($scope, apiService, $uibModalInstance, options, data) {
   $scope.horario = null;
   $scope.piloto = null;
@@ -327,29 +380,67 @@ angular.module('transxelaWebApp').controller('CrearEController', ['$scope', 'api
   $scope.close = function () {
     if($scope.fechafin != null){
       if(($scope.fechafin-$scope.fecha)>0){
-        apiService.crear('/duenio/horariosdetalle/crearrango' + '/' + options.token + '/', {bus: $scope.bus, chofer: $scope.piloto,
-            horario: $scope.horario, fechaInicial: $scope.formatoFecha($scope.fecha),
-            fechaFinal: $scope.formatoFecha($scope.fechafin), estado: parseInt($scope.estado)}).
-            success(function(data, status, headers, config) {
-              var dias = Math.floor(($scope.fechafin-$scope.fecha) / (1000 * 60 * 60 * 24))+1;
-              $uibModalInstance.close({"bus": parseInt($scope.bus), "chofer": parseInt($scope.piloto), "horario": parseInt($scope.horario),
-                "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado), "dias": dias}, 500);
-            }).
-            error(function(response, status, headers, config) {
-              $uibModalInstance.dismiss('error');
-            });
+        apiService.crear('/duenio/horariosdetalle/crearrango' + '/?tk=' + options.token, {bus: $scope.bus, chofer: $scope.piloto, horario: $scope.horario, fechaInicial: $scope.formatoFecha($scope.fecha), fechaFinal: $scope.formatoFecha($scope.fechafin), estado: parseInt($scope.estado)}).
+        success(function(data, status, headers, config) {
+          var dias = Math.floor(($scope.fechafin-$scope.fecha) / (1000 * 60 * 60 * 24))+1;
+          $uibModalInstance.close({"bus": parseInt($scope.bus), "chofer": parseInt($scope.piloto), "horario": parseInt($scope.horario),
+            "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado), "dias": dias}, 500);
+        }).
+        error(function(response, status, headers, config) {
+          switch(status) {
+            case 400: {
+              $uibModalInstance.dismiss('404');
+              break;
+            }
+            case 403: {
+              $uibModalInstance.dismiss('403');
+              break;
+            }
+            case 404: {
+              $uibModalInstance.dismiss('404');
+              break;
+            }
+            case 406: {
+              $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
+              break;
+            }
+            default: {
+              $uibModalInstance.dismiss('500');
+            }
+          }
+        });
       }
       else{
         $scope.alertas.push({"tipo":"warning", "mensaje": "Fecha fin debe ser mayor o diferente a Fecha"});
       }
     }
     else{
-      apiService.crear('/duenio/horariodetalle' + '/' + options.token + '/', {bus: $scope.bus, chofer: $scope.piloto, horario: $scope.horario, "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)}).
+      apiService.crear('/duenio/horariodetalle' + '/?tk=' + options.token, {bus: $scope.bus, chofer: $scope.piloto, horario: $scope.horario, "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)}).
         success(function(data, status, headers, config) {
           $uibModalInstance.close(data, 500);
         }).
         error(function(response, status, headers, config) {
-          $uibModalInstance.dismiss('error');
+          switch(status) {
+            case 400: {
+              $uibModalInstance.dismiss('404');
+              break;
+            }
+            case 403: {
+              $uibModalInstance.dismiss('403');
+              break;
+            }
+            case 404: {
+              $uibModalInstance.dismiss('404');
+              break;
+            }
+            case 406: {
+              $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
+              break;
+            }
+            default: {
+              $uibModalInstance.dismiss('500');
+            }
+          }
         });
     }
   };
@@ -386,7 +477,7 @@ angular.module('transxelaWebApp').controller('CrearEController', ['$scope', 'api
     opened: false
   };
 }]);
-angular.module('transxelaWebApp').controller('VerModificarEController', ['$scope', 'apiService','$uibModalInstance', 'options', 'horariodetalle', 'data', function ($scope, apiService, $uibModalInstance, options, horariodetalle, data) {
+angular.module('transxelaWebApp').controller('VModificarEController', ['$scope', 'apiService','$uibModalInstance', 'options', 'horariodetalle', 'data', function ($scope, apiService, $uibModalInstance, options, horariodetalle, data) {
   $scope.options = options;
   $scope.buses = data.buses;
   $scope.horarios = data.horarios;
@@ -397,28 +488,65 @@ angular.module('transxelaWebApp').controller('VerModificarEController', ['$scope
   $scope.bus = String(horariodetalle.idbus);
   $scope.fecha = horariodetalle.fecha;
   $scope.col = 10;
+  $scope.alertas = [];
   $scope.close = function () {
-    apiService.modificar('/duenio/horariodetalle/' + horariodetalle.idhorariodetalle + '/' + options.token + '/', {bus: parseInt($scope.bus), chofer: parseInt($scope.piloto), horario: parseInt($scope.horario), "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)}).
+    apiService.modificar('/duenio/horariodetalle/' + horariodetalle.idhorariodetalle + '/?tk=' + options.token, {bus: parseInt($scope.bus), chofer: parseInt($scope.piloto), horario: parseInt($scope.horario), "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)}).
     success(function(response, status, headers, config){
       $uibModalInstance.close({bus: parseInt($scope.bus), chofer: parseInt($scope.piloto), horario: parseInt($scope.horario), "fecha": $scope.formatoFecha($scope.fecha), "estado": parseInt($scope.estado)}, 500);
     }).
     error(function(response, status, headers, config) {
-      $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 406: {
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
+      }
     });
   };
 
   $scope.delete = function () {
     if(horariodetalle.fecha.getDate() !== new Date().getDate()){
-        apiService.borrar('/duenio/horariodetalle/' + horariodetalle.idhorariodetalle + '/' + options.token + '/').
+        apiService.borrar('/duenio/horariodetalle/' + horariodetalle.idhorariodetalle + '/?tk=' + options.token).
         success(function(response, status, headers, config){
           $uibModalInstance.dismiss('success');
         }).
         error(function(response, status, headers, config) {
-          $uibModalInstance.dismiss('imposibleborrar');
+          switch(status) {
+            case 400: {
+              $uibModalInstance.dismiss('404');
+              break;
+            }
+            case 403: {
+              $uibModalInstance.dismiss('403');
+              break;
+            }
+            case 404: {
+              $uibModalInstance.dismiss('404');
+              break;
+            }
+            default: {
+              $uibModalInstance.dismiss('500');
+            }
+          }
         });
     }
     else{
-      $uibModalInstance.dismiss('notdeleted');
+      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar eventos del día actual"});
     }
 
   };
