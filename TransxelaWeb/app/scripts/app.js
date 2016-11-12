@@ -76,6 +76,11 @@ angular
     controller: 'DuenioEstadisticasCtrl',
     controllerAs: 'duenio/estadisticas'
   })
+  .when('/duenio/principal', {
+    templateUrl: 'views/duenio/principal.html',
+    controller: 'DuenioEstadisticasCtrl',
+    controllerAs: 'duenio/estadisticas'
+  })
   .when('/duenio/calendariobus', {
     templateUrl: 'views/duenio/calendariobus.html',
     controller: 'DuenioCalendariobusCtrl',
@@ -136,6 +141,11 @@ angular
   .when('/pmt/principal', {
     templateUrl: 'views/pmt/principal.html',
     controller: 'PmtPrincipalCtrl',
+    controllerAs: 'pmt/principal'
+  })
+  .when('/pmt/principal', {
+    templateUrl: 'views/pmt/principal.html',
+    controller: 'PmtDenRutaCtr',
     controllerAs: 'pmt/principal'
   })
   .when('/pmt/duenios', {
