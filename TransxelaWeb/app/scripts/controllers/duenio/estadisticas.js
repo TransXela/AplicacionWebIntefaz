@@ -15,11 +15,14 @@ angular.module('transxelaWebApp')
   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
-    apiService.obtener('/reporte/duenio/RepDuenioBusesId/'+$scope.idduenio+'/'+$scope.token)
+    apiService.obtener('/reporte/duenio/RepDuenioBusesId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
     .success(function(data){
       console.log(data);
       $scope.dueBs = data;
-      apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+$scope.token)
+      $scope.cont = 0;
+      $scope.Lplak = [];
+      $scope.Lcnt = [];
+      apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
       .success(function(data){
         console.log(data);
         $scope.Bs = data;
@@ -72,11 +75,11 @@ angular.module('transxelaWebApp')
     $scope.cont = 0;
     $scope.Lchof = [];
     $scope.Lnumd = [];
-    apiService.obtener('/reporte/duenio/RepDuenioChoferId/'+$scope.idduenio+'/'+$scope.token)
+    apiService.obtener('/reporte/duenio/RepDuenioChoferId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
     .success(function(data){
       console.log(data);
       $scope.dueChof = data;
-      apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+$scope.token)
+      apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
       .success(function(data){
         console.log(data);
         $scope.Denun = data;
@@ -128,13 +131,13 @@ angular.module('transxelaWebApp')
     $scope.Dnum=0;
     $scope.RLruta=[];
     $scope.RLcant=[];
-    apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+$scope.token)
+    apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
     .success(function(data){
       $scope.Rden=data;
-      apiService.obtener('/reporte/duenio/RepBusChofId/'+$scope.idduenio+'/'+$scope.token)
+      apiService.obtener('/reporte/duenio/RepBusChofId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
       .success(function(data){
         $scope.Rbus=data;
-        apiService.obtener('/ruta'+'/'+$scope.token)
+        apiService.obtener('/ruta'+'/'+'?tk='+$scope.token)
         .success(function(data){
           $scope.Rruta=data;
           for (var i = 0; i < $scope.Rruta.length; i++) {
@@ -189,10 +192,10 @@ angular.module('transxelaWebApp')
     $scope.Tcont=0;
     $scope.TLtipo=[];
     $scope.TLcant=[];
-    apiService.obtener('/reporte/duenio/RepDuenioChoferId/'+$scope.idduenio+'/'+$scope.token)
+    apiService.obtener('/reporte/duenio/RepDuenioChoferId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
     .success(function(data){
       $scope.TchofDue=data;
-      apiService.obtener('/reporte/duenio/RepTipoDenD'+'/'+$scope.token)
+      apiService.obtener('/reporte/duenio/RepTipoDenD'+'/'+'?tk='+$scope.token)
       .success(function(data){
         $scope.Tden=data;
         for (var i = 0; i < $scope.Tden.length; i++) {
