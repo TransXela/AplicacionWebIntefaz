@@ -1,58 +1,53 @@
+<!DOCTYPE html>
 <div id="wrapper">
-  <!--Principal barra de navegacion y estructura-->
-  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-      <!-- navbar-Encabezado -->
-      <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-        <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
-      </div>
-      <!-- navbar-FinEncabezado -->
-      <!-- navbar cerrar sesion y menu superior derecho -->
-      <ul class="nav navbar-top-links navbar-right">
-        <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
-                    </li>
-                </ul>
+  <nav class="navbar navbar-default navbar-static-top"  style="margin-bottom: 0">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
+    </div>
+    <ul class="nav navbar-top-links navbar-right">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+          <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
           </li>
-      </ul>
-      <!-- navbar-barra lateral-->
-      <div class="navbar-default sidebar" role="navigation">
-          <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
+        </ul>
+      </li>
+    </ul>
+    <div class="navbar-default sidebar" role="navigation">
+      <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+          <li>
+            <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
+          </li>
+          <li>
+            <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);"><i class="fa fa-clock-o fa-fw"></i> Horarios<span class="fa arrow"></span></a>
+            <ul class="#/pmt/rutas">
               <li>
-                <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
+                <a href="#/pmt/horariosBus">Ver por Bus</a>
               </li>
               <li>
-                <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
+                <a href="#/pmt/horarios">Ver por Dueño</a>
               </li>
               <li>
-                <a href="javascript:void(0);"><i class="fa fa-clock-o fa-fw"></i> Horarios<span class="fa arrow"></span></a>
-                <ul class="#/pmt/rutas">
-                    <li>
-                      <a href="#/pmt/horariosBus">Ver por Bus</a>
-                    </li>
-                    <li>
-                      <a href="#/pmt/horarios">Ver por Dueño</a>
-                    </li>
-                    <li>
-                      <a href="#/pmt/horariosPiloto">Ver por Piloto</a>
-                    </li>
-                </ul>
+                <a href="#/pmt/horariosPiloto">Ver por Piloto</a>
               </li>
             </ul>
-          </div>
+          </li>
+        </ul>
       </div>
+    </div>
   </nav>
-  <!--Fin estilo principal por defecto-->
   <div id="page-wrapper">
     <div class="row">
       <div class="col-lg-12">
@@ -65,61 +60,47 @@
     </div>
     <div class="row">
       <div class="col-md-7">
-        <!--Lista de dueños, obteniendo inforamcion de API-->
         <div class="bootcards-list">
           <div class="panel panel-default">
-
-              <div class="panel-heading clearfix">
-                <h3 class="panel-title pull-left">Informacion Rutas</h3>
-                  <a class="btn btn-primary pull-right" ng-click="showRutas()">
-                    <i class="fa fa-pencil"></i>
-                    Crear
-                  </a>
-              </div>
-              <div>
-                <form>
-                  <div>
-                    <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-                      ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
-                    </div>
-                    <div id="grid1" ui-grid="gridOptions" class="grid"></div>
+            <div class="panel-heading clearfix">
+              <h3 class="panel-title pull-left">Informacion Rutas</h3>
+              <a class="btn btn-primary pull-right" role="button" ng-click="showRutas()"> <i class="fa fa-pencil"></i> Crear </a>
+            </div>
+            <div>
+              <form>
+                <div>
+                  <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                    ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
                   </div>
-                </form>
-              </div>
+                  <div id="grid1" ui-grid="gridOptions" ui-grid-pagination class="grid"></div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      <!--Lista de dueños, obteniendo inforamcion de API-->
       </div>
-      <!--Prueba-->
       <div class="col-md-5">
         <div class="panel panel-default">
           <div class="panel-heading clearfix">
             <h3 class="panel-title pull-left">Informacion Rutas</h3>
-              <a class="btn btn-primary pull-right" ng-click="showVerModificar(mostrar.idruta)">
-                <i class="fa fa-pencil"></i>
-                Editar
-              </a>
+            <a class="btn btn-primary pull-right" ng-click="showVerModificar(mostrar.idruta)"> <i class="fa fa-pencil"></i> Editar </a>
           </div>
-            <div class="list-group">
-              <div class="list-group-item">
-                  <p class="list-group-item-text">Nombre Ruta:</p>
-                  <h4 class="list-group-item-heading">{{mostrar.nombre}}</h4>
-              </div>
-              <div class="list-group-item">
-                <p class="list-group-item-text">Recorrido:</p>
-                <textarea style="resize:none" class="form-control" id="recorrido" name="recorrido" rows=3 disabled="true">{{mostrar.recorrido}}</textarea>
-              </div>
+          <div class="list-group">
+            <div class="list-group-item">
+              <p class="list-group-item-text">Nombre Ruta:</p>
+              <h4 class="list-group-item-heading">{{mostrar.nombre}}</h4>
             </div>
+            <div class="list-group-item">
+              <p class="list-group-item-text">Recorrido:</p>
+              <textarea style="resize:none" class="form-control" id="recorrido" name="recorrido" rows=3 disabled="true">{{mostrar.recorrido}}</textarea>
+            </div>
+          </div>
           <div class="panel-footer">
             <small>TransXela - PMT</small>
           </div>
         </div>
       </div>
-      <!--Fin prueba-->
-      <!--Detalle de dueño seleccionado, obteniendo inforamcion de API-->
-
-      <!--Detalle de dueño seleccionado, obteniendo inforamcion de API-->
     </div>
   </div>
 </div>

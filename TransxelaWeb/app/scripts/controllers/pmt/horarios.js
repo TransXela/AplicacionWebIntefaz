@@ -21,16 +21,27 @@ angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope
   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
     $scope.token = $cookies.getObject('user').token;
     $scope.idduenio = null;
-    apiService.obtener('/pmt/duenio/'+ $scope.token).
+    apiService.obtener('/pmt/duenio/?tk='+ $scope.token).
     success(function(response, status, headers, config){
       $scope.duenios = response;
     }).
     error(function(response, status, headers, config) {
-      if(status === null || status === -1){
-        $location.url('/404');
-      }
-      else if(status === 401){
-        $location.url('/403');
+      switch(status) {
+        case 400: {
+          $location.url('/404');
+          break;
+        }
+        case 403: {
+          $location.url('/403');
+          break;
+        }
+        case 404: {
+          $location.url('/404');
+          break;
+        }
+        default: {
+          $location.url('/500');
+        }
       }
     });
     var actions = [{
@@ -41,7 +52,7 @@ angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope
     }];
     $scope.cargarHorarios = function(){
       $scope.events = [];
-      apiService.obtener('/duenio/'+parseInt($scope.idduenio)+'/horariosdetalle/'+ $scope.token).
+      apiService.obtener('/duenio/'+parseInt($scope.idduenio)+'/horariosdetalle/?tk='+ $scope.token).
       success(function(response, status, headers, config){
         var horariosdetalle = response.diasHorarioDetalle;
         if (horariosdetalle.length===0) {
@@ -102,11 +113,22 @@ angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope
 
       }).
       error(function(response, status, headers, config) {
-        if(status === null || status === -1){
-          $location.url('/404');
-        }
-        else if(status === 401){
-          $location.url('/403');
+        switch(status) {
+          case 400: {
+            $location.url('/404');
+            break;
+          }
+          case 403: {
+            $location.url('/403');
+            break;
+          }
+          case 404: {
+            $location.url('/404');
+            break;
+          }
+          default: {
+            $location.url('/500');
+          }
         }
       });
     };

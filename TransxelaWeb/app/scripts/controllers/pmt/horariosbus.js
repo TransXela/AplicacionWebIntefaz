@@ -23,29 +23,37 @@ angular.module('transxelaWebApp')
       $scope.token = $cookies.getObject('user').token;
       $scope.busPlaca = null;
       $scope.buscar=function(){
-        apiService.obtener('/bus/'+ $scope.busPlaca+'/'+ $scope.token).
+        apiService.obtener('/bus/'+ $scope.busPlaca+'/?tk='+ $scope.token).
         success(function(response, status, headers, config){
           $scope.bus = response;
           $scope.cargarHorarios();
         }).
         error(function(response, status, headers, config) {
           $scope.events = [];
-          if(status === null || status === -1){
-            $location.url('/404');
-          }
-          else if(status === 401){
-            $location.url('/403');
-          }else if(status === 404){
+          switch(status) {
+        case 400: {
+          $location.url('/404');
+          break;
+        }
+        case 403: {
+          $location.url('/403');
+          break;
+        }
+        case 404: {
+          $location.url('/404');
+          break;
+        }
+        default: {
+          $location.url('/500');
+        }
+      }
 
-            $scope.alertas.push({"tipo":"danger", "mensaje": "Horarios cargados exitosamente"});
-          }
         });
       };
-      //Aqui
       $scope.cargarHorarios = function(){
           if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
             $scope.events = [];
-            apiService.obtener('/horariosdetalle/bus/' + $scope.bus.idbus + '/' + $scope.token).
+            apiService.obtener('/horariosdetalle/bus/' + $scope.bus.idbus + '/?tk=' + $scope.token).
             success(function(response, status, headers, config){
               $scope.bus = response.Bus[0];
               var horariosdetalle = response.HorarioDetalle;
@@ -116,11 +124,22 @@ angular.module('transxelaWebApp')
               }
             }).
             error(function(response, status, headers, config) {
-              if(status === null || status === -1){
-                $location.url('/404');
-              }
-              else if(status === 401){
-                $location.url('/403');
+              switch(status) {
+                case 400: {
+                  $location.url('/404');
+                  break;
+                }
+                case 403: {
+                  $location.url('/403');
+                  break;
+                }
+                case 404: {
+                  $location.url('/404');
+                  break;
+                }
+                default: {
+                  $location.url('/500');
+                }
               }
             });
           }
@@ -128,11 +147,8 @@ angular.module('transxelaWebApp')
             $location.url('/login');
           }
         };
-
     }
     else{
       $location.url('/login');
     }
-
-
   });

@@ -1,7 +1,6 @@
+<!DOCTYPE html>
 <div id="wrapper">
-  <!--Principal barra de navegacion y estructura-->
-  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <!-- navbar-Encabezado -->
+  <nav class="navbar navbar-default navbar-static-top"  style="margin-bottom: 0">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -11,8 +10,6 @@
       </button>
       <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
     </div>
-    <!-- navbar-FinEncabezado -->
-    <!-- navbar cerrar sesion y menu superior derecho -->
     <ul class="nav navbar-top-links navbar-right">
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown">
@@ -24,7 +21,6 @@
         </ul>
       </li>
     </ul>
-    <!-- navbar-barra lateral-->
     <div class="navbar-default sidebar" role="navigation">
       <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
@@ -52,7 +48,6 @@
       </div>
     </div>
   </nav>
-  <!--Fin estilo principal por defecto-->
   <div id="page-wrapper">
     <div class="row">
       <div class="col-lg-12">
@@ -64,7 +59,6 @@
       </div>
     </div>
     <div class="row">
-      <!--Prueba-->
       <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -73,9 +67,8 @@
               <option ng-repeat="x in duenios" value="{{x.idduenio}}">{{x.nombre +" "+x.apellidos +" "+x.empresa}}</option>
             </select>
             <br>
-            <button class="btn btn-success" href ng-click="cargarHorarios()">Ver horarios</button>
+            <button class="btn btn-success" ng-click="cargarHorarios()">Ver horarios</button>
           </div>
-          <!-- /.panel-heading -->
           <div class="panel-body">
             <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"
@@ -85,59 +78,25 @@
             <div class="row">
               <div class="col-md-6 text-center">
                 <div class="btn-group">
-                  <button
-                  class="btn btn-primary"
-                  mwl-date-modifier
-                  date="viewDate"
-                  decrement="calendarView">
-                  Anterior
-                </button>
-                <button
-                class="btn btn-default"
-                mwl-date-modifier
-                date="viewDate"
-                set-to-today>
-                Hoy
-              </button>
-              <button
-              class="btn btn-primary"
-              mwl-date-modifier
-              date="viewDate"
-              increment="calendarView">
-              Siguiente
-            </button>
-          </div>
-        </div>
-        <br class="visible-xs visible-sm">
-        <div class="col-md-6 text-center">
-          <div class="btn-group">
-            <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'year'">Año</label>
-            <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'month'">Mes</label>
-            <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'week'">Semana</label>
-            <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'day'">Día</label>
+                  <button class="btn btn-primary" mwl-date-modifier date="viewDate" decrement="calendarView"> Anterior </button>
+                  <button class="btn btn-default" mwl-date-modifier date="viewDate" set-to-today> Hoy </button>
+                  <button class="btn btn-primary" mwl-date-modifier date="viewDate" increment="calendarView"> Siguiente </button>
+                </div>
+              </div>
+              <br class="visible-xs visible-sm">
+              <div class="col-md-6 text-center">
+                <div class="btn-group">
+                  <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'year'">Año</label>
+                  <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'month'">Mes</label>
+                  <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'week'">Semana</label>
+                  <label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'day'">Día</label>
+                </div>
+              </div>
+            </div>
+            <mwl-calendar view="calendarView" view-date="viewDate" events="events" view-title="calendarTitle" day-view-start="06:00" day-view-end="22:00" on-event-click="eventClicked(calendarEvent)" on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd" cell-is-open="true"> </mwl-calendar>
           </div>
         </div>
       </div>
-      <mwl-calendar
-      view="calendarView"
-      view-date="viewDate"
-      events="events"
-      view-title="calendarTitle"
-      day-view-start="06:00"
-      day-view-end="22:00"
-      on-event-click="eventClicked(calendarEvent)"
-      on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
-      cell-is-open="true">
-    </mwl-calendar>
+    </div>
   </div>
-  <!-- /.panel-body -->
-</div>
-</div>
-
-<!--Fin prueba-->
-<!--Detalle de dueño seleccionado, obteniendo inforamcion de API-->
-
-<!--Detalle de dueño seleccionado, obteniendo inforamcion de API-->
-</div>
-</div>
 </div>

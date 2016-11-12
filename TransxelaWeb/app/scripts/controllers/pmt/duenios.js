@@ -9,7 +9,7 @@
 */
 
 angular.module('transxelaWebApp')
-.controller('PmtDueniosCtrl', function ($scope, $uibModal, apiService, $cookies) {
+.controller('PmtDueniosCtrl', function ($scope, $uibModal, apiService, $cookies, uiGridConstants) {
   $scope.alertas = [];
   $scope.showDuenio = function () {
     var uibModalInstance = $uibModal.open({
@@ -24,7 +24,16 @@ angular.module('transxelaWebApp')
     uibModalInstance.result.then(function (result) {
       $scope.listado.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Dueño creado exitosamente"});
-    }, function () {
+    }, function (status) {
+          if(status === '403'){
+          $location.url('/403');
+        }
+        else if(status === '404'){
+          $location.url('/404');
+        }
+        else if(status === '500'){
+          $location.url('/400');
+        }
     });
   };
   $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
@@ -42,16 +51,20 @@ angular.module('transxelaWebApp')
   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
     $scope.token = $cookies.getObject('user').token;
     $scope.gridOptions = {};
-    apiService.obtener('/pmt/duenio/'+$scope.token).
+    apiService.obtener('/pmt/duenio?tk='+$scope.token).
     success(function(response, status, headers, config){
       $scope.listado = response;
       $scope.gridOptions.data = $scope.listado;
       $scope.showDetalle($scope.gridOptions.data[0]);
       $scope.gridOptions.enableFiltering = true;
+      $scope.gridOptions.paginationPageSizes = [10, 25, 50];
+      $scope.gridOptions.paginationPageSize = 10;
       $scope.gridOptions.columnDefs = [
         {name:'Nombre',field:'nombre'},
         {name:'Apellidos',field:'apellidos'},
-        {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>", enableFiltering: false},
+        {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",
+            filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
+            selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]}, headerCellClass: $scope.highlightFilteredHeader},
         {name:'Detalles',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showDetalle(row.entity)">Ver detalles</button></div>', enableFiltering: false}
       ];
       $scope.mapearEstado = function(estado) {
@@ -78,16 +91,36 @@ angular.module('transxelaWebApp')
         uibModalInstance.result.then(function (result) {
           $scope.listado[$scope.index] = result;
           $scope.alertas.push({"tipo":"success", "mensaje": "Dueño modificado exitosamente"});
-        }, function () {
+        }, function (status) {
+          if(status === '403'){
+            $location.url('/403');
+          }
+          else if(status === '404'){
+            $location.url('/404');
+          }
+          else if(status === '500'){
+            $location.url('/400');
+          }
         });
       };
     }).
     error(function(response, status, headers, config) {
-      if(status === null || status === -1){
-        $location.url('/404');
-      }
-      else if(status === 401){
-        $location.url('/403');
+      switch(status) {
+        case 400: {
+          $location.url('/404');
+          break;
+        }
+        case 403: {
+          $location.url('/403');
+          break;
+        }
+        case 404: {
+          $location.url('/404');
+          break;
+        }
+        default: {
+          $location.url('/500');
+        }
       }
     });
   }
@@ -110,7 +143,7 @@ angular.module('transxelaWebApp').controller('DuenioCntrl', ['$scope', '$uibModa
   $scope.estado = "1";
   $scope.usuario_id =null;
   $scope.close = function () {
-  apiService.crear('/pmt/duenio/'+ token +'/', {
+  apiService.crear('/pmt/duenio/?tk='+ token, {
     nombre: $scope.nombre, apellidos: $scope.apellidos, direccion: $scope.direccion, empresa: $scope.empresa,
     fecha_nac: "2009-02-20 00:00:00", fecha_crea: "2009-02-20 00:00:00", dpi: String($scope.dpi), telefono: $scope.telefono,
     correo: $scope.correo, estado: parseInt($scope.estado)
@@ -119,11 +152,22 @@ angular.module('transxelaWebApp').controller('DuenioCntrl', ['$scope', '$uibModa
       $uibModalInstance.close(data, 500);
     })
     .error(function(data, status, headers, config) {
-      if(status === null || status === -1){
-        $location.url('/404');
-      }
-      else if(status === 401){
-        $location.url('/403');
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
       }
     });
   };
@@ -160,7 +204,7 @@ angular.module('transxelaWebApp').controller('VerModificarDController', ['$scope
   $scope.empresa = duenio.empresa;
   $scope.estado = String(duenio.estado);
   $scope.close = function () {
-      apiService.modificar('/pmt/duenio/' + duenio.idduenio +'/'+ token+ '/', {
+      apiService.modificar('/pmt/duenio/' + duenio.idduenio +'/?tk='+ token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos, dpi: String($scope.dpi),
       direccion: $scope.direccion, fecha_nac: "2009-02-20 00:00:00", fecha_crea: "2009-02-20 00:00:00",
       telefono: $scope.telefono, correo: $scope.correo, empresa: $scope.empresa,
@@ -170,7 +214,23 @@ angular.module('transxelaWebApp').controller('VerModificarDController', ['$scope
       $uibModalInstance.close(response, 500);
     }).
     error(function(response, status, headers, config) {
-      $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
+      }
     });
   };
   $scope.cancel = function () {
