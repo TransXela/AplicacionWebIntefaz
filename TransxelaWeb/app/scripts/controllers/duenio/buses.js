@@ -15,7 +15,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       controller:'CrearBController',
       resolve: {
         options: function () {
-          return {"title": "Crear Bus", "buttom": "Crear", "token": $scope.token};
+          return {"title": "Nuevo bus", "buttom": "Crear bus", "token": $scope.token};
         },
         rutas: function() {
           return $scope.rutas;
@@ -49,7 +49,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       controller: "VerModificarBController",
       resolve: {
         options: function () {
-          return {"title": "Ver Bus", "buttom": "Modificar", "token": $scope.token};
+          return {"title": "Información del bus", "buttom": "Guardar cambios", "token": $scope.token};
         },
         bus: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.buses,"idbus", idbus);
@@ -138,8 +138,10 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
         $scope.gridOptions.paginationPageSizes = [10, 25, 50];
         $scope.gridOptions.paginationPageSize = 10;
         $scope.gridOptions.columnDefs = [
-          {name:'Placa',field:'placa', sort: { direction: uiGridConstants.ASC }},
-          {name:'No. de bus',field:'numbus'},
+          {name:'Placa',field:'placa', sort: { direction: uiGridConstants.ASC },
+            filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Placa del bus', headerCellClass: $scope.highlightFilteredHeader}},
+          {name:'No. de bus',field:'numbus',
+            filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'No. de bus', headerCellClass: $scope.highlightFilteredHeader}},
           {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>",
             filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
             selectOptions: $scope.filtrorutas}, headerCellClass: $scope.highlightFilteredHeader},

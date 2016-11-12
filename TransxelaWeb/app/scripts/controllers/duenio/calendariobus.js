@@ -36,7 +36,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
       $scope.buses = response.buses;
       apiService.obtener('/duenio/'+$scope.idduenio+'/horarios' + '?tk=' + $scope.token).
       success(function(response, status, headers, config){
-        $scope.horarios = response.horarios;
+        $scope.horarios = response;
         apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '?tk=' + $scope.token).
         success(function(response, status, headers, config){
           $scope.pilotos = response.choferes;
@@ -111,7 +111,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
       controller:'ModificarEControlador',
       resolve: {
         options: function () {
-          return {"title": "Modificar Evento", "buttom": "Modificar", "token": $scope.token};
+          return {"title": "Información de la asignación", "buttom": "Guardar cambios", "token": $scope.token};
         },
         horariodetalle: function () {
           return {"idhorariodetalle": evento.idhorariodetalle, "idhorario": evento.idhorario,
@@ -157,15 +157,15 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
         colorIndex = 4;
       }
       $scope.events[evento.calendarEventId].color = colors[colorIndex];
-      $scope.alertas.push({"tipo": "success", "mensaje": "Evento modificado exitosamente"});
+      $scope.alertas.push({"tipo": "success", "mensaje": "Asignación modificada exitosamente"});
     },
     function (status) {
       if(status ==='success'){
         $scope.events.splice(evento.calendarEventId,1);
-        $scope.alertas.push({"tipo": "success", "mensaje": "Evento eliminado exitosamente"});
+        $scope.alertas.push({"tipo": "success", "mensaje": "Asignación eliminada exitosamente"});
       }
       else if(status ==='imposibleborrar'){
-        $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar el evento"});
+        $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar la asignación"});
       }
       else if(status === '403'){
         $location.url('/403');
@@ -187,7 +187,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
         $scope.bus = response.Bus[0];
         var horariosdetalle = response.HorarioDetalle;
         if(horariosdetalle.length === 0) {
-          $scope.alertas.push({"tipo":"warning", "mensaje": "El bus seleccionado no tiene horarios asignados"});
+          $scope.alertas.push({"tipo":"warning", "mensaje": "El bus seleccionado no tiene asignaciones"});
         }
         else{
           var colorIndex = 0;
@@ -225,7 +225,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
                 draggable: true,
                 resizable: true,
                 incrementsBadgeTotal: true,
-                recursOn: 'year',
+                // recursOn: 'year',
                 cssClass: 'a-css-class-name',
                 allDay: false,
                 actions: actions,
@@ -249,13 +249,13 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
                 draggable: true,
                 resizable: true,
                 incrementsBadgeTotal: true,
-                recursOn: 'year',
+                // recursOn: 'year',
                 cssClass: 'a-css-class-name',
                 allDay: false
               });
             }
           }
-          $scope.alertas.push({"tipo":"success", "mensaje": "Horarios cargados exitosamente"});
+          $scope.alertas.push({"tipo":"success", "mensaje": "Asignaciones cargadas exitosamente"});
         }
       }).
       error(function(response, status, headers, config) {
@@ -355,7 +355,7 @@ angular.module('transxelaWebApp').controller('ModificarEControlador', ['$scope',
         });
     }
     else{
-      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar eventos del día actual"});
+      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar asignaciones del día actual"});
     }
 
   };
