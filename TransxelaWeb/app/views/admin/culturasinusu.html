@@ -5,19 +5,19 @@
 <form name="pilotoForm" class="form" novalidate>
 <div class="modal-body">
 	<label>Nombre</label>
-	<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre del dueño" ng-model="nombre" required autofocus >
+	<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre de la persona de cultura" ng-model="nombre" required autofocus >
 	<div ng-messages="pilotoForm.nombre.$error" role="alert" class="text-danger">
   		<div ng-message="required">Campo requerido</div>
 	</div><br>
 	<label>Apellidos</label>
-	<input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="Apellidos del dueño" ng-model="apellidos" required >
+	<input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="Apellidos de la persona de cultura" ng-model="apellidos" required >
 	<div ng-messages="pilotoForm.apellidos.$error" role="alert" class="text-danger">
   		<div ng-message="required">Campo requerido</div>
 	</div><br>
 	<label>Dirección</label>
-	<input type="text" class="form-control" id="direccion" placeholder="Dirección del dueño" ng-model="direccion" ><br>
+	<input type="text" class="form-control" id="direccion" placeholder="de la persona de cultura" ng-model="direccion" ><br>
 	<label>DPI</label>
-	<input type="number" class="form-control" name="dpi" id="dpi" placeholder="DPI del dueño" ng-model="dpi" required min="1000000000000" max="9999999999999" >
+	<input type="number" class="form-control" name="dpi" id="dpi" placeholder="de la persona de cultura" ng-model="dpi" required min="1000000000000" max="9999999999999" >
 	<div ng-messages="pilotoForm.dpi.$error" role="alert" class="text-danger">
   		<div ng-message="required">Campo requerido</div>
      	<div ng-message="min || max">DPI inválido (debe tener 13 dígitos)</div>
@@ -31,7 +31,7 @@
       <div ng-message="required">Campo requerido</div>
   </div><br> -->
 
-	
+
 	<!-- <label>Empresa</label>
 	<input type="text" class="form-control" name="empresa" id="empresa" placeholder="Empresa del dueño" ng-model="empresa" required >
 	<div ng-messages="pilotoForm.licencia.$error" role="alert" class="text-danger">
@@ -50,12 +50,12 @@
   		<div ng-message="required">Campo requerido</div>
 	</div><br> -->
 	<label>No. de Teléfono</label>
-	<input type="number" class="form-control" name="telefono" id="telefono" placeholder="No. de Teléfono del dueño" ng-model="telefono" min="10000000" max="99999999" >
+	<input type="number" class="form-control" name="telefono" id="telefono" placeholder="No. de la persona de cultura" ng-model="telefono" min="10000000" max="99999999" >
 	<div ng-messages="pilotoForm.telefono.$error" role="alert" class="text-danger">
      	<div ng-message="min || max">No. de teléfono inválido (debe tener 8 dígitos)</div>
 	</div><br>
 	<label>Correo Electrónico</label>
-	<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico del dueño" ng-model="correo" >
+	<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico de la persona de cultura" ng-model="correo" >
 	<div ng-messages="pilotoForm.correo.$error" role="alert" class="text-danger">
      	<div ng-message="email">Correo electrónico inválido</div>
 	</div><br>

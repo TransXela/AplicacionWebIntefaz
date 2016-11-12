@@ -2,10 +2,14 @@
 <form name="logForm" class="form" novalidate>
 		<h2 class="form-heading">Iniciar sesión en TransXela</h2>
 		<div class="form-fields">
+			<div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"
+				ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+			</div>
 			<input type="text" class="form-control" name = "usuario" id="usuario" placeholder="Correo electrónico" ng-model="usuario" autocomplete autofocus required>
 	    <div ng-messages="logForm.usuario.$error" role="alert" class="text-danger">
 	        <div ng-message="required">Campo requerido</div>
-	    </div>
+	    </div><br>
 			<input type="password" class="form-control" name="contrasenia" id="contrasenia" placeholder="Contraseña" ng-model="contrasenia" required>
 	    <div ng-messages="logForm.contrasenia.$error" role="alert" class="text-danger">
 	        <div ng-message="required">Campo requerido</div>

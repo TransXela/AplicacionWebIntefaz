@@ -22,7 +22,16 @@ angular.module('transxelaWebApp').controller('PmtRutasCtrl', function ($scope, $
     uibModalInstance.result.then(function (result) {
       $scope.listado.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Ruta creada exitosamente"});
-    }, function () {
+    }, function (status) {
+        if(status === '403'){
+          $location.url('/403');
+        }
+        else if(status === '404'){
+          $location.url('/404');
+        }
+        else if(status === '500'){
+          $location.url('/400');
+        }
     });
   };
   $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
@@ -39,12 +48,14 @@ angular.module('transxelaWebApp').controller('PmtRutasCtrl', function ($scope, $
   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
       $scope.token = $cookies.getObject('user').token;
       $scope.gridOptions = {};
-      apiService.obtener('/pmt/rutas/'+$scope.token).
+      apiService.obtener('/pmt/rutas/?tk='+$scope.token).
       success(function(response, status, headers, config){
         $scope.listado = response;
         $scope.gridOptions.data = $scope.listado;
         $scope.showDetalle($scope.gridOptions.data[0]);
         $scope.gridOptions.enableFiltering = true;
+        $scope.gridOptions.paginationPageSizes = [10, 25, 50];
+        $scope.gridOptions.paginationPageSize = 10;
         $scope.gridOptions.columnDefs = [
           {name:'Nombre',field:'nombre'},
           {name:'Recorrido',field:'recorrido', enableFiltering: false},
@@ -79,7 +90,16 @@ angular.module('transxelaWebApp').controller('PmtRutasCtrl', function ($scope, $
         uibModalInstance.result.then(function (result) {
           $scope.listado[$scope.index] = result;
           $scope.alertas.push({"tipo":"success", "mensaje": "Ruta modificada exitosamente"});
-        }, function () {
+        }, function (status) {
+          if(status === '403'){
+            $location.url('/403');
+          }
+          else if(status === '404'){
+            $location.url('/404');
+          }
+          else if(status === '500'){
+            $location.url('/400');
+          }
         });
       };
   }
@@ -93,18 +113,29 @@ angular.module('transxelaWebApp').controller('CrearRController', ['$scope', 'api
   $scope.nombre = null;
   $scope.recorrido = null;
   $scope.close = function () {
-    apiService.crear('/pmt/ruta/'+token+'/', {
+    apiService.crear('/pmt/ruta/?tk='+token, {
       nombre: $scope.nombre, recorrido: $scope.recorrido
     }).
     success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
     }).
     error(function(data, status, headers, config) {
-      if(status === null || status === -1){
-        $location.url('/404');
-      }
-      else if(status === 401){
-        $location.url('/403');
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
       }
     });
   };
@@ -117,7 +148,7 @@ angular.module('transxelaWebApp').controller('ModCtrl', ['$scope', 'apiService',
   $scope.nombre = ruta.nombre;
   $scope.recorrido = ruta.recorrido;
   $scope.close = function () {
-    apiService.modificar('/pmt/ruta/'+ ruta.idruta+'/'+ token +'/', {
+    apiService.modificar('/pmt/ruta/'+ ruta.idruta+'/?tk='+ token, {
       nombre: $scope.nombre, recorrido: $scope.recorrido,
       idRuta: ruta.idRuta
     }).
@@ -125,7 +156,23 @@ angular.module('transxelaWebApp').controller('ModCtrl', ['$scope', 'apiService',
       $uibModalInstance.close(response, 500);
     }).
     error(function(response, status, headers, config) {
-      $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
+      }
     });
   };
   $scope.cancel = function () {
