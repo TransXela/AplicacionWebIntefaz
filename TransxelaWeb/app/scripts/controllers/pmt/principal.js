@@ -27,11 +27,11 @@
      $scope.cant = [];
      $scope.LrutaDen = [];
      $scope.token = $cookies.getObject('user').token;
-     apiService.obtener('/reporte/pmt/RepBusRuta'+'/'+$scope.token)
+     apiService.obtener('/reporte/pmt/RepBusRuta'+'/'+'?tk='+$scope.token)
      .success(function(data){
          console.log(data);
          $scope.busR = data;
-         apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+$scope.token)
+         apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
          .success(function(data){
            console.log(data);
            $scope.denuPlaca = data;
@@ -88,7 +88,7 @@
          }
        });
 
-       apiService.obtener('/reporte/pmt/RepPilotoDen'+'/'+$scope.token)
+       apiService.obtener('/reporte/pmt/RepPilotoDen'+'/'+'?tk='+$scope.token)
        .success(function(data){
         console.log(data);
         $scope.pilotoDen = data;
@@ -131,11 +131,11 @@
 
       $scope.Lplaca = [];
     $scope.Ldenun = [];
-    apiService.obtener('/duenio/bus'+'/'+$scope.token)
+    apiService.obtener('/duenio/bus'+'/'+'?tk='+$scope.token)
       .success(function(data){
           console.log(data);
           $scope.bus = data;
-          apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+$scope.token)
+          apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
           .success(function(data){
             $scope.denunc = data;
             $scope.res = [];
@@ -187,14 +187,14 @@
             $location.url('/403');
           }
         });
-        apiService.obtener('/reporte/pmt/RepDuenioBuses'+'/'+$scope.token)
+        apiService.obtener('/reporte/pmt/RepDuenioBuses'+'/'+'?tk='+$scope.token)
             .success(function(data){
               console.log(data);
               $scope.dueBus = data;
               $scope.Ddpi = [];
               $scope.cantD = 0;
               $scope.noDen = [];
-              apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+$scope.token)
+              apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
                 .success(function(data){
                   console.log(data);
                   $scope.denPlak = data;
