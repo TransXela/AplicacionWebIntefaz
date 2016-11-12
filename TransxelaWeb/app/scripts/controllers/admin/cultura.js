@@ -91,7 +91,7 @@
          showGridFooter: true,
          showColumnFooter: true,
        };
-       apiService.obtener('/cultura/sinusuario/' + $scope.token).
+       apiService.obtener('/cultura/sinusuario?tk=' + $scope.token).
        success(function(response, status, headers, config){
          $scope.listado = response;
          $scope.gridOptions.data = $scope.listado;
@@ -159,7 +159,7 @@
    $scope.options = options;
    $scope.alertas = [];
    $scope.close = function () {
-    apiService.crear('/cultura/' + options.token + '/', {
+    apiService.crear('/cultura/?tk=' + options.token, {
        nombre: $scope.nombre, apellidos: $scope.apellidos,
        dpi: String($scope.dpi), direccion: $scope.direccion,
        telefono: $scope.telefono, correo: $scope.correo,
@@ -192,7 +192,7 @@
    $scope.options = options;
    $scope.alertas = [];
    $scope.close = function () {
-     apiService.modificar('/cultura/' + culturausu.idcultura + '/' + options.token + '/', {
+     apiService.modificar('/cultura/' + culturausu.idcultura + '/?tk=' + options.token, {
        nombre: $scope.nombre, apellidos: $scope.apellidos,
        direccion: $scope.direccion, dpi:$scope.dpi, empresa: $scope.empresa,
        telefono: $scope.telefono, correo: $scope.correo,
