@@ -17,14 +17,12 @@ angular.module('transxelaWebApp')
     $scope.token = $cookies.getObject('user').token;
     apiService.obtener('/reporte/duenio/RepDuenioBusesId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
     .success(function(data){
-      console.log(data);
       $scope.dueBs = data;
       $scope.cont = 0;
       $scope.Lplak = [];
       $scope.Lcnt = [];
       apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
       .success(function(data){
-        console.log(data);
         $scope.Bs = data;
           for (var j = 0; j < $scope.dueBs.buss.length; j++) {
             for (var k = 0; k < $scope.Bs.length; k++) {
@@ -77,11 +75,9 @@ angular.module('transxelaWebApp')
     $scope.Lnumd = [];
     apiService.obtener('/reporte/duenio/RepDuenioChoferId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
     .success(function(data){
-      console.log(data);
       $scope.dueChof = data;
       apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
       .success(function(data){
-        console.log(data);
         $scope.Denun = data;
           for (var j = 0; j < $scope.dueChof.plt.length; j++) {
             for (var k = 0; k < $scope.Denun.length; k++) {
