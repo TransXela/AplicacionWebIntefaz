@@ -33,6 +33,60 @@ angular.module('transxelaWebApp').controller('DuenioPrincipalCtrl', function ($s
         }
       }
     });
+    apiService.obtener('/reporte/duenio/RepDuenioBusesId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
+    .success(function(data){
+      $scope.dueBs = data;
+      $scope.cont = 0;
+      $scope.Lplak = [];
+      $scope.Lcnt = [];
+      apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
+      .success(function(data){
+        $scope.Bs = data;
+          for (var j = 0; j < $scope.dueBs.buss.length; j++) {
+            for (var k = 0; k < $scope.Bs.length; k++) {
+              if ($scope.Bs[k].placa === $scope.dueBs.buss[j].placa) {
+                $scope.cont = $scope.cont + 1;
+              }
+            }
+            $scope.Lplak[j] = $scope.dueBs.buss[j].placa;
+            $scope.Lcnt[j] = $scope.cont;
+            $scope.cont=0;
+          }
+          var ctx = document.getElementById("DueDenBusGraph").getContext('2d');
+          var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: $scope.Lplak,
+              datasets: [{
+                backgroundColor: ["#2ecc71"],
+                label: "Número de denuncias por cada bus",
+                lineTension: 1,
+                pointBorderColor:"1F0D7B",
+                pointRadius: 3.5,
+                pointBackgroundColor: "#18cfdf",
+                borderCapStyle: 'HOLA',
+                data: $scope.Lcnt
+              }]
+            }
+          });
+        })
+        .error(function(response, status, headers, config) {
+          if(status === null || status === -1){
+            $location.url('/404');
+          }
+          else if(status === 401){
+            $location.url('/403');
+          }
+        });
+    })
+    .error(function(response, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
+    });
   }
   else{
     $location.url('/login');
