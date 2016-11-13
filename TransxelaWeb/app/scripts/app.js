@@ -87,11 +87,6 @@ angular
     controllerAs: 'duenio/calendariopiloto'
   })
   // Operador routes
-  .when('/operador/principal', {
-    templateUrl: 'views/operador/principal.html',
-    controller: 'OperadorPrincipalCtrl',
-    controllerAs: 'operador/principal'
-  })
   .when('/operador/denunciasRuta', {
     templateUrl: 'views/operador/denunciasruta.html',
     controller: 'OperadorDenunciasrutaCtrl',
@@ -106,21 +101,6 @@ angular
     templateUrl: 'views/operador/denunciastipo.html',
     controller: 'OperadorDenunciastipoCtrl',
     controllerAs: 'operador/denunciasTipo'
-  })
-  .when('/operador/duenios', {
-    templateUrl: 'views/operador/duenios.html',
-    controller: 'OperadorDueniosCtrl',
-    controllerAs: 'operador/duenios'
-  })
-  .when('/operador/estadisticas', {
-    templateUrl: 'views/operador/estadisticas.html',
-    controller: 'OperadorEstadisticasCtrl',
-    controllerAs: 'operador/estadisticas'
-  })
-  .when('/operador/perfil', {
-    templateUrl: 'views/operador/perfil.html',
-    controller: 'OperadorPerfilCtrl',
-    controllerAs: 'operador/perfil'
   })
   .when('/operador/denuncias', {
     templateUrl: 'views/operador/denuncias.html',
@@ -210,6 +190,16 @@ angular
     controller: 'PrincipalCtrl',
     controllerAs: 'cultura/principal'
   })
+  .when('/admin/culturasinu', {
+    templateUrl: 'views/admin/culturasinu.html',
+    controller: 'AdminCulturasinuCtrl',
+    controllerAs: 'admin/culturasinu'
+  })
+  .when('/admin/cultura', {
+    templateUrl: 'views/admin/cultura.html',
+    controller: 'AdminCulturaCtrl',
+    controllerAs: 'admin/cultura'
+  })
 
   // Admin routes
   .when('/admin/lista', {
@@ -272,16 +262,6 @@ angular
     controller: 'AdminDueniosinuCtrl',
     controllerAs: 'admin/dueniosinu'
   })
-  .when('/admin/culturasinu', {
-    templateUrl: 'views/admin/culturasinu.html',
-    controller: 'AdminCulturasinuCtrl',
-    controllerAs: 'admin/culturasinu'
-  })
-  .when('/admin/cultura', {
-    templateUrl: 'views/admin/cultura.html',
-    controller: 'AdminCulturaCtrl',
-    controllerAs: 'admin/cultura'
-  })
   .otherwise({
     redirectTo: '/'
   });
@@ -290,18 +270,18 @@ angular
   var apiURL = 'http://127.0.0.1:8000';
   var obtener = function(endpoint) {
     return $http.get(apiURL+endpoint);
-  }
+  };
   var crear = function(endpoint, params) {
     return $http.post(apiURL+endpoint, params);
-  }
+  };
 
   var modificar = function(endpoint, params) {
     return $http.put(apiURL+endpoint, params);
-  }
+  };
 
   var borrar = function(endpoint){
     return $http.delete(apiURL+endpoint);
-  }
+  };
 
   return {
     obtener: obtener,

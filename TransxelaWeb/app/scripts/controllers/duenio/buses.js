@@ -15,7 +15,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       controller:'CrearBController',
       resolve: {
         options: function () {
-          return {"title": "Crear Bus", "buttom": "Crear", "token": $scope.token};
+          return {"title": "Nuevo bus", "buttom": "Crear bus", "token": $scope.token};
         },
         rutas: function() {
           return $scope.rutas;
@@ -31,8 +31,14 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       $scope.buses.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Bus creado exitosamente"});
     }, function (status) {
-      if(status === 'error'){
+      if(status === '403'){
+        $location.url('/403');
+      }
+      else if(status === '404'){
         $location.url('/404');
+      }
+      else if(status === '500'){
+        $location.url('/400');
       }
     });
   };
@@ -43,7 +49,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       controller: "VerModificarBController",
       resolve: {
         options: function () {
-          return {"title": "Ver Bus", "buttom": "Modificar", "token": $scope.token};
+          return {"title": "Información del bus", "buttom": "Guardar cambios", "token": $scope.token};
         },
         bus: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.buses,"idbus", idbus);
@@ -60,8 +66,14 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       $scope.buses[$scope.index] = result;
       $scope.alertas.push({"tipo":"success", "mensaje": "Bus modificado exitosamente"});
     }, function (status) {
-      if(status === 'error'){
+      if(status === '403'){
+        $location.url('/403');
+      }
+      else if(status === '404'){
         $location.url('/404');
+      }
+      else if(status === '500'){
+        $location.url('/400');
       }
     });
   };
@@ -110,10 +122,10 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.gridOptions = {};
-    apiService.obtener('/ruta' + '/' + $scope.token).
+    apiService.obtener('/ruta' + '?tk=' + $scope.token).
     success(function(response, status, headers, config){
       $scope.rutas = response;
-      apiService.obtener('/duenio/'+$scope.idduenio+'/buses' + '/' + $scope.token).
+      apiService.obtener('/duenio/'+$scope.idduenio+'/buses' + '?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
         $scope.buses = response.buses;
@@ -126,8 +138,10 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
         $scope.gridOptions.paginationPageSizes = [10, 25, 50];
         $scope.gridOptions.paginationPageSize = 10;
         $scope.gridOptions.columnDefs = [
-          {name:'Placa',field:'placa', sort: { direction: uiGridConstants.ASC }},
-          {name:'No. de bus',field:'numbus'},
+          {name:'Placa',field:'placa', sort: { direction: uiGridConstants.ASC },
+            filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Placa del bus', headerCellClass: $scope.highlightFilteredHeader}},
+          {name:'No. de bus',field:'numbus',
+            filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'No. de bus', headerCellClass: $scope.highlightFilteredHeader}},
           {name:'Ruta', field: 'ruta', cellTemplate: "<div>{{grid.appScope.mapearRuta(row.entity.ruta)}}</div>",
             filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
             selectOptions: $scope.filtrorutas}, headerCellClass: $scope.highlightFilteredHeader},
@@ -138,20 +152,42 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
           ];
       }).
       error(function(response, status, headers, config) {
-        if(status === null || status === -1){
-          $location.url('/404');
-        }
-        else if(status === 401){
-          $location.url('/403');
+        switch(status) {
+          case 400: {
+            $location.url('/404');
+            break;
+          }
+          case 403: {
+            $location.url('/403');
+            break;
+          }
+          case 404: {
+            $location.url('/404');
+            break;
+          }
+          default: {
+            $location.url('/500');
+          }
         }
       });
     }).
     error(function(response, status, headers, config) {
-      if(status === null || status === -1){
-        $location.url('/404');
-      }
-      else if(status === 401){
-        $location.url('/403');
+      switch(status) {
+        case 400: {
+          $location.url('/404');
+          break;
+        }
+        case 403: {
+          $location.url('/403');
+          break;
+        }
+        case 404: {
+          $location.url('/404');
+          break;
+        }
+        default: {
+          $location.url('/500');
+        }
       }
     });
   }
@@ -186,7 +222,7 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', 'api
   };
 
   $scope.close = function () {
-    apiService.crear('/duenio/bus/' + options.token + '/', {
+    apiService.crear('/duenio/bus/?tk=' + options.token, {
       marca: $scope.marca, modelo: $scope.modelo,
       placa: $scope.placa, numbus: $scope.numbus,
       color: $scope.color, ruta: parseInt($scope.ruta),
@@ -196,7 +232,23 @@ angular.module('transxelaWebApp').controller('CrearBController', ['$scope', 'api
       $uibModalInstance.close(data, 500);
     }).
     error(function(data, status, headers, config) {
-      $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
+      }
     });
   };
 
@@ -217,7 +269,7 @@ angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope
   $scope.rutas = rutas;
   $scope.options = options;
   $scope.close = function () {
-    apiService.modificar('/duenio/bus/' + bus.idbus + '/' + options.token + '/', {
+    apiService.modificar('/duenio/bus/' + bus.idbus + '/?tk=' + options.token, {
       marca: $scope.marca, modelo: $scope.modelo,
       placa: $scope.placa, numbus: $scope.numbus,
       color: $scope.color, ruta: parseInt($scope.ruta),
@@ -227,7 +279,23 @@ angular.module('transxelaWebApp').controller('VerModificarBController', ['$scope
       $uibModalInstance.close(response, 500);
     }).
     error(function(response, status, headers, config) {
-      $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
+      }
     });
   };
 

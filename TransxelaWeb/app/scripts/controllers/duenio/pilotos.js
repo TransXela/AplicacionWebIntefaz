@@ -16,7 +16,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       controller:'CrearPController',
       resolve: {
         options: function () {
-          return {"title": "Crear Piloto", "buttom": "Crear", "token": $scope.token};
+          return {"title": "Nuevo piloto", "buttom": "Crear piloto", "token": $scope.token};
         },
         idduenio: function () {
           return $scope.idduenio;
@@ -27,8 +27,14 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       $scope.pilotos.push(result);
       $scope.alertas.push({"tipo":"success", "mensaje": "Piloto creado exitosamente"});
     }, function (status) {
-      if(status === 'error'){
+      if(status === '403'){
+        $location.url('/403');
+      }
+      else if(status === '404'){
         $location.url('/404');
+      }
+      else if(status === '500'){
+        $location.url('/400');
       }
     });
   };
@@ -39,7 +45,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       controller: "VerController",
       resolve: {
         options: function () {
-          return {"title": "Ver Piloto", "buttom": "Modificar", "token": $scope.token};
+          return {"title": "Información del piloto", "buttom": "Guardar cambios", "token": $scope.token};
         },
         piloto: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.pilotos,"idchofer", idchofer);
@@ -52,8 +58,14 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       $scope.pilotos[$scope.index] = result;
       $scope.alertas.push({"tipo":"success", "mensaje": "Piloto modificado exitosamente"});
     }, function (status) {
-      if(status === 'error'){
+      if(status === '403'){
+        $location.url('/403');
+      }
+      else if(status === '404'){
         $location.url('/404');
+      }
+      else if(status === '500'){
+        $location.url('/400');
       }
     });
   };
@@ -80,7 +92,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.gridOptions = {};
-    apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '/' + $scope.token).
+    apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '?tk=' + $scope.token).
     success(function(response, status, headers, config){
       $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
       $scope.pilotos = response.choferes;
@@ -89,21 +101,35 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
       $scope.gridOptions.paginationPageSizes = [10, 25, 50];
       $scope.gridOptions.paginationPageSize = 10;
       $scope.gridOptions.columnDefs = [
-        {name:'Nombre',field:'nombre', sort: { direction: uiGridConstants.ASC }},
-        {name:'Apellidos',field:'apellidos'},
-        {name:'DPI',field:'dpi'},
+        {name:'Nombre',field:'nombre', sort: { direction: uiGridConstants.ASC },
+          filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Nombre del piloto', headerCellClass: $scope.highlightFilteredHeader}},
+        {name:'Apellidos',field:'apellidos',
+          filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Apellidos del piloto', headerCellClass: $scope.highlightFilteredHeader}},
+        {name:'DPI',field:'dpi',
+          filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'DPI del piloto', headerCellClass: $scope.highlightFilteredHeader}},
         {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",
-          filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
+          filter: {type: uiGridConstants.filter.SELECT,
           selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]}, headerCellClass: $scope.highlightFilteredHeader},
         {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.idchofer)">Ver más</button></div>', enableFiltering: false}
         ];
       }).
       error(function(response, status, headers, config) {
-        if(status === null || status === -1){
-          $location.url('/404');
-        }
-        else if(status === 401){
-          $location.url('/403');
+        switch(status) {
+          case 400: {
+            $location.url('/404');
+            break;
+          }
+          case 403: {
+            $location.url('/403');
+            break;
+          }
+          case 404: {
+            $location.url('/404');
+            break;
+          }
+          default: {
+            $location.url('/500');
+          }
         }
       });
   }
@@ -124,7 +150,7 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', 'api
   $scope.estado = "1";
   $scope.options = options;
   $scope.close = function () {
-    apiService.crear('/duenio/piloto/' + options.token + '/', {
+    apiService.crear('/duenio/piloto/?tk=' + options.token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
       licencia: $scope.licencia, tipolicencia: $scope.tipolicencia,
@@ -135,12 +161,28 @@ angular.module('transxelaWebApp').controller('CrearPController', ['$scope', 'api
       $uibModalInstance.close(data, 500);
     }).
     error(function(data, status, headers, config) {
-      $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
+      }
     });
   };
 
   $scope.cancel = function () {
-      $uibModalInstance.dismiss('cancel');
+    $uibModalInstance.dismiss('cancel');
   };
 }]);
 
@@ -156,7 +198,7 @@ angular.module('transxelaWebApp').controller('VerController', ['$scope', 'apiSer
   $scope.estado = String(piloto.estado);
   $scope.options = options;
   $scope.close = function () {
-    apiService.modificar('/duenio/piloto/' + piloto.idchofer + '/' + options.token + '/', {
+    apiService.modificar('/duenio/piloto/' + piloto.idchofer + '/?tk=' + options.token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos, dpi: String($scope.dpi),
       direccion: $scope.direccion, licencia: $scope.licencia, tipolicencia: $scope.tipolicencia,
       telefono: $scope.telefono, correo: $scope.correo,
@@ -166,13 +208,23 @@ angular.module('transxelaWebApp').controller('VerController', ['$scope', 'apiSer
       $uibModalInstance.close(response, 500);
     }).
     error(function(response, status, headers, config) {
-      $uibModalInstance.dismiss('error');
-      // if(status === null || status === -1){
-      //   $location.url('/404');
-      // }
-      // else if(status === 401){
-      //   $location.url('/403');
-      // }
+      switch(status) {
+        case 400: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        case 403: {
+          $uibModalInstance.dismiss('403');
+          break;
+        }
+        case 404: {
+          $uibModalInstance.dismiss('404');
+          break;
+        }
+        default: {
+          $uibModalInstance.dismiss('500');
+        }
+      }
     });
   };
 

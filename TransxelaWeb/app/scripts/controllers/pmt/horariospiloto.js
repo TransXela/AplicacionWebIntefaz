@@ -23,25 +23,35 @@ angular.module('transxelaWebApp')
       $scope.token = $cookies.getObject('user').token;
 
       $scope.buscar=function(){
-        console.log($scope.pilotoDPI);
-        apiService.obtener('/piloto/'+ String($scope.pilotoDPI)+'/'+ $scope.token).
+        apiService.obtener('/piloto/'+ String($scope.pilotoDPI)+'/?tk='+ $scope.token).
         success(function(response, status, headers, config){
           $scope.piloto = response;
           $scope.cargarHorarios();
         }).
         error(function(response, status, headers, config) {
-          if(status === null || status === -1){
-            $location.url('/404');
-          }
-          else if(status === 401){
-            $location.url('/403');
+          switch(status) {
+            case 400: {
+              $scope.alertas.push({"tipo":"danger", "mensaje": "Piloto no encontrado"});
+              break;
+            }
+            case 403: {
+              $location.url('/403');
+              break;
+            }
+            case 404: {
+              $scope.alertas.push({"tipo":"danger", "mensaje": "Piloto no encontrado"});
+              break;
+            }
+            default: {
+              $location.url('/500');
+            }
           }
         });
       };
 
       $scope.cargarHorarios = function(){
         $scope.events = [];
-        apiService.obtener('/horariosdetalle/piloto/'+$scope.piloto.idpiloto+'/'+$scope.token).
+        apiService.obtener('/horariosdetalle/piloto/'+$scope.piloto.idpiloto+'/?tk='+$scope.token).
         success(function(response, status, headers, config){
           var horariosdetalle = response.HorarioDetalle;
           var fechaActual = new Date();
@@ -96,11 +106,22 @@ angular.module('transxelaWebApp')
           }
         }).
         error(function(response, status, headers, config) {
-          if(status === null || status === -1){
-            $location.url('/404');
-          }
-          else if(status === 401){
-            $location.url('/403');
+          switch(status) {
+            case 400: {
+              $scope.alertas.push({"tipo":"danger", "mensaje": "Piloto no encontrado"});
+              break;
+            }
+            case 403: {
+              $location.url('/403');
+              break;
+            }
+            case 404: {
+              $scope.alertas.push({"tipo":"danger", "mensaje": "Piloto no encontrado"});
+              break;
+            }
+            default: {
+              $location.url('/500');
+            }
           }
         });
       };
