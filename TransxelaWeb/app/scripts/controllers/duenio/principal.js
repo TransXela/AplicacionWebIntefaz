@@ -8,14 +8,15 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp').controller('DuenioPrincipalCtrl', function ($scope, apiService, $location, $cookies) {
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     apiService.obtener('/duenio/'+$scope.idduenio+'/principal' + '?tk=' + $scope.token).
     success(function(response, status, headers, config){
       $scope.duenio = response;
     }).
-    error(function(response, status, headers, config) {switch(status) {
+    error(function(response, status, headers, config) {
+      switch(status) {
         case 400: {
           $location.url('/404');
           break;

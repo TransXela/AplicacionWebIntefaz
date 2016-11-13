@@ -27,7 +27,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
     //     alert(args.calendarEvent.idhorariodetalle);
     //   }}
   ];
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.duenio = $cookies.getObject('user').usuario;
@@ -44,19 +44,19 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
         error(function(response, status, headers, config) {
           switch(status) {
             case 400: {
-              $uibModalInstance.dismiss('404');
+              $location.url('/404');
               break;
             }
             case 403: {
-              $uibModalInstance.dismiss('403');
+              $location.url('/403');
               break;
             }
             case 404: {
-              $uibModalInstance.dismiss('404');
+              $location.url('/404');
               break;
             }
             default: {
-              $uibModalInstance.dismiss('500');
+              $location.url('/500');
             }
           }
         });
@@ -64,19 +64,19 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
       error(function(response, status, headers, config) {
         switch(status) {
           case 400: {
-            $uibModalInstance.dismiss('404');
+            $location.url('/404');
             break;
           }
           case 403: {
-            $uibModalInstance.dismiss('403');
+            $location.url('/403');
             break;
           }
           case 404: {
-            $uibModalInstance.dismiss('404');
+            $location.url('/404');
             break;
           }
           default: {
-            $uibModalInstance.dismiss('500');
+            $location.url('/500');
           }
         }
       });
@@ -84,19 +84,19 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
     error(function(response, status, headers, config) {
       switch(status) {
         case 400: {
-          $uibModalInstance.dismiss('404');
+          $location.url('/404');
           break;
         }
         case 403: {
-          $uibModalInstance.dismiss('403');
+          $location.url('/403');
           break;
         }
         case 404: {
-          $uibModalInstance.dismiss('404');
+          $location.url('/404');
           break;
         }
         default: {
-          $uibModalInstance.dismiss('500');
+          $location.url('/500');
         }
       }
     });

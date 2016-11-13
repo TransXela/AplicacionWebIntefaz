@@ -7,8 +7,8 @@
  * # DuenioPerfilCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scope, apiService, $cookies) {
-    if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scope, apiService, $cookies, $location) {
+    if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
       $scope.idduenio = $cookies.getObject('user').id;
       $scope.token = $cookies.getObject('user').token;
       apiService.obtener('/duenio/'+$scope.idduenio + '?tk=' + $scope.token).

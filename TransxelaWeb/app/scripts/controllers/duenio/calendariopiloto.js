@@ -27,7 +27,7 @@
      //     alert(args.calendarEvent.idhorariodetalle);
      //   }}
    ];
-   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+   if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
      $scope.idduenio = $cookies.getObject('user').id;
      $scope.token = $cookies.getObject('user').token;
      $scope.duenio = $cookies.getObject('user').usuario;
