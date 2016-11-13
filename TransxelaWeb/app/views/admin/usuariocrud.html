@@ -4,6 +4,10 @@
 </div>
 <form name="pilotoForm" class="form" novalidate>
 <div class="modal-body">
+	<div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+    ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+  </div>
 	<label>Usuario</label>
 	<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre de usuario" ng-model="nombre" required autofocus>
 	<div ng-messages="pilotoForm.nombre.$error" role="alert" class="text-danger">
@@ -24,7 +28,7 @@
 	</div><br>
 
 	<label>Contraseña</label>
-	<input type="password" class="form-control" name="contrasenia" id="contrasenia" placeholder="Contraseña del usuario" ng-model="contrasenia" required>
+	<input type="text" class="form-control" name="contrasenia" id="contrasenia" placeholder="Contraseña del usuario" ng-model="contrasenia" required>
 	<div ng-messages="pilotoForm.contrasenia.$error" role="alert" class="text-danger">
      	<div ng-message="required">Campo requerido</div>
 	</div><br>
