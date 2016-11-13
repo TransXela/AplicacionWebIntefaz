@@ -76,11 +76,6 @@ angular
     controller: 'DuenioEstadisticasCtrl',
     controllerAs: 'duenio/estadisticas'
   })
-  .when('/duenio/principal', {
-    templateUrl: 'views/duenio/principal.html',
-    controller: 'DuenioEstadisticasCtrl',
-    controllerAs: 'duenio/estadisticas'
-  })
   .when('/duenio/calendariobus', {
     templateUrl: 'views/duenio/calendariobus.html',
     controller: 'DuenioCalendariobusCtrl',
@@ -92,11 +87,6 @@ angular
     controllerAs: 'duenio/calendariopiloto'
   })
   // Operador routes
-  .when('/operador/principal', {
-    templateUrl: 'views/operador/principal.html',
-    controller: 'OperadorPrincipalCtrl',
-    controllerAs: 'operador/principal'
-  })
   .when('/operador/denunciasRuta', {
     templateUrl: 'views/operador/denunciasruta.html',
     controller: 'OperadorDenunciasrutaCtrl',
@@ -112,21 +102,6 @@ angular
     controller: 'OperadorDenunciastipoCtrl',
     controllerAs: 'operador/denunciasTipo'
   })
-  .when('/operador/duenios', {
-    templateUrl: 'views/operador/duenios.html',
-    controller: 'OperadorDueniosCtrl',
-    controllerAs: 'operador/duenios'
-  })
-  .when('/operador/estadisticas', {
-    templateUrl: 'views/operador/estadisticas.html',
-    controller: 'OperadorEstadisticasCtrl',
-    controllerAs: 'operador/estadisticas'
-  })
-  .when('/operador/perfil', {
-    templateUrl: 'views/operador/perfil.html',
-    controller: 'OperadorPerfilCtrl',
-    controllerAs: 'operador/perfil'
-  })
   .when('/operador/denuncias', {
     templateUrl: 'views/operador/denuncias.html',
     controller: 'OperadorDenunciasCtrl',
@@ -141,11 +116,6 @@ angular
   .when('/pmt/principal', {
     templateUrl: 'views/pmt/principal.html',
     controller: 'PmtPrincipalCtrl',
-    controllerAs: 'pmt/principal'
-  })
-  .when('/pmt/principal', {
-    templateUrl: 'views/pmt/principal.html',
-    controller: 'PmtDenRutaCtr',
     controllerAs: 'pmt/principal'
   })
   .when('/pmt/duenios', {
