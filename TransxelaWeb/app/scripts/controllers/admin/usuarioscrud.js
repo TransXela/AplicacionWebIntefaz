@@ -39,7 +39,8 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
         else if(status === '500'){
           $location.url('/400');
         }
-    });
+    }
+  );
   };
 
   $scope.showVerModificar = function (id) {
@@ -63,10 +64,17 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
       $scope.usuarios[$scope.index] = result;
       $scope.alertas.push({"tipo":"success", "mensaje": "Usuario modificado exitosamente"});
     }, function (status) {
-      // if(status === 'error'){
-      //   $location.url('/404');
-      // }
-    });
+        if(status === '403'){
+          $location.url('/403');
+        }
+        else if(status === '404'){
+          $location.url('/404');
+        }
+        else if(status === '500'){
+          $location.url('/400');
+        }
+    }
+  );
   };
 
   $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
@@ -274,7 +282,23 @@ angular.module('transxelaWebApp').controller('ModificarUsController', ['$scope',
       $uibModalInstance.close(response, 500);
     }).
     error(function(response, status, headers, config) {
-      $uibModalInstance.dismiss('error');
+      switch(status) {
+        case 400: {
+          $location.url('/404');
+          break;
+        }
+        case 403: {
+          $location.url('/403');
+          break;
+        }
+        case 404: {
+          $location.url('/404');
+          break;
+        }
+        default: {
+          $location.url('/500');
+        }
+      }
     });
   };
   $scope.cancel = function () {
