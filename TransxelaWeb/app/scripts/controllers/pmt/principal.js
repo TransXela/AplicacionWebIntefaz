@@ -11,13 +11,68 @@
  //mostrar numero de denuncias por rutas
 
  angular.module('transxelaWebApp')
-   .controller('PmtPrincipalCtrl', function () {
-     this.awesomeThings = [
-       'HTML5 Boilerplate',
-       'AngularJS',
-       'Karma'
-     ];
-   });
+   .controller('PmtPrincipalCtrl', function ($scope, apiService, $cookies) {
+     if(typeof $cookies.getObject('user')!='undefined' && $cookies.getObject('user')){
+         $scope.Lplaca = [];
+         $scope.Ldenun = [];
+         $scope.token = $cookies.getObject('user').token;
+         apiService.obtener('/duenio/bus'+'/'+'?tk='+$scope.token)
+         .success(function(data){
+           $scope.bus = data;
+           apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
+           .success(function(data){
+             $scope.denunc = data;
+             $scope.res = [];
+             for (var i = 0; i < $scope.bus.length; i++) {
+               $scope.resultado = 0;
+               for (var j = 0; j< $scope.denunc.length; j++) {
+                 if ($scope.denunc[j].placa == $scope.bus[i].placa) {
+                   $scope.resultado = $scope.resultado + 1;
+                 }
+                 if($scope.resultado > 0){
+                   $scope.res[i]={plac:$scope.denunc[j].placa, noDen:$scope.resultado};
+                   $scope.Lplaca[i]=$scope.bus[i].placa;
+                   $scope.Ldenun[i]=$scope.resultado;
+                 }
+               }
+             }
+             var ctx = document.getElementById("myChart").getContext('2d');
+             var myChart = new Chart(ctx, {
+               type: 'line',
+               data: {
+                 labels: $scope.Lplaca,
+                 datasets: [{
+                   backgroundColor: ["#2ecc71"],
+                   label: "Número de denuncias por buses",
+                       lineTension: 1,
+                       pointBorderColor:"1F0D7B",
+                       pointRadius: 3.5,
+                       pointBackgroundColor: "#18cfdf",
+                       data: $scope.Ldenun
+                     }]
+                   }
+                 });
+               })
+
+           .error(function(response, status, headers, config) {
+             if(status === null || status === -1){
+                   $location.url('/404');
+                 }
+                 else if(status === 401){
+                   $location.url('/403');
+                 }
+               });
+             })
+             .error(function(response, status, headers, config) {
+               if(status === null || status === -1){
+                 $location.url('/404');
+               }
+               else if(status === 401){
+                 $location.url('/403');
+               }
+             })
+           }
+         });
  angular.module('transxelaWebApp')
  .controller('PmtDenRutaCtr', function ($scope, apiService, $cookies) {
 
@@ -29,11 +84,9 @@
      $scope.token = $cookies.getObject('user').token;
      apiService.obtener('/reporte/pmt/RepBusRuta'+'/'+'?tk='+$scope.token)
      .success(function(data){
-         console.log(data);
          $scope.busR = data;
          apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
          .success(function(data){
-           console.log(data);
            $scope.denuPlaca = data;
            $scope.pos = 0;
            for (var i = 0; i < $scope.busR.length; i++) {
@@ -90,7 +143,6 @@
 
        apiService.obtener('/reporte/pmt/RepPilotoDen'+'/'+'?tk='+$scope.token)
        .success(function(data){
-        console.log(data);
         $scope.pilotoDen = data;
         $scope.Ldpi=[];
         $scope.cant=0;
@@ -129,17 +181,15 @@
         }
       });
 
-      $scope.Lplaca = [];
+    $scope.Lplaca = [];
     $scope.Ldenun = [];
     apiService.obtener('/duenio/bus'+'/'+'?tk='+$scope.token)
       .success(function(data){
-          console.log(data);
           $scope.bus = data;
           apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
           .success(function(data){
             $scope.denunc = data;
             $scope.res = [];
-            console.log(data);
             for (var i = 0; i < $scope.bus.length; i++) {
               $scope.resultado = 0;
               for (var j = 0; j< $scope.denunc.length; j++) {
@@ -189,14 +239,12 @@
         });
         apiService.obtener('/reporte/pmt/RepDuenioBuses'+'/'+'?tk='+$scope.token)
             .success(function(data){
-              console.log(data);
               $scope.dueBus = data;
               $scope.Ddpi = [];
               $scope.cantD = 0;
               $scope.noDen = [];
               apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
                 .success(function(data){
-                  console.log(data);
                   $scope.denPlak = data;
                   for (var a = 0; a < $scope.dueBus.length; a++) {
                     for (var i = 0; i < $scope.dueBus[a].buss.length; i++) {

@@ -190,62 +190,15 @@ angular
     controller: 'PrincipalCtrl',
     controllerAs: 'cultura/principal'
   })
-  .when('/admin/culturasinu', {
-    templateUrl: 'views/admin/culturasinu.html',
-    controller: 'AdminCulturasinuCtrl',
-    controllerAs: 'admin/culturasinu'
-  })
   .when('/admin/cultura', {
     templateUrl: 'views/admin/cultura.html',
     controller: 'AdminCulturaCtrl',
     controllerAs: 'admin/cultura'
   })
-
-  // Admin routes
-  .when('/admin/lista', {
-    templateUrl: 'views/admin/lista.html',
-    controller: 'AdminListaCtrl',
-    controllerAs: 'admin/lista'
-  })
-  .when('/admin/perfil', {
-    templateUrl: 'views/admin/perfil.html',
-    controller: 'AdminPerfilCtrl',
-    controllerAs: 'admin/perfil'
-  })
   .when('/admin/principal', {
     templateUrl: 'views/admin/principal.html',
     controller: 'AdminPrincipalCtrl',
     controllerAs: 'admin/principal'
-  })
-  .when('/admin/usuarios', {
-    templateUrl: 'views/admin/usuarios.html',
-    controller: 'AdminUsuariosCtrl',
-    controllerAs: 'admin/usuarios'
-  })
-  .when('/admin/listapmt', {
-    templateUrl: 'views/admin/listapmt.html',
-    controller: 'AdminListapmtCtrl',
-    controllerAs: 'admin/listapmt'
-  })
-  .when('/admin/listadue', {
-    templateUrl: 'views/admin/listadue.html',
-    controller: 'AdminListadueCtrl',
-    controllerAs: 'admin/listadue'
-  })
-  .when('/admin/listacul', {
-    templateUrl: 'views/admin/listacul.html',
-    controller: 'AdminListaculCtrl',
-    controllerAs: 'admin/listacul'
-  })
-  .when('/admin/listausuarios', {
-    templateUrl: 'views/admin/listausuarios.html',
-    controller: 'AdminListausuariosCtrl',
-    controllerAs: 'admin/listausuarios'
-  })
-  .when('/admin/usuariosdes', {
-    templateUrl: 'views/admin/usuariosdes.html',
-    controller: 'AdminUsuariosdesCtrl',
-    controllerAs: 'admin/usuariosdes'
   })
   .when('/admin/usuarioscrud', {
     templateUrl: 'views/admin/usuarioscrud.html',
@@ -267,7 +220,11 @@ angular
   });
 })
 .service('apiService', function($cookies, $http) {
+  //var apiURL = 'http://api.transxela.site';
   var apiURL = 'http://127.0.0.1:8000';
+  //$http.defaults.headers.common['Access-Control-Allow-Headers'] = "Content-Type";
+  //$http.defaults.headers.common['Access-Control-Allow-Methods'] = "GET, POST, PUT, DELETE, OPTIONS";
+  //$http.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
   var obtener = function(endpoint) {
     return $http.get(apiURL+endpoint);
   };

@@ -88,7 +88,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     $location.url('/');
   };
 
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.gridOptions = {};

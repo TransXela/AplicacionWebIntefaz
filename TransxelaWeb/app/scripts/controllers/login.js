@@ -11,7 +11,7 @@ angular.module('transxelaWebApp').controller('LogInCtrl', function ($scope, $loc
   $scope.usuario = null;
   $scope.contrasenia = null;
   $scope.alertas = [];
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     switch($cookies.getObject('user').tipo){
       case 'Dueños': {
         $location.url('/duenio/principal');

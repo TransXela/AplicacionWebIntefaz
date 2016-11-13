@@ -8,7 +8,7 @@
 * Controller of the transxelaWebApp
 */
 angular.module('transxelaWebApp').controller('MainCtrl', function ($scope, $uibModal, $location, $cookies) {
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     switch($cookies.getObject('user').tipo){
       case 'Dueños': {
         $location.url('/duenio/principal');
@@ -114,7 +114,6 @@ angular.module('transxelaWebApp').controller('IniciarSesionController', ['$scope
 // -------------PRINCIPAL-----------------------------------------------------------------------------------------------------------
 // Sticky Header
 $(window).scroll(function() {
-
   if ($(window).scrollTop() > 100) {
     $('.main_h').addClass('sticky');
   } else {

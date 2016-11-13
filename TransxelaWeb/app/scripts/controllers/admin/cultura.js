@@ -52,8 +52,18 @@
        uibModalInstance.result.then(function (result) {
          $scope.listado[$scope.index] = result;
          $scope.alertas.push({"tipo":"success", "mensaje": "Persona de cultura modificada exitosamente"});
-       }, function () {
-       });
+       }, function (status) {
+           if(status === '403'){
+             $location.url('/403');
+           }
+           else if(status === '404'){
+             $location.url('/404');
+           }
+           else if(status === '500'){
+             $location.url('/400');
+           }
+       }
+     );
      };
      // ----------------------------------- END VER MODIFICAR --------------------------------------------------------------
 
@@ -76,8 +86,18 @@
        uibModalInstance.result.then(function (result) {
          $scope.listado.push(result);
          $scope.alertas.push({"tipo":"success", "mensaje": "Persona de cultura creada exitosamente"});
-       }, function () {
-       });
+       }, function (status) {
+           if(status === '403'){
+             $location.url('/403');
+           }
+           else if(status === '404'){
+             $location.url('/404');
+           }
+           else if(status === '500'){
+             $location.url('/400');
+           }
+       }
+     );
      };
      // ----------------------------------- END CREAR PMT --------------------------------------------------------------
 
@@ -169,7 +189,23 @@
        $uibModalInstance.close(data, 500);
      })
      .error(function(data, status, headers, config) {
-       $uibModalInstance.dismiss('error');
+       switch(status) {
+         case 400: {
+           $location.url('/404');
+           break;
+         }
+         case 403: {
+           $location.url('/403');
+           break;
+         }
+         case 404: {
+           $location.url('/404');
+           break;
+         }
+         default: {
+           $location.url('/500');
+         }
+       }
      });
    };
    $scope.cancel = function () {
@@ -203,7 +239,23 @@
        $uibModalInstance.close(response, 500);
      }).
      error(function(response, status, headers, config) {
-       $uibModalInstance.dismiss('error');
+       switch(status) {
+         case 400: {
+           $location.url('/404');
+           break;
+         }
+         case 403: {
+           $location.url('/403');
+           break;
+         }
+         case 404: {
+           $location.url('/404');
+           break;
+         }
+         default: {
+           $location.url('/500');
+         }
+       }
      });
    };
    $scope.cancel = function () {

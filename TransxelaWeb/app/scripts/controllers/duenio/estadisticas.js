@@ -17,14 +17,12 @@ angular.module('transxelaWebApp')
     $scope.token = $cookies.getObject('user').token;
     apiService.obtener('/reporte/duenio/RepDuenioBusesId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
     .success(function(data){
-      console.log(data);
       $scope.dueBs = data;
       $scope.cont = 0;
       $scope.Lplak = [];
       $scope.Lcnt = [];
       apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
       .success(function(data){
-        console.log(data);
         $scope.Bs = data;
           for (var j = 0; j < $scope.dueBs.buss.length; j++) {
             for (var k = 0; k < $scope.Bs.length; k++) {
@@ -77,11 +75,9 @@ angular.module('transxelaWebApp')
     $scope.Lnumd = [];
     apiService.obtener('/reporte/duenio/RepDuenioChoferId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
     .success(function(data){
-      console.log(data);
       $scope.dueChof = data;
       apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
       .success(function(data){
-        console.log(data);
         $scope.Denun = data;
           for (var j = 0; j < $scope.dueChof.plt.length; j++) {
             for (var k = 0; k < $scope.Denun.length; k++) {
@@ -235,6 +231,61 @@ angular.module('transxelaWebApp')
           $location.url('/403');
         }
       });
+    })
+    .error(function(response, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
+    });
+    //pilotos por tipo denuncia
+    apiService.obtener('/reporte/duenio/RepDuenioChoferId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
+    .success(function(data){
+      $scope.Dchof = data;
+      $scope.contDD = 0;
+      $scope.ltdDPI = [];
+      $scope.ltdCant = [];
+      apiService.obtener('/reporte/duenio/RepTipoDenD'+'/'+'?tk='+$scope.token)
+      .success(function(data){
+        $scope.TipD = data;
+        for (var i = 0; i <$scope.TipD.length ; i++) {
+          for (var x = 0; x < $scope.Dchof.plt.length; x++) {
+            for (var j = 0; j < $scope.TipD[i].dnc.length; j++) {
+                if($scope.Dchof.plt[x].idchofer===$scope.TipD[i].dnc[j].chofer){
+                  $scope.contDD = $scope.contDD +1;
+                }
+              }
+            }
+            $scope.ltdDPI[i] = $scope.TipD[i].descripcion;
+            $scope.ltdCant[i] = $scope.contDD;
+          }
+          var ctx = document.getElementById("DueTDenPilotoGraph").getContext('2d');
+          var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: $scope.ltdDPI,
+              datasets: [{
+                backgroundColor: ["#2ecc71"],
+                label: "Número de denuncias por tipo de denuncia",
+                lineTension: 1,
+                pointBorderColor:"1F0D7B",
+                pointRadius: 3.5,
+                pointBackgroundColor: "#18cfdf",
+                data: $scope.ltdCant
+              }]
+            }
+          });
+        })
+        .error(function(response, status, headers, config) {
+          if(status === null || status === -1){
+            $location.url('/404');
+          }
+          else if(status === 401){
+            $location.url('/403');
+          }
+        });
     })
     .error(function(response, status, headers, config) {
       if(status === null || status === -1){
