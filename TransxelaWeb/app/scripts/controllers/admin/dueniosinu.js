@@ -114,7 +114,7 @@ angular.module('transxelaWebApp')
         showColumnFooter: true,
       };
 
-      apiService.obtener('/users/group/3/?tk=' + $scope.token).
+      apiService.obtener('/users/group/1/?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.grupos = response;
 
