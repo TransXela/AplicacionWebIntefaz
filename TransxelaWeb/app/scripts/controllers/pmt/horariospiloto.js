@@ -123,6 +123,10 @@ angular.module('transxelaWebApp')
             }
           }
         });
+        $scope.cerrar = function(){
+          $cookies.remove('user');
+          $location.url('/');
+        };
       };
     }
     else{
