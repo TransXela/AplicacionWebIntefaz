@@ -262,7 +262,6 @@ angular.module('transxelaWebApp').controller('ModificarUsController', ['$scope',
   $scope.alertas = [];
   $scope.options = options;
   $scope.grupos = grupos;
-  console.log($scope.estado);
   $scope.close = function () {
 
     if ($scope.mapearGrupo($scope.grupo) === 'Admin') {
