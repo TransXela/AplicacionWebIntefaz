@@ -141,7 +141,7 @@ $scope.cancel = function () {
 
     $scope.formatoFecha = function(fecha){
       return fecha.getFullYear() + "-" + (fecha.getMonth()+1) + "-" + fecha.getDate();
-    }
+    };
     $scope.today = function() {
       $scope.fecha = new Date();
 

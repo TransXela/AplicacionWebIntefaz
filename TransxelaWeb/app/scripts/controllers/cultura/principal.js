@@ -12,7 +12,7 @@ angular.module('transxelaWebApp')
   ];
 
 
-var baseURL='http://lorempixel.com/200/200'
+var baseURL='http://lorempixel.com/200/200';
 
   $scope.contenido=[
     {
