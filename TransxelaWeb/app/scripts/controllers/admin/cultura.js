@@ -104,14 +104,14 @@
 
 
 
-     if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+     if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
        $scope.token = $cookies.getObject('user').token;
        $scope.gridOptions = {
          enableFiltering: true,
          showGridFooter: true,
          showColumnFooter: true,
        };
-       apiService.obtener('/cultura/sinusuario?tk=' + $scope.token).
+       apiService.obtener('/cultura/?tk=' + $scope.token).
        success(function(response, status, headers, config){
          $scope.listado = response;
          $scope.gridOptions.data = $scope.listado;
@@ -148,6 +148,10 @@
        $scope.mostrar = culturausu;
      };
 
+     $scope.cerrar = function(){
+       $cookies.remove('user');
+       $location.url('/');
+     };
 
    }])
 

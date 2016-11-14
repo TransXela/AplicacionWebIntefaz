@@ -10,11 +10,12 @@
 */
 
 angular.module('transxelaWebApp')
-.controller('DuenioEstadisticasCtrl',function ($scope, apiService, $cookies) {
+.controller('DuenioEstadisticasCtrl',function ($scope, apiService, $cookies, $location) {
   //muestra la cantidad de denuncias hacia un bus (no placa)
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
+    $scope.duenio = $cookies.getObject('user').usuario;
     apiService.obtener('/reporte/duenio/RepDuenioBusesId/'+$scope.idduenio+'/'+'?tk='+$scope.token)
     .success(function(data){
       $scope.dueBs = data;
@@ -296,4 +297,8 @@ angular.module('transxelaWebApp')
       }
     });
   }
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+      $location.url('/');
+  };
 });

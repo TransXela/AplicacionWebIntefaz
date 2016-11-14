@@ -118,14 +118,14 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       $location.url('/');
   };
 
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.gridOptions = {};
-    apiService.obtener('/ruta' + '?tk=' + $scope.token).
+    apiService.obtener('/ruta/?tk=' + $scope.token).
     success(function(response, status, headers, config){
       $scope.rutas = response;
-      apiService.obtener('/duenio/'+$scope.idduenio+'/buses' + '?tk=' + $scope.token).
+      apiService.obtener('/duenio/'+$scope.idduenio+'/buses/?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
         $scope.buses = response.buses;
@@ -172,23 +172,8 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       });
     }).
     error(function(response, status, headers, config) {
-      switch(status) {
-        case 400: {
-          $location.url('/404');
-          break;
-        }
-        case 403: {
-          $location.url('/403');
-          break;
-        }
-        case 404: {
-          $location.url('/404');
-          break;
-        }
-        default: {
-          $location.url('/500');
-        }
-      }
+      $scope.rutas = [];
+      $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar las rutas, recarge la página para poder visualizarlas."});
     });
   }
   else{

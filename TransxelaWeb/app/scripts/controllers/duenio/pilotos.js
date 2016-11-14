@@ -88,11 +88,11 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     $location.url('/');
   };
 
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.gridOptions = {};
-    apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '?tk=' + $scope.token).
+    apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos/?tk=' + $scope.token).
     success(function(response, status, headers, config){
       $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
       $scope.pilotos = response.choferes;

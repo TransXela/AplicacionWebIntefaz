@@ -7,11 +7,11 @@
  * # DuenioPerfilCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scope, apiService, $cookies) {
-    if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scope, apiService, $cookies, $location) {
+    if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
       $scope.idduenio = $cookies.getObject('user').id;
       $scope.token = $cookies.getObject('user').token;
-      apiService.obtener('/duenio/'+$scope.idduenio + '?tk=' + $scope.token).
+      apiService.obtener('/duenio/'+$scope.idduenio + '/?tk=' + $scope.token).
       success(function(response, status, headers, config) {
         $scope.duenio = response;
       }).
@@ -38,7 +38,18 @@ angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scop
     else{
       $location.url('/login');
     }
+    $scope.cAnterior = null;
+    $scope.cNueva = null;
+    $scope.cRepetir = null;
+    $scope.alertas = [];
+    $scope.cambiarContrasenia = function(){
+      if($scope.cNueva === $scope.cRepetir) {
 
+      }
+      else {
+        $scope.alertas.push({"tipo":"danger", "mensaje": "Las contraseñas no coinciden"});
+      }
+    }
     $scope.cerrar = function(){
       $cookies.remove('user');
         $location.url('/');

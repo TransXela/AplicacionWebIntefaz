@@ -97,14 +97,14 @@ angular.module('transxelaWebApp')
     };
     // ----------------------------------- END CREAR PMT --------------------------------------------------------------
 
-    if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+    if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
       $scope.token = $cookies.getObject('user').token;
       $scope.gridOptions = {
         enableFiltering: true,
         showGridFooter: true,
         showColumnFooter: true,
       };
-      apiService.obtener('/pmt/sinusuario?tk=' + $scope.token).
+      apiService.obtener('/pmt/?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.listado = response;
         $scope.gridOptions.data = $scope.listado;
@@ -138,7 +138,10 @@ angular.module('transxelaWebApp')
       $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
       $scope.gridApi.core.notifyDataChange( uiGridConstants.dataChange.COLUMN );
     };
-
+    $scope.cerrar = function(){
+      $cookies.remove('user');
+      $location.url('/');
+    };
 
   }])
 

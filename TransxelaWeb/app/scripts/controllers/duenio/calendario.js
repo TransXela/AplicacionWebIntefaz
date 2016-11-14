@@ -28,23 +28,23 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
     //     alert(args.calendarEvent.idhorariodetalle);
     //   }}
   ];
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     $scope.events = [];
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.duenio = $cookies.getObject('user').usuario;
-    apiService.obtener('/duenio/'+$scope.idduenio+'/horariosdetalle' + '?tk=' + $scope.token).
+    apiService.obtener('/duenio/'+$scope.idduenio+'/horariosdetalle/?tk=' + $scope.token).
     success(function(response, status, headers, config){
       $scope.duenio = {"nombre":response.duenio.nombre, "apellidos": response.duenio.apellidos};
       var horariosdetalle = response.diasHorarioDetalle;
       var colorIndex = 0;
-      apiService.obtener('/duenio/'+$scope.idduenio+'/horarios' + '?tk=' + $scope.token).
+      apiService.obtener('/duenio/'+$scope.idduenio+'/horarios/?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.horarios = response;
-        apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '?tk=' + $scope.token).
+        apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos/?tk=' + $scope.token).
         success(function(response, status, headers, config){
           $scope.pilotos = response.choferes;
-          apiService.obtener('/duenio/'+$scope.idduenio+'/buses' + '?tk=' + $scope.token).
+          apiService.obtener('/duenio/'+$scope.idduenio+'/buses/?tk=' + $scope.token).
           success(function(response, status, headers, config){
             $scope.buses = response.buses;
             var fechaActual = new Date();
@@ -113,81 +113,36 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
             }
           }).
           error(function(response, status, headers, config) {
-            switch(status) {
-              case 400: {
-                $uibModalInstance.dismiss('404');
-                break;
-              }
-              case 403: {
-                $uibModalInstance.dismiss('403');
-                break;
-              }
-              case 404: {
-                $uibModalInstance.dismiss('404');
-                break;
-              }
-              default: {
-                $uibModalInstance.dismiss('500');
-              }
-            }
+            $scope.buses = [];
+            $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos."});
           });
         }).
         error(function(response, status, headers, config) {
-          switch(status) {
-            case 400: {
-              $uibModalInstance.dismiss('404');
-              break;
-            }
-            case 403: {
-              $uibModalInstance.dismiss('403');
-              break;
-            }
-            case 404: {
-              $uibModalInstance.dismiss('404');
-              break;
-            }
-            default: {
-              $uibModalInstance.dismiss('500');
-            }
-          }
+          $scope.pilotos = [];
+          $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos."});
         });
       }).
       error(function(response, status, headers, config) {
-        switch(status) {
-          case 400: {
-            $uibModalInstance.dismiss('404');
-            break;
-          }
-          case 403: {
-            $uibModalInstance.dismiss('403');
-            break;
-          }
-          case 404: {
-            $uibModalInstance.dismiss('404');
-            break;
-          }
-          default: {
-            $uibModalInstance.dismiss('500');
-          }
-        }
+        $scope.horarios = [];
+        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos."});
       });
     }).
     error(function(response, status, headers, config) {
       switch(status) {
         case 400: {
-          $uibModalInstance.dismiss('404');
+          $location.url('/404');
           break;
         }
         case 403: {
-          $uibModalInstance.dismiss('403');
+          $location.url('/403');
           break;
         }
         case 404: {
-          $uibModalInstance.dismiss('404');
+          $location.url('/404');
           break;
         }
         default: {
-          $uibModalInstance.dismiss('500');
+          $location.url('/500');
         }
       }
     });
@@ -546,7 +501,7 @@ angular.module('transxelaWebApp').controller('VModificarEController', ['$scope',
         });
     }
     else{
-      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar eventos del día actual"});
+      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar asignaciones del día actual"});
     }
 
   };

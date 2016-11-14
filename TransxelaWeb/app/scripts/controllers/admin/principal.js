@@ -8,10 +8,9 @@
  * Controller of the transxelaWebApp
  */
 angular.module('transxelaWebApp')
-  .controller('AdminPrincipalCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('AdminPrincipalCtrl', function ($scope, apiService, $location, $cookies) {
+    $scope.cerrar = function(){
+      $cookies.remove('user');
+      $location.url('/');
+    };
   });
