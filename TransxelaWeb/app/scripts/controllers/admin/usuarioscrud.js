@@ -186,7 +186,6 @@ angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope'
   $scope.estado = true;
   $scope.is_staff = false;
   $scope.is_superuser = false;
-  $scope.first_name = 'x';
   $scope.alertas = [];
   $scope.options = options;
   $scope.grupos = grupos;
@@ -197,7 +196,6 @@ angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope'
         $scope.is_superuser = true;
       }
     apiService.crear('/users/?tk=' + options.token, {
-      first_name: $scope.first_name,
       username: $scope.nombre,
       idgroup: parseInt($scope.grupo),
       email: $scope.correo,

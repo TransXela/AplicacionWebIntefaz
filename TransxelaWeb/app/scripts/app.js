@@ -215,6 +215,11 @@ angular
     controller: 'AdminDueniosinuCtrl',
     controllerAs: 'admin/dueniosinu'
   })
+  .when('/admin/perfil', {
+    templateUrl: 'views/admin/perfil.html',
+    controller: 'AdminPerfilCtrl',
+    controllerAs: 'admin/perfil'
+  })
   .otherwise({
     redirectTo: '/'
   });
