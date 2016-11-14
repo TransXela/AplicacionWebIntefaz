@@ -44,7 +44,31 @@ angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scop
     $scope.alertas = [];
     $scope.cambiarContrasenia = function(){
       if($scope.cNueva === $scope.cRepetir) {
-
+        apiService.modificar('/users/cambiarcontreniausuario/'+ $cookies.getObject('user').torcido + '/?tk=' + $scope.token, {
+          'password_old': $scope.cAnterior, 'password_new': $scope.cNueva
+        }).
+        success(function(response, status, headers, config){
+          $scope.alertas.push({"tipo":"success", "mensaje": "Contraseña cambiada exitosamente"});
+        }).
+        error(function(response, status, headers, config) {
+          switch(status) {
+            case 400: {
+              $scope.alertas.push({"tipo":"danger", "mensaje": "La contraseña anterior no coincide"});
+              break;
+            }
+            case 403: {
+              $scope.alertas.push({"tipo":"danger", "mensaje": "No tiene permisos para realizar esta acción"});
+              break;
+            }
+            case 404: {
+              $scope.alertas.push({"tipo":"danger", "mensaje": "La contraseña anterior no coincide"});
+              break;
+            }
+            default: {
+              $location.url('/500');
+            }
+          }
+        });
       }
       else {
         $scope.alertas.push({"tipo":"danger", "mensaje": "Las contraseñas no coinciden"});
