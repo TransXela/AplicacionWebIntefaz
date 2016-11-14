@@ -186,6 +186,7 @@ angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope'
   $scope.estado = true;
   $scope.is_staff = false;
   $scope.is_superuser = false;
+  $scope.first_name = 'x';
   $scope.alertas = [];
   $scope.options = options;
   $scope.grupos = grupos;
@@ -196,6 +197,7 @@ angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope'
         $scope.is_superuser = true;
       }
     apiService.crear('/users/?tk=' + options.token, {
+      first_name: $scope.first_name,
       username: $scope.nombre,
       idgroup: parseInt($scope.grupo),
       email: $scope.correo,
@@ -262,12 +264,14 @@ angular.module('transxelaWebApp').controller('ModificarUsController', ['$scope',
   $scope.alertas = [];
   $scope.options = options;
   $scope.grupos = grupos;
-  console.log($scope.estado);
   $scope.close = function () {
 
     if ($scope.mapearGrupo($scope.grupo) === 'Admin') {
       $scope.is_staff = true;
       $scope.is_superuser = true;
+    }else {
+      $scope.is_staff = false;
+      $scope.is_superuser = false;
     }
 
     apiService.modificar('/users/' + usuario.id + '/?tk=' + options.token, {

@@ -5,7 +5,7 @@
 <form name="pilotoForm" class="form" novalidate>
 <div class="modal-body">
 	<label>Nombre</label>
-	<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre de la persona de cultura" ng-model="nombre" required autofocus >
+	<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre de la persona de cultura" ng-model="nombre" required autofocus>
 	<div ng-messages="pilotoForm.nombre.$error" role="alert" class="text-danger">
   		<div ng-message="required">Campo requerido</div>
 	</div><br>
@@ -59,11 +59,20 @@
 	<div ng-messages="pilotoForm.correo.$error" role="alert" class="text-danger">
      	<div ng-message="email">Correo electrónico inválido</div>
 	</div><br>
+	<label for="grupos">Usuarios de cultura</label>
+	<select class="form-control" name= "grupo" id="grupo" ng-model="grupo" required>
+    <option value="" disabled>Seleccione un usuario de cultura</option>
+    <option ng-repeat="x in grupos" value="{{x.id}}">{{x.username}}</option>
+  </select>
+	<div ng-messages="pilotoForm.grupo.$error" role="alert" class="text-danger">
+  		<div ng-message="required">Campo requerido</div>
+	</div><br>
 	<label>Estado</label>
 	<div class="btn-group">
         <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'" ng-disabled="pilotoForm.$invalid">Habilitado</label>
         <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'0'" ng-disabled="pilotoForm.$invalid">Deshabilitado</label>
-    </div>
+  </div>
+
 </div>
 <div class="modal-footer">
     <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal" ng-disabled="pilotoForm.$invalid">{{options.buttom}}</button>
