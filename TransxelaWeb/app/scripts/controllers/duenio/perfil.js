@@ -11,7 +11,7 @@ angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scop
     if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
       $scope.idduenio = $cookies.getObject('user').id;
       $scope.token = $cookies.getObject('user').token;
-      apiService.obtener('/duenio/'+$scope.idduenio + '?tk=' + $scope.token).
+      apiService.obtener('/duenio/'+$scope.idduenio + '/?tk=' + $scope.token).
       success(function(response, status, headers, config) {
         $scope.duenio = response;
       }).

@@ -92,7 +92,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.gridOptions = {};
-    apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '?tk=' + $scope.token).
+    apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos/?tk=' + $scope.token).
     success(function(response, status, headers, config){
       $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
       $scope.pilotos = response.choferes;
