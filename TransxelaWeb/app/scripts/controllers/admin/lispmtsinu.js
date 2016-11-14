@@ -45,6 +45,9 @@ angular.module('transxelaWebApp')
           pmtusu: function(){
             $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.listado,"idpmt", idpmt);
             return $scope.listado[$scope.index];
+          },
+          grupos: function () {
+            return $scope.grupos;
           }
         }
       });
@@ -76,6 +79,9 @@ angular.module('transxelaWebApp')
         resolve: {
           options: function () {
             return {"title": "Crear PMT", "buttom": "Crear","token": $scope.token};
+          },
+          grupos: function () {
+            return $scope.grupos;
           }
         }
       });
@@ -97,14 +103,19 @@ angular.module('transxelaWebApp')
     };
     // ----------------------------------- END CREAR PMT --------------------------------------------------------------
 
-    if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+    if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
       $scope.token = $cookies.getObject('user').token;
       $scope.gridOptions = {
         enableFiltering: true,
         showGridFooter: true,
         showColumnFooter: true,
       };
-      apiService.obtener('/pmt/sinusuario?tk=' + $scope.token).
+
+      apiService.obtener('/users/group/2/?tk=' + $scope.token).
+      success(function(response, status, headers, config){
+        $scope.grupos = response;
+
+      apiService.obtener('/pmt/?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.listado = response;
         $scope.gridOptions.data = $scope.listado;
@@ -125,7 +136,44 @@ angular.module('transxelaWebApp')
 
       }).
       error(function(response, status, headers, config) {
+        switch(status) {
+          case 400: {
+            $location.url('/404');
+            break;
+          }
+          case 403: {
+            $location.url('/403');
+            break;
+          }
+          case 404: {
+            $location.url('/404');
+            break;
+          }
+          default: {
+            $location.url('/500');
+          }
+        }
       });
+    }).
+    error(function(response, status, headers, config) {
+      switch(status) {
+        case 400: {
+          $location.url('/404');
+          break;
+        }
+        case 403: {
+          $location.url('/403');
+          break;
+        }
+        case 404: {
+          $location.url('/404');
+          break;
+        }
+        default: {
+          $location.url('/500');
+        }
+      }
+    });
     }
     else{
       $location.url('/login');
@@ -138,7 +186,10 @@ angular.module('transxelaWebApp')
       $scope.gridOptions.enableFiltering = !$scope.gridOptions.enableFiltering;
       $scope.gridApi.core.notifyDataChange( uiGridConstants.dataChange.COLUMN );
     };
-
+    $scope.cerrar = function(){
+      $cookies.remove('user');
+      $location.url('/');
+    };
 
   }])
 
@@ -161,21 +212,23 @@ angular.module('transxelaWebApp')
 });
 
 
-angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$http', '$uibModalInstance', 'options', 'apiService', function ($scope, $http, $uibModalInstance, options, apiService) {
+angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$http', '$uibModalInstance', 'options', 'apiService', 'grupos', function ($scope, $http, $uibModalInstance, options, apiService, grupos) {
   $scope.nombre = null;
   $scope.apellidos = null;
   $scope.dpi = null;
+  $scope.grupo = null;
   $scope.direccion = null;
   $scope.telefono = null;
   $scope.correo = null;
   $scope.estado = "1";
   $scope.options = options;
+  $scope.grupos = grupos;
   $scope.close = function () {
     apiService.crear('/pmt/?tk=' + options.token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
       telefono: $scope.telefono, correo: $scope.correo,
-      estado: parseInt($scope.estado)
+      estado: parseInt($scope.estado), usuario: parseInt($scope.grupo)
     }).
     success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
@@ -206,21 +259,24 @@ angular.module('transxelaWebApp').controller('CrearPmtController', ['$scope', '$
 }]);
 
 
-angular.module('transxelaWebApp').controller('VerModificarPmtController', ['$scope', '$resource', '$uibModalInstance', 'options', 'pmtusu', 'apiService', function ($scope, $resource, $uibModalInstance, options, pmtusu, apiService) {
+angular.module('transxelaWebApp').controller('VerModificarPmtController', ['$scope', '$resource', '$uibModalInstance', 'options', 'pmtusu', 'apiService', 'grupos', function ($scope, $resource, $uibModalInstance, options, pmtusu, apiService, grupos) {
   $scope.nombre = pmtusu.nombre;
   $scope.apellidos = pmtusu.apellidos;
   $scope.dpi = parseInt(pmtusu.dpi);
+  $scope.grupo = String(pmtusu.usuario);
   $scope.direccion = pmtusu.direccion;
   $scope.telefono = pmtusu.telefono;
   $scope.correo = pmtusu.correo;
   $scope.estado = String(pmtusu.estado);
   $scope.options = options;
+  $scope.grupos = grupos;
   $scope.close = function () {
     apiService.modificar('/pmt/' + pmtusu.idpmt + '/?tk=' + options.token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       direccion: $scope.direccion, dpi:$scope.dpi,
       telefono: $scope.telefono, correo: $scope.correo,
-      estado: parseInt($scope.estado), idpmt: pmtusu.idpmt
+      estado: parseInt($scope.estado), idpmt: pmtusu.idpmt,
+      usuario: parseInt($scope.grupo)
     }).
     success(function(response, status, headers, config){
       $uibModalInstance.close(response, 500);
