@@ -100,7 +100,7 @@ angular.module('transxelaWebApp')
     };
     // ----------------------------------- END CREAR PMT --------------------------------------------------------------
 
-    if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+    if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
       $scope.token = $cookies.getObject('user').token;
       $scope.gridOptions = {
         enableFiltering: true,
@@ -108,7 +108,7 @@ angular.module('transxelaWebApp')
         showColumnFooter: true,
       };
 
-      apiService.obtener('/duenio/sinusuario?tk=' + $scope.token).
+      apiService.obtener('/duenio/?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.listado = response;
         $scope.gridOptions.data = $scope.listado;
@@ -166,7 +166,10 @@ angular.module('transxelaWebApp')
     $scope.showDetalle = function(dueniousu) {
       $scope.mostrar = dueniousu;
     };
-
+    $scope.cerrar = function(){
+      $cookies.remove('user');
+      $location.url('/');
+    };
 
   }])
 
