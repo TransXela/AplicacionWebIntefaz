@@ -100,16 +100,16 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
     showColumnFooter: true,
   };
 
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     $scope.token = $cookies.getObject('user').token;
-    apiService.obtener('/groups?tk=' + $scope.token).
+    apiService.obtener('/groups/?tk=' + $scope.token).
     success(function(response, status, headers, config){
       $scope.grupos = response;
       $scope.filtrogrupos = [];
       for(var i = 0; i<$scope.grupos.length; i++){
         $scope.filtrogrupos.push({value: $scope.grupos[i].id, label: $scope.grupos[i].name});
       }
-      apiService.obtener('/users?tk=' + $scope.token).
+      apiService.obtener('/users/?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.usuarios = response;
         $scope.gridOptions.data = $scope.usuarios;
@@ -172,7 +172,10 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
   $scope.mapearEstado = function(estado) {
     return estado ? 'Habilitado' : 'Deshabilitado';
   };
-
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+    $location.url('/');
+  };
 });
 
 angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope', 'apiService', '$uibModalInstance','options', 'grupos', function ($scope, apiService, $uibModalInstance, options, grupos) {
