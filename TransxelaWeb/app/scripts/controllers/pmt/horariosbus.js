@@ -96,7 +96,6 @@ angular.module('transxelaWebApp')
                       draggable: true,
                       resizable: true,
                       incrementsBadgeTotal: true,
-                      recursOn: 'year',
                       cssClass: 'a-css-class-name',
                       allDay: false
                     });
@@ -114,7 +113,6 @@ angular.module('transxelaWebApp')
                       draggable: true,
                       resizable: true,
                       incrementsBadgeTotal: true,
-                      recursOn: 'year',
                       cssClass: 'a-css-class-name',
                       allDay: false
                     });

@@ -4,7 +4,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
       <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title" id="exampleModalLabel">Modificar Ruta</h4>
+    <h4 class="modal-title" id="exampleModalLabel">Información De La Ruta</h4>
   </div>
   <form class="form" name="modificarRutaForm" novalidate>
     <div class="modal-body">
@@ -17,15 +17,15 @@
       </div>
       <div class="form-group">
         <label>Recorrido:</label>
-        <textarea class="form-control" id="recorrido" name="recorrido" ng-model="recorrido" placeholder="Introduzca el recorrido de la ruta Ej: Rotonda-Cuesta Blanca-Democracia">{{mostrar.recorrido}}</textarea>
+        <textarea class="form-control" id="recorrido" name="recorrido" ng-model="recorrido" placeholder="Introduzca el recorrido de la ruta Ej: Rotonda-Cuesta Blanca-Democracia"></textarea>
         <div ng-messages="modificarRutaForm.recorrido.$error" role="alert" class="text-danger">
           <div ng-message="required">Campo requerido</div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="cancel()">Cancelar</button>
-      <button type="button" class="btn btn-success" ng-click="close()" ng-disabled="modificarRutaForm.$invalid">Guardar</button>
+      <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="cancel()">Regresar</button>
+      <button type="button" class="btn btn-success" ng-click="close()" ng-disabled="modificarRutaForm.$invalid">Guardar Cambios</button>
     </div>
   </form>
 </div>
