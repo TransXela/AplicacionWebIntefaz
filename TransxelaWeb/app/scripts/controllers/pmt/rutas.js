@@ -59,7 +59,7 @@ angular.module('transxelaWebApp').controller('PmtRutasCtrl', function ($scope, $
         $scope.gridOptions.columnDefs = [
           {name:'Nombre',field:'nombre'},
           {name:'Recorrido',field:'recorrido', enableFiltering: false},
-          {name:'Detalles',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showDetalle(row.entity)">Ver detalles</button></div>', enableFiltering: false}
+          {name:'Detalles',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showDetalle(row.entity)">Ver Más</button></div>', enableFiltering: false}
         ];
       }).
       error(function(response, status, headers, config) {
@@ -86,10 +86,12 @@ angular.module('transxelaWebApp').controller('PmtRutasCtrl', function ($scope, $
               return $scope.token
             }
           }
+
         });
         uibModalInstance.result.then(function (result) {
           $scope.listado[$scope.index] = result;
           $scope.alertas.push({"tipo":"success", "mensaje": "Ruta modificada exitosamente"});
+          $scope.showDetalle(result);
         }, function (status) {
           if(status === '403'){
             $location.url('/403');
@@ -147,6 +149,7 @@ angular.module('transxelaWebApp').controller('CrearRController', ['$scope', 'api
 angular.module('transxelaWebApp').controller('ModCtrl', ['$scope', 'apiService', '$uibModalInstance', 'ruta', 'token', function ($scope, apiService, $uibModalInstance, ruta, token) {
   $scope.nombre = ruta.nombre;
   $scope.recorrido = ruta.recorrido;
+
   $scope.close = function () {
     apiService.modificar('/pmt/ruta/'+ ruta.idruta+'/?tk='+ token, {
       nombre: $scope.nombre, recorrido: $scope.recorrido,
@@ -175,6 +178,8 @@ angular.module('transxelaWebApp').controller('ModCtrl', ['$scope', 'apiService',
       }
     });
   };
+
+
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
