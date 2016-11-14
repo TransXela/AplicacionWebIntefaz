@@ -121,10 +121,7 @@ if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user
   apiService.obtener('/users/group/3/?tk=' + $scope.token).
   success(function(response, status, headers, config){
     $scope.grupos = response;
-    $scope.filtrogrupos = [];
-    for(var i = 0; i<$scope.grupos.length; i++){
-      $scope.filtrogrupos.push({value: $scope.grupos[i].id, label: $scope.grupos[i].name});
-    }
+
 
     apiService.obtener('/cultura/?tk=' + $scope.token).
     success(function(response, status, headers, config){
@@ -236,12 +233,15 @@ angular.module('transxelaWebApp').controller('crearCulturaController', ['$scope'
   $scope.grupos = grupos;
   $scope.alertas = [];
   $scope.close = function () {
+
     apiService.crear('/cultura/?tk=' + options.token, {
       nombre: $scope.nombre, apellidos: $scope.apellidos,
       dpi: String($scope.dpi), direccion: $scope.direccion,
       telefono: $scope.telefono, correo: $scope.correo,
       estado: parseInt($scope.estado), usuario: parseInt($scope.grupo)
-    }).
+    }
+
+  ).
     success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
     })
@@ -275,6 +275,7 @@ angular.module('transxelaWebApp').controller('VerModificarCulturaController', ['
   $scope.fecha_nac = new Date("March 20, 2009 7:00:00");
   $scope.fecha_crea = new Date("March 20, 2009 7:00:00");
   $scope.nombre = culturausu.nombre;
+  $scope.grupo = String(culturausu.usuario);
   $scope.apellidos = culturausu.apellidos;
   $scope.empresa = culturausu.empresa;
   $scope.dpi = parseInt(culturausu.dpi);
@@ -291,7 +292,8 @@ angular.module('transxelaWebApp').controller('VerModificarCulturaController', ['
       direccion: $scope.direccion, dpi:$scope.dpi, empresa: $scope.empresa,
       telefono: $scope.telefono, correo: $scope.correo,
       fecha_nac: $scope.fecha_nac, fecha_crea: $scope.fecha_crea,
-      estado: parseInt($scope.estado), idcultura: culturausu.idcultura
+      estado: parseInt($scope.estado), idcultura: culturausu.idcultura,
+      usuario : parseInt($scope.grupo)
     }).
     success(function(response, status, headers, config){
       $uibModalInstance.close(response, 500);

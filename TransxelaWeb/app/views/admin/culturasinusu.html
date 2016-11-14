@@ -59,9 +59,9 @@
 	<div ng-messages="pilotoForm.correo.$error" role="alert" class="text-danger">
      	<div ng-message="email">Correo electrónico inválido</div>
 	</div><br>
-	<label for="grupos">Personas de cultura</label>
+	<label for="grupos">Usuarios de cultura</label>
 	<select class="form-control" name= "grupo" id="grupo" ng-model="grupo" required>
-    <option value="" disabled>Seleccione una persona de cultura</option>
+    <option value="" disabled>Seleccione un usuario de cultura</option>
     <option ng-repeat="x in grupos" value="{{x.id}}">{{x.username}}</option>
   </select>
 	<div ng-messages="pilotoForm.grupo.$error" role="alert" class="text-danger">
