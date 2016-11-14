@@ -42,16 +42,16 @@ angular.module('transxelaWebApp').controller('MainCtrl', function ($scope, $uibM
     uibModalInstance.result.then(function (result) {
       var grupo = result.Grupo;
       if(grupo.name === "Dueños"){
-        $cookies.putObject('user', {"token": result.Token, id: result.Duenio.idduenio, usuario: result.Duenio, tipo: grupo.name});
+        $cookies.putObject('user', {"token": result.Token, id: result.Duenio.idduenio, usuario: result.Duenio, tipo: grupo.name, torcido: result.Usuario.id});
         $location.url('/duenio/principal');
       }
       else if (grupo.name === "Cultura") {
         console.log({"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura});
-        $cookies.putObject('user', {"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura, tipo: grupo.name});
+        $cookies.putObject('user', {"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura, tipo: grupo.name, torcido: result.Usuario.id});
         $location.url('/cultura/principal');
       }
       else if (grupo.name === "PMT") {
-        $cookies.putObject('user', {"token": result.Token, id: result.PMT.idpmt, usuario: result.PMT, tipo: grupo.name});
+        $cookies.putObject('user', {"token": result.Token, id: result.PMT.idpmt, usuario: result.PMT, tipo: grupo.name, torcido: result.Usuario.id});
         $location.url('/pmt/principal');
       }
       else if (grupo.name === "Admin") {

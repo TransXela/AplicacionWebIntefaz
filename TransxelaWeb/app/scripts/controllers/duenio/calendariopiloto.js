@@ -39,18 +39,21 @@
          $scope.horarios = response;
          apiService.obtener('/duenio/'+$scope.idduenio + '/buses/?tk=' + $scope.token).
          success(function(response, status, headers, config){
-         $scope.buses = response.buses;
+           $scope.buses = response.buses;
          }).
          error(function(response, status, headers, config) {
-          $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos."});
+           $scope.buses = [];
+           $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos."});
          });
        }).
        error(function(response, status, headers, config) {
-        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos."});
+         $scope.horarios = [];
+         $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos."});
        });
      }).
      error(function(response, status, headers, config) {
-      $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos."});
+       $scope.pilotos = [];
+       $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos."});
      });
    }
    else{

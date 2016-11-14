@@ -38,7 +38,18 @@ angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scop
     else{
       $location.url('/login');
     }
+    $scope.cAnterior = null;
+    $scope.cNueva = null;
+    $scope.cRepetir = null;
+    $scope.alertas = [];
+    $scope.cambiarContrasenia = function(){
+      if($scope.cNueva === $scope.cRepetir) {
 
+      }
+      else {
+        $scope.alertas.push({"tipo":"danger", "mensaje": "Las contraseñas no coinciden"});
+      }
+    }
     $scope.cerrar = function(){
       $cookies.remove('user');
         $location.url('/');

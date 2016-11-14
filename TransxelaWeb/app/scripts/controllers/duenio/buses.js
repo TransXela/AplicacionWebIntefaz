@@ -127,7 +127,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       $scope.rutas = response;
       apiService.obtener('/duenio/'+$scope.idduenio+'/buses/?tk=' + $scope.token).
       success(function(response, status, headers, config){
-        //$scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
+        $scope.duenio = {"nombre":response.nombre, "apellidos": response.apellidos};
         $scope.buses = response.buses;
         $scope.filtrorutas = [];
         for(var i = 0; i<$scope.buses.length; i++){
@@ -172,6 +172,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
       });
     }).
     error(function(response, status, headers, config) {
+      $scope.rutas = [];
       $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar las rutas, recarge la página para poder visualizarlas."});
     });
   }
