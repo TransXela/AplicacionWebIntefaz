@@ -97,7 +97,7 @@ angular.module('transxelaWebApp')
               labels: $scope.Lchof,
               datasets: [{
                 backgroundColor: ["#2ecc71"],
-                label: "Número de denuncias por cada bus",
+                label: "Número de denuncias por chofer",
                 lineTension: 1,
                 pointBorderColor:"1F0D7B",
                 pointRadius: 3.5,
@@ -157,7 +157,7 @@ angular.module('transxelaWebApp')
               labels: $scope.RLruta,
               datasets: [{
                 backgroundColor: ["#2ecc71"],
-                label: "Número de denuncias por cada bus",
+                label: "Número de denuncias por ruta",
                 lineTension: 1,
                 pointBorderColor:"1F0D7B",
                 pointRadius: 3.5,
@@ -214,7 +214,7 @@ angular.module('transxelaWebApp')
             labels: $scope.TLtipo,
             datasets: [{
               backgroundColor: ["#2ecc71"],
-              label: "Número de denuncias por cada bus",
+              label: "Número de denuncias por tipo de denuncia",
               lineTension: 1,
               pointBorderColor:"1F0D7B",
               pointRadius: 3.5,
