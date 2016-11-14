@@ -1,117 +1,134 @@
 
 <!--  <div class="main-head" id="centerhead">
-  	<img src="images/yeoman.png">
+<img src="images/yeoman.png">
 
-  	<ol class="breadcrumb">
-  		<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
-  		<li class="breadcrumb-item active">...</li>
-  	</ol>
-  </div>
-  <br>
+<ol class="breadcrumb">
+<li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+<li class="breadcrumb-item active">...</li>
+</ol>
+</div>
+<br>
 <div  id="centerbody">
-  <div id="navegador"  ng-controller="PopupDemoCont">
-    <ul>
-      <li>
-        <a class="glyphicon glyphicon-file" ng-click="CrearNuevaAct()"> Nueva Actividad cultural</a></li>
-    </ul>
-  </div>
-      <div class="thumbnails">
-          <div id="grid1" ui-grid="gridOptions" class="grid"></div>
-      </div>
+<div id="navegador"  ng-controller="PopupDemoCont">
+<ul>
+<li>
+<a class="glyphicon glyphicon-file" ng-click="CrearNuevaAct()"> Nueva Actividad cultural</a></li>
+</ul>
+</div>
+<div class="thumbnails">
+<div id="grid1" ui-grid="gridOptions" class="grid"></div>
+</div>
 
-  </div>
+</div>
 </div>-->
 
-  <div id="wrapper">
-    <!-- navigation -->
-      <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <!-- navbar-header -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#/cultura/principal">TransXela Cultura</a>
-          </div>
-
-        <!-- close-navbar-header -->
-        <!-- navbar-top-links -->
-          <ul class="nav navbar-top-links navbar-right">
-              <li class="dropdown">
-                  <a class="dropdown-toggle" data-toggle="dropdown">
-                      <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
-                  </a>
-                  <ul class="dropdown-menu dropdown-user">
-                      <li><a href="#/duenio/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
-                      </li>
-                      <li class="divider"></li>
-                      <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
-                      </li>
-                  </ul>
-                  <!-- /.dropdown-user -->
-              </li>
-              <!-- /.dropdown -->
-          </ul>
-        <!-- close-navbar-top-links -->
-        <!-- navbar-static-side -->
-          <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-              <ul class="nav" id="side-menu">
-                <li>
-                  <a href="#/cultura/principal"><i class="fa fa-home fa-fw"></i>Home Cultura</a>
-                </li>
-                <li>
-                  <a href="#/cultura/principalcultura"><i class="fa fa-pencil fa-fw"></i>Actividades Culturales</a>
-                </li>
-                <li>
-                  <a href="#/cultura/principalfaq"><i class="fa fa-question-circle fa-fw"></i> Actividades FAQ</a>
-                </li>
-                <li>
-                  <a href="#/cultura/principalconsejo"><i class="fa fa-clock-o fa-fw"></i> Conesejo Del Dia</a>
-                </li>
-              </ul>
-            </div>
-            <!-- /.sidebar-collapse -->
-          </div>
-        <!-- close-navbar-static-side -->
-      </nav>
-    <!-- close-navigation -->
-    <div id="page-wrapper">
-      <div class="row">
-        <div class="col-lg-12">
-          <h1 class="page-header">Consejo Del Dia</h1>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#/cultura/principal">Principal</a></li>
-            <li class="breadcrumb-item active">Consejo Del  Dia</li>
-          </ol>
-        </div>
-        <!-- /.col-lg-12 -->
-      </div>
-        <!-- /.row -->
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <button class="btn btn-success" href ng-click="CrearNuevaAct()">Crear Una Nuevo Consejo</button>
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-              <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-                ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
-              </div>
-              <div id="grid1" ui-grid="gridOptions" class="grid"></div>
-            </div>
-            <!-- /.panel-body -->
-          </div>
-          <!-- /.panel -->
-        </div>
-        <!-- /.col-lg-8 -->
-      </div>
-      <!-- /.row -->
+<div id="wrapper">
+  <!-- navigation -->
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <!-- navbar-header -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/cultura/principal">TransXela Cultura</a>
     </div>
-    <!-- /#page-wrapper -->
+
+    <!-- close-navbar-header -->
+    <!-- navbar-top-links -->
+    <ul class="nav navbar-top-links navbar-right">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+          <li><a href="#/duenio/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+          </li>
+          <li class="divider"></li>
+          <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+          </li>
+        </ul>
+        <!-- /.dropdown-user -->
+      </li>
+      <!-- /.dropdown -->
+    </ul>
+    <!-- close-navbar-top-links -->
+    <!-- navbar-static-side -->
+    <div class="navbar-default sidebar" role="navigation">
+      <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+          <li>
+            <a href="#/cultura/principal"><i class="fa fa-home fa-fw"></i>Home Cultura</a>
+          </li>
+          <li>
+            <a href="#/cultura/principalcultura"><i class="fa fa-pencil fa-fw"></i>Actividades Culturales</a>
+          </li>
+          <li>
+            <a href="#/cultura/principalfaq"><i class="fa fa-question-circle fa-fw"></i> Actividades FAQ</a>
+          </li>
+          <li>
+            <a href="#/cultura/principalconsejo"><i class="fa fa-clock-o fa-fw"></i> Conesejo Del Dia</a>
+          </li>
+        </ul>
+      </div>
+      <!-- /.sidebar-collapse -->
+    </div>
+    <!-- close-navbar-static-side -->
+  </nav>
+  <!-- close-navigation -->
+  <div id="page-wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Consejo Del Dia</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#/cultura/principal">Principal</a></li>
+          <li class="breadcrumb-item active">Consejo Del  Dia</li>
+        </ol>
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <button class="btn btn-success" href ng-click="CrearNuevoConsejo()">Crear Una Nuevo Consejo</button>
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+            <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+              ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+            </div>
+            <select class="form-control" ng-model="Selected" ng-options="item.consejo for item in names"></select>
+            <p>
+              item seleccionado: {{Selected.idConsejo}}
+
+            </p>
+            <br>
+            <label>Asignar Fechas Para Consejo:</label>
+            <p class="input-group">
+              <input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+            <button class="btn btn-success" href ng-click="CrearNuevoConsejo()">Asignar fechas de consejo</button>
+            <br>
+            <div id="grid1" ui-grid="gridOptions" class="grid"></div>
+
+
+          </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>
+      <!-- /.col-lg-8 -->
+    </div>
+    <!-- /.row -->
   </div>
-  <!-- /#wrapper -->
+  <!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->

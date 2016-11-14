@@ -87,7 +87,7 @@
 			var inicializarvalores = function(lati,long){
 				setValLat(lati);
 				setValLng(lngi);
-				console.log("entre aqui");
+
 			};
 
 			</script>
@@ -99,8 +99,8 @@
 
 	</div>
 </div>
-<input  type="text" name="latitud" id="latitud" ng-model="latitud">
-<input  type="text" name="longitud" id="longitud" ng-model="longitud">
+<input  type="hidden" name="latitud" id="latitud" ng-model="latitud">
+<input  type="hidden" name="longitud" id="longitud" ng-model="longitud">
 
 <div class="modal-footer">
 	<button type="button" ng-click="close(latitud)"  class="btn btn-primary" data-dismiss="modal">{{options.boton}}</button>
