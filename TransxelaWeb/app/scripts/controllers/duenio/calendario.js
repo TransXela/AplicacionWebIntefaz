@@ -113,14 +113,17 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
             }
           }).
           error(function(response, status, headers, config) {
+            $scope.buses = [];
             $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos."});
           });
         }).
         error(function(response, status, headers, config) {
+          $scope.pilotos = [];
           $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos."});
         });
       }).
       error(function(response, status, headers, config) {
+        $scope.horarios = [];
         $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos."});
       });
     }).
@@ -498,7 +501,7 @@ angular.module('transxelaWebApp').controller('VModificarEController', ['$scope',
         });
     }
     else{
-      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar eventos del día actual"});
+      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar asignaciones del día actual"});
     }
 
   };

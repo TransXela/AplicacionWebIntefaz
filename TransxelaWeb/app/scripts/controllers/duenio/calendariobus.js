@@ -42,14 +42,17 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
           $scope.pilotos = response.choferes;
         }).
         error(function(response, status, headers, config) {
+          $scope.pilotos = [];
           $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos."});
         });
       }).
       error(function(response, status, headers, config) {
+        $scope.horarios = [];
         $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos."});
       });
     }).
     error(function(response, status, headers, config) {
+      $scope.buses = [];
       $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos."});
     });
   }
