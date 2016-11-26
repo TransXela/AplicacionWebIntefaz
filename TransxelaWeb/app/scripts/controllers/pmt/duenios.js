@@ -9,7 +9,7 @@
 */
 
 angular.module('transxelaWebApp')
-.controller('PmtDueniosCtrl', function ($scope, $uibModal, apiService, $cookies, uiGridConstants) {
+.controller('PmtDueniosCtrl', function ($scope, $uibModal, apiService, $cookies, uiGridConstants,  $location) {
   $scope.alertas = [];
   $scope.showDuenio = function () {
     var uibModalInstance = $uibModal.open({
@@ -36,6 +36,13 @@ angular.module('transxelaWebApp')
         }
     });
   };
+  $scope.mapearEstado = function(estado) {
+    return estado ? 'Habilitado' : 'Deshabilitado';
+  };
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+    $location.url('/');
+  };
   $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
     for(var i = 0; i < array.length; i++) {
       if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {
@@ -51,7 +58,7 @@ angular.module('transxelaWebApp')
   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
     $scope.token = $cookies.getObject('user').token;
     $scope.gridOptions = {};
-    apiService.obtener('/pmt/duenio?tk='+$scope.token).
+    apiService.obtener('/pmt/duenio/?tk='+$scope.token).
     success(function(response, status, headers, config){
       $scope.listado = response;
       $scope.gridOptions.data = $scope.listado;
@@ -65,7 +72,7 @@ angular.module('transxelaWebApp')
         {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",
             filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
             selectOptions: [ { value: '1', label: 'Habilitado' }, { value: '0', label: 'Deshabilitado' }]}, headerCellClass: $scope.highlightFilteredHeader},
-        {name:'Detalles',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showDetalle(row.entity)">Ver detalles</button></div>', enableFiltering: false}
+        {name:'Detalles',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showDetalle(row.entity)">Ver Más</button></div>', enableFiltering: false}
       ];
       $scope.mapearEstado = function(estado) {
         return estado ? 'Habilitado' : 'Deshabilitado';
@@ -91,6 +98,7 @@ angular.module('transxelaWebApp')
         uibModalInstance.result.then(function (result) {
           $scope.listado[$scope.index] = result;
           $scope.alertas.push({"tipo":"success", "mensaje": "Dueño modificado exitosamente"});
+          $scope.showDetalle(result);
         }, function (status) {
           if(status === '403'){
             $location.url('/403');

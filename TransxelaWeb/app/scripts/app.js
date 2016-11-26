@@ -21,6 +21,7 @@ angular
   'ui.bootstrap',
   'ui.grid',
   'ui.grid.pagination',
+  'ui.grid.selection',
   'mwl.calendar'
 ])
 .config(function ($routeProvider) {
@@ -224,7 +225,8 @@ angular
     redirectTo: '/'
   });
 })
-.service('apiService', function($cookies, $http) {
+.service('apiService', function($http) {
+  // var apiURL = 'http://api.transxela.site';
   var apiURL = 'http://127.0.0.1:8000';
   var obtener = function(endpoint) {
     return $http.get(apiURL+endpoint);

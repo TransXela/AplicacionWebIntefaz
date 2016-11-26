@@ -2,9 +2,9 @@
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
-    <h3 class="panel-title pull-center"><b>Agregar Nuevo Dueño</b></h3>
+    <h3 class="panel-title pull-center"><b>Nuevo Dueño</b></h3>
   </div>
-  <form class="agregarDuenioForm" novalidate>
+  <form class="fomr" name="agregarDuenioForm" novalidate>
     <div class="modal-body">
       <div class="form-group">
         <label>Nombre:</label>
@@ -73,8 +73,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="cancel()"><i class="fa fa-times"></i>Cancelar</button>
-      <button type="button" class="btn btn-success" ng-disabled="agregarDuenioForm.$invalid" ng-click="close()"><i class="fa fa-check"></i>Guardar</button>
+      <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click="cancel()">Regresar</button>
+      <button type="button" class="btn btn-success" ng-disabled="agregarDuenioForm.$invalid" ng-click="close()">Crear Dueño</button>
     </div>
   </form>
 </div>

@@ -44,6 +44,10 @@ angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope
         }
       }
     });
+    $scope.cerrar = function(){
+      $cookies.remove('user');
+      $location.url('/');
+    };
     var actions = [{
       label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
       onClick: function(args) {
@@ -101,7 +105,6 @@ angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope
               draggable: true,
               resizable: true,
               incrementsBadgeTotal: true,
-              recursOn: 'year',
               cssClass: 'a-css-class-name',
               allDay: false,
               actions: actions,

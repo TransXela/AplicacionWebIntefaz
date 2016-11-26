@@ -19,7 +19,7 @@
                     <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+                    <li><a ng-click="cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
                     </li>
                 </ul>
                 <!-- /.dropdown-user -->
@@ -32,26 +32,22 @@
           <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
               <li>
+                <a href="#/operador/denuncias"><i class="fa fa-flag fa-fw"></i> Denuncias</a>
+              </li>
+              <li>
                 <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
               </li>
               <li>
                 <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
               </li>
               <li>
-                  <a href="javascript:void(0);"><i class="fa fa-clock-o fa-fw"></i> Horarios<span class="fa arrow"></span></a>
-                  <ul class="nav nav-second-level">
-                      <li>
-                          <a href="#/pmt/horariosBus">Ver por Bus</a>
-                      </li>
-                      <li>
-                          <a href="#/pmt/horarios">Ver por Dueño</a>
-                      </li>
-                      <li>
-                          <a href="#/pmt/horariosPiloto">Ver por Piloto</a>
-                      </li>
-
-                  </ul>
-                  <!-- /.nav-second-level -->
+                <a href="#/pmt/horariosBus"><i class="fa fa-clock-o  fa-fw"></i>Horarios Buses</a>
+              </li>
+              <li>
+                <a href="#/pmt/horarios"><i class="fa fa-clock-o  fa-fw"></i>Horarios Dueños</a>
+              </li>
+              <li>
+                <a href="#/pmt/horariosPiloto"><i class="fa fa-clock-o  fa-fw"></i>Horarios Pilotos</a>
               </li>
               <li>
                 <a href="#/reporte/rutasdenunciadas"><i class="fa fa-info fa-fw"></i> Estadisticas </a>
@@ -174,7 +170,6 @@
       <div class="col-lg-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <i class="fa fa-bar-chart-o fa-fw"></i>
             <div>
               <canvas id="myChart"></canvas>
             </div>

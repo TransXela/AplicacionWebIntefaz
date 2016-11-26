@@ -16,7 +16,7 @@
           <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
-          <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+          <li><a ng-click="cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
           </li>
         </ul>
       </li>
@@ -25,24 +25,22 @@
       <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
           <li>
+            <a href="#/operador/denuncias"><i class="fa fa-flag fa-fw"></i> Denuncias</a>
+          </li>
+          <li>
             <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
           </li>
           <li>
             <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
           </li>
           <li>
-            <a href="javascript:void(0);"><i class="fa fa-clock-o fa-fw"></i> Horarios<span class="fa arrow"></span></a>
-            <ul class="#/pmt/rutas">
-              <li>
-                <a href="#/pmt/horariosBus">Ver por Bus</a>
-              </li>
-              <li>
-                <a href="#/pmt/horarios">Ver por Dueño</a>
-              </li>
-              <li>
-                <a href="#/pmt/horariosPiloto">Ver por Piloto</a>
-              </li>
-            </ul>
+            <a href="#/pmt/horariosBus"><i class="fa fa-clock-o  fa-fw"></i>Horarios Buses</a>
+          </li>
+          <li>
+            <a href="#/pmt/horarios"><i class="fa fa-clock-o  fa-fw"></i>Horarios Dueños</a>
+          </li>
+          <li>
+            <a href="#/pmt/horariosPiloto"><i class="fa fa-clock-o  fa-fw"></i>Horarios Pilotos</a>
           </li>
         </ul>
       </div>
@@ -64,7 +62,7 @@
           <div class="panel panel-default">
             <div class="panel-heading clearfix">
               <h3 class="panel-title pull-left">Informacion Rutas</h3>
-              <a class="btn btn-primary pull-right" role="button" ng-click="showRutas()"> <i class="fa fa-pencil"></i> Crear </a>
+              <a class="btn btn-primary pull-right" role="button" ng-click="showRutas()"> <i class="fa fa-plus"></i> Nueva Ruta</a>
             </div>
             <div>
               <form>
@@ -83,16 +81,16 @@
       <div class="col-md-5">
         <div class="panel panel-default">
           <div class="panel-heading clearfix">
-            <h3 class="panel-title pull-left">Informacion Rutas</h3>
+            <h3 class="panel-title pull-left">Información De Rutas</h3>
             <a class="btn btn-primary pull-right" ng-click="showVerModificar(mostrar.idruta)"> <i class="fa fa-pencil"></i> Editar </a>
           </div>
           <div class="list-group">
             <div class="list-group-item">
-              <p class="list-group-item-text">Nombre Ruta:</p>
-              <h4 class="list-group-item-heading">{{mostrar.nombre}}</h4>
+              <h4 class="list-group-item-text">Nombre Ruta:</h4>
+              <h5> <span>&#8194;{{mostrar.nombre}}</span> </h5>
             </div>
             <div class="list-group-item">
-              <p class="list-group-item-text">Recorrido:</p>
+              <h4 class="list-group-item-text">Recorrido:</h4>
               <textarea style="resize:none" class="form-control" id="recorrido" name="recorrido" rows=3 disabled="true">{{mostrar.recorrido}}</textarea>
             </div>
           </div>

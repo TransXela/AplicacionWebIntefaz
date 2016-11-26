@@ -11,7 +11,7 @@
  //mostrar numero de denuncias por rutas
 
  angular.module('transxelaWebApp')
-   .controller('PmtPrincipalCtrl', function ($scope, apiService, $cookies) {
+   .controller('PmtPrincipalCtrl', function ($scope, apiService, $cookies,  $location) {
      if(typeof $cookies.getObject('user')!='undefined' && $cookies.getObject('user')){
          $scope.Lplaca = [];
          $scope.Ldenun = [];
@@ -140,6 +140,10 @@
            $location.url('/403');
          }
        });
+       $scope.cerrar = function(){
+         $cookies.remove('user');
+         $location.url('/');
+       };
 
        apiService.obtener('/reporte/pmt/RepPilotoDen'+'/'+'?tk='+$scope.token)
        .success(function(data){

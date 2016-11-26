@@ -22,7 +22,7 @@
                             <li><a href="#/duenio/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="/#/"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+                            <li><a ng-click="cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
                             </li>
                         </ul>
                         <!-- /.dropdown-user -->
@@ -48,7 +48,7 @@
                                 <a href="#/duenio/calendario"><i class="fa fa-calendar fa-fw"></i> Calendario</a>
                             </li>
                             <li>
-                                <a href="#/duenio/estadisticas"><i class="fa fa-info fa-fw"></i> Estadísticas</a>
+                                <a href="#/duenio/estadisticas"><i class="fa fa-bar-chart fa-fw"></i> Estadísticas</a>
                             </li>
                         </ul>
                     </div>
@@ -77,7 +77,6 @@
                         <div class="col-lg-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <i class="fa fa-bar-chart-o fa-fw"></i> Gráfica de Denuncias por Bus
                                     <div>
                                       <canvas id="DueDenBusGraph"></canvas>
                                     </div>
@@ -87,7 +86,6 @@
                         <div class="col-lg-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <i class="fa fa-bar-chart-o fa-fw"></i> Gráfica de Denuncias por chofer
                                     <div>
                                       <canvas id="ChofDenDueGraph"></canvas>
                                     </div>
@@ -99,7 +97,6 @@
                         <div class="col-lg-6">
                           <div class="panel panel-default">
                             <div class="panel-heading">
-                              <i class="fa fa-bar-chart-o fa-fw"></i> Gráfica de Denuncias por tipo de denuncia
                               <div>
                                 <canvas id="DueTipDenDenGraph"></canvas>
                               </div>
@@ -109,13 +106,21 @@
                         <div class="col-lg-6">
                           <div class="panel panel-default">
                             <div class="panel-heading">
-                              <i class="fa fa-bar-chart-o fa-fw"></i> Gráfica de Denuncias por ruta
                               <div>
                                 <canvas id="DueRutaDenGraph"></canvas>
                               </div>
                             </div>
                           </div>
                           <!-- /.panel -->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div>
+                                      <canvas id="DueTDenPilotoGraph"></canvas>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                       </div>
                   </div>

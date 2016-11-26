@@ -27,78 +27,33 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
     //     alert(args.calendarEvent.idhorariodetalle);
     //   }}
   ];
-  if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+  if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.duenio = $cookies.getObject('user').usuario;
-    apiService.obtener('/duenio/'+$scope.idduenio + '/buses?tk=' + $scope.token).
+    apiService.obtener('/duenio/'+$scope.idduenio + '/buses/?tk=' + $scope.token).
     success(function(response, status, headers, config) {
       $scope.buses = response.buses;
-      apiService.obtener('/duenio/'+$scope.idduenio+'/horarios' + '?tk=' + $scope.token).
+      apiService.obtener('/duenio/'+$scope.idduenio+'/horarios/' + '?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.horarios = response;
-        apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos' + '?tk=' + $scope.token).
+        apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos/' + '?tk=' + $scope.token).
         success(function(response, status, headers, config){
           $scope.pilotos = response.choferes;
         }).
         error(function(response, status, headers, config) {
-          switch(status) {
-            case 400: {
-              $uibModalInstance.dismiss('404');
-              break;
-            }
-            case 403: {
-              $uibModalInstance.dismiss('403');
-              break;
-            }
-            case 404: {
-              $uibModalInstance.dismiss('404');
-              break;
-            }
-            default: {
-              $uibModalInstance.dismiss('500');
-            }
-          }
+          $scope.pilotos = [];
+          $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos."});
         });
       }).
       error(function(response, status, headers, config) {
-        switch(status) {
-          case 400: {
-            $uibModalInstance.dismiss('404');
-            break;
-          }
-          case 403: {
-            $uibModalInstance.dismiss('403');
-            break;
-          }
-          case 404: {
-            $uibModalInstance.dismiss('404');
-            break;
-          }
-          default: {
-            $uibModalInstance.dismiss('500');
-          }
-        }
+        $scope.horarios = [];
+        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos."});
       });
     }).
     error(function(response, status, headers, config) {
-      switch(status) {
-        case 400: {
-          $uibModalInstance.dismiss('404');
-          break;
-        }
-        case 403: {
-          $uibModalInstance.dismiss('403');
-          break;
-        }
-        case 404: {
-          $uibModalInstance.dismiss('404');
-          break;
-        }
-        default: {
-          $uibModalInstance.dismiss('500');
-        }
-      }
+      $scope.buses = [];
+      $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos."});
     });
   }
   else{
@@ -182,7 +137,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
   $scope.buscar = function(){
     if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
       $scope.events = [];
-      apiService.obtener('/horariosdetalle/bus/' + $scope.idbus + '?tk=' + $scope.token).
+      apiService.obtener('/horariosdetalle/bus/' + $scope.idbus + '/?tk=' + $scope.token).
       success(function(response, status, headers, config){
         $scope.bus = response.Bus[0];
         var horariosdetalle = response.HorarioDetalle;
