@@ -50,6 +50,10 @@ angular.module('transxelaWebApp')
 
         });
       };
+      $scope.cerrar = function(){
+        $cookies.remove('user');
+        $location.url('/');
+      };
       $scope.cargarHorarios = function(){
           if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
             $scope.events = [];
@@ -140,6 +144,7 @@ angular.module('transxelaWebApp')
                 }
               }
             });
+
           }
           else{
             $location.url('/login');

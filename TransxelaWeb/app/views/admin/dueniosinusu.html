@@ -49,6 +49,14 @@
 	<div ng-messages="pilotoForm.correo.$error" role="alert" class="text-danger">
      	<div ng-message="email">Correo electrónico inválido</div>
 	</div><br>
+	<label for="grupos">Usuarios de dueño</label>
+	<select class="form-control" name= "grupo" id="grupo" ng-model="grupo" required>
+    <option value="" disabled>Seleccione un usuario de dueño</option>
+    <option ng-repeat="x in grupos" value="{{x.id}}">{{x.username}}</option>
+  </select>
+	<div ng-messages="pilotoForm.grupo.$error" role="alert" class="text-danger">
+  		<div ng-message="required">Campo requerido</div>
+	</div><br>
 	<label>Estado</label>
 	<div class="btn-group">
         <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'" ng-disabled="pilotoForm.$invalid">Habilitado</label>
