@@ -84,7 +84,15 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"
             ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
           </div>
-          <div id="grid1" ui-grid-pagination ui-grid="gridOptions" class="grid"></div>
+          <div>
+            <label class="control-label">Estado:</label>
+            <select class="form-control" name= "estadoCambiar" id="estadoCambiar" ng-model="estadoCambiar">
+              <option value="" disabled>Seleccione un estado</option>
+              <option ng-repeat="x in estados" value="{{x.id}}">{{x.definicion}}</option>
+            </select>
+            <button class="btn btn-default" href ng-click="cambiarEstadoDenuncias()">Cambiar</button>
+          </div>
+          <div id="grid1" ui-grid-pagination ui-grid-selection ui-grid="gridOptions" class="grid"></div>
         </div>
         <!-- /.panel-body -->
       </div>
