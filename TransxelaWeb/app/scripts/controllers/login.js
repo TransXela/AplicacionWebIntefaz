@@ -44,7 +44,6 @@ angular.module('transxelaWebApp').controller('LogInCtrl', function ($scope, $loc
         $location.url('/duenio/principal');
       }
       else if (grupo.name === "Cultura") {
-        console.log({"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura});
         $cookies.putObject('user', {"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura, tipo: grupo.name, torcido: result.Usuario});
         $location.url('/cultura/principal');
       }

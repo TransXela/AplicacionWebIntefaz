@@ -21,29 +21,11 @@ angular.module('transxelaWebApp').controller('OperadorDenunciastipoCtrl', functi
       $scope.tipodenuncia = response[0].tipodenuncia[0];
       $scope.gridOptions.data = $scope.denuncias;
       $scope.gridOptions.enableFiltering = true;
+      $scope.gridOptions.enableRowSelection = true;
+      $scope.gridOptions.enableSelectAll = true;
+      // $scope.gridOptions.showGridFooter = true;
       $scope.gridOptions.columnDefs = [
-        {name:'Fecha',field:'fechahora', cellFilter: 'date:\'hh:mm a dd-MM-yy\'', sort: { direction: uiGridConstants.DESC },
-        filterHeaderTemplate: 'ui-grid/ui-grid-date-filter',
-        //width: '20%',
-        filters: [
-          {
-            condition: function(term, value, row, column){
-              if (!term) return true;
-              var valueDate = new Date(value);
-              return valueDate >= term;
-            },
-            placeholder: 'Mayor o igual'
-          },
-          {
-            condition: function(term, value, row, column){
-              if (!term) return true;
-              var valueDate = new Date(value);
-              return valueDate <= term;
-            },
-            placeholder: 'Menor o igual'
-          }
-        ],
-        headerCellClass: $scope.highlightFilteredHeader},
+        {name:'Fecha',field:'fechahora', cellFilter: 'date:\'hh:mm a dd-MM-yy\'', sort: { direction: uiGridConstants.DESC }, enableFiltering: false},
         {name:'Bus',field:'placa'},
         {name:'Estado', field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",
         filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
@@ -102,7 +84,7 @@ angular.module('transxelaWebApp').controller('OperadorDenunciastipoCtrl', functi
         $location.url('/404');
       }
       else if(status === '500'){
-        $location.url('/400');
+        $location.url('/500');
       }
     });
   };

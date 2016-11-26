@@ -140,6 +140,10 @@
            $location.url('/403');
          }
        });
+       $scope.cerrar = function(){
+         $cookies.remove('user');
+         $location.url('/');
+       };
 
        apiService.obtener('/reporte/pmt/RepPilotoDen'+'/'+'?tk='+$scope.token)
        .success(function(data){

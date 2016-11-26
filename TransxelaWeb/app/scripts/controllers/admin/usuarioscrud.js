@@ -186,7 +186,6 @@ angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope'
   $scope.estado = true;
   $scope.is_staff = false;
   $scope.is_superuser = false;
-  $scope.first_name = 'x';
   $scope.alertas = [];
   $scope.options = options;
   $scope.grupos = grupos;
@@ -197,7 +196,6 @@ angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope'
         $scope.is_superuser = true;
       }
     apiService.crear('/users/?tk=' + options.token, {
-      first_name: $scope.first_name,
       username: $scope.nombre,
       idgroup: parseInt($scope.grupo),
       email: $scope.correo,
@@ -257,7 +255,7 @@ angular.module('transxelaWebApp').controller('ModificarUsController', ['$scope',
   };
   $scope.nombre = usuario.username;
   $scope.correo = usuario.email;
-  $scope.contrasenia = usuario.password;
+  $scope.contrasenia = null;
   $scope.grupo = String(usuario.groups[0]);
   $scope.is_staff = usuario.is_staff;
   $scope.is_superuser = usuario.is_superuser;
@@ -310,6 +308,35 @@ angular.module('transxelaWebApp').controller('ModificarUsController', ['$scope',
   };
   $scope.cancel = function () {
     $uibModalInstance.dismiss('cancel');
+  };
+  $scope.cambiar = function () {
+    apiService.modificar('/users/cambiarcontrasenia/' + usuario.id + '/?tk=' + options.token, {
+
+      password: $scope.contrasenia,
+
+    }).
+    success(function(response, status, headers, config){
+      $uibModalInstance.close(response, 500);
+    }).
+    error(function(response, status, headers, config) {
+      switch(status) {
+        case 400: {
+          $location.url('/404');
+          break;
+        }
+        case 403: {
+          $location.url('/403');
+          break;
+        }
+        case 404: {
+          $location.url('/404');
+          break;
+        }
+        default: {
+          $location.url('/500');
+        }
+      }
+    });
   };
   $scope.mapearGrupo = function(idgrupo) {
     for(var i = 0; i < $scope.grupos.length; i++) {

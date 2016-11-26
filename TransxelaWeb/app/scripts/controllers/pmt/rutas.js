@@ -42,6 +42,10 @@ angular.module('transxelaWebApp').controller('PmtRutasCtrl', function ($scope, $
     }
     return -1;
   };
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+    $location.url('/');
+  };
   $scope.showDetalle = function(ruta) {
     $scope.mostrar = ruta;
   };

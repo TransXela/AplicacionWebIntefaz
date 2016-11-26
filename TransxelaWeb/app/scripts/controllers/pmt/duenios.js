@@ -39,6 +39,10 @@ angular.module('transxelaWebApp')
   $scope.mapearEstado = function(estado) {
     return estado ? 'Habilitado' : 'Deshabilitado';
   };
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+    $location.url('/');
+  };
   $scope.getIndexIfObjWithOwnAttr = function(array, attr, value) {
     for(var i = 0; i < array.length; i++) {
       if(array[i].hasOwnProperty(attr) && array[i][attr] === value) {

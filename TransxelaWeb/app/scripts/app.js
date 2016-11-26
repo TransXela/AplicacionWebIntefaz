@@ -21,6 +21,7 @@ angular
   'ui.bootstrap',
   'ui.grid',
   'ui.grid.pagination',
+  'ui.grid.selection',
   'mwl.calendar'
 ])
 .config(function ($routeProvider) {
@@ -215,16 +216,18 @@ angular
     controller: 'AdminDueniosinuCtrl',
     controllerAs: 'admin/dueniosinu'
   })
+  .when('/admin/perfil', {
+    templateUrl: 'views/admin/perfil.html',
+    controller: 'AdminPerfilCtrl',
+    controllerAs: 'admin/perfil'
+  })
   .otherwise({
     redirectTo: '/'
   });
 })
-.service('apiService', function($cookies, $http) {
-  var apiURL = 'http://api.transxela.site';
-  // var apiURL = 'http://127.0.0.1:8000';
-  //$http.defaults.headers.common['Access-Control-Allow-Headers'] = "Content-Type";
-  //$http.defaults.headers.common['Access-Control-Allow-Methods'] = "GET, POST, PUT, DELETE, OPTIONS";
-  //$http.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
+.service('apiService', function($http) {
+  // var apiURL = 'http://api.transxela.site';
+  var apiURL = 'http://127.0.0.1:8000';
   var obtener = function(endpoint) {
     return $http.get(apiURL+endpoint);
   };
