@@ -29,6 +29,7 @@
 
 	<label>Contraseña</label>
 	<input type="text" class="form-control" name="contrasenia" id="contrasenia" placeholder="Contraseña del usuario" ng-model="contrasenia" required>
+	<button type="button" ng-click="cambiar()" class="btn btn-danger">Cambiar contraseña</button>
 	<div ng-messages="pilotoForm.contrasenia.$error" role="alert" class="text-danger">
      	<div ng-message="required">Campo requerido</div>
 	</div><br>

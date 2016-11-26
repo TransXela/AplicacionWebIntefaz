@@ -50,6 +50,10 @@ angular.module('transxelaWebApp')
 
         });
       };
+      $scope.cerrar = function(){
+        $cookies.remove('user');
+        $location.url('/');
+      };
       $scope.cargarHorarios = function(){
           if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
             $scope.events = [];
@@ -96,7 +100,6 @@ angular.module('transxelaWebApp')
                       draggable: true,
                       resizable: true,
                       incrementsBadgeTotal: true,
-                      recursOn: 'year',
                       cssClass: 'a-css-class-name',
                       allDay: false
                     });
@@ -114,7 +117,6 @@ angular.module('transxelaWebApp')
                       draggable: true,
                       resizable: true,
                       incrementsBadgeTotal: true,
-                      recursOn: 'year',
                       cssClass: 'a-css-class-name',
                       allDay: false
                     });
@@ -142,6 +144,7 @@ angular.module('transxelaWebApp')
                 }
               }
             });
+
           }
           else{
             $location.url('/login');

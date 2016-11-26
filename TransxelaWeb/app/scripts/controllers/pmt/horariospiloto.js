@@ -93,7 +93,6 @@ angular.module('transxelaWebApp')
                 draggable: true,
                 resizable: true,
                 incrementsBadgeTotal: true,
-                recursOn: 'year',
                 cssClass: 'a-css-class-name',
                 allDay: false,
                 idhorariodetalle: horariosdetalle[i].idhorariodetalle
@@ -124,6 +123,10 @@ angular.module('transxelaWebApp')
             }
           }
         });
+        $scope.cerrar = function(){
+          $cookies.remove('user');
+          $location.url('/');
+        };
       };
     }
     else{

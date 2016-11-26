@@ -15,23 +15,37 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasrutasCtrl', funct
       $scope.token = $cookies.getObject('user').token;
       $scope.usuario = $cookies.getObject('user').usuario;
       $scope.gridOptions = {};
-      apiService.obtener('/denuncias/rutas/'+$scope.token).
+      apiService.obtener('/denuncias/rutas/?tk='+$scope.token).
       success(function(response, status, headers, config) {
         $scope.denuncias = response.rutas;
         $scope.gridOptions.data = $scope.denuncias;
         $scope.gridOptions.enableFiltering = true;
+        $scope.gridOptions.paginationPageSizes = [10, 25, 50];
+        $scope.gridOptions.paginationPageSize = 10;
         $scope.gridOptions.columnDefs = [
-          {name:'Ruta',field:'nombre' },
+          {name:'Ruta',field:'nombre',
+            filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Nombre ruta', headerCellClass: $scope.highlightFilteredHeader}},
           {name:'No. de denuncias',field:'TotalDenuncias', enableFiltering: false, sort: { direction: uiGridConstants.DESC }},
-          {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showRuta(row.entity.idruta)">Ver más</button></div>', enableFiltering: false}
+          {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-info btn-sm" ng-click="grid.appScope.showRuta(row.entity.idruta)">Ver denuncias</button></div>', enableFiltering: false}
         ];
       }).
       error(function(response, status, headers, config) {
-        if(status === null || status === -1){
-          $location.url('/404');
-        }
-        else if(status === 401){
-          $location.url('/403');
+        switch(status) {
+          case 400: {
+            $location.url('/404');
+            break;
+          }
+          case 403: {
+            $location.url('/403');
+            break;
+          }
+          case 404: {
+            $location.url('/404');
+            break;
+          }
+          default: {
+            $location.url('/500');
+          }
         }
       });
     }
