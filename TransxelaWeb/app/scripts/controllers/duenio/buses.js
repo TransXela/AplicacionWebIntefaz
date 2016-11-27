@@ -29,7 +29,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     uibModalInstance.result.then(function (result) {
       $scope.addFiltroRuta(result.ruta);
       $scope.buses.push(result);
-      $scope.alertas.push({"tipo":"success", "mensaje": "Bus creado exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Bus creado exitosamente", "icono": "glyphicon glyphicon-ok"});
     }, function (status) {
       if(status === '403'){
         $location.url('/403');
@@ -64,7 +64,7 @@ angular.module('transxelaWebApp').controller('DuenioBusesCtrl', function($scope,
     uibModalInstance.result.then(function (result) {
       $scope.addFiltroRuta(result.ruta);
       $scope.buses[$scope.index] = result;
-      $scope.alertas.push({"tipo":"success", "mensaje": "Bus modificado exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Bus modificado exitosamente", "icono": "glyphicon glyphicon-ok"});
     }, function (status) {
       if(status === '403'){
         $location.url('/403');

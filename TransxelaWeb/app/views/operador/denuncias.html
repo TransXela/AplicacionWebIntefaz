@@ -16,9 +16,12 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-user fa-fw"></i> {{usuario.nombre + " " + usuario.apellidos}} <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#/pmt/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                    </li>
+                    <li class="divider"></li>
                     <li><a ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
                     </li>
                 </ul>
@@ -41,16 +44,10 @@
                 <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
               </li>
               <li>
-                <a href="#/pmt/horariosBus"><i class="fa fa-clock-o  fa-fw"></i>Horarios Buses</a>
+                <a href="#/pmt/horarios"><i class="fa fa-clock-o  fa-fw"></i> Horarios</a>
               </li>
               <li>
-                <a href="#/pmt/horarios"><i class="fa fa-clock-o  fa-fw"></i>Horarios Dueños</a>
-              </li>
-              <li>
-                <a href="#/pmt/horariosPiloto"><i class="fa fa-clock-o  fa-fw"></i>Horarios Pilotos</a>
-              </li>
-              <li>
-                <a href="#/reporte/rutasdenunciadas"><i class="fa fa-info fa-fw"></i> Estadisticas </a>
+                <a href="#/reporte/rutasdenunciadas"><i class="fa fa-bar-chart fa-fw"></i> Estadisticas</a>
               </li>
             </ul>
           </div>
@@ -76,25 +73,61 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <button class="btn btn-primary" href ng-click="denunciasRutas()">Denuncias por rutas</button>
+          <button class="btn btn-primary" href ng-click="denunciasRutas()"><i class="fa fa-map-signs fa-fw"></i> Rutas denunciadas</button>
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
+          <div class="input-group custom-search-form" style="margin: auto;">
+            <label class="col-md-1 control-label">Desde:</label>
+            <div class="col-md-3">
+              <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+            <label class="col-md-1 control-label">Hasta:</label>
+            <div class="col-md-3">
+              <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" ng-model="fechafin" name="fechafin" id="fechafin" is-open="popup2.opened" datepicker-options="dateOptions" close-text="Close"/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+            <span class="input-group-btn col-md-4">
+              <button class="btn btn-success" type="button" ng-click="buscar()">
+                <i class="fa fa-search"></i> Denuncias
+              </button>
+            </span>
+          </div>
           <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-            ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
-          </div>
-          <div>
-            <label class="control-label">Estado:</label>
-            <select class="form-control" name= "estadoCambiar" id="estadoCambiar" ng-model="estadoCambiar">
-              <option value="" disabled>Seleccione un estado</option>
-              <option ng-repeat="x in estados" value="{{x.id}}">{{x.definicion}}</option>
-            </select>
-            <button class="btn btn-default" href ng-click="cambiarEstadoDenuncias()">Cambiar</button>
+            ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
+            <i class={{alerta.icono}}></i> {{alerta.mensaje}}
           </div>
           <div id="grid1" ui-grid-pagination ui-grid-selection ui-grid="gridOptions" class="grid"></div>
+
         </div>
         <!-- /.panel-body -->
+        <div class="panel-footer">
+          <div class="input-group custom-search-form">
+            <label class="control-label col-md-2">Estado:</label>
+            <div class="col-md-8">
+              <p class="input-group">
+              <select class="form-control" name= "estadoCambiar" id="estadoCambiar" ng-model="estadoCambiar">
+                <option value="" disabled>Seleccione un estado</option>
+                <option ng-repeat="x in estados" value="{{x.id}}">{{x.definicion}}</option>
+              </select>
+              </p>
+            </div>
+            <span class="input-group-btn col-md-4">
+              <button class="btn btn-default" href ng-click="cambiarEstadoDenuncias()">Cambiar</button>
+            </span>
+          </div>
+        </div>
+        <!-- /.panel-footer -->
       </div>
       <!-- /.panel -->
     </div>

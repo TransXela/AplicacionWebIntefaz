@@ -12,7 +12,7 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
     $scope.token = $cookies.getObject('user').token;
     $scope.usuario = $cookies.getObject('user').usuario;
     $scope.estadoCambiar = null;
-    $scope.estados = [{ "id": 1,"definicion": "Aceptada"}, { "id": 2,"definicion": "Inválida"}, { "id": 3,"definicion": "En proceso"}];
+    $scope.estados = [{ "id": 1,"definicion": "En proceso"}, { "id": 2,"definicion": "Pendiente de verificación"}, { "id": 3,"definicion": "Aceptada"}];
     $scope.alertas = [];
     $scope.gridOptions = {};
     apiService.obtener('/webdenuncias/?tk='+$scope.token).
@@ -31,7 +31,7 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
         $scope.addFiltroEstado($scope.estados[i].id);
       }
       $scope.gridOptions.columnDefs = [
-        {name:'Fecha',field:'denuncia.fechahora', cellFilter: 'date:\'hh:mm a dd-MM-yy\'', sort: { direction: uiGridConstants.DESC }, enableFiltering: false},
+        {name:'Fecha',field:'denuncia.fechahora', cellFilter: 'date:\'dd/MM/yy hh:mm a\'', sort: { direction: uiGridConstants.DESC }, enableFiltering: false},
         {name:'Bus',field:'denuncia.placa',
         filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Placa del bus', headerCellClass: $scope.highlightFilteredHeader}},
         {name:'Tipo denuncia',field:'tipodenuncia[0].descripcion',
@@ -83,7 +83,7 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
 
     uibModalInstance.result.then(function (result) {
       $scope.denuncias[$scope.index].denuncia.estado = result.estado;
-      $scope.alertas.push({"tipo":"success", "mensaje": "Denuncia modificada exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Denuncia modificada exitosamente", "icono": "glyphicon glyphicon-ok"});
     },
     function (status) {
       if(status === '403'){
@@ -140,7 +140,7 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
           for(var iterator = 0; iterator < cambiarEDenuncias.length; iterator++){
             cambiarEDenuncias[iterator].denuncia.estado = parseInt($scope.estadoCambiar);
           }
-          $scope.alertas.push({"tipo":"success", "mensaje": "Estado de la/s denuncia/s se ha/n actualizado exitosamente."});
+          $scope.alertas.push({"tipo":"success", "mensaje": "Estado de la/s denuncia/s se ha/n actualizado exitosamente.", "icono": "glyphicon glyphicon-ok"});
         }).
         error(function(response, status, headers, config) {
           switch(status) {
@@ -163,11 +163,11 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
         });
       }
       else{
-        $scope.alertas.push({"tipo":"warning", "mensaje": "Las denuncias deben seleccionarse para realizar acciones sobre ellas. No se han modificado denuncias."});
+        $scope.alertas.push({"tipo":"warning", "mensaje": "Las denuncias deben seleccionarse para realizar acciones sobre ellas. No se han modificado denuncias.", "icono": "glyphicon glyphicon-exclamation-sign"});
       }
     }
     else{
-      $scope.alertas.push({"tipo":"warning", "mensaje": "Debe seleccionar un estado para poder cambiar las denuncias. No se han modificado denuncias."});
+      $scope.alertas.push({"tipo":"warning", "mensaje": "Debe seleccionar un estado para poder cambiar las denuncias. No se han modificado denuncias.", "icono": "glyphicon glyphicon-exclamation-sign"});
     }
   };
 

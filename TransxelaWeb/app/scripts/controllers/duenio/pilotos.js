@@ -25,7 +25,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
     });
     uibModalInstance.result.then(function (result) {
       $scope.pilotos.push(result);
-      $scope.alertas.push({"tipo":"success", "mensaje": "Piloto creado exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Piloto creado exitosamente", "icono": "glyphicon glyphicon-ok"});
     }, function (status) {
       if(status === '403'){
         $location.url('/403');
@@ -56,7 +56,7 @@ angular.module('transxelaWebApp').controller('DuenioPilotosCtrl', function($scop
 
     uibModalInstance.result.then(function (result) {
       $scope.pilotos[$scope.index] = result;
-      $scope.alertas.push({"tipo":"success", "mensaje": "Piloto modificado exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Piloto modificado exitosamente", "icono": "glyphicon glyphicon-ok"});
     }, function (status) {
       if(status === '403'){
         $location.url('/403');
