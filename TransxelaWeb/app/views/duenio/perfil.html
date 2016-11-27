@@ -72,30 +72,31 @@
         <div class="col-lg-6">
           <div class="panel panel-default">
             <div class="panel-heading">
+              <h3>Información</h3>
             </div>
             <div class="panel-body">
               <div class="col-md-6 col-xs-6">
-                <h4><strong>Nombre</strong></h4>
+                <h4>Nombre</h4>
                 <h5>&#8194;{{duenio.nombre}}</h5>
               </div>
               <div class="col-md-6 col-xs-6">
-                <h4><strong>Apellidos</strong></h4>
+                <h4>Apellidos</h4>
                 <h5>&#8194;{{duenio.apellidos}}</h5>
               </div>
               <div class="col-md-6 col-xs-6">
-                <h4><strong>DPI</strong></h4>
+                <h4>DPI</h4>
                 <h5>&#8194;{{duenio.dpi}}</h5>
               </div>
               <div class="col-md-6 col-xs-6">
-                <h4><strong>No. teléfono</strong></h4>
+                <h4>No. teléfono</h4>
                 <h5>&#8194;{{duenio.telefono}}</h5>
               </div>
               <div class="col-md-6">
-                <h4><strong>Dirección</strong></h4>
+                <h4>Dirección</h4>
                 <h5>&#8194;{{duenio.direccion}}</h5>
               </div>
               <div class="col-md-6">
-                <h4><strong>Correo electrónico</strong></h4>
+                <h4>Correo electrónico</h4>
                 <h5>&#8194;{{duenio.correo}}</h5>
               </div>
             </div>
@@ -106,6 +107,7 @@
         <div class="col-lg-6">
           <div class="panel panel-default">
             <div class="panel-heading">
+              <h3>Contraseña</h3>
             </div>
             <div class="panel-body">
               <form name="cambioForm" class="form">
@@ -114,22 +116,22 @@
                   ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
                   <i class={{alerta.icono}}></i> {{alerta.mensaje}}
                 </div>
-                <h4><strong>Contraseña actual</strong></h4>
+                <h4>Actual</h4>
                 <input class="form-control" type="password" class="form-control" name = "cAnterior" id="cAnterior" ng-model="cAnterior" placeholder="Ingrese la contraseña actual" required>
                 <div ng-messages="cambioForm.cAnterior.$error" role="alert" class="text-danger">
                   <div ng-message="required">Campo requerido</div>
                 </div>
-                <h4><strong>Nueva contraseña</strong></h4>
+                <h4>Nueva</h4>
                 <input class="form-control" type="password" class="form-control" name = "cNueva" id="cNueva" ng-model="cNueva" placeholder="Ingrese la nueva contraseña" required>
                 <div ng-messages="cambioForm.cNueva.$error" role="alert" class="text-danger">
                   <div ng-message="required">Campo requerido</div>
                 </div>
-                <h4><strong>Repetir contraseña</strong></h4>
+                <h4>Repetir contraseña nueva</h4>
                 <input class="form-control" type="password" class="form-control" name = "cRepetir" id="cRepetir" ng-model="cRepetir" placeholder="Repita la nueva contraseña" required>
                 <div ng-messages="cambioForm.cRepetir.$error" role="alert" class="text-danger">
                   <div ng-message="required">Campo requerido</div>
                 </div><br>
-                <button class="btn btn-primary " style="float:right;" type="button" ng-click="cambiarContrasenia()" ng-disabled="cambioForm.$invalid">Cambiar contraseña</button>
+                <button class="btn btn-primary " style="float:right;" type="button" ng-click="cambiarContrasenia()" ng-disabled="cambioForm.$invalid">Guardar cambios</button>
               </form>
             </div>
             <div class="panel-footer">
