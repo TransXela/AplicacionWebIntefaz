@@ -87,7 +87,7 @@
           </div>
           <!-- /.panel-heading -->
           <div class="panel-body">
-            <div ng-repeat = "alerta in nomenclatura" class="alert alert-default alert-dismissible fade in col-md-offset-8 text-right" role="alert"style="background-color:#f8f8f8">
+            <div ng-repeat = "alerta in nomenclatura" class="alert alert-default alert-dismissible fade in col-md-offset-8" role="alert"style="background-color:#f8f8f8">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"
               ng-click="nomenclatura.splice(nomenclatura.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
               <div ng-repeat = "contenido in alerta">
