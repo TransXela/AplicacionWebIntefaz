@@ -145,20 +145,18 @@
          $location.url('/');
        };
 
-       apiService.obtener('/reporte/pmt/RepPilotoDen'+'/'+'?tk='+$scope.token)
+       apiService.obtener('/reporte/pmt/pilotos'+'/'+'?tk='+$scope.token)
        .success(function(data){
         $scope.pilotoDen = data;
+        console.log($scope.pilotoDen)
         $scope.Ldpi=[];
-        $scope.cant=0;
         $scope.numDen=[];
         for (var i = 0; i < $scope.pilotoDen.length; i++) {
-          for (var j = 0; j < $scope.pilotoDen[i].den.length; j++) {
-            $scope.cant = $scope.cant+1;
+            $scope.Ldpi[i]=$scope.pilotoDen[i].dpi;
+            $scope.numDen[i]=$scope.pilotoDen[i].cantidad;
+            console.log($scope.Ldpi)
+            console.log($scope.numDen);
           }
-          $scope.Ldpi[i]=$scope.pilotoDen[i].dpi;
-          $scope.numDen[i]=$scope.cant;
-          $scope.cant=0;
-        }
         var ctx = document.getElementById("PilotoDenGraph").getContext('2d');
         var myChart = new Chart(ctx, {
           type: 'line',
@@ -166,11 +164,11 @@
             labels: $scope.Ldpi,
             datasets: [{
               backgroundColor: ["#2ecc71"],
-              label: "Número de denuncias por piloto",
+              label: "Número de denuncias por piloto/DPI",
               lineTension: 1,
               pointBorderColor:"1F0D7B",
               pointRadius: 3.5,
-              pointBackgroundColor: "#18cfdf",
+              pointBackgroundColor: "#18cfd",
               data: $scope.numDen
             }]
             }
