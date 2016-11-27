@@ -18,19 +18,20 @@ angular.module('transxelaWebApp').controller('LogInCtrl', function ($scope, $loc
         break;
       }
       case 'PMT': {
-        $location.url('/duenio/principal');
+        $location.url('/pmt/principal');
         break;
       }
       case 'Cultura': {
-        $location.url('/duenio/principal');
+        $location.url('/cultura/principal');
         break;
       }
       case 'Admin': {
-        $location.url('/duenio/principal');
+        $location.url('/admin/principal');
         break;
       }
       default: {
         $cookies.remove('user');
+        $location.url('/login');
       }
     }
   }
