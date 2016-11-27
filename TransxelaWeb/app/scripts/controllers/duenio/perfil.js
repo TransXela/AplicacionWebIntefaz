@@ -48,20 +48,20 @@ angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scop
           'password_old': $scope.cAnterior, 'password_new': $scope.cNueva
         }).
         success(function(response, status, headers, config){
-          $scope.alertas.push({"tipo":"success", "mensaje": "Contraseña cambiada exitosamente"});
+          $scope.alertas.push({"tipo":"success", "mensaje": "Contraseña cambiada exitosamente", "icono": "glyphicon glyphicon-ok"});
         }).
         error(function(response, status, headers, config) {
           switch(status) {
             case 400: {
-              $scope.alertas.push({"tipo":"danger", "mensaje": "La contraseña anterior no coincide"});
+              $scope.alertas.push({"tipo":"danger", "mensaje": "La contraseña actual no coincide", "icono": "glyphicon glyphicon-remove"});
               break;
             }
             case 403: {
-              $scope.alertas.push({"tipo":"danger", "mensaje": "No tiene permisos para realizar esta acción"});
+              $scope.alertas.push({"tipo":"danger", "mensaje": "No tiene permisos para realizar esta acción", "icono": "glyphicon glyphicon-remove"});
               break;
             }
             case 404: {
-              $scope.alertas.push({"tipo":"danger", "mensaje": "La contraseña anterior no coincide"});
+              $scope.alertas.push({"tipo":"danger", "mensaje": "La contraseña actual no coincide", "icono": "glyphicon glyphicon-remove"});
               break;
             }
             default: {
@@ -71,7 +71,7 @@ angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scop
         });
       }
       else {
-        $scope.alertas.push({"tipo":"danger", "mensaje": "Las contraseñas no coinciden"});
+        $scope.alertas.push({"tipo":"danger", "mensaje": "Las contraseñas no coinciden", "icono": "glyphicon glyphicon-remove"});
       }
     }
     $scope.cerrar = function(){

@@ -40,15 +40,15 @@ angular.module('transxelaWebApp').controller('LogInCtrl', function ($scope, $loc
     success(function(result, status, headers, config){
       var grupo = result.Grupo;
       if(grupo.name === "Dueños"){
-        $cookies.putObject('user', {"token": result.Token, id: result.Duenio.idduenio, usuario: result.Duenio, tipo: grupo.name, torcido: result.Usuario});
+        $cookies.putObject('user', {"token": result.Token, id: result.Duenio.idduenio, usuario: result.Duenio, tipo: grupo.name, torcido: result.Usuario.id});
         $location.url('/duenio/principal');
       }
       else if (grupo.name === "Cultura") {
-        $cookies.putObject('user', {"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura, tipo: grupo.name, torcido: result.Usuario});
+        $cookies.putObject('user', {"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura, tipo: grupo.name, torcido: result.Usuario.id});
         $location.url('/cultura/principal');
       }
       else if (grupo.name === "PMT") {
-        $cookies.putObject('user', {"token": result.Token, id: result.PMT.idpmt, usuario: result.PMT, tipo: grupo.name, torcido: result.Usuario});
+        $cookies.putObject('user', {"token": result.Token, id: result.PMT.idpmt, usuario: result.PMT, tipo: grupo.name, torcido: result.Usuario.id});
         $location.url('/pmt/principal');
       }
       else if (grupo.name === "Admin") {
@@ -63,7 +63,7 @@ angular.module('transxelaWebApp').controller('LogInCtrl', function ($scope, $loc
       switch(status) {
         case 400: {
           //$location.url('/404');
-          $scope.alertas.push({"tipo": "danger", "mensaje": "Usuario y/o contraseña incorrecta"});
+          $scope.alertas.push({"tipo": "danger", "mensaje": "Usuario y/o contraseña incorrecta", "icono": "glyphicon glyphicon-remove"});
           break;
         }
         case 403: {
@@ -72,7 +72,7 @@ angular.module('transxelaWebApp').controller('LogInCtrl', function ($scope, $loc
         }
         case 404: {
           //$location.url('/404');
-          $scope.alertas.push({"tipo": "danger", "mensaje": "Usuario y/o contraseña incorrecta"});
+          $scope.alertas.push({"tipo": "danger", "mensaje": "Usuario y/o contraseña incorrecta", "icono": "glyphicon glyphicon-remove"});
           break;
         }
         default: {

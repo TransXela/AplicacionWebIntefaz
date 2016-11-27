@@ -12,7 +12,7 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
     $scope.token = $cookies.getObject('user').token;
     $scope.usuario = $cookies.getObject('user').usuario;
     $scope.estadoCambiar = null;
-    $scope.estados = [{ "id": 1,"definicion": "Aceptada"}, { "id": 2,"definicion": "Inválida"}, { "id": 3,"definicion": "En proceso"}];
+    $scope.estados = [{ "id": 1,"definicion": "En proceso"}, { "id": 2,"definicion": "Pendiente de verificación"}, { "id": 3,"definicion": "Aceptada"}];
     $scope.alertas = [];
     $scope.gridOptions = {};
     apiService.obtener('/webdenuncias/?tk='+$scope.token).

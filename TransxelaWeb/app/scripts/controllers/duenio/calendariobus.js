@@ -11,6 +11,10 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
   $scope.calendarView = 'month';
   $scope.viewDate = new Date();
   $scope.alertas = [];
+  $scope.nomenclatura = [[{"mensaje":"Deshabilitada", "style": "color:#adabab;"},
+  {"mensaje":"Anterior", "style": "color:#a4d1e1;"},
+  {"mensaje":"Del día", "style": "color:#3db048;"},
+  {"mensaje":"Futura", "style": "color:#1e90ff;"}]];
   var colors = [{primary: '#a4d1e1', secondary: '#a6ddf1'/*Celeste*/},
   {primary: '#1e90ff', secondary: '#d1e8ff'/*Azul*/},
   {primary: '#ad2121', secondary: '#fae3e3'/*Rojo*/},
@@ -43,17 +47,17 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
         }).
         error(function(response, status, headers, config) {
           $scope.pilotos = [];
-          $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos."});
+          $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
         });
       }).
       error(function(response, status, headers, config) {
         $scope.horarios = [];
-        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos."});
+        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
       });
     }).
     error(function(response, status, headers, config) {
       $scope.buses = [];
-      $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos."});
+      $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
     });
   }
   else{
@@ -112,15 +116,15 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
         colorIndex = 4;
       }
       $scope.events[evento.calendarEventId].color = colors[colorIndex];
-      $scope.alertas.push({"tipo": "success", "mensaje": "Asignación modificada exitosamente"});
+      $scope.alertas.push({"tipo": "success", "mensaje": "Asignación modificada exitosamente", "icono": "glyphicon glyphicon-ok"});
     },
     function (status) {
       if(status ==='success'){
         $scope.events.splice(evento.calendarEventId,1);
-        $scope.alertas.push({"tipo": "success", "mensaje": "Asignación eliminada exitosamente"});
+        $scope.alertas.push({"tipo": "success", "mensaje": "Asignación eliminada exitosamente", "icono": "glyphicon glyphicon-ok"});
       }
       else if(status ==='imposibleborrar'){
-        $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar la asignación"});
+        $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar la asignación", "icono": "glyphicon glyphicon-remove"});
       }
       else if(status === '403'){
         $location.url('/403');
@@ -142,7 +146,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
         $scope.bus = response.Bus[0];
         var horariosdetalle = response.HorarioDetalle;
         if(horariosdetalle.length === 0) {
-          $scope.alertas.push({"tipo":"warning", "mensaje": "El bus seleccionado no tiene asignaciones"});
+          $scope.alertas.push({"tipo":"warning", "mensaje": "El bus seleccionado no tiene asignaciones", "icono": "glyphicon glyphicon-exclamation-sign"});
         }
         else{
           var colorIndex = 0;
@@ -210,7 +214,7 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
               });
             }
           }
-          $scope.alertas.push({"tipo":"success", "mensaje": "Asignaciones cargadas exitosamente"});
+          $scope.alertas.push({"tipo":"success", "mensaje": "Asignaciones cargadas exitosamente", "icono": "glyphicon glyphicon-ok"});
         }
       }).
       error(function(response, status, headers, config) {
@@ -273,7 +277,7 @@ angular.module('transxelaWebApp').controller('ModificarEControlador', ['$scope',
           break;
         }
         case 406: {
-          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado, "icono": "glyphicon glyphicon-exclamation-sign"});
           break;
         }
         default: {
@@ -310,7 +314,7 @@ angular.module('transxelaWebApp').controller('ModificarEControlador', ['$scope',
         });
     }
     else{
-      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar asignaciones del día actual"});
+      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar asignaciones del día actual", "icono": "glyphicon glyphicon-exclamation-sign"});
     }
 
   };

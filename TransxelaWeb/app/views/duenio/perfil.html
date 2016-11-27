@@ -111,7 +111,8 @@
               <form name="cambioForm" class="form">
                 <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-                  ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+                  ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
+                  <i class={{alerta.icono}}></i> {{alerta.mensaje}}
                 </div>
                 <h4><strong>Contraseña actual</strong></h4>
                 <input class="form-control" type="password" class="form-control" name = "cAnterior" id="cAnterior" ng-model="cAnterior" placeholder="Ingrese la contraseña actual" required>

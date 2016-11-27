@@ -25,7 +25,7 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
     });
     uibModalInstance.result.then(function (result) {
       $scope.horarios.push(result);
-      $scope.alertas.push({"tipo":"success", "mensaje": "Horario creado exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Horario creado exitosamente", "icono": "glyphicon glyphicon-ok"});
     }, function (status) {
       if(status === '403'){
         $location.url('/403');
@@ -55,11 +55,11 @@ angular.module('transxelaWebApp').controller('DuenioHorariosCtrl', function($sco
     uibModalInstance.result.then(function (result) {
       $scope.horarios[$scope.index].horainicio = result.horainicio;
       $scope.horarios[$scope.index].horafin = result.horafin;
-      $scope.alertas.push({"tipo":"success", "mensaje": "Horario modificado exitosamente"});
+      $scope.alertas.push({"tipo":"success", "mensaje": "Horario modificado exitosamente", "icono": "glyphicon glyphicon-ok"});
     }, function (status) {
       if(status ==='success'){
         $scope.horarios.splice($scope.index,1);
-        $scope.alertas.push({"tipo":"success", "mensaje": "Horario eliminado exitosamente"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Horario eliminado exitosamente", "icono": "glyphicon glyphicon-ok"});
       }
       else if(status === '403'){
         $location.url('/403');
@@ -148,7 +148,7 @@ angular.module('transxelaWebApp').controller('CrearHController', ['$scope', 'api
     error(function(response, status, headers, config) {
       switch(status) {
         case 400: {
-          $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado, "icono": "glyphicon glyphicon-exclamation-sign"});
           break;
         }
         case 403: {
@@ -156,7 +156,7 @@ angular.module('transxelaWebApp').controller('CrearHController', ['$scope', 'api
           break;
         }
         case 404: {
-          $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado, "icono": "glyphicon glyphicon-exclamation-sign"});
           break;
         }
         default: {
@@ -192,7 +192,7 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
     error(function(response, status, headers, config) {
       switch(status) {
         case 400: {
-          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado, "icono": "glyphicon glyphicon-exclamation-sign"});
           break;
         }
         case 403: {
@@ -200,7 +200,7 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
           break;
         }
         case 404: {
-          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado, "icono": "glyphicon glyphicon-exclamation-sign"});
           break;
         }
         default: {
@@ -222,7 +222,7 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
     error(function(response, status, headers, config) {
       switch(status) {
         case 400: {
-          $scope.alertas.push({"tipo":"danger", "mensaje": response.estado});
+          $scope.alertas.push({"tipo":"danger", "mensaje": response.estado, "icono": "glyphicon glyphicon-remove"});
           break;
         }
         case 403: {
@@ -230,7 +230,7 @@ angular.module('transxelaWebApp').controller('VerModificarHController', ['$scope
           break;
         }
         case 404: {
-          $scope.alertas.push({"tipo":"danger", "mensaje": response.estado});
+          $scope.alertas.push({"tipo":"danger", "mensaje": response.estado, "icono": "glyphicon glyphicon-remove"});
           break;
         }
         default: {

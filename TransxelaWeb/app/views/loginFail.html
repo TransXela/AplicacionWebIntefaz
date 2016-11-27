@@ -4,7 +4,8 @@
 		<div class="form-fields">
 			<div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close"
-				ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+				ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
+				<i class={{alerta.icono}}></i> {{alerta.mensaje}}
 			</div>
 			<input type="text" class="form-control" name = "usuario" id="usuario" placeholder="Correo electrónico" ng-model="usuario" autocomplete autofocus required>
 	    <div ng-messages="logForm.usuario.$error" role="alert" class="text-danger">

@@ -78,9 +78,17 @@
           </div>
           <!-- /.panel-heading -->
           <div class="panel-body">
+            <div ng-repeat = "alerta in nomenclatura" class="alert alert-default alert-dismissible fade in col-lg-12 text-right" role="alert"style="background-color:#f8f8f8">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+              ng-click="nomenclatura.splice(nomenclatura.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
+              <div ng-repeat = "contenido in alerta">
+                <i class="fa fa-circle" style={{contenido.style}}></i> {{contenido.mensaje}}
+              </div>
+            </div>
             <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-              ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+              ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
+              <i class={{alerta.icono}}></i> {{alerta.mensaje}}
             </div>
             <h2 class="text-center">{{ calendarTitle }}</h2>
             <div class="row">

@@ -86,7 +86,8 @@
         <div class="panel-body">
           <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-            ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
+            ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
+            <i class={{alerta.icono}}></i> {{alerta.mensaje}}
           </div>
           <div id="grid1" ui-grid-pagination ui-grid-selection ui-grid="gridOptions" class="grid"></div>
         </div>
