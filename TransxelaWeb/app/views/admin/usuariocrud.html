@@ -1,3 +1,13 @@
+<div class="form-group">
+		<div class="col-sm-12">
+			<div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"
+				ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
+				<i class={{alerta.icono}}></i> {{alerta.mensaje}}
+			</div>
+		</div>
+	</div>
+
 <div class="modal-header">
 	<button type="button" class="close" ng-click="cancel()" aria-hidden="true">&times;</button>
     <h4 class="modal-title">{{options.title}}</h4>
@@ -8,15 +18,17 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"
     ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
   </div>
+
+
 	<label>Usuario</label>
-	<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre de usuario" ng-model="nombre" required autofocus>
+	<input type="text" value="escribe tu nombre" class="form-control" name = "usuario" id="usuario" placeholder="Nombre de usuario" ng-model="usuario" required autofocus>
 	<div ng-messages="pilotoForm.nombre.$error" role="alert" class="text-danger">
   		<div ng-message="required">Campo requerido</div>
 	</div><br>
 	<label>Correo Electrónico</label>
-	<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico del usuario" ng-model="correo" required>
+	<input type="email" class="form-control" name="correo" id="correo" placeholder="Correo electrónico del usuario" ng-model="correo" >
 	<div ng-messages="pilotoForm.correo.$error" role="alert" class="text-danger">
-			<div ng-message="email">Correo electrónico inválido</div>
+     	<div ng-message="email">Correo electrónico inválido</div>
 	</div><br>
 	<label for="grupos">Tipo de Usuario</label>
 	<select class="form-control" name= "grupo" id="grupo" ng-model="grupo" required>
@@ -26,19 +38,53 @@
 	<div ng-messages="pilotoForm.grupo.$error" role="alert" class="text-danger">
   		<div ng-message="required">Campo requerido</div>
 	</div><br>
-
 	<label>Contraseña</label>
-	<input type="text" class="form-control" name="contrasenia" id="contrasenia" placeholder="Contraseña del usuario" ng-model="contrasenia" required>
-	<button type="button" ng-click="cambiar()" class="btn btn-danger">Cambiar contraseña</button>
+	<input  type="text" class="form-control" name="contrasenia" id="contrasenia" placeholder="Contraseña del usuario" ng-model="contrasenia" required>
+	<div ng-show="hab != 1">
+		<button type="button" ng-click="cambiar()" class="btn btn-danger">Cambiar contraseña</button>
+	</div>
 	<div ng-messages="pilotoForm.contrasenia.$error" role="alert" class="text-danger">
      	<div ng-message="required">Campo requerido</div>
 	</div><br>
 
-	<label>Estado</label>
-	<div class="btn-group">
-        <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'">Habilitado</label>
-        <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'0'">Deshabilitado</label>
-    </div>
+
+
+	<div ng-show="grupo != 4">
+		<label>Nombre</label>
+		<input type="text" class="form-control" name = "nombre" id="nombre" placeholder="Nombre de la persona" ng-model="nombre"  autofocus >
+		<div ng-messages="pilotoForm.nombre.$error" role="alert" class="text-danger">
+
+		</div><br>
+		<label>Apellidos</label>
+		<input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="Apellidos de la persona" ng-model="apellidos"  >
+		<div ng-messages="pilotoForm.apellidos.$error" role="alert" class="text-danger">
+	  		<div ng-message="required">Campo requerido</div>
+		</div><br>
+		<label>Dirección</label>
+		<input type="text" class="form-control" id="direccion" placeholder="Dirección de la persona" ng-model="direccion" ><br>
+		<label>DPI</label>
+		<input type="number" class="form-control" name="dpi" id="dpi" placeholder="DPI de la persona" ng-model="dpi"  min="1000000000000" max="9999999999999" >
+		<div ng-messages="pilotoForm.dpi.$error" role="alert" class="text-danger">
+	     	<div ng-message="min || max">DPI inválido (debe tener 13 dígitos)</div>
+		</div><br>
+		<div ng-show="grupo == 1">
+			<label>Empresa</label>
+			<input type="text" class="form-control" name="empresa" id="empresa" placeholder="Empresa de la persona" ng-model="empresa"  >
+			<div ng-messages="pilotoForm.licencia.$error" role="alert" class="text-danger">
+			</div><br>
+		</div>
+		<label>No. de Teléfono</label>
+		<input type="number" class="form-control" name="telefono" id="telefono" placeholder="No. de la persona" ng-model="telefono" min="10000000" max="99999999" >
+		<div ng-messages="pilotoForm.telefono.$error" role="alert" class="text-danger">
+	     	<div ng-message="min || max">No. de teléfono inválido (debe tener 8 dígitos)</div>
+		</div><br>
+		<label>Estado</label>
+		<div class="btn-group">
+	        <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'1'">Habilitado</label>
+	        <label class="btn btn-primary" ng-model="estado" uib-btn-radio="'0'">Deshabilitado</label>
+	    </div>
+		</div>
+
 </div>
 <div class="modal-footer">
     <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal" ng-disabled="pilotoForm.$invalid">{{options.buttom}}</button>
