@@ -1,61 +1,65 @@
 <div id="wrapper">
-  <!-- navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-      <!-- navbar-header -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#/duenio/principal">TransXela Dueños</a>
-        </div>
-      <!-- close-navbar-header -->
-      <!-- navbar-top-links -->
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user fa-fw"></i> {{duenio.nombre + " " + duenio.apellidos}} <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#/duenio/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/duenio/principal">TransXela Dueños</a>
+    </div>
+    <!-- Top Menu Items -->
+    <ul class="nav navbar-right top-nav">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{duenio.nombre + " " + duenio.apellidos}} <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#/duenio/perfil"><i class="fa fa-fw fa-user"></i> Perfil</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+          </li>
         </ul>
-      <!-- close-navbar-top-links -->
-      <!-- navbar-static-side -->
-        <div class="navbar-default sidebar" role="navigation">
-          <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
-              <li>
-                <a href="#/duenio/pilotos"><i class="fa fa-users fa-fw"></i> Pilotos</a>
-              </li>
-              <li>
-                <a href="#/duenio/buses"><i class="fa fa-bus fa-fw"></i> Buses</a>
-              </li>
-              <li>
-                <a href="#/duenio/horarios"><i class="fa fa-clock-o fa-fw"></i> Horarios</a>
-              </li>
-              <li>
-                <a href="#/duenio/calendario"><i class="fa fa-calendar fa-fw"></i> Calendario</a>
-              </li>
-              <li>
-                <a href="#/duenio/estadisticas"><i class="fa fa-bar-chart fa-fw"></i> Estadísticas</a>
-              </li>
-            </ul>
-          </div>
-          <!-- /.sidebar-collapse -->
-        </div>
-      <!-- close-navbar-static-side -->
-    </nav>
-  <!-- close-navigation -->
+      </li>
+    </ul>
+    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav side-nav">
+        <li><!-- class="active" -->
+          <a href="#/duenio/pilotos"><i class="fa fa-users fa-fw"></i> Pilotos</a>
+        </li>
+        <li>
+          <a href="#/duenio/buses"><i class="fa fa-bus fa-fw"></i> Buses</a>
+        </li>
+        <li>
+          <a href="#/duenio/horarios"><i class="fa fa-clock-o fa-fw"></i> Horarios</a>
+        </li>
+        <li>
+          <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-calendar fa-fw"></i> Asignaciones <i class="fa fa-fw fa-caret-down"></i></a>
+          <ul id="demo" class="collapse">
+            <li>
+              <a href="#/duenio/calendario">Todas</a>
+            </li>
+            <li>
+              <a href="#/duenio/calendariobus">Por bus</a>
+            </li>
+            <li>
+              <a href="#/duenio/calendariopiloto">Por piloto</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#/duenio/estadisticas"><i class="fa fa-bar-chart fa-fw"></i> Estadísticas</a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </nav>
+
   <div id="page-wrapper">
     <div class="row">
       <div class="col-lg-12">
@@ -67,81 +71,80 @@
       </div>
       <!-- /.col-lg-12 -->
     </div>
-      <!-- /.row -->
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3>Información</h3>
+    <!-- /.row -->
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3>Información</h3>
+          </div>
+          <div class="panel-body">
+            <div class="col-md-6 col-xs-6">
+              <h4>Nombre</h4>
+              <h5>&#8194;{{duenio.nombre}}</h5>
             </div>
-            <div class="panel-body">
-              <div class="col-md-6 col-xs-6">
-                <h4>Nombre</h4>
-                <h5>&#8194;{{duenio.nombre}}</h5>
-              </div>
-              <div class="col-md-6 col-xs-6">
-                <h4>Apellidos</h4>
-                <h5>&#8194;{{duenio.apellidos}}</h5>
-              </div>
-              <div class="col-md-6 col-xs-6">
-                <h4>DPI</h4>
-                <h5>&#8194;{{duenio.dpi}}</h5>
-              </div>
-              <div class="col-md-6 col-xs-6">
-                <h4>No. teléfono</h4>
-                <h5>&#8194;{{duenio.telefono}}</h5>
-              </div>
-              <div class="col-md-6">
-                <h4>Dirección</h4>
-                <h5>&#8194;{{duenio.direccion}}</h5>
-              </div>
-              <div class="col-md-6">
-                <h4>Correo electrónico</h4>
-                <h5>&#8194;{{duenio.correo}}</h5>
-              </div>
+            <div class="col-md-6 col-xs-6">
+              <h4>Apellidos</h4>
+              <h5>&#8194;{{duenio.apellidos}}</h5>
             </div>
-            <div class="panel-footer">
+            <div class="col-md-6 col-xs-6">
+              <h4>DPI</h4>
+              <h5>&#8194;{{duenio.dpi}}</h5>
+            </div>
+            <div class="col-md-6 col-xs-6">
+              <h4>No. teléfono</h4>
+              <h5>&#8194;{{duenio.telefono}}</h5>
+            </div>
+            <div class="col-md-6">
+              <h4>Dirección</h4>
+              <h5>&#8194;{{duenio.direccion}}</h5>
+            </div>
+            <div class="col-md-6">
+              <h4>Correo electrónico</h4>
+              <h5>&#8194;{{duenio.correo}}</h5>
             </div>
           </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3>Contraseña</h3>
-            </div>
-            <div class="panel-body">
-              <form name="cambioForm" class="form">
-                <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"
-                  ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
-                  <i class={{alerta.icono}}></i> {{alerta.mensaje}}
-                </div>
-                <h4>Actual</h4>
-                <input class="form-control" type="password" class="form-control" name = "cAnterior" id="cAnterior" ng-model="cAnterior" placeholder="Ingrese la contraseña actual" required>
-                <div ng-messages="cambioForm.cAnterior.$error" role="alert" class="text-danger">
-                  <div ng-message="required">Campo requerido</div>
-                </div>
-                <h4>Nueva</h4>
-                <input class="form-control" type="password" class="form-control" name = "cNueva" id="cNueva" ng-model="cNueva" placeholder="Ingrese la nueva contraseña" required>
-                <div ng-messages="cambioForm.cNueva.$error" role="alert" class="text-danger">
-                  <div ng-message="required">Campo requerido</div>
-                </div>
-                <h4>Repetir contraseña nueva</h4>
-                <input class="form-control" type="password" class="form-control" name = "cRepetir" id="cRepetir" ng-model="cRepetir" placeholder="Repita la nueva contraseña" required>
-                <div ng-messages="cambioForm.cRepetir.$error" role="alert" class="text-danger">
-                  <div ng-message="required">Campo requerido</div>
-                </div><br>
-                <button class="btn btn-primary " style="float:right;" type="button" ng-click="cambiarContrasenia()" ng-disabled="cambioForm.$invalid">Guardar cambios</button>
-              </form>
-            </div>
-            <div class="panel-footer">
-            </div>
+          <div class="panel-footer">
           </div>
         </div>
-        <!-- /.col-lg-8 -->
       </div>
+      <div class="col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3>Contraseña</h3>
+          </div>
+          <div class="panel-body">
+            <form name="cambioForm" class="form">
+              <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
+                <i class={{alerta.icono}}></i> {{alerta.mensaje}}
+              </div>
+              <h4>Actual</h4>
+              <input class="form-control" type="password" class="form-control" name = "cAnterior" id="cAnterior" ng-model="cAnterior" placeholder="Ingrese la contraseña actual" required>
+              <div ng-messages="cambioForm.cAnterior.$error" role="alert" class="text-danger">
+                <div ng-message="required">Campo requerido</div>
+              </div>
+              <h4>Nueva</h4>
+              <input class="form-control" type="password" class="form-control" name = "cNueva" id="cNueva" ng-model="cNueva" placeholder="Ingrese la nueva contraseña" required>
+              <div ng-messages="cambioForm.cNueva.$error" role="alert" class="text-danger">
+                <div ng-message="required">Campo requerido</div>
+              </div>
+              <h4>Repetir contraseña nueva</h4>
+              <input class="form-control" type="password" class="form-control" name = "cRepetir" id="cRepetir" ng-model="cRepetir" placeholder="Repita la nueva contraseña" required>
+              <div ng-messages="cambioForm.cRepetir.$error" role="alert" class="text-danger">
+                <div ng-message="required">Campo requerido</div>
+              </div><br>
+              <button class="btn btn-primary " style="float:right;" type="button" ng-click="cambiarContrasenia()" ng-disabled="cambioForm.$invalid">Guardar cambios</button>
+            </form>
+          </div>
+          <div class="panel-footer">
+          </div>
+        </div>
+      </div>
+      <!-- /.col-lg-8 -->
+    </div>
     <!-- /.row -->
   </div>
   <!-- /#page-wrapper -->
 </div>
-<!-- /#wrapper -->
