@@ -107,18 +107,30 @@
                     //    {lat: 52.497, lng: 13.396},
                     //    {lat: 52.517, lng: 13.394}
                     //  ];
+                    var d= new Date();
+                    var dd= d.getDate();
+                    var mm= d.getMonth()+1;
+                    var yyyy=d.getFullYear();
+                    var hh= d.getHours();
+                    var mm= d.getMinutes();
+                    var ss= d.getSeconds();
+                    var mil=d.getMilliseconds();
+                    if(dd<10){
+                          dd='0'+dd
+                      }
+                      if(mm<10){
+                          mm='0'+mm
+                      }
+                    var fechaActual=yyyy+'-'+mm+'-'+dd+'T'+hh+':'+mm+':'+ss+'.'+mil;
                     var locations;
                     var xhr = new XMLHttpRequest();
-                      xhr.open("GET", "http://127.0.0.1:8000/cultura/actividad/");
+                      xhr.open("GET", "http://127.0.0.1:8000/cultura/actividades/outtk");
                       xhr.send();
-                      console.log("hola");
-                      console.log(xhr);
-                      console.log(xhr.statusText);
-
                       xhr.onreadystatechange = function() {
                           if (this.readyState == 4 && this.status == 200) {
                               locations = JSON.parse(this.responseText);
                               myFunction(locations);
+
                           }
                       };
 
@@ -135,21 +147,27 @@
                               });
 
                               var infowindow = new google.maps.InfoWindow({});
-
+                              var confe= new Date();
+                              var fechahoy;
                               var marker, i;
 
                               for (i = 0; i < locations.length; i++) {
-                              marker = new google.maps.Marker({
-                                position: new google.maps.LatLng(locations[i].latitud, locations[i].longitud),
-                                map: map
-                              });
+                                console.log(Date.parse(locations[i].fecha) +"otra fecha" + Date.parse(d));
+                                if (locations[i].estado===true && Date.parse(locations[i].fecha)>= Date.parse(d)) {
+                              
+                                  marker = new google.maps.Marker({
+                                  position: new google.maps.LatLng(locations[i].latitud, locations[i].longitud),
+                                  map: map
+                                });
 
-                                google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                                  return function () {
-                                    infowindow.setContent("<strong>"+locations[i].nombre+"</strong><br>"+locations[i].descripcion+"<br>"+"<br>"+locations[i].direccion);
-                                    infowindow.open(map, marker);
-                                  }
-                                })(marker, i));
+                                  google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                    return function () {
+                                      infowindow.setContent("<strong>"+locations[i].nombre+"</strong><br>"+locations[i].descripcion+"<br>"+"<br>"+locations[i].direccion);
+                                      infowindow.open(map, marker);
+                                    }
+                                  })(marker, i));
+                                }
+
                               }
 
                             }

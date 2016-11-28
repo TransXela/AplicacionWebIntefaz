@@ -225,7 +225,7 @@ angular
   });
 })
 .service('apiService', function($cookies, $http) {
-  var apiURL = 'http://api.transxela.site';
+  var apiURL = 'http://127.0.0.1:8000';
   // var apiURL = 'http://127.0.0.1:8000';
   //$http.defaults.headers.common['Access-Control-Allow-Headers'] = "Content-Type";
   //$http.defaults.headers.common['Access-Control-Allow-Methods'] = "GET, POST, PUT, DELETE, OPTIONS";

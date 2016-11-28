@@ -99,19 +99,15 @@
               <button type="button" class="close" data-dismiss="alert" aria-label="Close"
               ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
             </div>
+            <label>Seleccione un consejo:</label>
             <select class="form-control" ng-model="Selected" ng-options="item.consejo for item in names"></select>
             <p>
-              item seleccionado: {{Selected.idConsejo}}
+              item seleccionado: {{Selected.idconsejo}}
             </p>
             <br>
             <label>Asignar Fechas Para Consejo:</label>
-            <p class="input-group">
-              <input type="text" class="form-control" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="fecha" name="fecha" id="fecha" is-open="popup1.opened" datepicker-options="dateOptions" required close-text="Close" autofocus/>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-            <button class="btn btn-success" href ng-click="CrearNuevoConsejo()">Asignar fechas de consejo</button>
+            <br>
+            <button class="btn btn-success" href ng-click="asignarfecha()">Asignar fechas de consejo</button>
             <br>
             <div id="grid1" ui-grid="gridOptions" class="grid"></div>
 
