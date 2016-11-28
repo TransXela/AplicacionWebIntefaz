@@ -9,6 +9,16 @@
 */
 
 angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($scope, apiService, $uibModal, $location, $cookies, uiGridConstants) {
+
+
+    // ------------------- PANTALLA STEPS ----------------------------------------------------------------------------------------------------
+
+
+
+    // ------------------- END PANTALLA STEPS ----------------------------------------------------------------------------------------------------
+
+
+
   $scope.alertas = [];
   $scope.apiurl = 'http://127.0.0.1:8000';
   $scope.idusuario = 0;
@@ -109,19 +119,29 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
       for(var i = 0; i<$scope.grupos.length; i++){
         $scope.filtrogrupos.push({value: $scope.grupos[i].id, label: $scope.grupos[i].name});
       }
-      apiService.obtener('/users/?tk=' + $scope.token).
+      apiService.obtener('/obtenerusuariosgrupos/?tk=' + $scope.token).
       success(function(response, status, headers, config){
+        $scope.duenio = response[0];
+        $scope.pmt = response[1];
+        $scope.cultura = response[2];
+        $scope.admin = response[3];
+
+        console.log($scope.duenio);
+
         $scope.usuarios = response;
         $scope.gridOptions.data = $scope.usuarios;
         $scope.gridOptions.enableFiltering = true;
         $scope.gridOptions.columnDefs = [
-          {name:'Usuario',field:'username'},
-          {name:'Correo',field:'email'},
-          {name:'Tipo usuario', field: 'groups[0]', cellTemplate: "<div>{{grid.appScope.mapearGrupo(row.entity.groups[0])}}</div>",
-            filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
-            selectOptions: $scope.filtrogrupos}, headerCellClass: $scope.highlightFilteredHeader},
-          {name:'Estado',field:'is_active', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.is_active)}}</div>", enableFiltering: false},
-          {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.id)">Ver detalles</button></div>', enableFiltering: false}
+
+            {name:'Usuario',field:'username'},
+            {name:'Correo',field:'email'},
+            {name:'Tipo usuario', field: 'groups[0]', cellTemplate: "<div>{{grid.appScope.mapearGrupo(row.entity.groups[0])}}</div>",
+              filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
+              selectOptions: $scope.filtrogrupos}, headerCellClass: $scope.highlightFilteredHeader},
+            {name:'Estado',field:'is_active', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.is_active)}}</div>", enableFiltering: false},
+            {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.id)">Ver detalles</button></div>', enableFiltering: false}
+
+
         ];
 
       }).
@@ -179,30 +199,51 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
 });
 
 angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope', 'apiService', '$uibModalInstance','options', 'grupos', function ($scope, apiService, $uibModalInstance, options, grupos) {
-  $scope.nombre = null;
+  $scope.hab = 1;
+  $scope.usuario = null;
   $scope.correo = null;
   $scope.contrasenia = null;
   $scope.grupo = null;
-  $scope.estado = true;
-  $scope.is_staff = false;
-  $scope.is_superuser = false;
+  $scope.estado = "1";
+
+  $scope.nombre = null;
+ 	$scope.apellidos = null;
+ 	$scope.direccion = null;
+ 	$scope.empresa = null;
+ 	$scope.fecha_nac ="2016-11-11T00:00:00Z";
+ 	$scope.fecha_crea = "2016-11-16T00:00:00Z";
+ 	$scope.dpi = null;
+ 	$scope.telefono = null;
+ 	$scope.foto = null;
+
+
+
   $scope.alertas = [];
   $scope.options = options;
   $scope.grupos = grupos;
   $scope.close = function () {
 
-      if ($scope.mapearGrupo($scope.grupo) === 'Admin') {
-        $scope.is_staff = true;
-        $scope.is_superuser = true;
-      }
-    apiService.crear('/users/?tk=' + options.token, {
-      username: $scope.nombre,
+
+
+
+
+
+    apiService.crear('/crearusuariopersona/?tk=' + options.token, {
+      nombre : $scope.nombre,
+    	apellidos : $scope.apellidos,
+    	direccion : $scope.direccion,
+    	empresa : $scope.empresa,
+    	fecha_nac : $scope.fecha_nac,
+    	fecha_crea : $scope.fecha_crea,
+    	dpi : $scope.dpi,
+    	telefono : $scope.telefono,
+    	foto : $scope.foto ,
+    	estado : $scope.estado,
+
+      username: $scope.usuario,
       idgroup: parseInt($scope.grupo),
       email: $scope.correo,
-      password: $scope.contrasenia,
-      is_active: parseInt($scope.estado),
-      is_staff: $scope.is_staff,
-      is_superuser: $scope.is_superuser
+      password: $scope.contrasenia
     })
     .success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
@@ -247,7 +288,7 @@ angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope'
   };
 }]);
 
-angular.module('transxelaWebApp').controller('ModificarUsController', ['$scope', '$resource', '$uibModalInstance', 'options', 'usuario', 'apiService', 'grupos', function ($scope, $resource, $uibModalInstance, options, usuario, apiService, grupos) {
+angular.module('transxelaWebApp').controller('ModificarUsController', ['$scope', '$resource', '$uibModalInstance', 'options', 'usuario', 'apiService', 'grupos', '$location', function ($scope, $resource, $uibModalInstance, options, usuario, apiService, grupos, $location) {
   if (usuario.is_active === true) {
     $scope.estado = "1";
   } else {
