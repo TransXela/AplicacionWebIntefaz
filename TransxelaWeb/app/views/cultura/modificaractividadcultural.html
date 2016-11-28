@@ -27,80 +27,80 @@
 
 		<div class="well">
 
-			<div id="map" style="width:100%;height:500px"  </div>
+			<div id="map" style="width:100%;height:500px">  </div>
 
-				<script>
-					var lat=document.getElementById('latitud').value;
-					var long=document.getElementById('longitud').value;
-					var map;
-					var marker;
-					var initMap = function() {
-						// Create a map object and specify the DOM element for display.
-						map = new google.maps.Map(document.getElementById('map'), {
-							center: {lat:  14.83333, lng: -91.5167},
-							scrollwheel: false,
-							zoom: 14
-						});
-						map.addListener('click' , function(e){
-							//	 	placeMarkerAndPanTo(e.latLng,map);
-							placeMarker(e.latLng);
-							lat= e.latLng.lat();
-							lng= e.latLng.lng();
-							console.log(lat);
-							console.log(lng);
+			<script>
+			var lat=document.getElementById('latitud').value;
+			var long=document.getElementById('longitud').value;
+			var map;
+			var marker;
+			var initMap = function() {
+				// Create a map object and specify the DOM element for display.
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: {lat:  14.83333, lng: -91.5167},
+					scrollwheel: false,
+					zoom: 14
+				});
+				map.addListener('click' , function(e){
+					//	 	placeMarkerAndPanTo(e.latLng,map);
+					placeMarker(e.latLng);
+					lat= e.latLng.lat();
+					lng= e.latLng.lng();
+					console.log(lat);
+					console.log(lng);
 
-							setValLat(lat);
-							setValLng(lng);
-						});
-					}; //Google maps
-					//				function placeMarkerAndPanTo(latLng, map) {
-					//		   			var marker = new google.maps.Marker({
-					//						position: latLng,
-					//		    		map: map
-					//		  });
-					//		  map.panTo(latLng);
-					//    };
-					var placeMarker = function(location) {
-						if (marker) {
-							//if marker already was created change positon
-							marker.setPosition(location);
-						} else {
-							//create a marker
-							marker = new google.maps.Marker({
-								position: location,
-								map: map,
-								draggable: true
-							});
-						}
-					};
+					setValLat(lat);
+					setValLng(lng);
+				});
+			}; //Google maps
+			//				function placeMarkerAndPanTo(latLng, map) {
+			//		   			var marker = new google.maps.Marker({
+			//						position: latLng,
+			//		    		map: map
+			//		  });
+			//		  map.panTo(latLng);
+			//    };
+			var placeMarker = function(location) {
+				if (marker) {
+					//if marker already was created change positon
+					marker.setPosition(location);
+				} else {
+					//create a marker
+					marker = new google.maps.Marker({
+						position: location,
+						map: map,
+						draggable: true
+					});
+				}
+			};
 
-					var setValLat = function(lati){
-						this.lat=lati;
-						document.getElementById('latitud').value=lat;
-					};
+			var setValLat = function(lati){
+				this.lat=lati;
+				document.getElementById('latitud').value=lat;
+			};
 
-					var setValLng = function(lngi){
-						this.lng=lngi;
-						document.getElementById('longitud').value=lngi;
-					};
+			var setValLng = function(lngi){
+				this.lng=lngi;
+				document.getElementById('longitud').value=lngi;
+			};
 
-					var inicializarvalores = function(lati,long){
-						setValLat(lati);
-						setValLng(lngi);
-						console.log("entre aqui");
-					};
+			var inicializarvalores = function(lati,long){
+				setValLat(lati);
+				setValLng(lngi);
 
-				</script>
-				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKfgk0vdG6McwqDBNCqCRlaa0ojh5cl_4&callback=initMap"
-				async defer></script>
+			};
+
+			</script>
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKfgk0vdG6McwqDBNCqCRlaa0ojh5cl_4&callback=initMap"
+			async defer></script>
 
 
 		</div>
 
 	</div>
 </div>
-<input  type="text" name="latitud" id="latitud" ng-model="latitud">
-<input  type="text" name="longitud" id="longitud" ng-model="longitud">
+<input  type="hidden" name="latitud" id="latitud" ng-model="latitud">
+<input  type="hidden" name="longitud" id="longitud" ng-model="longitud">
 
 <div class="modal-footer">
 	<button type="button" ng-click="close(latitud)"  class="btn btn-primary" data-dismiss="modal">{{options.boton}}</button>
