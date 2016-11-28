@@ -100,7 +100,7 @@
               ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>{{alerta.mensaje}}
             </div>
             <label>Seleccione un consejo:</label>
-            <select class="form-control" ng-model="Selected" ng-options="item.consejo for item in names"></select>
+            <select class="form-control" ng-model="Selected" ng-options="item.consejo for item in names" ng-selected="idconsejo(Selected.idconsejo)" ng-click="cambio(Selected.idconsejo)"></select>
             <p>
               item seleccionado: {{Selected.idconsejo}}
             </p>

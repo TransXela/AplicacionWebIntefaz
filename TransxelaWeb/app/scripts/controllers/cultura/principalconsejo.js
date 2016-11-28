@@ -14,9 +14,15 @@ angular.module('transxelaWebApp').controller('PrincipalConsejoCtrl' ,function ($
   $scope.alertas = [];
   $scope.idConsejo=1;
   $scope.alertas=[];
+  $scope.item="1";
 
 
+    $scope.idconsejo= function(val){
+      console.log($scope.idcon);
 
+      $scope.idcon=val;
+      $scope.tem=val;
+    };
 
 $scope.CrearNuevoConsejo = function () {
    var uibModalInstance = $uibModal.open({
@@ -54,7 +60,7 @@ $scope.CrearNuevoConsejo = function () {
       controller:'PopupAsignarFecha',
       resolve: {
         options: function () {
-              return {"titleAct": "Asignar Fecha", "boton" :"Asignar", "token": $scope.token};
+              return {"titleAct": "Asignar Fecha", "boton" :"Asignar", "token": $scope.token, "idconsejo": $scope.idcon};
           },
            idConsejo:function(){
              return $scope.idConsejo;
@@ -168,7 +174,7 @@ $scope.CrearNuevoConsejo = function () {
         apiService.obtener("/cultura/consejodeldia/?tk=" + $scope.token).
         success(function(response, status, headers, config){
           $scope.Consejos = response;
-            $scope.names=$scope.Consejos;
+          $scope.names=$scope.Consejos;
 
           }).
           error(function(response, status, headers, config) {
@@ -195,42 +201,60 @@ $scope.CrearNuevoConsejo = function () {
                    $location.url('/login');
             }
 
+            $scope.cambio=function(val){
 
-            if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
-              $scope.idusuario = $cookies.getObject('user').id;
-              $scope.token = $cookies.getObject('user').token;
-              $scope.gridOptions = {};
-              console.log($cookies.getObject('user').token);
-              console.log("/cultura/consejofe/?tk="+$scope.token);
-              apiService.obtener("/cultura/consejodeldia/?tk=" + $scope.token).
-              success(function(response, status, headers, config){
-                $scope.Consejos = response;
-                  $scope.names=$scope.Consejos;
+              if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
+                $scope.idusuario = $cookies.getObject('user').id;
+                $scope.token = $cookies.getObject('user').token;
+                $scope.gridOptions = {};
+                console.log($cookies.getObject('user').token);
+                console.log("/cultura/consejofe/1/");
+                apiService.obtener("/cultura/consejofe/"+$scope.item+"/").
+                success(function(response, status, headers, config){
+                  $scope.Consejos = response;
+                  console.log($scope.Consejos);
+                  $scope.gridOptions.data=$scope.actividades;
+                  $scope.gridOptions.enableFiltering = true;
+                  $scope.gridOptions.paginationPageSizes = [10, 25, 50];
+                  $scope.gridOptions.paginationPageSize = 10;
+                  $scope.gridOptions.columnDefs = [
+                        {name: 'Fecha del consejo', field: 'fecha'},
 
-                }).
-                error(function(response, status, headers, config) {
-                  switch(status) {
-                    case 400: {
-                      $location.url('/404');
-                      break;
+                    ];
+
+                  }).
+                  error(function(response, status, headers, config) {
+                    switch(status) {
+                      case 400: {
+                        $location.url('/404');
+                        break;
+                      }
+                      case 403: {
+                        $location.url('/403');
+                        break;
+                      }
+                      case 404: {
+                        $location.url('/404');
+                        break;
+                      }
+                      default: {
+                        $location.url('/500');
+                      }
                     }
-                    case 403: {
-                      $location.url('/403');
-                      break;
+                  });
+              }
+                    else {
+                           $location.url('/login');
                     }
-                    case 404: {
-                      $location.url('/404');
-                      break;
-                    }
-                    default: {
-                      $location.url('/500');
-                    }
-                  }
-                });
-            }
-                  else {
-                         $location.url('/login');
-                  }
+
+
+            };
+
+
+
+
+
+
 
 
 
@@ -277,9 +301,12 @@ angular.module('transxelaWebApp').controller('PopupContConsejo', ['$scope','$htt
 angular.module('transxelaWebApp').controller('PopupAsignarFecha', ['$scope','$http','$uibModalInstance','apiService','options',function ($scope, $http, $uibModalInstance,apiService, options) {
   $scope.consejo=null;
   $scope.options=options;
+
   $scope.close = function () {
-        apiService.crear('/cultura/consejodeldia/?tk='+ options.token, {
-        consejo: $scope.consejo
+        console.log({fecha:$scope.formatoFecha($scope.fecha), consejo:options.idconsejo});
+        apiService.crear('/cultura/consejo/?tk='+ options.token, {
+        fecha: $scope.formatoFecha($scope.fecha),
+        consejo: options.idconsejo
     }).
       success(function(data, status, headers, config){
       $uibModalInstance.close(data,500);
@@ -302,13 +329,14 @@ angular.module('transxelaWebApp').controller('PopupAsignarFecha', ['$scope','$ht
                   $uibModalInstance.dismiss('500');
             }
           }
+
     });
   };
-
-
         $scope.formatoFecha = function(fecha){
           return fecha.getFullYear() + "-" + (fecha.getMonth()+1) + "-" + fecha.getDate();
         };
+
+
         $scope.today = function() {
         $scope.fecha = new Date();
         };
