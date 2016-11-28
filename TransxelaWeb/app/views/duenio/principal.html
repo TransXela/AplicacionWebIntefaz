@@ -14,16 +14,16 @@
     <!-- Top Menu Items -->
     <ul class="nav navbar-right top-nav">
       <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{duenio.nombre + " " + duenio.apellidos}} <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-              <li>
-                  <a href="#/duenio/perfil"><i class="fa fa-fw fa-user"></i> Perfil</a>
-              </li>
-              <li class="divider"></li>
-              <li>
-                  <a href ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
-              </li>
-          </ul>
+        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{duenio.nombre + " " + duenio.apellidos}} <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#/duenio/perfil"><i class="fa fa-fw fa-user"></i> Perfil</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+          </li>
+        </ul>
       </li>
     </ul>
     <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
@@ -39,27 +39,21 @@
           <a href="#/duenio/horarios"><i class="fa fa-clock-o fa-fw"></i> Horarios</a>
         </li>
         <li>
-          <a href="#/duenio/calendario"><i class="fa fa-calendar fa-fw"></i> Calendario</a>
-        </li>
-        <li>
-          <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+          <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-calendar fa-fw"></i> Asignaciones <i class="fa fa-fw fa-caret-down"></i></a>
           <ul id="demo" class="collapse">
             <li>
-              <a href="#">Dropdown Item</a>
+              <a href="#/duenio/calendario">Todas</a>
             </li>
             <li>
-              <a href="#">Dropdown Item</a>
+              <a href="#/duenio/calendariobus">Por bus</a>
+            </li>
+            <li>
+              <a href="#/duenio/calendariopiloto">Por piloto</a>
             </li>
           </ul>
         </li>
         <li>
           <a href="#/duenio/estadisticas"><i class="fa fa-bar-chart fa-fw"></i> Estadísticas</a>
-        </li>
-        <li>
-          <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-        </li>
-        <li>
-          <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
         </li>
       </ul>
     </div>
@@ -85,103 +79,103 @@
 
       <div class="row">
 
-          <div class="col-lg-6 col-md-6">
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-3">
-                    <i class="fa fa-users fa-4x"></i>
-                  </div>
-                  <div class="col-xs-9 text-right">
-                    <div class="huge">{{duenio.no_Choferes}}</div>
-                  </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-users fa-4x"></i>
                 </div>
-              </div>
-              <a href="#/duenio/pilotos">
-                <div class="panel-body">
-                  <span class="pull-left">Pilotos</span>
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                  <div class="clearfix"></div>
+                <div class="col-xs-9 text-right">
+                  <div class="huge">{{duenio.no_Choferes}}</div>
                 </div>
-              </a>
-              <div class="panel-footer" style="word-wrap:break-word;">
-                <p>Ingrese y edite la información de sus pilotos y mantenga un control preciso de sus colaboradores.</p>
               </div>
             </div>
+            <a href="#/duenio/pilotos">
+              <div class="panel-body">
+                <span class="pull-left">Pilotos</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </a>
+            <div class="panel-footer" style="word-wrap:break-word;">
+              <p>Ingrese y edite la información de sus pilotos y mantenga un control preciso de sus colaboradores.</p>
+            </div>
           </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="panel panel-green">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-3">
-                    <i class="fa fa-bus fa-4x"></i>
-                  </div>
-                  <div class="col-xs-9 text-right">
-                    <div class="huge">{{duenio.no_Buses}}</div>
-                  </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="panel panel-green">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-bus fa-4x"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                  <div class="huge">{{duenio.no_Buses}}</div>
                 </div>
               </div>
+            </div>
 
-              <a href="#/duenio/buses">
-                <div class="panel-body">
-                  <span class="pull-left">Buses</span>
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                  <div class="clearfix"></div>
-                </div>
-              </a>
-              <div class="panel-footer" style="word-wrap:break-word;">
-                <p>Registre sus unidades y mantenga al día su información para desligarse de problemas con la PMT.</p>
+            <a href="#/duenio/buses">
+              <div class="panel-body">
+                <span class="pull-left">Buses</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
               </div>
+            </a>
+            <div class="panel-footer" style="word-wrap:break-word;">
+              <p>Registre sus unidades y mantenga al día su información para desligarse de problemas con la PMT.</p>
             </div>
           </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="panel panel-yellow">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-3">
-                    <i class="fa fa-clock-o fa-4x"></i>
-                  </div>
-                  <div class="col-xs-9 text-right">
-                    <div class="huge">{{duenio.no_Horarios}}</div>
-                  </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="panel panel-yellow">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-clock-o fa-4x"></i>
                 </div>
-              </div>
-              <a href="#/duenio/horarios">
-                <div class="panel-body">
-                  <span class="pull-left">Horarios</span>
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                  <div class="clearfix"></div>
+                <div class="col-xs-9 text-right">
+                  <div class="huge">{{duenio.no_Horarios}}</div>
                 </div>
-              </a>
-              <div class="panel-footer" style="word-wrap:break-word;">
-                <p>Cree sus horarios para poder visualizar y administrar de una mejor forma su flota de buses.</p>
               </div>
             </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="panel panel-red">
-              <div class="panel-heading">
-                <div class="row">
-                  <div class="col-xs-3">
-                    <i class="fa fa-calendar fa-4x"></i>
-                  </div>
-                  <div class="col-xs-9 text-right">
-                    <div class="huge"></div>
-                  </div>
-                </div>
+            <a href="#/duenio/horarios">
+              <div class="panel-body">
+                <span class="pull-left">Horarios</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
               </div>
-              <a href="#/duenio/calendario">
-                <div class="panel-body">
-                  <span class="pull-left">Calendario</span>
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                  <div class="clearfix"></div>
-                </div>
-              </a>
-              <div class="panel-footer" style="word-wrap:break-word;">
-                <p>Asigne un piloto a un bus y establezca el horario y la fecha en la que estará en ruta.</p>
-              </div>
+            </a>
+            <div class="panel-footer" style="word-wrap:break-word;">
+              <p>Cree sus horarios para poder visualizar y administrar de una mejor forma su flota de buses.</p>
             </div>
           </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="panel panel-red">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-calendar fa-4x"></i>
+                </div>
+                <div class="col-xs-9 text-right">
+                  <div class="huge"></div>
+                </div>
+              </div>
+            </div>
+            <a href="#/duenio/calendario">
+              <div class="panel-body">
+                <span class="pull-left">Asignaciones</span>
+                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                <div class="clearfix"></div>
+              </div>
+            </a>
+            <div class="panel-footer" style="word-wrap:break-word;">
+              <p>Asigne un piloto a un bus y establezca el horario y la fecha en la que estará en ruta.</p>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- /.row -->
 
