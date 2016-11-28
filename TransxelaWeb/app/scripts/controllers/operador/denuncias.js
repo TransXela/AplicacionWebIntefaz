@@ -8,59 +8,101 @@
 * Controller of the transxelaWebApp
 */
 angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function ($scope, apiService, $cookies, $location, uiGridConstants, $templateCache, $uibModal) {
+  $scope.formatoFecha = function(fecha){
+    return fecha.getFullYear() + "-" + (fecha.getMonth()+1) + "-" + fecha.getDate();
+  };
+
+  $scope.buscar = function(){
+    if($scope.fecha<=$scope.fechafin){
+      $scope.gridOptions = {};
+      apiService.obtener('/webdenuncias/rango/?tk='+$scope.token+"&fInicio="+$scope.formatoFecha($scope.fecha)+"&fFin="+$scope.formatoFecha($scope.fechafin)).
+      success(function(response, status, headers, config) {
+        $scope.denuncias = response.denuncias;
+        $scope.gridOptions.data = $scope.denuncias;
+        $scope.gridOptions.enableFiltering = true;
+        $scope.gridOptions.enableRowSelection = true;
+        $scope.gridOptions.enableSelectAll = true;
+        // $scope.gridOptions.showGridFooter = true;
+        $scope.gridOptions.paginationPageSizes = [10, 25, 50];
+        $scope.gridOptions.paginationPageSize = 10;
+        $scope.gridOptions.columnDefs = [
+          {name:'Fecha',field:'denuncia.fechahora', cellFilter: 'date:\'dd/MM/yy hh:mm a\'', sort: { direction: uiGridConstants.DESC }, enableFiltering: false},
+          {name:'Bus',field:'denuncia.placa',
+          filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Placa del bus', headerCellClass: $scope.highlightFilteredHeader}},
+          {name:'Tipo denuncia',field:'tipodenuncia[0].descripcion',
+            filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Tipo denuncia', headerCellClass: $scope.highlightFilteredHeader}},
+          {name:'Estado', field: 'denuncia.estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.denuncia.estado)}}</div>",
+            filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
+            selectOptions: $scope.filtroestado}, headerCellClass: $scope.highlightFilteredHeader},
+          {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-default btn-sm" ng-click="grid.appScope.showTD(row.entity.idtipoDenuncia)"><i class="fa fa-map-marker"></i></button><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.denuncia.iddenuncia)">Ver +</button></div>', enableFiltering: false}
+        ];
+        if(response.numdenuncias === 0){
+          $scope.alertas.push({"tipo":"success", "mensaje": "No existen denuncias en el rango seleccionado.", "icono": "glyphicon glyphicon-ok"});
+        }
+        else{
+          $scope.alertas = [];
+        }
+      }).
+      error(function(response, status, headers, config) {
+        switch(status) {
+          case 400: {
+            $location.url('/404');
+            break;
+          }
+          case 403: {
+            $location.url('/403');
+            break;
+          }
+          case 404: {
+            $location.url('/404');
+            break;
+          }
+          default: {
+            $location.url('/500');
+          }
+        }
+      });
+    }
+    else{
+      $scope.alertas.push({"tipo":"warning", "mensaje": "El rango seleccionado no es correcto.", "icono": "glyphicon glyphicon-ok", "icono": "glyphicon glyphicon-exclamation-sign"});
+    }
+  };
+
+  $scope.mapearEstado = function(estado) {
+    for(var i = 0; i < $scope.estados.length; i++) {
+      if($scope.estados[i]["id"] === estado) {
+          return $scope.estados[i]["definicion"];
+      }
+    }
+    return estado;
+  };
+
+  $scope.addFiltroEstado = function(id){
+    var nueva = true;
+    for(var i = 0; i<$scope.filtroestado.length; i++){
+      if($scope.filtroestado[i].value === id){
+        nueva = false;
+        break;
+      }
+    }
+    if(nueva){
+      $scope.filtroestado.push({value: id, label: $scope.mapearEstado(id)});
+    }
+  };
+
   if(typeof $cookies.getObject('user') != 'undefined' && $cookies.getObject('user')){
+    $scope.fecha = new Date();
+    $scope.fechafin = new Date();
     $scope.token = $cookies.getObject('user').token;
     $scope.usuario = $cookies.getObject('user').usuario;
     $scope.estadoCambiar = null;
     $scope.estados = [{ "id": 1,"definicion": "En proceso"}, { "id": 2,"definicion": "Pendiente de verificación"}, { "id": 3,"definicion": "Aceptada"}];
     $scope.alertas = [];
-    $scope.gridOptions = {};
-    apiService.obtener('/webdenuncias/?tk='+$scope.token).
-    success(function(response, status, headers, config) {
-      $scope.denuncias = response.denuncias;
-      $scope.gridOptions.data = $scope.denuncias;
-      $scope.gridOptions.enableFiltering = true;
-      $scope.gridOptions.enableRowSelection = true;
-      $scope.gridOptions.enableSelectAll = true;
-      // $scope.gridOptions.showGridFooter = true;
-      $scope.gridOptions.paginationPageSizes = [10, 25, 50];
-      $scope.gridOptions.paginationPageSize = 10;
-
-      $scope.filtroestado = [];
-      for(var i = 0; i<$scope.estados.length; i++){
-        $scope.addFiltroEstado($scope.estados[i].id);
-      }
-      $scope.gridOptions.columnDefs = [
-        {name:'Fecha',field:'denuncia.fechahora', cellFilter: 'date:\'dd/MM/yy hh:mm a\'', sort: { direction: uiGridConstants.DESC }, enableFiltering: false},
-        {name:'Bus',field:'denuncia.placa',
-        filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Placa del bus', headerCellClass: $scope.highlightFilteredHeader}},
-        {name:'Tipo denuncia',field:'tipodenuncia[0].descripcion',
-          filter: {type: uiGridConstants.filter.STARTS_WITH, placeholder: 'Tipo denuncia', headerCellClass: $scope.highlightFilteredHeader}},
-        {name:'Estado', field: 'denuncia.estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.denuncia.estado)}}</div>",
-          filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
-          selectOptions: $scope.filtroestado}, headerCellClass: $scope.highlightFilteredHeader},
-        {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-default btn-sm" ng-click="grid.appScope.showTD(row.entity.idtipoDenuncia)"><i class="fa fa-map-marker"></i></button><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.denuncia.iddenuncia)">Ver +</button></div>', enableFiltering: false}
-      ];
-    }).
-    error(function(response, status, headers, config) {
-      switch(status) {
-        case 400: {
-          $location.url('/404');
-          break;
-        }
-        case 403: {
-          $location.url('/403');
-          break;
-        }
-        case 404: {
-          $location.url('/404');
-          break;
-        }
-        default: {
-          $location.url('/500');
-        }
-      }
-    });
+    $scope.filtroestado = [];
+    for(var i = 0; i<$scope.estados.length; i++){
+      $scope.addFiltroEstado($scope.estados[i].id);
+    }
+    $scope.buscar();
   }
   else{
     $location.url('/login');
@@ -110,15 +152,6 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
   $scope.cerrar = function(){
     $cookies.remove('user');
     $location.url('/');
-  };
-
-  $scope.mapearEstado = function(estado) {
-    for(var i = 0; i < $scope.estados.length; i++) {
-      if($scope.estados[i]["id"] === estado) {
-          return $scope.estados[i]["definicion"];
-      }
-    }
-    return estado;
   };
 
   $scope.denunciasRutas = function(){
@@ -176,17 +209,27 @@ angular.module('transxelaWebApp').controller('OperadorDenunciasCtrl', function (
     $scope.gridApi = gridApi;
   };
 
-  $scope.addFiltroEstado = function(id){
-    var nueva = true;
-    for(var i = 0; i<$scope.filtroestado.length; i++){
-      if($scope.filtroestado[i].value === id){
-        nueva = false;
-        break;
-      }
-    }
-    if(nueva){
-      $scope.filtroestado.push({value: id, label: $scope.mapearEstado(id)});
-    }
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    //maxDate: new Date(),
+    //minDate: new Date(),
+    startingDay: 0
+  };
+
+  $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
+  $scope.open2 = function() {
+    $scope.popup2.opened = true;
+  };
+
+  $scope.popup1 = {
+    opened: false
+  };
+
+  $scope.popup2 = {
+    opened: false
   };
 });
 
