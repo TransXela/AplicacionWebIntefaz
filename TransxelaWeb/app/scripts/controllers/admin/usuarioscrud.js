@@ -126,19 +126,18 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
         $scope.cultura = response[2];
         $scope.admin = response[3];
 
-        console.log($scope.duenio);
 
-        $scope.usuarios = response;
+
+        $scope.usuarios = $scope.duenio.concat($scope.pmt, $scope.cultura);
+        console.log($scope.usuarios);
         $scope.gridOptions.data = $scope.usuarios;
         $scope.gridOptions.enableFiltering = true;
         $scope.gridOptions.columnDefs = [
 
-            {name:'Usuario',field:'username'},
-            {name:'Correo',field:'email'},
-            {name:'Tipo usuario', field: 'groups[0]', cellTemplate: "<div>{{grid.appScope.mapearGrupo(row.entity.groups[0])}}</div>",
-              filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
-              selectOptions: $scope.filtrogrupos}, headerCellClass: $scope.highlightFilteredHeader},
-            {name:'Estado',field:'is_active', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.is_active)}}</div>", enableFiltering: false},
+            {name:'Usuario',field:'nombre'},
+            {name:'Correo',field:'correo'},
+            {name:'Tipo usuarios',field:'usuario.groups[0].name'},
+            {name:'Estado',field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.is_active)}}</div>", enableFiltering: false},
             {name:' ',cellTemplate:'<div><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.id)">Ver detalles</button></div>', enableFiltering: false}
 
 
