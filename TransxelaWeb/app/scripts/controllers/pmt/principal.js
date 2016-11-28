@@ -142,11 +142,12 @@
            $location.url('/403');
          }
        });
+
        $scope.cerrar = function(){
          $cookies.remove('user');
          $location.url('/');
        };
-
+       
        apiService.obtener('/reporte/pmt/pilotos'+'/'+'?tk='+$scope.token)
        .success(function(data){
         $scope.pilotoDen = data;
