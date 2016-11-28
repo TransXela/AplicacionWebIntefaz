@@ -14,6 +14,8 @@
    .controller('PmtPrincipalCtrl', function ($scope, apiService, $cookies,  $location) {
      if(typeof $cookies.getObject('user')!='undefined' && $cookies.getObject('user')){
          $scope.token = $cookies.getObject('user').token;
+         $scope.usuario = $cookies.getObject('user').usuario;
+
 
            }
          });
@@ -24,6 +26,7 @@
    if(typeof $cookies.getObject('user')!='undefined' && $cookies.getObject('user')){
      //$scope.idduenio = $cookies.getObject('user').id;
      $scope.token = $cookies.getObject('user').token;
+     $scope.usuario = $cookies.getObject('user').usuario;
 
 //muestra la cantidad de buses denunciados para PMT
     $scope.Lcant = [];
