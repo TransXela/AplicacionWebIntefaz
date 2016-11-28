@@ -14,16 +14,19 @@
       <!-- close-navbar-header -->
       <!-- navbar-top-links -->
         <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a ng-click="cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
+          <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-user fa-fw"></i> {{usuario.nombre + " " + usuario.apellidos}} <i class="fa fa-caret-down"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-user">
+                  <li><a href="#/pmt/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+                  </li>
+              </ul>
+              <!-- /.dropdown-user -->
+          </li>
             <!-- /.dropdown -->
         </ul>
       <!-- close-navbar-top-links -->
