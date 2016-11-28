@@ -9,7 +9,7 @@
  */
 angular.module('transxelaWebApp')
   .controller('CulturaPerfilCtrl', function ($scope, apiService, $cookies, $location) {
-    this.awesomeThings = [
+    
 
         if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
           $scope.idcultura = $cookies.getObject('user').id;

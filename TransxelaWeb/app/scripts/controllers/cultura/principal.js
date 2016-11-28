@@ -1,6 +1,6 @@
 'use strict';
 angular.module('transxelaWebApp')
-  .controller('PrincipalCtrl', function ($scope) {
+  .controller('PrincipalCtrl', function ($scope, $cookies) {
   var baseURL="http://lorempixel.com/950/300";
   $scope.setInterval=5000;
   $scope.usuario = $cookies.getObject('user').usuario;
