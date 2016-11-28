@@ -1,18 +1,19 @@
+'use strict';
 angular.module('transxelaWebApp')
   .controller('PrincipalCtrl', function ($scope) {
-  var baseURL="http://lorempixel.com/900/300";
+  var baseURL="http://lorempixel.com/950/300";
   $scope.setInterval=5000;
 
   $scope.slides=[
     {
       title:"Bienvenido",
-      image:baseURL+'/nature',
+      image:baseURL+'/technics',
       text:"Bienvenido al modulo de cultura de transxela"
     }
   ];
 
 
-var baseURL='http://lorempixel.com/200/200'
+var baseURL='http://lorempixel.com/200/200';
 
   $scope.contenido=[
     {
@@ -24,11 +25,6 @@ var baseURL='http://lorempixel.com/200/200'
       img:baseURL+'/nature',
       title:"Consejo del dia",
       about:"Haga conocer a los usuarios de tranxela sobre sus derechos y obligaciones"
-    },
-    {
-      img:baseURL+'/sport',
-      title:"FAQ",
-      about:"Cree preguntas que serviran a la poblacion"
     }
   ];
 
