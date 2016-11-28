@@ -11,6 +11,7 @@
 angular.module('transxelaWebApp')
 .controller('PmtDueniosCtrl', function ($scope, $uibModal, apiService, $cookies, uiGridConstants,  $location) {
   $scope.alertas = [];
+  $scope.usuario = $cookies.getObject('user').usuario;
   $scope.showDuenio = function () {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/pmt/agregarDuenio.html',

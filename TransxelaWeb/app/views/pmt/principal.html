@@ -1,64 +1,59 @@
 <div id="wrapper">
-  <!-- navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-      <!-- navbar-header -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
-        </div>
-      <!-- close-navbar-header -->
-      <!-- navbar-top-links -->
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user fa-fw"></i> {{firstName + " " + lastName}} <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a ng-click="cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/pmt/principal">TransXela - PMT</a>
+    </div>
+    <ul class="nav navbar-right top-nav">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{usuario.nombre + " " + usuario.apellidos}} <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#/duenio/perfil"><i class="fa fa-fw fa-user"></i> Perfil</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+          </li>
         </ul>
-      <!-- close-navbar-top-links -->
-      <!-- navbar-static-side -->
-        <div class="navbar-default sidebar" role="navigation">
-          <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
-              <li>
-                <a href="#/operador/denuncias"><i class="fa fa-flag fa-fw"></i> Denuncias</a>
-              </li>
-              <li>
-                <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
-              </li>
-              <li>
-                <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
-              </li>
-              <li>
-                <a href="#/pmt/horariosBus"><i class="fa fa-clock-o  fa-fw"></i>Horarios Buses</a>
-              </li>
-              <li>
-                <a href="#/pmt/horarios"><i class="fa fa-clock-o  fa-fw"></i>Horarios Dueños</a>
-              </li>
-              <li>
-                <a href="#/pmt/horariosPiloto"><i class="fa fa-clock-o  fa-fw"></i>Horarios Pilotos</a>
-              </li>
-              <li>
-                <a href="#/reporte/rutasdenunciadas"><i class="fa fa-info fa-fw"></i> Estadisticas </a>
-              </li>
-            </ul>
-          </div>
-          <!-- /.sidebar-collapse -->
-        </div>
-      <!-- close-navbar-static-side -->
-    </nav>
-  <!-- close-navigation -->
+      </li>
+    </ul>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav side-nav">
+        <li>
+          <a href="#/operador/denuncias"><i class="fa fa-flag fa-fw"></i> Denuncias</a>
+        </li>
+        <li>
+          <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
+        </li>
+        <li>
+          <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
+        </li>
+        <li>
+          <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-clock-o"></i> Horarios <i class="fa fa-fw fa-caret-down"></i></a>
+          <ul id="demo" class="collapse">
+            <li>
+              <a href="#/pmt/horariosBus">Buses</a>
+            </li>
+            <li>
+              <a href="#/pmt/horarios">Dueños</a>
+            </li>
+            <li>
+              <a href="#/pmt/horariosPiloto">Pilotos</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#/reporte/rutasdenunciadas"><i class="fa fa-bar-chart fa-fw"></i> Estadisticas </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <div id="page-wrapper">
     <div class="row">
       <div class="col-lg-12">
@@ -67,105 +62,97 @@
           <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
           <li class="breadcrumb-item active">...</li>
         </ol>
-          <!--<div class="input-group custom-search-form">
-              <input type="text" class="form-control" placeholder="Busque con el numero de placa">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button">
-                    <i class="fa fa-search"></i>
-                </button>
-              </span>
-          </div>-->
       </div>
-      <!-- /.col-lg-12 -->
     </div>
-
     <div class="row">
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-users fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{duenio.no_Choferes}}</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#/duenio/pilotos">
-                    <div class="panel-footer">
-                        <span class="pull-left">Denuncias por Piloto</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
+      <div class="col-lg-6 col-md-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-users fa-4x"></i>
+              </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-green">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-map-signs fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{duenio.no_Buses}}</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#/duenio/buses">
-                    <div class="panel-footer">
-                        <span class="pull-left">Denuncias por Ruta</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
+          </div>
+          <a href="#/pmt/duenios">
+            <div class="panel-body">
+              <span class="pull-left">Dueños</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
             </div>
+          </a>
+          <div class="panel-footer" style="word-wrap:break-word;">
+            <p>Ingrese y edite la información de los dueños de rutas y buses</p>
+          </div>
         </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-yellow">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-list fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{duenio.no_Horarios}}</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#/duenio/horarios">
-                    <div class="panel-footer">
-                        <span class="pull-left">Denuncias por Categoría</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="panel panel-green">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-flag fa-4x"></i>
+              </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-red">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-bus fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge"></div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#/duenio/calendario">
-                    <div class="panel-footer">
-                        <span class="pull-left">Denuncias por Buses</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
+          </div>
+          <a href="#/operador/denuncias">
+            <div class="panel-body">
+              <span class="pull-left">Denuncias</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
             </div>
+          </a>
+          <div class="panel-footer" style="word-wrap:break-word;">
+            <p>Control de denuncias, ordenadas por rango de fechas.</p>
+          </div>
         </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="panel panel-yellow">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-map-signs fa-4x"></i>
+              </div>
+            </div>
+          </div>
+          <a href="#/pmt/rutas">
+            <div class="panel-body">
+              <span class="pull-left">Rutas</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+          <div class="panel-footer" style="word-wrap:break-word;">
+            <p>Ingrese y edite la informacion de las rutas autorizadas, asi como su recorrido.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <div class="panel panel-red">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-bar-chart fa-4x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge"></div>
+              </div>
+            </div>
+          </div>
+          <a href="#/reporte/rutasdenunciadas">
+            <div class="panel-body">
+              <span class="pull-left">Estadisticas</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+          <div class="panel-footer" style="word-wrap:break-word;">
+            <p>Graficas que te permiten visualizar mejor la información a traves del tiempo.</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- /.row -->
     <div class="row">
       <div class="col-lg-6">
         <div class="panel panel-default">
@@ -175,12 +162,7 @@
             </div>
           </div>
         </div>
-        <!-- /.panel -->
       </div>
-      <!-- /.col-lg-6 -->
+    </div>
   </div>
-  <!-- /.row -->
-  </div>
-  <!-- /#page-wrapper -->
 </div>
-<!-- /#wrapper -->

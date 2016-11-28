@@ -13,6 +13,8 @@ angular.module('transxelaWebApp').controller('OperadorDenunciastipoCtrl', functi
     $scope.usuario = $cookies.getObject('user').usuario;
     $scope.idbus = $cookies.get('idbus');
     $scope.idtipo = $cookies.get('idtipo');
+    $scope.alertas = [];
+    $scope.estados = [{ "id": 1,"definicion": "En proceso"}, { "id": 2,"definicion": "Pendiente de verificación"}, { "id": 3,"definicion": "Aceptada"}];
     $scope.gridOptions = {};
     apiService.obtener('/denuncias/ruta/bus/'+$scope.idbus+'/'+$scope.idtipo+'/?tk='+$scope.token).
     success(function(response, status, headers, config) {
@@ -21,33 +23,19 @@ angular.module('transxelaWebApp').controller('OperadorDenunciastipoCtrl', functi
       $scope.tipodenuncia = response[0].tipodenuncia[0];
       $scope.gridOptions.data = $scope.denuncias;
       $scope.gridOptions.enableFiltering = true;
+      $scope.gridOptions.enableRowSelection = true;
+      $scope.gridOptions.enableSelectAll = true;
+      // $scope.gridOptions.showGridFooter = true;
+      $scope.filtroestado = [];
+      for(var i = 0; i<$scope.estados.length; i++){
+        $scope.addFiltroEstado($scope.estados[i].id);
+      }
       $scope.gridOptions.columnDefs = [
-        {name:'Fecha',field:'fechahora', cellFilter: 'date:\'hh:mm a dd-MM-yy\'', sort: { direction: uiGridConstants.DESC },
-        filterHeaderTemplate: 'ui-grid/ui-grid-date-filter',
-        //width: '20%',
-        filters: [
-          {
-            condition: function(term, value, row, column){
-              if (!term) return true;
-              var valueDate = new Date(value);
-              return valueDate >= term;
-            },
-            placeholder: 'Mayor o igual'
-          },
-          {
-            condition: function(term, value, row, column){
-              if (!term) return true;
-              var valueDate = new Date(value);
-              return valueDate <= term;
-            },
-            placeholder: 'Menor o igual'
-          }
-        ],
-        headerCellClass: $scope.highlightFilteredHeader},
+        {name:'Fecha',field:'fechahora', cellFilter: 'date:\'hh:mm a dd-MM-yy\'', sort: { direction: uiGridConstants.DESC }, enableFiltering: false},
         {name:'Bus',field:'placa'},
         {name:'Estado', field:'estado', cellTemplate: "<div>{{grid.appScope.mapearEstado(row.entity.estado)}}</div>",
         filter: {/*term: '1', */type: uiGridConstants.filter.SELECT,
-        selectOptions: [ { value: '1', label: 'Aceptada' }, { value: '2', label: 'Inválida' }, { value: '3', label: 'En proceso' }]}, headerCellClass: $scope.highlightFilteredHeader},
+        selectOptions: $scope.filtroestado}, headerCellClass: $scope.highlightFilteredHeader},
         {name:' ',cellTemplate:'<div class="wrapper text-center"><button class="btn btn-default btn-sm" ng-click="grid.appScope.showTD(row.entity.idtipoDenuncia)"><i class="fa fa-map-marker"></i></button><button class="btn btn-info btn-sm" ng-click="grid.appScope.showVerModificar(row.entity.iddenuncia)">Ver +</button></div>', enableFiltering: false}
       ];
     }).
@@ -81,7 +69,7 @@ angular.module('transxelaWebApp').controller('OperadorDenunciastipoCtrl', functi
       controller: "MController",
       resolve: {
         options: function () {
-          return {"title": "Información de la denuncia", "token": $scope.token, "tipodenuncia": $scope.tipodenuncia};
+          return {"title": "Información de la denuncia", "token": $scope.token, "tipodenuncia": $scope.tipodenuncia, "estados": $scope.estados};
         },
         denuncia: function(){
           $scope.index = $scope.getIndexIfObjWithOwnAttr($scope.denuncias,"iddenuncia", iddenuncia);
@@ -102,25 +90,81 @@ angular.module('transxelaWebApp').controller('OperadorDenunciastipoCtrl', functi
         $location.url('/404');
       }
       else if(status === '500'){
-        $location.url('/400');
+        $location.url('/500');
       }
     });
   };
 
   $scope.mapearEstado = function(estado) {
-    switch(estado){
-      case 1: {
-        return "Aceptada";
+    for(var i = 0; i < $scope.estados.length; i++) {
+      if($scope.estados[i]["id"] === estado) {
+          return $scope.estados[i]["definicion"];
       }
-      case 2: {
-        return "Inválida";
+    }
+    return estado;
+  };
+
+  $scope.cambiarEstadoDenuncias = function(){
+    if($scope.estadoCambiar != null){
+      if($scope.gridApi.selection.getSelectedCount()>0){
+        var cambiarEDenuncias = $scope.gridApi.selection.getSelectedRows();
+        var listadenuncias = [];
+        for(var iterator = 0; iterator < cambiarEDenuncias.length; iterator++){
+          listadenuncias.push(cambiarEDenuncias[iterator].iddenuncia);
+        }
+        apiService.modificar('/denuncias/cambiarestados/?tk=' + $scope.token, {
+          estado: parseInt($scope.estadoCambiar), denuncias: listadenuncias
+        }).
+        success(function(response, status, headers, config){
+          for(var iterator = 0; iterator < cambiarEDenuncias.length; iterator++){
+            cambiarEDenuncias[iterator].estado = parseInt($scope.estadoCambiar);
+          }
+          $scope.alertas.push({"tipo":"success", "mensaje": "Estado de la/s denuncia/s se ha/n actualizado exitosamente.", "icono": "glyphicon glyphicon-ok"});
+        }).
+        error(function(response, status, headers, config) {
+          switch(status) {
+            case 400: {
+              $location.url('/404');
+              break;
+            }
+            case 403: {
+              $location.url('/403');
+              break;
+            }
+            case 404: {
+              $location.url('/404');
+              break;
+            }
+            default: {
+              $location.url('/500');
+            }
+          }
+        });
       }
-      case 3: {
-        return "En proceso";
+      else{
+        $scope.alertas.push({"tipo":"warning", "mensaje": "Las denuncias deben seleccionarse para realizar acciones sobre ellas. No se han modificado denuncias.", "icono": "glyphicon glyphicon-exclamation-sign"});
       }
-      default: {
-        return "Desconocido";
+    }
+    else{
+      $scope.alertas.push({"tipo":"warning", "mensaje": "Debe seleccionar un estado para poder cambiar las denuncias. No se han modificado denuncias.", "icono": "glyphicon glyphicon-exclamation-sign"});
+    }
+  };
+
+  $scope.gridOptions.onRegisterApi = function(gridApi){
+    //set gridApi on scope
+    $scope.gridApi = gridApi;
+  };
+
+  $scope.addFiltroEstado = function(id){
+    var nueva = true;
+    for(var i = 0; i<$scope.filtroestado.length; i++){
+      if($scope.filtroestado[i].value === id){
+        nueva = false;
+        break;
       }
+    }
+    if(nueva){
+      $scope.filtroestado.push({value: id, label: $scope.mapearEstado(id)});
     }
   };
 
@@ -140,37 +184,6 @@ angular.module('transxelaWebApp').controller('OperadorDenunciastipoCtrl', functi
     $cookies.remove('idtipo');
     $location.url('/');
   };
-  // Set Bootstrap DatePickerPopup config
-  $scope.datePicker = {
-
-    options: {
-      formatMonth: 'MM',
-      startingDay: 1
-    },
-    format: "yyyy-MM-dd"
-  };
-
-  // Set two filters, one for the 'Greater than' filter and other for the 'Less than' filter
-  $scope.showDatePopup = [];
-  $scope.showDatePopup.push({ opened: false });
-  $scope.showDatePopup.push({ opened: false });
-  $templateCache.put('ui-grid/date-cell', "<div class='ui-grid-cell-contents'>{{COL_FIELD | date:'yyyy-MM-dd'}}</div>");
-
-  // Custom template using Bootstrap DatePickerPopup
-  $templateCache.put('ui-grid/ui-grid-date-filter',
-  "<div class=\"ui-grid-filter-container\" ng-repeat=\"colFilter in col.filters\" >" +
-  "<input type=\"text\" uib-datepicker-popup=\"{{datePicker.format}}\" " +
-  "datepicker-options=\"datePicker.options\" " +
-  "datepicker-append-to-body=\"true\" show-button-bar=\"false\"" +
-  "is-open=\"showDatePopup[$index].opened\" class=\"ui-grid-filter-input ui-grid-filter-input-{{$index}}\"" +
-  "style=\"font-size:1em; width:11em!important\" ng-model=\"colFilter.term\" ng-attr-placeholder=\"{{colFilter.placeholder || ''}}\" " +
-  " aria-label=\"{{colFilter.ariaLabel || aria.defaultFilterLabel}}\" />" +
-  "<span style=\"padding-left:0.3em;\"><button type=\"button\" class=\"btn btn-default btn-sm\" ng-click=\"showDatePopup[$index].opened = true\">" +
-  "<i class=\"glyphicon glyphicon-calendar\"></i></button></span>" +
-  "<div role=\"button\" class=\"ui-grid-filter-button\" ng-click=\"removeFilter(colFilter, $index)\" ng-if=\"!colFilter.disableCancelFilterButton\" ng-disabled=\"colFilter.term === undefined || colFilter.term === null || colFilter.term === ''\" ng-show=\"colFilter.term !== undefined && colFilter.term !== null && colFilter.term !== ''\">" +
-  "<i class=\"ui-grid-icon-cancel\" ui-grid-one-bind-aria-label=\"aria.removeFilter\">&nbsp;</i></div></div><div ng-if=\"colFilter.type === 'select'\"><select class=\"ui-grid-filter-select ui-grid-filter-input-{{$index}}\" ng-model=\"colFilter.term\" ng-attr-placeholder=\"{{colFilter.placeholder || aria.defaultFilterLabel}}\" aria-label=\"{{colFilter.ariaLabel || ''}}\" ng-options=\"option.value as option.label for option in colFilter.selectOptions\"><option value=\"\"></option></select><div role=\"button\" class=\"ui-grid-filter-button-select\" ng-click=\"removeFilter(colFilter, $index)\" ng-if=\"!colFilter.disableCancelFilterButton\" ng-disabled=\"colFilter.term === undefined || colFilter.term === null || colFilter.term === ''\" ng-show=\"colFilter.term !== undefined && colFilter.term != null\"><i class=\"ui-grid-icon-cancel\" ui-grid-one-bind-aria-label=\"aria.removeFilter\">&nbsp;</i></div></div>"
-  );
-
 });
 
 angular.module('transxelaWebApp').controller('MController', ['$scope', 'apiService', '$uibModalInstance', 'options', 'denuncia', function ($scope, apiService, $uibModalInstance, options, denuncia) {
@@ -180,6 +193,7 @@ angular.module('transxelaWebApp').controller('MController', ['$scope', 'apiServi
   $scope.fecha = $scope.fecha.getDate() + "/" + ($scope.fecha.getMonth()+1) + '/' + $scope.fecha.getFullYear();
   $scope.tipodenuncia = options.tipodenuncia.descripcion;
   $scope.estado = String(denuncia.estado);
+  $scope.estados = options.estados;
   $scope.options = options;
   $scope.close = function () {
     apiService.modificar('/denuncia/estado/' + denuncia.iddenuncia + '/?tk=' + options.token, {

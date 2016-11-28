@@ -10,6 +10,7 @@
 angular.module('transxelaWebApp').controller('PmtHorariosCtrl', function ($scope, apiService, $location, $cookies) {
   $scope.calendarView = 'month';
   $scope.viewDate = new Date();
+  $scope.usuario = $cookies.getObject('user').usuario;
   $scope.alertas = [];
   var colors = [{primary: '#a4d1e1', secondary: '#a6ddf1'/*Celeste*/},
   {primary: '#1e90ff', secondary: '#d1e8ff'/*Azul*/},

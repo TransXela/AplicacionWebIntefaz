@@ -12,6 +12,10 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
   $scope.calendarView = 'month';
   $scope.viewDate = new Date();
   $scope.alertas = [];
+  $scope.nomenclatura = [[{"mensaje":"Deshabilitada", "style": "color:#adabab;"},
+  {"mensaje":"Anterior", "style": "color:#a4d1e1;"},
+  {"mensaje":"Del día", "style": "color:#3db048;"},
+  {"mensaje":"Futura", "style": "color:#1e90ff;"}]];
   var colors = [{primary: '#a4d1e1', secondary: '#a6ddf1'/*Celeste*/},
   {primary: '#1e90ff', secondary: '#d1e8ff'/*Azul*/},
   {primary: '#ad2121', secondary: '#fae3e3'/*Rojo*/},
@@ -114,17 +118,17 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
           }).
           error(function(response, status, headers, config) {
             $scope.buses = [];
-            $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos."});
+            $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
           });
         }).
         error(function(response, status, headers, config) {
           $scope.pilotos = [];
-          $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos."});
+          $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
         });
       }).
       error(function(response, status, headers, config) {
         $scope.horarios = [];
-        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos."});
+        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
       });
     }).
     error(function(response, status, headers, config) {
@@ -213,10 +217,10 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
         estado: result.estado
       });
       if(result.hasOwnProperty("dias")){
-        $scope.alertas.push({"tipo":"success", "mensaje": "Asignaciones realizadas exitosamente. Recarge la página para visualizar asignaciones"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Asignaciones realizadas exitosamente. Recarge la página para visualizar asignaciones", "icono": "glyphicon glyphicon-ok"});
       }
       else{
-        $scope.alertas.push({"tipo":"success", "mensaje": "Asignación realizada exitosamente"});
+        $scope.alertas.push({"tipo":"success", "mensaje": "Asignación realizada exitosamente", "icono": "glyphicon glyphicon-ok"});
       }
     }, function(status) {
       if(status === '403'){
@@ -283,15 +287,15 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
         colorIndex = 4;
       }
       $scope.events[evento.calendarEventId].color = colors[colorIndex];
-      $scope.alertas.push({"tipo": "success", "mensaje": "Asignación modificada exitosamente"});
+      $scope.alertas.push({"tipo": "success", "mensaje": "Asignación modificada exitosamente", "icono": "glyphicon glyphicon-ok"});
     },
     function (status) {
       if(status ==='success'){
         $scope.events.splice(evento.calendarEventId,1);
-        $scope.alertas.push({"tipo": "success", "mensaje": "Asignación eliminada exitosamente"});
+        $scope.alertas.push({"tipo": "success", "mensaje": "Asignación eliminada exitosamente", "icono": "glyphicon glyphicon-ok"});
       }
       else if(status ==='imposibleborrar'){
-        $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar la asignación"});
+        $scope.alertas.push({"tipo": "danger", "mensaje": "Imposible eliminar la asignación", "icono": "glyphicon glyphicon-remove"});
       }
       else if(status === '403'){
         $location.url('/403');
@@ -356,7 +360,7 @@ angular.module('transxelaWebApp').controller('CrearEController', ['$scope', 'api
               break;
             }
             case 406: {
-              $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
+              $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado, "icono": "glyphicon glyphicon-exclamation-sign"});
               break;
             }
             default: {
@@ -366,7 +370,7 @@ angular.module('transxelaWebApp').controller('CrearEController', ['$scope', 'api
         });
       }
       else{
-        $scope.alertas.push({"tipo":"warning", "mensaje": "Fecha fin debe ser mayor o diferente a Fecha"});
+        $scope.alertas.push({"tipo":"warning", "mensaje": "Fecha fin debe ser mayor o diferente a Fecha", "icono": "glyphicon glyphicon-exclamation-sign"});
       }
     }
     else{
@@ -389,7 +393,7 @@ angular.module('transxelaWebApp').controller('CrearEController', ['$scope', 'api
               break;
             }
             case 406: {
-              $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado});
+              $scope.alertas.push({"tipo":"warning", "mensaje": response.crear.estado, "icono": "glyphicon glyphicon-exclamation-sign"});
               break;
             }
             default: {
@@ -464,7 +468,7 @@ angular.module('transxelaWebApp').controller('VModificarEController', ['$scope',
           break;
         }
         case 406: {
-          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado});
+          $scope.alertas.push({"tipo":"warning", "mensaje": response.modificar.estado, "icono": "glyphicon glyphicon-exclamation-sign"});
           break;
         }
         default: {
@@ -501,7 +505,7 @@ angular.module('transxelaWebApp').controller('VModificarEController', ['$scope',
         });
     }
     else{
-      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar asignaciones del día actual"});
+      $scope.alertas.push({"tipo": "warning", "mensaje": "No es posible eliminar asignaciones del día actual", "icono": "glyphicon glyphicon-exclamation-sign"});
     }
 
   };

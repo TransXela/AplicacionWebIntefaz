@@ -1,303 +1,224 @@
 'use strict';
 
 /**
- * @ngdoc function
- * @name transxelaWebApp.controller:PmtPrincipalCtrl
- * @description
- * # PmtPrincipalCtr
- * Controller of the transxelaWebApp
- */
+* @ngdoc function
+* @name transxelaWebApp.controller:PmtPrincipalCtrl
+* @description
+* # PmtPrincipalCtr
+* Controller of the transxelaWebApp
+*/
 
- //mostrar numero de denuncias por rutas
+//mostrar numero de denuncias por rutas
 
- angular.module('transxelaWebApp')
-   .controller('PmtPrincipalCtrl', function ($scope, apiService, $cookies,  $location) {
-     if(typeof $cookies.getObject('user')!='undefined' && $cookies.getObject('user')){
-         $scope.Lplaca = [];
-         $scope.Ldenun = [];
-         $scope.token = $cookies.getObject('user').token;
-         apiService.obtener('/duenio/bus'+'/'+'?tk='+$scope.token)
-         .success(function(data){
-           $scope.bus = data;
-           apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
-           .success(function(data){
-             $scope.denunc = data;
-             $scope.res = [];
-             for (var i = 0; i < $scope.bus.length; i++) {
-               $scope.resultado = 0;
-               for (var j = 0; j< $scope.denunc.length; j++) {
-                 if ($scope.denunc[j].placa == $scope.bus[i].placa) {
-                   $scope.resultado = $scope.resultado + 1;
-                 }
-                 if($scope.resultado > 0){
-                   $scope.res[i]={plac:$scope.denunc[j].placa, noDen:$scope.resultado};
-                   $scope.Lplaca[i]=$scope.bus[i].placa;
-                   $scope.Ldenun[i]=$scope.resultado;
-                 }
-               }
-             }
-             var ctx = document.getElementById("myChart").getContext('2d');
-             var myChart = new Chart(ctx, {
-               type: 'line',
-               data: {
-                 labels: $scope.Lplaca,
-                 datasets: [{
-                   backgroundColor: ["#2ecc71"],
-                   label: "Número de denuncias por buses",
-                       lineTension: 1,
-                       pointBorderColor:"1F0D7B",
-                       pointRadius: 3.5,
-                       pointBackgroundColor: "#18cfdf",
-                       data: $scope.Ldenun
-                     }]
-                   }
-                 });
-               })
+angular.module('transxelaWebApp')
+.controller('PmtPrincipalCtrl', function ($scope, apiService, $cookies,  $location) {
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+    $location.url('/');
+  };
+  if(typeof $cookies.getObject('user')!='undefined' && $cookies.getObject('user')){
+    $scope.token = $cookies.getObject('user').token;
+    $scope.usuario = $cookies.getObject('user').usuario;
+  }
+  else{
+    $location.url('/login');
+  }
+});
 
-           .error(function(response, status, headers, config) {
-             if(status === null || status === -1){
-                   $location.url('/404');
-                 }
-                 else if(status === 401){
-                   $location.url('/403');
-                 }
-               });
-             })
-             .error(function(response, status, headers, config) {
-               if(status === null || status === -1){
-                 $location.url('/404');
-               }
-               else if(status === 401){
-                 $location.url('/403');
-               }
-             })
-           }
-         });
- angular.module('transxelaWebApp')
- .controller('PmtDenRutaCtr', function ($scope, apiService, $cookies) {
+angular.module('transxelaWebApp')
+.controller('PmtDenRutaCtr', function ($scope, apiService, $cookies, $location) {
+  $scope.cerrar = function(){
+    $cookies.remove('user');
+    $location.url('/');
+  };
+  if(typeof $cookies.getObject('user')!='undefined' && $cookies.getObject('user')){
+    //$scope.idduenio = $cookies.getObject('user').id;
+    $scope.token = $cookies.getObject('user').token;
+    $scope.usuario = $cookies.getObject('user').usuario;
 
-   if(typeof $cookies.getObject('user')!='undefined' && $cookies.getObject('user')){
-     //$scope.idduenio = $cookies.getObject('user').id;
-     $scope.nombre = [];
-     $scope.cant = [];
-     $scope.LrutaDen = [];
-     $scope.token = $cookies.getObject('user').token;
-     apiService.obtener('/reporte/pmt/RepBusRuta'+'/'+'?tk='+$scope.token)
-     .success(function(data){
-         $scope.busR = data;
-         apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
-         .success(function(data){
-           $scope.denuPlaca = data;
-           $scope.pos = 0;
-           for (var i = 0; i < $scope.busR.length; i++) {
-             $scope.cont=0;
-             for (var j = 0; j < $scope.busR[i].bs.length; j++) {
-               for (var x = 0; x < $scope.denuPlaca.length; x++) {
-                 if ($scope.busR[i].bs[j].placa==$scope.denuPlaca[x].placa) {
-                   $scope.cont = $scope.cont +1;
-                 }
-               }
-             }
-             if ($scope.cont>0) {
-               $scope.LrutaDen[$scope.pos]={idrta:$scope.busR[i].idruta, noPlac:$scope.busR[i].nombre, cant:$scope.cont};
-               $scope.nombre[$scope.pos]=$scope.busR[i].nombre;
-               $scope.cant[$scope.pos]=$scope.cont;
-               $scope.pos = $scope.pos + 1;
-             }
-           }
-           var ctx = document.getElementById("DenRutaGraph").getContext('2d');
-           var myChart = new Chart(ctx, {
-             type: 'line',
-             data: {
-               labels: $scope.nombre,
-               datasets: [{
-                 backgroundColor: ["#2ecc71"],
-                 label: "Número de denuncias por rutas",
-                 lineTension: 1,
-                 pointBorderColor:"1F0D7B",
-                 pointRadius: 3.5,
-                 pointBackgroundColor: "#18cfdf",
-                 yLabels: ['hola'],
-                 data: $scope.cant
-               }]
-             }
-           });
-         })
-         .error(function(response, status, headers, config) {
-           if(status === null || status === -1){
-             $location.url('/404');
-           }
-           else if(status === 401){
-             $location.url('/403');
-           }
-         });
-       })
-       .error(function(response, status, headers, config) {
-         if(status === null || status === -1){
-           $location.url('/404');
-         }
-         else if(status === 401){
-           $location.url('/403');
-         }
-       });
-       $scope.cerrar = function(){
-         $cookies.remove('user');
-         $location.url('/');
-       };
 
-       apiService.obtener('/reporte/pmt/RepPilotoDen'+'/'+'?tk='+$scope.token)
-       .success(function(data){
-        $scope.pilotoDen = data;
-        $scope.Ldpi=[];
-        $scope.cant=0;
-        $scope.numDen=[];
-        for (var i = 0; i < $scope.pilotoDen.length; i++) {
-          for (var j = 0; j < $scope.pilotoDen[i].den.length; j++) {
-            $scope.cant = $scope.cant+1;
-          }
-          $scope.Ldpi[i]=$scope.pilotoDen[i].dpi;
-          $scope.numDen[i]=$scope.cant;
-          $scope.cant=0;
-        }
-        var ctx = document.getElementById("PilotoDenGraph").getContext('2d');
-        var myChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: $scope.Ldpi,
-            datasets: [{
-              backgroundColor: ["#2ecc71"],
-              label: "Número de denuncias por piloto",
-              lineTension: 1,
-              pointBorderColor:"1F0D7B",
-              pointRadius: 3.5,
-              pointBackgroundColor: "#18cfdf",
-              data: $scope.numDen
-            }]
-            }
-        });
-      })
-      .error(function(response, status, headers, config) {
-        if(status === null || status === -1){
-          $location.url('/404');
-        }
-        else if(status === 401){
-          $location.url('/403');
+    //muestra la cantidad de buses denunciados para PMT
+    $scope.Lcant = [];
+    apiService.obtener('/reporte/pmt/buses'+'/'+'?tk='+$scope.token)
+    .success(function(data){
+      $scope.busDen = data;
+      $scope.Lplak = [];
+      for (var i = 0; i < $scope.busDen.length; i++) {
+        $scope.Lplak[i]=$scope.busDen[i].placa;
+        $scope.Lcant[i]=$scope.busDen[i].cantidad;
+      }
+      var ctx = document.getElementById("busesGraph").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: $scope.Lplak,
+          datasets: [{
+            backgroundColor: ["#2ecc71"],
+            label: "Número de denuncias por BUSES",
+            lineTension: 1,
+            pointBorderColor:"1F0D7B",
+            pointRadius: 3.5,
+            pointBackgroundColor: "#18cfdf",
+            data: $scope.Lcant
+          }]
         }
       });
+    })
+    .error(function(response, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
+    });
 
-    $scope.Lplaca = [];
-    $scope.Ldenun = [];
-    apiService.obtener('/duenio/bus'+'/'+'?tk='+$scope.token)
-      .success(function(data){
-          $scope.bus = data;
-          apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
-          .success(function(data){
-            $scope.denunc = data;
-            $scope.res = [];
-            for (var i = 0; i < $scope.bus.length; i++) {
-              $scope.resultado = 0;
-              for (var j = 0; j< $scope.denunc.length; j++) {
-                if ($scope.denunc[j].placa == $scope.bus[i].placa) {
-                  $scope.resultado = $scope.resultado + 1;
-                }
-                if($scope.resultado > 0){
-                  $scope.res[i]={plac:$scope.denunc[j].placa, noDen:$scope.resultado};
-                  $scope.Lplaca[i]=$scope.bus[i].placa;
-                  $scope.Ldenun[i]=$scope.resultado;
-                }
-              }
-            }
-            var ctx = document.getElementById("myChart").getContext('2d');
-            var myChart = new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: $scope.Lplaca,
-                datasets: [{
-                  backgroundColor: ["#2ecc71"],
-                  label: "Número de denuncias por buses",
-                  lineTension: 1,
-                  pointBorderColor:"1F0D7B",
-                  pointRadius: 3.5,
-                  pointBackgroundColor: "#18cfdf",
-                  data: $scope.Ldenun
-                }]
-              }
-            });
-          })
-          .error(function(response, status, headers, config) {
-            if(status === null || status === -1){
-              $location.url('/404');
-            }
-            else if(status === 401){
-              $location.url('/403');
-            }
-          });
-        })
-        .error(function(response, status, headers, config) {
-          if(status === null || status === -1){
-            $location.url('/404');
-          }
-          else if(status === 401){
-            $location.url('/403');
-          }
-        });
-        apiService.obtener('/reporte/pmt/RepDuenioBuses'+'/'+'?tk='+$scope.token)
-            .success(function(data){
-              $scope.dueBus = data;
-              $scope.Ddpi = [];
-              $scope.cantD = 0;
-              $scope.noDen = [];
-              apiService.obtener('/reporte/pmt/RepDuenioBusD'+'/'+'?tk='+$scope.token)
-                .success(function(data){
-                  $scope.denPlak = data;
-                  for (var a = 0; a < $scope.dueBus.length; a++) {
-                    for (var i = 0; i < $scope.dueBus[a].buss.length; i++) {
-                      for (var x = 0; x < $scope.denPlak.length; x++) {
-                        if($scope.dueBus[a].buss[i].placa == $scope.denPlak[x].placa){
-                          $scope.cantD = $scope.cantD + 1;
-                        }
-                      }
-                    }
-                    if($scope.cantD > 0){
-                      $scope.Ddpi[a] = $scope.dueBus[a].dpi;
-                      $scope.noDen[a] = $scope.cantD;
-                    }
-                    $scope.cantD = 0;
-                  }
-                })
-                .error(function(response, status, headers, config) {
-                  if(status === null || status === -1){
-                    $location.url('/404');
-                  }
-                  else if(status === 401){
-                    $location.url('/403');
-                  }
-                });
+    //muestra la cantidad de denuncias que tiene un duenio, de acuerdo a las denuncias que reciben sus pilotos
+    apiService.obtener('/reporte/pmt/duenio'+'/'+'?tk='+$scope.token)
+    .success(function(data){
+      $scope.dueDen = data;
+      $scope.LcntD = [];
+      $scope.LdpiD = [];
+      for (var i = 0; i < $scope.dueDen.length; i++) {
+        $scope.LdpiD[i] = $scope.dueDen[i].dpi;
+        $scope.LcntD[i] = $scope.dueDen[i].cantidad;
+      }
+      var ctx = document.getElementById("dueniosGraph").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: $scope.LdpiD,
+          datasets: [{
+            backgroundColor: ["#2ecc71"],
+            label: "Número de denuncias por DUEÑO",
+            lineTension: 1,
+            pointBorderColor:"1F0D7B",
+            pointRadius: 3.5,
+            pointBackgroundColor: "#18cfdf",
+            data: $scope.LcntD
+          }]
+        }
+      });
+    })
+    .error(function(response, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
+    });
 
-              var ctx = document.getElementById("DuenioDenGraph").getContext('2d');
-              var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                  labels: $scope.Ddpi,
-                  datasets: [{
-                    backgroundColor: ["#2ecc71"],
-                    label: "Número de denuncias por dueño",
-                    lineTension: 1,
-                    pointBorderColor:"1F0D7B",
-                    pointRadius: 3.5,
-                    pointBackgroundColor: "#18cfdf",
-                    data: $scope.noDen
-                  }]
-                }
-              });
-            })
-            .error(function(response, status, headers, config) {
-              if(status === null || status === -1){
-                $location.url('/404');
-              }
-              else if(status === 401){
-                $location.url('/403');
-              }
-            });
-          }
-        });
+    // muestra cantidad de denuncias por tipo de denuncia
+    apiService.obtener('/reporte/pmt/tipoDenuncia'+'/'+'?tk='+$scope.token)
+    .success(function(data){
+      $scope.tipDen = data;
+      $scope.LtipT = [];
+      $scope.LcntT = [];
+      for (var i = 0; i < $scope.tipDen.length; i++) {
+        $scope.LtipT[i] = $scope.tipDen[i].tipo;
+        $scope.LcntT[i] = $scope.tipDen[i].cant;
+      }
+      var ctx = document.getElementById("tipoGraph").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: $scope.LtipT,
+          datasets: [{
+            backgroundColor: ["#2ecc71"],
+            label: "Número de denuncias por TIPO DE DENUNCIA",
+            lineTension: 1,
+            pointBorderColor:"1F0D7B",
+            pointRadius: 3.5,
+            pointBackgroundColor: "#18cfdf",
+            data: $scope.LcntT
+          }]
+        }
+      });
+    })
+    .error(function(response, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
+    });
+
+    //muestra las rutas denunciadas
+    apiService.obtener('/reporte/pmt/rutas'+'/'+'?tk='+$scope.token)
+    .success(function(data){
+      $scope.rutaDen = data;
+      $scope.LrutaR = [];
+      $scope.LcntR = [];
+      for (var i = 0; i < $scope.rutaDen.length; i++) {
+        $scope.LrutaR[i] = $scope.rutaDen[i].ruta;
+        $scope.LcntR[i] = $scope.rutaDen[i].cant;
+      }
+      var ctx = document.getElementById("rutaGraph").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: $scope.LrutaR,
+          datasets: [{
+            backgroundColor: ["#2ecc71"],
+            label: "Número de denuncias por RUTA",
+            lineTension: 1,
+            pointBorderColor:"1F0D7B",
+            pointRadius: 3.5,
+            pointBackgroundColor: "#18cfdf",
+            data: $scope.LcntR
+          }]
+        }
+      });
+    })
+    .error(function(response, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
+    });
+
+    //muestra los pilotos denunciados
+    apiService.obtener('/reporte/pmt/pilotos'+'/'+'?tk='+$scope.token)
+    .success(function(data){
+      $scope.chofDen = data;
+      $scope.LdpiC = [];
+      $scope.LcntC = [];
+      for (var i = 0; i < $scope.chofDen.length; i++) {
+        $scope.LdpiC[i] = $scope.chofDen[i].dpi;
+        $scope.LcntC[i] = $scope.chofDen[i].cantidad;
+      }
+      var ctx = document.getElementById("chofGraph").getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: $scope.LdpiC,
+          datasets: [{
+            backgroundColor: ["#2ecc71"],
+            label: "Número de denuncias por PILOTO",
+            lineTension: 1,
+            pointBorderColor:"1F0D7B",
+            pointRadius: 3.5,
+            pointBackgroundColor: "#18cfdf",
+            data: $scope.LcntC
+          }]
+        }
+      });
+    })
+    .error(function(response, status, headers, config) {
+      if(status === null || status === -1){
+        $location.url('/404');
+      }
+      else if(status === 401){
+        $location.url('/403');
+      }
+    });
+
+
+  }else{
+    $location.url('/login');
+  }
+});

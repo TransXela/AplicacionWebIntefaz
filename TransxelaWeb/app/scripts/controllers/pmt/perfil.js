@@ -2,18 +2,19 @@
 
 /**
  * @ngdoc function
- * @name transxelaWebApp.controller:DuenioPerfilCtrl
+ * @name transxelaWebApp.controller:PmtPerfilCtrl
  * @description
- * # DuenioPerfilCtrl
+ * # PmtPerfilCtrl
  * Controller of the transxelaWebApp
  */
-angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scope, apiService, $cookies, $location) {
+angular.module('transxelaWebApp')
+  .controller('PmtPerfilCtrl', function ($scope, apiService, $cookies, $location) {
     if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
-      $scope.idduenio = $cookies.getObject('user').id;
+      $scope.idpmt = $cookies.getObject('user').id;
       $scope.token = $cookies.getObject('user').token;
-      apiService.obtener('/duenio/'+$scope.idduenio + '/?tk=' + $scope.token).
+      apiService.obtener('/pmt/'+$scope.idpmt + '/?tk=' + $scope.token).
       success(function(response, status, headers, config) {
-        $scope.duenio = response;
+        $scope.pmt = response;
       }).
       error(function(response, status, headers, config) {
         switch(status) {
@@ -78,4 +79,4 @@ angular.module('transxelaWebApp').controller('DuenioPerfilCtrl', function ($scop
       $cookies.remove('user');
         $location.url('/');
     };
-});
+  });

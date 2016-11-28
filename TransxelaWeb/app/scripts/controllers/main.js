@@ -15,19 +15,20 @@ angular.module('transxelaWebApp').controller('MainCtrl', function ($scope, $uibM
         break;
       }
       case 'PMT': {
-        $location.url('/duenio/principal');
+        $location.url('/pmt/principal');
         break;
       }
       case 'Cultura': {
-        $location.url('/duenio/principal');
+        $location.url('/cultura/principal');
         break;
       }
       case 'Admin': {
-        $location.url('/duenio/principal');
+        $location.url('/admin/principal');
         break;
       }
       default: {
         $cookies.remove('user');
+        $location.url('/login');
       }
     }
   }
@@ -46,7 +47,6 @@ angular.module('transxelaWebApp').controller('MainCtrl', function ($scope, $uibM
         $location.url('/duenio/principal');
       }
       else if (grupo.name === "Cultura") {
-        console.log({"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura});
         $cookies.putObject('user', {"token": result.Token, id: result.Cultura.idcultura, usuario: result.Cultura, tipo: grupo.name, torcido: result.Usuario.id});
         $location.url('/cultura/principal');
       }

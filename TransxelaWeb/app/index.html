@@ -16,13 +16,11 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <!-- <link rel="stylesheet" href="styles/main.css"> -->
-    <!-- endbuild -->
-    <link rel="stylesheet" href="styles/uigrid.css">
+    <!-- <link rel="stylesheet" href="styles/uigrid.css"> -->
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="styles/sbadmin2/sb-admin-2.css" />
+    <!-- <link rel="stylesheet" href="styles/sbadmin2/sb-admin-2.css" /> -->
+    <link href="styles/sbadmin/sb-admin.css" rel="stylesheet">
     <link href="favicon.ico" rel="icon" type="image/x-icon" />
-
   </head>
   <body ng-app="transxelaWebApp">
     <!--[if lte IE 8]>
@@ -30,9 +28,11 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
+
     <!-- <div class="container"> -->
     <div ng-view=""></div>
     <!-- </div> -->
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -40,6 +40,7 @@
        (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
        r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
        }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
        ga('create', 'UA-XXXXX-X');
        ga('send', 'pageview');
     </script>
@@ -66,8 +67,7 @@
     <script src="bower_components/chart.js/dist/Chart.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-    <script src="bower_components/angular-i18n/angular-locale_es-gt.js"></script>
-    <script src="scripts/sbadmin2/sb-admin-2.js"></script>
+
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
@@ -104,5 +104,9 @@
         <script src="scripts/controllers/admin/dueniosinu.js"></script>
         <script src="scripts/controllers/admin/cultura.js"></script>
         <script src="scripts/controllers/admin/perfil.js"></script>
+        <script src="scripts/controllers/pmt/perfil.js"></script>
         <!-- endbuild -->
+        <script src="bower_components/angular-i18n/angular-locale_es-gt.js"></script>
+        <!-- <script src="scripts/sbadmin2/sb-admin-2.js"></script> -->
 </body>
+</html>

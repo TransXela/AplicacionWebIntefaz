@@ -9,6 +9,7 @@
 */
 angular.module('transxelaWebApp').controller('PmtRutasCtrl', function ($scope, $uibModal, apiService, $cookies, $location) {
   $scope.alertas = [];
+  $scope.usuario = $cookies.getObject('user').usuario;
   $scope.showRutas = function () {
     var uibModalInstance = $uibModal.open({
       templateUrl: 'views/pmt/agregarRuta.html',

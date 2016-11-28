@@ -1,77 +1,79 @@
 <div id="wrapper">
-  <!-- Navigation -->
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <!-- Brand and toggle get grouped for better mobile display -->
+    <!-- navbar-header -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#/duenio/principal">TransXela Dueños</a>
+      <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
     </div>
-    <!-- Top Menu Items -->
+    <!-- close-navbar-header -->
+    <!-- navbar-top-links -->
     <ul class="nav navbar-right top-nav">
       <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{duenio.nombre + " " + duenio.apellidos}} <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li>
-            <a href="#/duenio/perfil"><i class="fa fa-fw fa-user"></i> Perfil</a>
+        <a class="dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-user fa-fw"></i> {{usuario.nombre + " " + usuario.apellidos}} <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+          <li><a href="#/pmt/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
           </li>
           <li class="divider"></li>
-          <li>
-            <a href ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+          <li><a ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
           </li>
         </ul>
+        <!-- /.dropdown-user -->
       </li>
+      <!-- /.dropdown -->
     </ul>
-    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+    <!-- close-navbar-top-links -->
+    <!-- navbar-static-side -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
+
       <ul class="nav navbar-nav side-nav">
-        <li><!-- class="active" -->
-          <a href="#/duenio/pilotos"><i class="fa fa-users fa-fw"></i> Pilotos</a>
+        <li>
+          <a href="#/operador/denuncias"><i class="fa fa-flag fa-fw"></i> Denuncias</a>
         </li>
         <li>
-          <a href="#/duenio/buses"><i class="fa fa-bus fa-fw"></i> Buses</a>
+          <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
         </li>
         <li>
-          <a href="#/duenio/horarios"><i class="fa fa-clock-o fa-fw"></i> Horarios</a>
+          <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
         </li>
         <li>
-          <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-calendar fa-fw"></i> Asignaciones <i class="fa fa-fw fa-caret-down"></i></a>
+          <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-clock-o"></i> Horarios <i class="fa fa-fw fa-caret-down"></i></a>
           <ul id="demo" class="collapse">
             <li>
-              <a href="#/duenio/calendario">Todas</a>
+              <a href="#/pmt/horariosBus">Buses</a>
             </li>
             <li>
-              <a href="#/duenio/calendariobus">Por bus</a>
+              <a href="#/pmt/horarios">Dueños</a>
             </li>
             <li>
-              <a href="#/duenio/calendariopiloto">Por piloto</a>
+              <a href="#/pmt/horariosPiloto">Pilotos</a>
             </li>
           </ul>
         </li>
         <li>
-          <a href="#/duenio/estadisticas"><i class="fa fa-bar-chart fa-fw"></i> Estadísticas</a>
+          <a href="#/reporte/rutasdenunciadas"><i class="fa fa-bar-chart fa-fw"></i> Estadisticas </a>
         </li>
       </ul>
+      <!-- /.sidebar-collapse -->
     </div>
-    <!-- /.navbar-collapse -->
+    <!-- close-navbar-static-side -->
   </nav>
-
   <div id="page-wrapper">
     <div class="row">
       <div class="col-lg-12">
         <h1 class="page-header">Perfil</h1>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#/duenio/principal">Principal</a></li>
+          <li class="breadcrumb-item"><a href="#/pmt/principal">Principal</a></li>
           <li class="breadcrumb-item active">Perfil</li>
         </ol>
       </div>
-      <!-- /.col-lg-12 -->
     </div>
-    <!-- /.row -->
     <div class="row">
       <div class="col-lg-6">
         <div class="panel panel-default">
@@ -81,27 +83,27 @@
           <div class="panel-body">
             <div class="col-md-6 col-xs-6">
               <h4>Nombre</h4>
-              <h5>&#8194;{{duenio.nombre}}</h5>
+              <h5>&#8194;{{pmt.nombre}}</h5>
             </div>
             <div class="col-md-6 col-xs-6">
               <h4>Apellidos</h4>
-              <h5>&#8194;{{duenio.apellidos}}</h5>
+              <h5>&#8194;{{pmt.apellidos}}</h5>
             </div>
             <div class="col-md-6 col-xs-6">
               <h4>DPI</h4>
-              <h5>&#8194;{{duenio.dpi}}</h5>
+              <h5>&#8194;{{pmt.dpi}}</h5>
             </div>
             <div class="col-md-6 col-xs-6">
               <h4>No. teléfono</h4>
-              <h5>&#8194;{{duenio.telefono}}</h5>
+              <h5>&#8194;{{pmt.telefono}}</h5>
             </div>
             <div class="col-md-6">
               <h4>Dirección</h4>
-              <h5>&#8194;{{duenio.direccion}}</h5>
+              <h5>&#8194;{{pmt.direccion}}</h5>
             </div>
             <div class="col-md-6">
               <h4>Correo electrónico</h4>
-              <h5>&#8194;{{duenio.correo}}</h5>
+              <h5>&#8194;{{pmt.correo}}</h5>
             </div>
           </div>
           <div class="panel-footer">
@@ -138,13 +140,9 @@
               <button class="btn btn-primary " style="float:right;" type="button" ng-click="cambiarContrasenia()" ng-disabled="cambioForm.$invalid">Guardar cambios</button>
             </form>
           </div>
-          <div class="panel-footer">
-          </div>
         </div>
       </div>
-      <!-- /.col-lg-8 -->
+
     </div>
-    <!-- /.row -->
   </div>
-  <!-- /#page-wrapper -->
 </div>
