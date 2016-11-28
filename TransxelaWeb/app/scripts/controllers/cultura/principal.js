@@ -3,7 +3,7 @@ angular.module('transxelaWebApp')
   .controller('PrincipalCtrl', function ($scope) {
   var baseURL="http://lorempixel.com/950/300";
   $scope.setInterval=5000;
-
+  $scope.usuario = $cookies.getObject('user').usuario;
   $scope.slides=[
     {
       title:"Bienvenido",

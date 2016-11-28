@@ -226,6 +226,11 @@ angular
     controller: 'PmtPerfilCtrl',
     controllerAs: 'pmt/perfil'
   })
+  .when('/cultura/perfil', {
+    templateUrl: 'views/cultura/perfil.html',
+    controller: 'CulturaPerfilCtrl',
+    controllerAs: 'cultura/perfil'
+  })
   .otherwise({
     redirectTo: '/'
   });

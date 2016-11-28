@@ -15,7 +15,7 @@ angular.module('transxelaWebApp').controller('PrincipalConsejoCtrl' ,function ($
   $scope.idConsejo=1;
   $scope.alertas=[];
   $scope.item="1";
-
+  $scope.usuario = $cookies.getObject('user').usuario;
 
     $scope.idconsejo= function(val){
       console.log($scope.idcon);
