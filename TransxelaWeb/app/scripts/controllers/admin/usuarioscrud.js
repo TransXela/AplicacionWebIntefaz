@@ -121,6 +121,13 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
       }
       apiService.obtener('/obtenerusuariosgrupos/?tk=' + $scope.token).
       success(function(response, status, headers, config){
+        $scope.duenio = response[0];
+        $scope.pmt = response[1];
+        $scope.cultura = response[2];
+        $scope.admin = response[3];
+
+        console.log($scope.duenio);
+
         $scope.usuarios = response;
         $scope.gridOptions.data = $scope.usuarios;
         $scope.gridOptions.enableFiltering = true;
@@ -192,30 +199,51 @@ angular.module('transxelaWebApp').controller('AdminUsuarioscrudCtrl', function($
 });
 
 angular.module('transxelaWebApp').controller('CrearUsuarioController', ['$scope', 'apiService', '$uibModalInstance','options', 'grupos', function ($scope, apiService, $uibModalInstance, options, grupos) {
-  $scope.nombre = null;
+  $scope.hab = 1;
+  $scope.usuario = null;
   $scope.correo = null;
   $scope.contrasenia = null;
   $scope.grupo = null;
   $scope.estado = "1";
-  $scope.is_staff = false;
-  $scope.is_superuser = false;
+
+  $scope.nombre = null;
+ 	$scope.apellidos = null;
+ 	$scope.direccion = null;
+ 	$scope.empresa = null;
+ 	$scope.fecha_nac ="2016-11-11T00:00:00Z";
+ 	$scope.fecha_crea = "2016-11-16T00:00:00Z";
+ 	$scope.dpi = null;
+ 	$scope.telefono = null;
+ 	$scope.foto = null;
+
+
+
   $scope.alertas = [];
   $scope.options = options;
   $scope.grupos = grupos;
   $scope.close = function () {
 
-      if ($scope.mapearGrupo($scope.grupo) === 'Admin') {
-        $scope.is_staff = true;
-        $scope.is_superuser = true;
-      }
-    apiService.crear('/users/?tk=' + options.token, {
-      username: $scope.nombre,
+
+
+
+
+
+    apiService.crear('/crearusuariopersona/?tk=' + options.token, {
+      nombre : $scope.nombre,
+    	apellidos : $scope.apellidos,
+    	direccion : $scope.direccion,
+    	empresa : $scope.empresa,
+    	fecha_nac : $scope.fecha_nac,
+    	fecha_crea : $scope.fecha_crea,
+    	dpi : $scope.dpi,
+    	telefono : $scope.telefono,
+    	foto : $scope.foto ,
+    	estado : $scope.estado,
+
+      username: $scope.usuario,
       idgroup: parseInt($scope.grupo),
       email: $scope.correo,
-      password: $scope.contrasenia,
-      is_active: parseInt($scope.estado),
-      is_staff: $scope.is_staff,
-      is_superuser: $scope.is_superuser
+      password: $scope.contrasenia
     })
     .success(function(data, status, headers, config) {
       $uibModalInstance.close(data, 500);
