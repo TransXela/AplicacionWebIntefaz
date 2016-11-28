@@ -221,6 +221,11 @@ angular
     controller: 'AdminPerfilCtrl',
     controllerAs: 'admin/perfil'
   })
+  .when('/pmt/perfil', {
+    templateUrl: 'views/pmt/perfil.html',
+    controller: 'PmtPerfilCtrl',
+    controllerAs: 'pmt/perfil'
+  })
   .otherwise({
     redirectTo: '/'
   });

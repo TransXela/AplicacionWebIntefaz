@@ -1,0 +1,139 @@
+<div id="wrapper">
+  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <!-- navbar-header -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/pmt/principal">TransXela PMT</a>
+    </div>
+    <!-- close-navbar-header -->
+    <!-- navbar-top-links -->
+    <ul class="nav navbar-top-links navbar-right">
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-user fa-fw"></i> {{pmt.nombre + " " + pmt.apellidos}} <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+          <li><a href="#/pmt/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+          </li>
+          <li class="divider"></li>
+          <li><a ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
+          </li>
+        </ul>
+        <!-- /.dropdown-user -->
+      </li>
+    </ul>
+    <div class="navbar-default sidebar" role="navigation">
+      <div class="sidebar-nav navbar-collapse">
+        <li>
+          <a href="#/operador/denuncias"><i class="fa fa-flag fa-fw"></i> Denuncias</a>
+        </li>
+        <li>
+          <a href="#/pmt/duenios"><i class="fa fa-users fa-fw"></i> Dueños</a>
+        </li>
+        <li>
+          <a href="#/pmt/rutas"><i class="fa fa-map-signs fa-fw"></i> Rutas</a>
+        </li>
+        <li>
+          <a href="#/pmt/horariosBus"><i class="fa fa-clock-o  fa-fw"></i>Horarios Buses</a>
+        </li>
+        <li>
+          <a href="#/pmt/horarios"><i class="fa fa-clock-o  fa-fw"></i>Horarios Dueños</a>
+        </li>
+        <li>
+          <a href="#/pmt/horariosPiloto"><i class="fa fa-clock-o  fa-fw"></i>Horarios Pilotos</a>
+        </li>
+      </div>
+      <!-- /.sidebar-collapse -->
+    </div>
+    <!-- close-navbar-static-side -->
+  </nav>
+  <!-- close-navigation -->
+  <div id="page-wrapper">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Perfil</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#/pmt/principal">Principal</a></li>
+          <li class="breadcrumb-item active">Perfil</li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3>Información</h3>
+          </div>
+          <div class="panel-body">
+            <div class="col-md-6 col-xs-6">
+              <h4>Nombre</h4>
+              <h5>&#8194;{{pmt.nombre}}</h5>
+            </div>
+            <div class="col-md-6 col-xs-6">
+              <h4>Apellidos</h4>
+              <h5>&#8194;{{pmt.apellidos}}</h5>
+            </div>
+            <div class="col-md-6 col-xs-6">
+              <h4>DPI</h4>
+              <h5>&#8194;{{pmt.dpi}}</h5>
+            </div>
+            <div class="col-md-6 col-xs-6">
+              <h4>No. teléfono</h4>
+              <h5>&#8194;{{pmt.telefono}}</h5>
+            </div>
+            <div class="col-md-6">
+              <h4>Dirección</h4>
+              <h5>&#8194;{{pmt.direccion}}</h5>
+            </div>
+            <div class="col-md-6">
+              <h4>Correo electrónico</h4>
+              <h5>&#8194;{{pmt.correo}}</h5>
+            </div>
+          </div>
+          <div class="panel-footer">
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3>Contraseña</h3>
+          </div>
+          <div class="panel-body">
+            <form name="cambioForm" class="form">
+              <div ng-repeat = "alerta in alertas" class="alert alert-{{alerta.tipo}} alert-dismissible fade in" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                ng-click="alertas.splice(alertas.indexOf(alerta),1)"><span aria-hidden="true">&times;</span></button>
+                <i class={{alerta.icono}}></i> {{alerta.mensaje}}
+              </div>
+              <h4>Actual</h4>
+              <input class="form-control" type="password" class="form-control" name = "cAnterior" id="cAnterior" ng-model="cAnterior" placeholder="Ingrese la contraseña actual" required>
+              <div ng-messages="cambioForm.cAnterior.$error" role="alert" class="text-danger">
+                <div ng-message="required">Campo requerido</div>
+              </div>
+              <h4>Nueva</h4>
+              <input class="form-control" type="password" class="form-control" name = "cNueva" id="cNueva" ng-model="cNueva" placeholder="Ingrese la nueva contraseña" required>
+              <div ng-messages="cambioForm.cNueva.$error" role="alert" class="text-danger">
+                <div ng-message="required">Campo requerido</div>
+              </div>
+              <h4>Repetir contraseña nueva</h4>
+              <input class="form-control" type="password" class="form-control" name = "cRepetir" id="cRepetir" ng-model="cRepetir" placeholder="Repita la nueva contraseña" required>
+              <div ng-messages="cambioForm.cRepetir.$error" role="alert" class="text-danger">
+                <div ng-message="required">Campo requerido</div>
+              </div><br>
+              <button class="btn btn-primary " style="float:right;" type="button" ng-click="cambiarContrasenia()" ng-disabled="cambioForm.$invalid">Guardar cambios</button>
+            </form>
+          </div>
+          <div class="panel-footer">
+          </div>
+        </div>
+      </div>
+      <!-- /.col-lg-8 -->
+    </div>
+  </div>
+</div>

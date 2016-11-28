@@ -89,6 +89,23 @@
           <div id="grid1" ui-grid-pagination ui-grid-selection ui-grid="gridOptions" class="grid"></div>
         </div>
         <!-- /.panel-body -->
+        <div class="panel-footer">
+          <div class="input-group custom-search-form">
+            <label class="control-label col-md-2">Estado:</label>
+            <div class="col-md-8">
+              <p class="input-group">
+              <select class="form-control" name= "estadoCambiar" id="estadoCambiar" ng-model="estadoCambiar">
+                <option value="" disabled>Seleccione un estado</option>
+                <option ng-repeat="x in estados" value="{{x.id}}">{{x.definicion}}</option>
+              </select>
+              </p>
+            </div>
+            <span class="input-group-btn col-md-4">
+              <button class="btn btn-default" href ng-click="cambiarEstadoDenuncias()">Cambiar</button>
+            </span>
+          </div>
+        </div>
+        <!-- /.panel-footer -->
       </div>
       <!-- /.panel -->
     </div>
