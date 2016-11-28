@@ -1,57 +1,54 @@
+<!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
 <div id="wrapper">
-  <!-- navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-      <!-- navbar-header -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#/admin/principal">TransXela Administrador</a>
-        </div>
-      <!-- close-navbar-header -->
-      <!-- navbar-top-links -->
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-user fa-fw"></i> {{admin.first_name + " " + admin.last_name}} <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#/admin/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
-        </ul>
-      <!-- close-navbar-top-links -->
-      <!-- navbar-static-side -->
-        <div class="navbar-default sidebar" role="navigation">
-          <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/admin/principal">TransXela Administrador</a>
+    </div>
+    <!-- Top Menu Items -->
+    <ul class="nav navbar-right top-nav">
+      <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{admin.first_name + " " + admin.last_name}} <b class="caret"></b></a>
+          <ul class="dropdown-menu">
               <li>
-                <a href="#/admin/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                  <a href="#/admin/perfil"><i class="fa fa-fw fa-user"></i> Perfil</a>
               </li>
+              <li class="divider"></li>
               <li>
-                <a href="#/admin/principal"><i class="fa fa-user-plus fa-fw"></i> Administrador</a>
+                  <a href ng-click = "cerrar()"><i class="fa fa-sign-out fa-fw"></i> Cerrar sesión</a>
               </li>
-              <li>
-                <a href="#/pmt/principal"><i class="fa fa-cab fa-fw"></i> PMT</a>
-              </li>
-              <li>
-                <a href="#/cultura/principal"><i class="fa fa-street-view fa-fw"></i> Cultura</a>
-              </li>
-            </ul>
-          </div>
-          <!-- /.sidebar-collapse -->
-        </div>
-      <!-- close-navbar-static-side -->
-    </nav>
+          </ul>
+      </li>
+    </ul>
+    <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav side-nav">
+        <li><!-- class="active" -->
+          <a href="#/admin/perfil"><i class="fa fa-user fa-fw"></i> Perfil</a>
+        </li>
+        <li>
+          <a href="#/admin/principal"><i class="fa fa-user-plus fa-fw"></i> Administrador</a>
+        </li>
+        <li>
+          <a href="#/pmt/principal"><i class="fa fa-cab fa-fw"></i> PMT</a>
+        </li>
+        </li>
+        <li>
+          <a href="#/cultura/principal"><i class="fa fa-street-view fa-fw"></i> Cultura</a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </nav>
   <!-- close-navigation -->
   <div id="page-wrapper">
     <div class="row">
@@ -64,7 +61,7 @@
       </div>
       <!-- /.col-lg-12 -->
     </div>
-      <!-- /.row -->
+    <!-- /.row -->
     <div class="row">
       <div class="col-lg-12">
         <div class="panel panel-default">
@@ -75,100 +72,97 @@
 
 
             <div class="row">
-                <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-cab fa-5x"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#/pmt/principal">
-                            <div class="panel-footer">
-                                <span class="pull-left">PMT</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                        <div class="panel-footer" style="word-wrap:break-word;">
-                          <font color="blue" >
-                            <p>Modulo para visualizar las denuncias por piloto, por ruta, por categoria y por buses. Tambien se pueden ver las estadisticas de las diferentes denuncias y categorias.</p>
-                          </font>
-                        </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <i class="fa fa-cab fa-5x"></i>
+                      </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-street-view fa-5x"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#/cultura/principal">
-                            <div class="panel-footer">
-                                <span class="pull-left">Cultura</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                        <div class="panel-footer" style="word-wrap:break-word;">
-                          <font color="green" >
-                            <p>Modulo para el ingreso de mensajes con “consejos” que se enviarán a los usuarios día a día, se podra crear artículos con temas educativos, de actividades culturales que se realizan dentro de la ciudad.</p>
-                          </font>
-                        </div>
+                  </div>
+                  <a href="#/pmt/principal">
+                    <div class="panel-footer">
+                      <span class="pull-left">PMT</span>
+                      <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                      <div class="clearfix"></div>
                     </div>
+                  </a>
+                  <div class="panel-footer" style="word-wrap:break-word;">
+                    <font color="blue" >
+                      <p>Modulo para visualizar las denuncias por piloto, por ruta, por categoria y por buses. Tambien se pueden ver las estadisticas de las diferentes denuncias y categorias.</p>
+                    </font>
+                  </div>
                 </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="panel panel-green">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <i class="fa fa-street-view fa-5x"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <a href="#/cultura/principal">
+                    <div class="panel-footer">
+                      <span class="pull-left">Cultura</span>
+                      <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                      <div class="clearfix"></div>
+                    </div>
+                  </a>
+                  <div class="panel-footer" style="word-wrap:break-word;">
+                    <font color="green" >
+                      <p>Modulo para el ingreso de mensajes con “consejos” que se enviarán a los usuarios día a día, se podra crear artículos con temas educativos, de actividades culturales que se realizan dentro de la ciudad.</p>
+                    </font>
+                  </div>
+                </div>
+              </div>
 
-                <div class="col-lg-6 col-md-6">
-                    <div class="panel panel-red">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-male fa-5x"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#/admin/usuarioscrud">
-                            <div class="panel-footer">
-                                <span class="pull-left">Administracion de usuarios</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                        <div class="panel-footer" style="word-wrap:break-word;">
-                          <font color="red" >
-                            <p>Modulo para la creacion, modificacion y deshabilitacion de usuarios tipo administrador, cultura, PMT y dueños.</p>
-                          </font>
-                        </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="panel panel-red">
+                  <div class="panel-heading">
+                    <div class="row">
+                      <div class="col-xs-3">
+                        <i class="fa fa-male fa-5x"></i>
+                      </div>
                     </div>
+                  </div>
+                  <a href="#/admin/usuarioscrud">
+                    <div class="panel-footer">
+                      <span class="pull-left">Administracion de usuarios</span>
+                      <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                      <div class="clearfix"></div>
+                    </div>
+                  </a>
+                  <div class="panel-footer" style="word-wrap:break-word;">
+                    <font color="red" >
+                      <p>Modulo para la creacion, modificacion y deshabilitacion de usuarios tipo administrador, cultura, PMT y dueños.</p>
+                    </font>
+                  </div>
                 </div>
+              </div>
             </div>
 
             <!-- <div class="page-header">
-              <h1>    Gestion de personas </h1>
-            </div>
-            <a href="#/admin/lispmtsinu" class="action-button shadow animate blue" class="btn" >Gestionar PMT</a>
-            <a href="#/admin/cultura" class="action-button shadow animate green">Gestionar Cultura</a>
-            <a href="#/admin/dueniosinu" class="action-button shadow animate red">Gestionar Dueño</a> -->
-            <!-- <a href="#" class="action-button shadow animate yellow">Desabilitar usuario</a> -->
-
-
-
-            <!-- <a href="#/admin/culturasinu" class="action-button shadow animate green">Gestionar Cultura</a>
-            <a href="#/admin/dueniosinu" class="action-button shadow animate red">Gestionar Dueño</a> -->
+            <h1>    Gestion de personas </h1>
           </div>
+          <a href="#/admin/lispmtsinu" class="action-button shadow animate blue" class="btn" >Gestionar PMT</a>
+          <a href="#/admin/cultura" class="action-button shadow animate green">Gestionar Cultura</a>
+          <a href="#/admin/dueniosinu" class="action-button shadow animate red">Gestionar Dueño</a> -->
+          <!-- <a href="#" class="action-button shadow animate yellow">Desabilitar usuario</a> -->
 
-          <!-- /.panel-body -->
+
+
+          <!-- <a href="#/admin/culturasinu" class="action-button shadow animate green">Gestionar Cultura</a>
+          <a href="#/admin/dueniosinu" class="action-button shadow animate red">Gestionar Dueño</a> -->
         </div>
-        <!-- /.panel -->
+
+        <!-- /.panel-body -->
       </div>
-      <!-- /.col-lg-8 -->
+      <!-- /.panel -->
     </div>
-    <!-- /.row -->
+    <!-- /.col-lg-8 -->
   </div>
   <!-- /#page-wrapper -->
 </div>
-<!-- /#wrapper -->

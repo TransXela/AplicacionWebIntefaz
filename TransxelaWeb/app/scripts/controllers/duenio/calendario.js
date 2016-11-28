@@ -42,93 +42,82 @@ angular.module('transxelaWebApp').controller('DuenioCalendarioCtrl', function($s
       $scope.duenio = {"nombre":response.duenio.nombre, "apellidos": response.duenio.apellidos};
       var horariosdetalle = response.diasHorarioDetalle;
       var colorIndex = 0;
-      apiService.obtener('/duenio/'+$scope.idduenio+'/horarios/?tk=' + $scope.token).
+      apiService.obtener('/duenio/'+$scope.idduenio+'/completo/?tk=' + $scope.token).
       success(function(response, status, headers, config){
-        $scope.horarios = response;
-        apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos/?tk=' + $scope.token).
-        success(function(response, status, headers, config){
-          $scope.pilotos = response.choferes;
-          apiService.obtener('/duenio/'+$scope.idduenio+'/buses/?tk=' + $scope.token).
-          success(function(response, status, headers, config){
-            $scope.buses = response.buses;
-            var fechaActual = new Date();
-            fechaActual.setHours("0");
-            fechaActual.setMinutes("0");
-            fechaActual.setSeconds("0");
-            for(var i = 0; i < horariosdetalle.length; i++) {
-              var fechasplit = horariosdetalle[i].fecha.split("-");
-              var fInicio = new Date("March 20, 2009 00:00:00");
-              var fFin = new Date("March 20, 2009 00:00:00");
-              fInicio.setFullYear(fechasplit[0], parseInt(fechasplit[1])-1, fechasplit[2]);
-              fFin.setFullYear(fechasplit[0], parseInt(fechasplit[1])-1, fechasplit[2]);
-              var hora_minutosI =  horariosdetalle[i].horario.horainicio.split(":");
-              var hora_minutosF =  horariosdetalle[i].horario.horafin.split(":");
-              fInicio.setHours(hora_minutosI[0]);
-              fInicio.setMinutes(hora_minutosI[1]);
-              fFin.setHours(hora_minutosF[0]);
-              fFin.setMinutes(hora_minutosF[1]);
-              if(fechaActual.getTime()<fInicio.getTime()){
-                if(fechaActual.getDate() === fInicio.getDate() && fechaActual.getMonth() === fInicio.getMonth()){
-                  colorIndex = 3;
-                }
-                else {
-                  colorIndex = 1;
-                }
-                if((horariosdetalle[i].hasOwnProperty("estado")) && (horariosdetalle[i].estado === 0)){
-                  colorIndex = 4;
-                }
-                $scope.events.push({
-                  title: horariosdetalle[i].chofer.nombre + " " + horariosdetalle[i].chofer.apellidos + " / " + horariosdetalle[i].bus.marca + " " + horariosdetalle[i].bus.placa,
-                  startsAt: fInicio,
-                  endsAt: fFin,
-                  color: colors[colorIndex],
-                  draggable: true,
-                  resizable: true,
-                  incrementsBadgeTotal: true,
-                  // recursOn: 'year',
-                  cssClass: 'a-css-class-name',
-                  allDay: false,
-                  actions: actions,
-                  idhorariodetalle: horariosdetalle[i].idhorariodetalle,
-                  idpiloto: horariosdetalle[i].chofer.idchofer,
-                  idbus: horariosdetalle[i].bus.idbus,
-                  idhorario: horariosdetalle[i].horario.idhorario,
-                  estado: horariosdetalle[i].estado
-                });
-              }
-              else{
-                colorIndex = 0;
-                if((horariosdetalle[i].hasOwnProperty("estado")) && (horariosdetalle[i].estado === 0)){
-                  colorIndex = 4;
-                }
-                $scope.events.push({
-                  title: horariosdetalle[i].chofer.nombre + " " + horariosdetalle[i].chofer.apellidos + " / " + horariosdetalle[i].bus.marca + " " + horariosdetalle[i].bus.placa,
-                  startsAt: fInicio,
-                  endsAt: fFin,
-                  color: colors[colorIndex],
-                  draggable: true,
-                  resizable: true,
-                  incrementsBadgeTotal: true,
-                  // recursOn: 'year',
-                  cssClass: 'a-css-class-name',
-                  allDay: false
-                });
-              }
+        $scope.buses = response.buses;
+        $scope.horarios = response.horarios;
+        $scope.pilotos = response.choferes;
+
+        var fechaActual = new Date();
+        fechaActual.setHours("0");
+        fechaActual.setMinutes("0");
+        fechaActual.setSeconds("0");
+        for(var i = 0; i < horariosdetalle.length; i++) {
+          var fechasplit = horariosdetalle[i].fecha.split("-");
+          var fInicio = new Date("March 20, 2009 00:00:00");
+          var fFin = new Date("March 20, 2009 00:00:00");
+          fInicio.setFullYear(fechasplit[0], parseInt(fechasplit[1])-1, fechasplit[2]);
+          fFin.setFullYear(fechasplit[0], parseInt(fechasplit[1])-1, fechasplit[2]);
+          var hora_minutosI =  horariosdetalle[i].horario.horainicio.split(":");
+          var hora_minutosF =  horariosdetalle[i].horario.horafin.split(":");
+          fInicio.setHours(hora_minutosI[0]);
+          fInicio.setMinutes(hora_minutosI[1]);
+          fFin.setHours(hora_minutosF[0]);
+          fFin.setMinutes(hora_minutosF[1]);
+          if(fechaActual.getTime()<fInicio.getTime()){
+            if(fechaActual.getDate() === fInicio.getDate() && fechaActual.getMonth() === fInicio.getMonth()){
+              colorIndex = 3;
             }
-          }).
-          error(function(response, status, headers, config) {
-            $scope.buses = [];
-            $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
-          });
-        }).
-        error(function(response, status, headers, config) {
-          $scope.pilotos = [];
-          $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
-        });
+            else {
+              colorIndex = 1;
+            }
+            if((horariosdetalle[i].hasOwnProperty("estado")) && (horariosdetalle[i].estado === 0)){
+              colorIndex = 4;
+            }
+            $scope.events.push({
+              title: horariosdetalle[i].chofer.nombre + " " + horariosdetalle[i].chofer.apellidos + " / " + horariosdetalle[i].bus.marca + " " + horariosdetalle[i].bus.placa,
+              startsAt: fInicio,
+              endsAt: fFin,
+              color: colors[colorIndex],
+              draggable: true,
+              resizable: true,
+              incrementsBadgeTotal: true,
+              // recursOn: 'year',
+              cssClass: 'a-css-class-name',
+              allDay: false,
+              actions: actions,
+              idhorariodetalle: horariosdetalle[i].idhorariodetalle,
+              idpiloto: horariosdetalle[i].chofer.idchofer,
+              idbus: horariosdetalle[i].bus.idbus,
+              idhorario: horariosdetalle[i].horario.idhorario,
+              estado: horariosdetalle[i].estado
+            });
+          }
+          else{
+            colorIndex = 0;
+            if((horariosdetalle[i].hasOwnProperty("estado")) && (horariosdetalle[i].estado === 0)){
+              colorIndex = 4;
+            }
+            $scope.events.push({
+              title: horariosdetalle[i].chofer.nombre + " " + horariosdetalle[i].chofer.apellidos + " / " + horariosdetalle[i].bus.marca + " " + horariosdetalle[i].bus.placa,
+              startsAt: fInicio,
+              endsAt: fFin,
+              color: colors[colorIndex],
+              draggable: true,
+              resizable: true,
+              incrementsBadgeTotal: true,
+              // recursOn: 'year',
+              cssClass: 'a-css-class-name',
+              allDay: false
+            });
+          }
+        }
       }).
       error(function(response, status, headers, config) {
+        $scope.buses = [];
         $scope.horarios = [];
-        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
+        $scope.pilotos = [];
+        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar la información del dueño, recarge la página para poder visualizarla.", "icono": "glyphicon glyphicon-remove"});
       });
     }).
     error(function(response, status, headers, config) {

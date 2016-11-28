@@ -35,29 +35,17 @@ angular.module('transxelaWebApp').controller('DuenioCalendariobusCtrl', function
     $scope.idduenio = $cookies.getObject('user').id;
     $scope.token = $cookies.getObject('user').token;
     $scope.duenio = $cookies.getObject('user').usuario;
-    apiService.obtener('/duenio/'+$scope.idduenio + '/buses/?tk=' + $scope.token).
+    apiService.obtener('/duenio/'+$scope.idduenio + '/completo/?tk=' + $scope.token).
     success(function(response, status, headers, config) {
       $scope.buses = response.buses;
-      apiService.obtener('/duenio/'+$scope.idduenio+'/horarios/' + '?tk=' + $scope.token).
-      success(function(response, status, headers, config){
-        $scope.horarios = response;
-        apiService.obtener('/duenio/'+$scope.idduenio+'/pilotos/' + '?tk=' + $scope.token).
-        success(function(response, status, headers, config){
-          $scope.pilotos = response.choferes;
-        }).
-        error(function(response, status, headers, config) {
-          $scope.pilotos = [];
-          $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los pilotos, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
-        });
-      }).
-      error(function(response, status, headers, config) {
-        $scope.horarios = [];
-        $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los horarios, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
-      });
+      $scope.horarios = response.horarios;
+      $scope.pilotos = response.choferes;
     }).
     error(function(response, status, headers, config) {
       $scope.buses = [];
-      $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar los buses, recarge la página para poder visualizarlos.", "icono": "glyphicon glyphicon-remove"});
+      $scope.horarios = [];
+      $scope.pilotos = [];
+      $scope.alertas.push({"tipo":"danger", "mensaje": "Ha ocurrido un error al cargar la información del dueño, recarge la página para poder visualizarla.", "icono": "glyphicon glyphicon-remove"});
     });
   }
   else{
