@@ -15,6 +15,7 @@
      if(typeof $cookies.getObject('user')!='undefined' && $cookies.getObject('user')){
          $scope.Lplaca = [];
          $scope.Ldenun = [];
+         $scope.usuario = $cookies.getObject('user').usuario;
          $scope.token = $cookies.getObject('user').token;
          apiService.obtener('/duenio/bus'+'/'+'?tk='+$scope.token)
          .success(function(data){
@@ -80,6 +81,7 @@
      //$scope.idduenio = $cookies.getObject('user').id;
      $scope.nombre = [];
      $scope.cant = [];
+     $scope.usuario = $cookies.getObject('user').usuario;
      $scope.LrutaDen = [];
      $scope.token = $cookies.getObject('user').token;
      apiService.obtener('/reporte/pmt/RepBusRuta'+'/'+'?tk='+$scope.token)
