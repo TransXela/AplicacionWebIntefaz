@@ -9,34 +9,12 @@
  */
 angular.module('transxelaWebApp')
   .controller('CulturaPerfilCtrl', function ($scope, apiService, $cookies, $location) {
-    
+
 
         if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
           $scope.idcultura = $cookies.getObject('user').id;
           $scope.token = $cookies.getObject('user').token;
-          apiService.obtener('/cultura/'+$scope.idcultura + '/?tk=' + $scope.token).
-          success(function(response, status, headers, config) {
-            $scope.cultura = response;
-          }).
-          error(function(response, status, headers, config) {
-            switch(status) {
-              case 400: {
-                $location.url('/404');
-                break;
-              }
-              case 403: {
-                $location.url('/403');
-                break;
-              }
-              case 404: {
-                $location.url('/404');
-                break;
-              }
-              default: {
-                $location.url('/500');
-              }
-            }
-          });
+          $scope.cultura = $cookies.getObject('user').usuario;
         }
         else{
           $location.url('/login');

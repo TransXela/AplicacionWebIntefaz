@@ -56,17 +56,14 @@
   filter: invert(100%);
 }
 
-
-
 .msg-block {
     margin-top:5px;
 }
+
 .msg-error {
     color:#F00;
     font-size:14px;
 }
-
-
 
 /*-------END DESCARGA---------------------------------------------------------------------------------------------------------*/
 html, body {
@@ -85,18 +82,23 @@ html, body {
   z-index: 999;
   width: 100%;
   padding-top: 17px;
-  /*background: none;
-  overflow: hidden;*/
+  /*background: none;*/
+  /*overflow: hidden;*/
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   /*opacity: 0;*/
-  top: 0px;
+  /*top: -100px;*/
   /*padding-bottom: 6px;*/
   font-family: "Montserrat", sans-serif;
 }
 @media only screen and (max-width: 766px) {
   .main_h {
     padding-top: 25px;
+    background: none;
+    overflow: hidden;
+    opacity: 0;
+    top: -100px;
+    padding-bottom: 6px;
   }
 }
 
@@ -243,7 +245,7 @@ p {
 
 .hero {
   position: relative;
-  background: url(http://lorempixel.com/1364/770/nature) no-repeat center center fixed;
+  background: url(http://lorempixel.com/1364/770/abstract) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;

@@ -82,29 +82,35 @@ angular.module('transxelaWebApp').controller('IniciarSesionController', ['$scope
   $scope.usuario = null;
   $scope.contrasenia = null;
   $scope.close = function () {
-    apiService.crear('/obtenertoken/', {user: $scope.usuario, pass: $scope.contrasenia}).
-    success(function(response, status, headers, config){
-      $uibModalInstance.close(response, 500);
-    }).
-    error(function(response, status, headers, config) {
-      switch(status) {
-        case 400: {
-          $uibModalInstance.dismiss('404');
-          break;
+    if($scope.usuario !== null && $scope.contrasenia !== null && $scope.usuario.length > 0 && $scope.contrasenia.length > 0){
+      apiService.crear('/obtenertoken/', {user: $scope.usuario, pass: $scope.contrasenia}).
+      success(function(response, status, headers, config){
+        $uibModalInstance.close(response, 500);
+      }).
+      error(function(response, status, headers, config) {
+        switch(status) {
+          case 400: {
+            $uibModalInstance.dismiss('404');
+            break;
+          }
+          case 403: {
+            $uibModalInstance.dismiss('403');
+            break;
+          }
+          case 404: {
+            $uibModalInstance.dismiss('404');
+            break;
+          }
+          default: {
+            $uibModalInstance.dismiss('500');
+          }
         }
-        case 403: {
-          $uibModalInstance.dismiss('403');
-          break;
-        }
-        case 404: {
-          $uibModalInstance.dismiss('404');
-          break;
-        }
-        default: {
-          $uibModalInstance.dismiss('500');
-        }
-      }
-    });
+      });
+    }
+    else{
+      $scope.alertas = [];
+      $scope.alertas.push({"tipo": "danger", "mensaje": "Ingrese un usuario y/o contraseña válidos", "icono": "glyphicon glyphicon-remove"});
+    }
   };
 
   $scope.cancel = function () {

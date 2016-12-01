@@ -144,6 +144,11 @@ angular
     controller: 'PmtHorariospilotoCtrl',
     controllerAs: 'pmt/horariosPiloto'
   })
+  .when('/pmt/perfil', {
+    templateUrl: 'views/pmt/perfil.html',
+    controller: 'PmtPerfilCtrl',
+    controllerAs: 'pmt/perfil'
+  })
   // Error routes
   .when('/404', {
     templateUrl: '404.html'
@@ -191,6 +196,12 @@ angular
     controller: 'PrincipalCtrl',
     controllerAs: 'cultura/principal'
   })
+  .when('/cultura/perfil', {
+    templateUrl: 'views/cultura/perfil.html',
+    controller: 'CulturaPerfilCtrl',
+    controllerAs: 'cultura/perfil'
+  })
+  // Admin routes
   .when('/admin/cultura', {
     templateUrl: 'views/admin/cultura.html',
     controller: 'AdminCulturaCtrl',
@@ -221,23 +232,13 @@ angular
     controller: 'AdminPerfilCtrl',
     controllerAs: 'admin/perfil'
   })
-  .when('/pmt/perfil', {
-    templateUrl: 'views/pmt/perfil.html',
-    controller: 'PmtPerfilCtrl',
-    controllerAs: 'pmt/perfil'
-  })
-  .when('/cultura/perfil', {
-    templateUrl: 'views/cultura/perfil.html',
-    controller: 'CulturaPerfilCtrl',
-    controllerAs: 'cultura/perfil'
-  })
   .otherwise({
     redirectTo: '/'
   });
 })
 .service('apiService', function($http) {
-  // var apiURL = 'http://api.transxela.site';
-  var apiURL = 'http://127.0.0.1:8000';
+  var apiURL = 'http://api.transxela.site';
+  // var apiURL = 'http://127.0.0.1:8000';
   var obtener = function(endpoint) {
     return $http.get(apiURL+endpoint);
   };

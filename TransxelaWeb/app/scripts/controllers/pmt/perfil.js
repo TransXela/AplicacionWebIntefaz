@@ -12,29 +12,7 @@ angular.module('transxelaWebApp')
     if(typeof $cookies.getObject('user') !== 'undefined' && $cookies.getObject('user')){
       $scope.idpmt = $cookies.getObject('user').id;
       $scope.token = $cookies.getObject('user').token;
-      apiService.obtener('/pmt/'+$scope.idpmt + '/?tk=' + $scope.token).
-      success(function(response, status, headers, config) {
-        $scope.pmt = response;
-      }).
-      error(function(response, status, headers, config) {
-        switch(status) {
-          case 400: {
-            $location.url('/404');
-            break;
-          }
-          case 403: {
-            $location.url('/403');
-            break;
-          }
-          case 404: {
-            $location.url('/404');
-            break;
-          }
-          default: {
-            $location.url('/500');
-          }
-        }
-      });
+      $scope.pmt = $cookies.getObject('user').usuario;
     }
     else{
       $location.url('/login');

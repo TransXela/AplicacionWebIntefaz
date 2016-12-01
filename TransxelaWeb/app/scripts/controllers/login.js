@@ -35,7 +35,9 @@ angular.module('transxelaWebApp').controller('LogInCtrl', function ($scope, $loc
       }
     }
   }
-
+  else{
+    $scope.alertas.push({"tipo": "danger", "mensaje": "Sesión expirada. Por favor inicie sesión de nuevo para acceder.", "icono": "glyphicon glyphicon-remove"});
+  }
   $scope.iniciar = function(){
     apiService.crear('/obtenertoken/', {user: $scope.usuario, pass: $scope.contrasenia}).
     success(function(result, status, headers, config){
@@ -61,6 +63,7 @@ angular.module('transxelaWebApp').controller('LogInCtrl', function ($scope, $loc
       }
     }).
     error(function(response, status, headers, config) {
+      $scope.alertas = [];
       switch(status) {
         case 400: {
           //$location.url('/404');
