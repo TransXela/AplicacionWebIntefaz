@@ -1,12 +1,2 @@
-# transxela-web
-
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.15.1.
-
-## Build & development
-
-Run `grunt` for building and `grunt serve` for preview.
-
-## Testing
-
-Running `grunt test` will run the unit tests with karma.
+# Aplicacion Web
+Repositorio del desarrollo de la aplicación web del proyecto para el Transporte en Quetzaltenango, desarrollado por estudiantes del 10mo. Ciclo Universidad Rafael Landívar Campus Quetzaltenango, 2016.
